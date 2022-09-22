@@ -68,6 +68,18 @@
         
         </properties>
     </developer>
+    <developer>
+        <id>jesuszg</id>
+        <name>Jesús</name>
+        <email>jeszamgue@alum.us.es</email>
+        <url>http://www.tmht.com/jesus</url>
+        <roles>
+            <role>Captain</role>
+        </roles>
+        <properties>
+        
+        </properties>
+    </developer>
 </developers>
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->

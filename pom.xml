@@ -80,6 +80,18 @@
         
         </properties>
     </developer>
+    <developer>
+        <id>Ramguerom</id>
+        <name>Ramon Jose</name>
+        <email>ramguerom@alum.us.es</email>
+        <url>http://www.tmht.com/ramon</url>
+        <roles>
+            <role>Captain</role>
+        </roles>
+        <properties>
+        
+        </properties>
+    </developer>
 </developers>
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->

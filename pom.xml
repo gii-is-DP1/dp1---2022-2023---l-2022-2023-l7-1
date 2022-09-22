@@ -31,30 +31,43 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
+
 <developers>
-<developer>
- <id>diegarlin</id>
- <name>Diego</name>
- <email>diegarlin@alum.us.es</email>
- <url>http://www.twitter.com</url>
- <roles>
- <role>supremo</role>
- </roles>
- <properties>
+    <developer>
+        <id>diegarlin</id>
+        <name>Diego</name>
+        <email>diegarlin@alum.us.es</email>
+        <url>http://www.twitter.com</url>
+        <roles>
+            <role>supremo</role>
+        </roles>
+        <properties>
  
- </properties>
- </developer>
-  <developer>
-            <id>aitroddue</id>
-            <name>Aitor</name>
-            <email>aitroddue@alum.us.es</email>
-            <url>http://www.tmht.com/leo</url>
-            <roles>
-                <role>crewmate</role>
-            </roles>
-            <properties>
-            </properties>
-        </developer>
+        </properties>
+    </developer>
+    <developer>
+        <id>aitroddue</id>
+        <name>Aitor</name>
+        <email>aitroddue@alum.us.es</email>
+        <url>http://www.tmht.com/leo</url>
+        <roles>
+            <role>crewmate</role>
+        </roles>
+        <properties>
+        </properties>
+    </developer>
+    <developer>
+        <id>frank</id>
+        <name>Francisco Manuel</name>
+        <email>fravilpae@alum.us.es</email>
+        <url>http://www.tmht.com/frank</url>
+        <roles>
+            <role>Non-Playable Character</role>
+        </roles>
+        <properties>
+        
+        </properties>
+    </developer>
 </developers>
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->

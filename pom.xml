@@ -31,6 +31,20 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
+<developers>
+<developer>
+ <id>diegarlin</id>
+ <name>Diego</name>
+ <email>diegarlin@alum.us.es</email>
+ <url>http://www.twitter.com</url>
+ <roles>
+ <role>supremo</role>
+ </roles>
+ <properties>
+ 
+ </properties>
+ </developer>
+</developers>
 
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->

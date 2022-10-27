@@ -50,7 +50,7 @@ public class Usuario {
     @NotEmpty
     String email;
 
-    @Column(name = "name")
+    @Column(name = "phone")
     @NotEmpty
     @Digits(fraction = 0, integer = 10)
     String phone;

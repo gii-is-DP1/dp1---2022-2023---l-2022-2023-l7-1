@@ -1,5 +1,8 @@
 package org.springframework.samples.petclinic.partida;
 
-public class PartidaRepository {
-    
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface PartidaRepository extends CrudRepository<Partida, Integer>{
 }

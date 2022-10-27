@@ -40,12 +40,28 @@
 					<span>Veterinarians</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
-					title="trigger a RuntimeException to see how it is handled">
-					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-					<span>Error</span>
+				<petclinic:menuItem active="${name eq 'settings'}" url=""
+					title="settings" dropdown="${true}">
+					<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+					<span>Settings</span>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="<c:url value="URL EDITAR USER" />">Cambiar nombre <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a href="<c:url value="URL LOGROS" />">Logros <span class="glyphicon glyphicon-star" aria-hidden="true"></span></a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a href="<c:url value="URL REGLAS" />">Reglas <span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<a href="<c:url value="URL ESTADISTICAS" />">Estadisticas <span class="glyphicon glyphicon-signal" aria-hidden="true"></span></a>
+							</li>
+						</ul>
 				</petclinic:menuItem>
-
 			</ul>
 
 
@@ -58,7 +74,7 @@
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> 
+						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>ï¿½
 							<strong><sec:authentication property="name" /></strong> <span
 							class="glyphicon glyphicon-chevron-down"></span>
 					</a>

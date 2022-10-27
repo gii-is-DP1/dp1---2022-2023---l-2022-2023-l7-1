@@ -1,11 +1,14 @@
 package org.springframework.samples.petclinic.jugador;
-package org.springframework.samples.petclinic.Jugador;
-package org.springframework.samples.petclinic.Jugador;
 
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.samples.petclinic.model.BaseEntity;
 
 import lombok.Getter;

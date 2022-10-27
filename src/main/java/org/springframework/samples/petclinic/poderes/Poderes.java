@@ -1,4 +1,4 @@
-package poderes;
+package org.springframework.samples.petclinic.poderes;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

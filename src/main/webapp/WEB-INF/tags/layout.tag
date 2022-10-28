@@ -14,7 +14,6 @@
 <body>
 
 
-
 <div class="container-fluid">
     <div class="container xd-container">
 	<c:if test="${not empty message}" >

@@ -40,6 +40,6 @@ public class Jugador extends BaseEntity{
 
     @NotEmpty
     @Column(name = "idUsuario")
-    private Integer iddUsuario;
+    private Integer idUsuario;
 
 }

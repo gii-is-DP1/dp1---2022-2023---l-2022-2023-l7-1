@@ -1,8 +1,7 @@
 package org.springframework.samples.petclinic.poderes;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -11,7 +10,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.samples.petclinic.model.BaseEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,19 +19,17 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "poderes")
-public class Poderes {
+public class Poderes extends BaseEntity{
 
-    @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	protected Integer id;
-
-    @Column(name = "idPartida")
+    @OneToOne(optional = false)
+    @JoinColumn(name = "partidaid")
     @NotEmpty
-    Integer idPartida;
+    Integer idpartida;
 
-    @Column(name = "idJugador")
+    @OneToOne(optional = false)
+    @JoinColumn(name = "jugadorid")
     @NotEmpty
-    Integer idPJugador;
+    Integer idjugador;
 
     @Column(name = "poder+-1")
     @NotEmpty

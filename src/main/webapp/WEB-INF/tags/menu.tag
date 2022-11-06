@@ -54,7 +54,7 @@
 							</li>
 							<li class="divider"></li>
 							<li>
-								<a href="<c:url value="URL REGLAS" />">Reglas <span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>
+								<a href="https://drive.google.com/drive/folders/11Yo6jKHsDYNggtT3DaiqA4BDRsrVfb2d">Reglas <span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>
 							</li>
 							<li class="divider"></li>
 							<li>

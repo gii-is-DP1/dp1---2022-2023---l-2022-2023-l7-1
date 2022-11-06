@@ -19,7 +19,7 @@ public class WelcomeController {
 		Person julio = new Person();
 		Person francis = new Person();
 		Person aitor = new Person();
-		Person ramon = new Person();
+		Person raymon = new Person();
 		Person jesus = new Person();
 		diego.setFirstName("Diego");
 		diego.setLastName("Linares");
@@ -29,15 +29,15 @@ public class WelcomeController {
 		francis.setLastName("Villalobos");
 		aitor.setFirstName("Tor");
 		aitor.setLastName("Rodriguez");
-		ramon.setFirstName("ramon");
-		ramon.setLastName("Guerrero");
+		raymon.setFirstName("ramon");
+		raymon.setLastName("Guerrero");
 		jesus.setFirstName("Jesús");
 		jesus.setLastName("Zambrana");
 		persons.add(diego);
 		persons.add(julio);
 		persons.add(francis);
 		persons.add(aitor);
-		persons.add(ramon);
+		persons.add(raymon);
 		persons.add(jesus);
 		model.put("persons", persons);
 		model.put("title","My project");

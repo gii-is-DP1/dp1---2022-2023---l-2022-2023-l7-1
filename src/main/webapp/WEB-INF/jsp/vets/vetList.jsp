@@ -2,9 +2,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="kingdomMap" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<kingdomMap:layout pageName="vets">
+<petclinic:layout pageName="vets">
     <h2>Veterinarians</h2>
 
     <table id="vetsTable" class="table table-striped">
@@ -38,4 +38,4 @@
             </td>            
         </tr>
     </table>
-</kingdomMap:layout>
+</petclinic:layout>

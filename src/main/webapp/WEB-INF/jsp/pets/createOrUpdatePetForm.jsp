@@ -2,9 +2,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="kingdomMap" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<kingdomMap:layout pageName="owners">
+<petclinic:layout pageName="owners">
     <jsp:attribute name="customScript">
         <script>
             $(function () {
@@ -26,10 +26,10 @@
                         <c:out value="${pet.owner.firstName} ${pet.owner.lastName}"/>
                     </div>
                 </div>
-                <kingdomMap:inputField label="Name" name="name"/>
-                <kingdomMap:inputField label="Birth Date" name="birthDate"/>
+                <petclinic:inputField label="Name" name="name"/>
+                <petclinic:inputField label="Birth Date" name="birthDate"/>
                 <div class="control-group">
-                    <kingdomMap:selectField name="type" label="Type " names="${types}" size="5"/>
+                    <petclinic:selectField name="type" label="Type " names="${types}" size="5"/>
                 </div>
             </div>
             <div class="form-group">
@@ -48,4 +48,4 @@
         <c:if test="${!pet['new']}">
         </c:if>
     </jsp:body>
-</kingdomMap:layout>
+</petclinic:layout>

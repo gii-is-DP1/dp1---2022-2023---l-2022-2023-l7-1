@@ -1,6 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="kingdomMaps" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <!--  >%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%-->
@@ -22,25 +22,25 @@
 		<div class="navbar-collapse collapse" id="main-navbar">
 			<ul class="nav navbar-nav">
 
-				<petclinic:menuItem active="${name eq 'home'}" url="/"
+				<kingdomMaps:menuItem active="${name eq 'home'}" url="/"
 					title="home page">
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-					<span>Home</span>
-				</petclinic:menuItem>
+					<span>Inicio</span>
+				</kingdomMaps:menuItem>
 
-				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
+				<kingdomMaps:menuItem active="${name eq 'owners'}" url="/owners/find"
 					title="find owners">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Find owners</span>
-				</petclinic:menuItem>
+				</kingdomMaps:menuItem>
 
-				<petclinic:menuItem active="${name eq 'vets'}" url="/vets"
+				<kingdomMaps:menuItem active="${name eq 'vets'}" url="/vets"
 					title="veterinarians">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Veterinarians</span>
-				</petclinic:menuItem>
+				</kingdomMaps:menuItem>
 
-				<petclinic:menuItem active="${name eq 'settings'}" url=""
+				<kingdomMaps:menuItem active="${name eq 'settings'}" url=""
 					title="settings" dropdown="${true}">
 					<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
 					<span>Settings</span>
@@ -61,7 +61,7 @@
 								<a href="<c:url value="URL ESTADISTICAS" />">Estadisticas <span class="glyphicon glyphicon-signal" aria-hidden="true"></span></a>
 							</li>
 						</ul>
-				</petclinic:menuItem>
+				</kingdomMaps:menuItem>
 			</ul>
 
 

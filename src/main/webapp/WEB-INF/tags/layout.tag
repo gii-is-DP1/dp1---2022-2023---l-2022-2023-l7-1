@@ -1,5 +1,5 @@
 <%@ tag trimDirectiveWhitespaces="true" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="kingdomMaps" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%@ attribute name="pageName" required="true" %>
@@ -7,10 +7,12 @@
 
 <!doctype html>
 <html>
-<petclinic:htmlHeader/>
+<kingdomMaps:htmlHeader/>
+
+
 
 <body>
-<petclinic:bodyHeader menuName="${pageName}"/>
+
 
 <div class="container-fluid">
     <div class="container xd-container">
@@ -24,11 +26,9 @@
 	</c:if>
 
         <jsp:doBody/>
-
-        <petclinic:pivotal/>
     </div>
 </div>
-<petclinic:footer/>
+<kingdomMaps:footer/>
 <jsp:invoke fragment="customScript" />
 
 </body>

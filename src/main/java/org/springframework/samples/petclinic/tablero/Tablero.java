@@ -16,19 +16,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "tableros")
+@Table(name = "tablero")
 public class Tablero extends BaseEntity{
     
     @NotEmpty
-    @Column(name = "idPartida")
+    @Column(name = "idpartida")
     private Integer idPartida;
 
     @NotEmpty
-    @Column(name = "idJugador")
-    private Integer idJugador;
-
-    @NotEmpty
-    @Column(name = "idPoderes")
+    @Column(name = "idpoderes")
     private Integer idPoderes;
 
     @NotEmpty

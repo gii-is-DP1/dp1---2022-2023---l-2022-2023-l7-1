@@ -79,3 +79,18 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
+INSERT INTO usuario(id,name,lastname,username,password,birthdate,email,phone )  VALUES (1, 'Jesus','Zambrana',
+ 'jesuszg', 'a', '2002-06-29', 'b', 77777777 );
+
+INSERT INTO tablero(id, idpartida, idpoderes, puntos) VALUES(1,1,1,1);
+
+INSERT INTO tablero(id, idpartida, idpoderes, puntos) VALUES(2,1,1,1);
+
+INSERT INTO jugador(id,activo,nombrereino,usosterritorio1,usosterritorio2,
+usosterritorio3,usosterritorio4,usosterritorio5,usosterritorio6,anfitrión,usuario_id,tablero_id)
+VALUES (1,False,'x',2,2,2,2,3,0,TRUE,1,1);
+
+INSERT INTO jugador(id,activo,nombrereino,usosterritorio1,usosterritorio2,
+usosterritorio3,usosterritorio4,usosterritorio5,usosterritorio6,anfitrión,usuario_id,tablero_id)
+VALUES (2,TRUE,'xa',2,0,2,2,1,2,TRUE,1,2);
+

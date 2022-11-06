@@ -2,6 +2,9 @@ package org.springframework.samples.petclinic.jugador;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -9,6 +12,8 @@ import javax.validation.constraints.NotEmpty;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.tablero.Tablero;
+import org.springframework.samples.petclinic.usuario.Usuario;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "jugadores")
+@Table(name = "jugador")
 public class Jugador extends BaseEntity{
     
     @NotEmpty
@@ -25,21 +30,57 @@ public class Jugador extends BaseEntity{
     private Boolean activo;
 
     @NotEmpty
-    @Column(name = "nombreReino")
+    @Column(name = "nombrereino")
     private String nombreReino;
 
     @NotEmpty
-    @Max(4)
+    @Max(3)
     @Min(0)
-    @Column(name = "usosTerritorio")
-    private Integer usosTerritorio;
+    @Column(name = "usosterritorio1")
+    private Integer usosTerritorio1;
+
+    @NotEmpty
+    @Max(3)
+    @Min(0)
+    @Column(name = "usosterritorio2")
+    private Integer usosTerritorio2;
+
+    @NotEmpty
+    @Max(3)
+    @Min(0)
+    @Column(name = "usosterritorio3")
+    private Integer usosTerritorio3;
+
+    @NotEmpty
+    @Max(3)
+    @Min(0)
+    @Column(name = "usosterritorio4")
+    private Integer usosTerritorio4;
+
+    @NotEmpty
+    @Max(3)
+    @Min(0)
+    @Column(name = "usosterritorio5")
+    private Integer usosTerritorio5;
+
+    @NotEmpty
+    @Max(3)
+    @Min(0)
+    @Column(name = "usosterritorio6")
+    private Integer usosTerritorio6;
 
     @NotEmpty
     @Column(name = "anfitrión")
     private Boolean anfitrion;
 
     @NotEmpty
-    @Column(name = "idUsuario")
-    private Integer idUsuario;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario idUsuario;
+
+    @NotEmpty
+    @OneToOne
+    @JoinColumn(name = "tablero_id")
+    private Tablero idTablero;
 
 }

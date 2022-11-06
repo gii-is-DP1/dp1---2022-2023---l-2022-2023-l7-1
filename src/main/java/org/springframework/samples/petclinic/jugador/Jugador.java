@@ -74,12 +74,12 @@ public class Jugador extends BaseEntity{
     private Boolean anfitrion;
 
     @NotEmpty
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "usuario_id")
     private Usuario idUsuario;
 
     @NotEmpty
-    @OneToOne
+    @OneToOne(optional = false)
     @JoinColumn(name = "tablero_id")
     private Tablero idTablero;
 

@@ -29,7 +29,7 @@ public class Usuario {
     @NotEmpty
     String name;
 
-    @Column(name = "lastName")
+    @Column(name = "lastname")
     @NotEmpty
     String lastName;
     
@@ -41,7 +41,7 @@ public class Usuario {
     @NotEmpty
     String password;
 
-    @Column(name = "birthDate")
+    @Column(name = "birthdate")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @NotEmpty
     LocalDate birthDate;

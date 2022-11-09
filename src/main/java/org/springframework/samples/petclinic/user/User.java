@@ -25,8 +25,9 @@ import lombok.Setter;
 @Table(name = "usuarios")
 public class User{
     @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	protected Integer id;
+	@Column(name = "username")
+    @NotEmpty
+    String username;
 
     @Column(name = "name")
     @NotEmpty
@@ -36,9 +37,7 @@ public class User{
     @NotEmpty
     String lastName;
     
-    @Column(name = "username")
-    @NotEmpty
-    String username;
+    
 
     @Column(name = "password")
     @NotEmpty
@@ -65,4 +64,5 @@ public class User{
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private Set<Authorities> authorities;
+
 }

@@ -10,7 +10,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.samples.petclinic.jugador.Jugador;
 import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.partida.Partida;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,12 +26,12 @@ public class Poderes extends BaseEntity{
     @OneToOne(optional = false)
     @JoinColumn(name = "partidaid")
     @NotEmpty
-    Integer idpartida;
+    Partida idpartida;
 
     @OneToOne(optional = false)
     @JoinColumn(name = "jugadorid")
     @NotEmpty
-    Integer idjugador;
+    Jugador idjugador;
 
     @Column(name = "poder+-1")
     @NotEmpty

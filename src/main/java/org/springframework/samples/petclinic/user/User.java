@@ -57,6 +57,9 @@ public class User{
     @NotEmpty
     @Digits(fraction = 0, integer = 10)
     String phone;
+
+    @Column(name = "enabled")
+    boolean enabled;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private Set<Authorities> authorities;

@@ -54,20 +54,8 @@ public class Partida {
 
     @Column(name = "IdTablero4")
     Integer idTablero4;
-    /*Este igual */
-    @Column(name = "PuntosTablero1")
-    @NotEmpty
-    Integer PuntosTablero1;
+
     
-    @Column(name = "PuntosTablero2")
-    Integer PuntosTablero2;
-
-    @Column(name = "PuntosTablero3")
-    Integer PuntosTablero3;
-
-    @Column(name = "PuntosTablero4")
-    Integer PuntosTablero4;
-
     @Column(name = "IdCriterioA1")
     @NotEmpty
     Integer idCriterioA1;

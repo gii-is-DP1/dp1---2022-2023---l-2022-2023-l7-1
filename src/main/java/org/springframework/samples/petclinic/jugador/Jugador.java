@@ -13,7 +13,7 @@ import javax.validation.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.tablero.Tablero;
-import org.springframework.samples.petclinic.usuario.Usuario;
+import org.springframework.samples.petclinic.user.User;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -76,7 +76,7 @@ public class Jugador extends BaseEntity{
     @NotEmpty
     @ManyToOne(optional = false)
     @JoinColumn(name = "usuario_id")
-    private Usuario idUsuario;
+    private User idUsuario;
 
     @NotEmpty
     @OneToOne(optional = false)

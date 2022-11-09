@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -22,7 +23,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "usuarios")
+@Table(name = "users")
 public class User{
     @Id
 	@Column(name = "username")
@@ -45,7 +46,7 @@ public class User{
 
     @Column(name = "birthDate")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    @NotEmpty
+    @NotNull
     LocalDate birthDate;
 
     @Column(name = "email")
@@ -56,11 +57,6 @@ public class User{
     @NotEmpty
     @Digits(fraction = 0, integer = 10)
     String phone;
-	
-	
-	@Column(name = "enabled")
-	@NotEmpty
-	boolean enabled;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private Set<Authorities> authorities;

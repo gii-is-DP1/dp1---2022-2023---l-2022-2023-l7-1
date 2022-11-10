@@ -28,17 +28,21 @@
 					<span>Home</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
-					title="find owners">
+				<sec:authorize access="hasAnyAuthority('admin')">
+
+				<petclinic:menuItem active="${name eq 'users'}" url="/users/find"
+					title="find users">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Find owners</span>
+					<span>Find users</span>
 				</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'vets'}" url="/vets"
-					title="veterinarians">
+				<petclinic:menuItem active="${name eq 'stats'}" url="/stats"
+					title="Estadisticas generales">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Veterinarians</span>
+					<span>Estadisticas generales</span>
 				</petclinic:menuItem>
+
+				</sec:authorize>
 
 				<petclinic:menuItem active="${name eq 'settings'}" url=""
 					title="settings" dropdown="${true}">
@@ -116,7 +120,7 @@
 							</li>
 -->
 						</ul></li>
-				</sec:authorize>
+				</sec:authorize>				
 			</ul>
 		</div>
 

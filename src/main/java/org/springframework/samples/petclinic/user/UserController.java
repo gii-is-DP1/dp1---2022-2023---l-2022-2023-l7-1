@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.user;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -40,7 +41,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class UserController {
 
 	private static final String VIEWS_OWNER_CREATE_FORM = "users/createUserForm";
-	private static final String USER_STATS_LISTING_VIEW = "users/stats";
+	private static final String STATS_LISTING_VIEW = "users/stats";
+	private static final String USER_STATS_LISTING_VIEW = "users/userStats";
 
 
 	private final UserService userService;
@@ -75,11 +77,19 @@ public class UserController {
 	}
 
 	@Transactional
-    @GetMapping(value = "/users/{userId}/stats")
-    public ModelAndView showStats(@PathVariable String username) {
-        ModelAndView result = new ModelAndView(USER_STATS_LISTING_VIEW);
-        result.addObject("user", userService.findUser(username));
-        return result;
+    @GetMapping(value = "/stats")
+    public String showStats(Map<String, Object> model) {
+        List<User> users = userService.getAll();
+        model.put("users", users);
+        return STATS_LISTING_VIEW;
+    }
+
+	@Transactional
+    @GetMapping(value = "/users/{username}/stats")
+    public String showStats(@PathVariable("username") String username,Map<String, Object> model) {
+        User user = userService.findUser(username).get();
+        model.put("user", user);
+        return USER_STATS_LISTING_VIEW;
     }
 
 }

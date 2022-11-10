@@ -12,7 +12,7 @@ public interface UserRepository extends  CrudRepository<User, String>{
 
     List<User> findAll();
 
-    @Query("SELECT user FROM users WHERE user.username = :username")
+    @Query("SELECT user FROM User user WHERE user.username = :username")
     Optional<User> findByUsername(String username) throws DataAccessException;
 	
 }

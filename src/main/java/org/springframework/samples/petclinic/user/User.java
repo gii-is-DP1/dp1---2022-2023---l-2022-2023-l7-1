@@ -89,6 +89,8 @@ public class User{
     @Value("0")
     Integer timesUsedPower1;
 
+    @Column(name = "enabled")
+    Boolean enabled;
 
 
 
@@ -97,7 +99,7 @@ public class User{
  
     @Transient
     public Double getWinRatio() {
-        return (double) (gamesWin / (matchesPlayed-gamesWin));
+        return ((double) gamesWin / ((double) matchesPlayed- (double) gamesWin));
     }
 
     

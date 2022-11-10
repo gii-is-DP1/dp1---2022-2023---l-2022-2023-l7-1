@@ -1,3 +1,19 @@
+INSERT INTO CASILLAS(id, borde,poder1,poder2) VALUES(1,true,false,false);
+INSERT INTO CASILLAS(id, borde,poder1,poder2) VALUES(2,true,false,false);
+INSERT INTO CASILLAS(id, borde,poder1,poder2) VALUES(3,true,false,false);
+INSERT INTO CASILLAS(id, borde,poder1,poder2) VALUES(4,true,false,false);
+INSERT INTO CASILLAS(id, borde,poder1,poder2) VALUES(5,true,false,false);
+INSERT INTO CASILLAS(id, borde,poder1,poder2) VALUES(6,true,false,false);
+INSERT INTO CASILLAS(id, borde,poder1,poder2) VALUES(7,false,false,false);
+INSERT INTO CASILLAS(id, borde,poder1,poder2) VALUES(8,false,false,false);
+
+INSERT INTO CASILLAS_ADYACENCIA(casilla_id, adyacencia_id) VALUES(1,2);
+INSERT INTO CASILLAS_ADYACENCIA(casilla_id, adyacencia_id) VALUES(1,6);
+INSERT INTO CASILLAS_ADYACENCIA(casilla_id, adyacencia_id) VALUES(1,7);
+INSERT INTO CASILLAS_ADYACENCIA(casilla_id, adyacencia_id) VALUES(2,1);
+INSERT INTO CASILLAS_ADYACENCIA(casilla_id, adyacencia_id) VALUES(2,3);
+INSERT INTO CASILLAS_ADYACENCIA(casilla_id, adyacencia_id) VALUES(2,8);
+INSERT INTO CASILLAS_ADYACENCIA(casilla_id, adyacencia_id) VALUES(2,7);
 -- One admin user, named admin1 with passwor 4dm1n and authority admin
 INSERT INTO users(username,password,enabled) VALUES ('admin1','4dm1n',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
@@ -10,24 +26,6 @@ INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','veterinarian');
 -- Owner user
 INSERT INTO users(username,password,enabled) VALUES ('fravilpae','password',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (4,'fravilpae','owner');
-
-INSERT INTO ACCIONES (id, id_turno, id_jugador, id_casilla) VALUES(1,1,1,1);
-INSERT INTO ACCIONES (id, id_turno, id_jugador, id_casilla) VALUES(2,1,1,2);
-INSERT INTO ACCIONES (id, id_turno, id_jugador, id_casilla) VALUES(3,1,1,3);
-INSERT INTO ACCIONES (id, id_turno, id_jugador, id_casilla) VALUES(4,1,1,4);
-INSERT INTO ACCIONES (id, id_turno, id_jugador, id_casilla) VALUES(5,2,1,5);
-INSERT INTO ACCIONES (id, id_turno, id_jugador, id_casilla) VALUES(6,2,1,6);
-
-INSERT INTO TURNOS(id, id_jugador, id_partida,num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
- VALUES(1,1,1,4,0,0,0,NULL);
-
-
-
-INSERT INTO PARTIDAS(id,puntos_tablero1,puntos_tablero2,puntos_tablero3,puntos_tablero4, fecha  ,id_criterioa1,id_criterioa2,id_criteriob1,id_criteriob2,id_tablero1,id_tablero2,id_tablero3,id_tablero4 )
-VALUES(1,0,0,0,0,NULL, 0,0,0,0,1,1,1,1);
-
-INSERT INTO PARTIDAS(id,puntos_tablero1,puntos_tablero2,puntos_tablero3,puntos_tablero4, fecha,id_criterioa1,id_criterioa2,id_criteriob1,id_criteriob2,id_tablero1,id_tablero2,id_tablero3,id_tablero4 )
-VALUES(2,0,0,0,0,NULL, 0,0,0,0,1,1,1,1);
 
 INSERT INTO users(username,password,enabled) VALUES ('jeszamgue','password',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (5,'jeszamgue','owner');

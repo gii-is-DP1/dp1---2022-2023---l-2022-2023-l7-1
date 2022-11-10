@@ -1,4 +1,5 @@
 -- One admin user, named admin1 with passwor 4dm1n and authority admin
+
 INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one) 
 VALUES ('ad', 'min', 'admin1', '4dm1n', '2010-09-07', 'admin@gmail.com', '954734895', 5, 3, 550, 130, 5, 7);
 INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');

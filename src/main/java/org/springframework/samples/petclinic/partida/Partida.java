@@ -24,7 +24,7 @@ public class Partida {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Integer id;
 
-    @Column(name = "Fecha y Hora")
+    @Column(name = "fecha")
     @NotEmpty
     @DateTimeFormat
     LocalDateTime dateTime;

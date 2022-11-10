@@ -74,12 +74,10 @@ public class Mapa {
     public static void main(String[] args) {
 		Mapa res = new Mapa();
         
-        res.cambiarCasilla(9, 5, Territorio.BOSQUE);
 
         
-        for (int i = 0; i < res.getMatriz().size(); i++) {
-            System.out.println(res.getMatriz().get(i));
-        }
+        System.out.println(res.toString());
+
         
         System.out.println(dado(5));
     }

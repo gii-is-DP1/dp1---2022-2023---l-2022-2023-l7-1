@@ -11,6 +11,24 @@ INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','veterinarian');
 INSERT INTO users(username,password,enabled) VALUES ('fravilpae','password',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (4,'fravilpae','owner');
 
+INSERT INTO ACCIONES (id, id_turno, id_jugador, id_casilla) VALUES(1,1,1,1);
+INSERT INTO ACCIONES (id, id_turno, id_jugador, id_casilla) VALUES(2,1,1,2);
+INSERT INTO ACCIONES (id, id_turno, id_jugador, id_casilla) VALUES(3,1,1,3);
+INSERT INTO ACCIONES (id, id_turno, id_jugador, id_casilla) VALUES(4,1,1,4);
+INSERT INTO ACCIONES (id, id_turno, id_jugador, id_casilla) VALUES(5,2,1,5);
+INSERT INTO ACCIONES (id, id_turno, id_jugador, id_casilla) VALUES(6,2,1,6);
+
+INSERT INTO TURNOS(id, id_jugador, id_partida,num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
+ VALUES(1,1,1,4,0,0,0,NULL);
+
+
+
+INSERT INTO PARTIDAS(id,puntos_tablero1,puntos_tablero2,puntos_tablero3,puntos_tablero4, fecha  ,id_criterioa1,id_criterioa2,id_criteriob1,id_criteriob2,id_tablero1,id_tablero2,id_tablero3,id_tablero4 )
+VALUES(1,0,0,0,0,NULL, 0,0,0,0,1,1,1,1);
+
+INSERT INTO PARTIDAS(id,puntos_tablero1,puntos_tablero2,puntos_tablero3,puntos_tablero4, fecha,id_criterioa1,id_criterioa2,id_criteriob1,id_criteriob2,id_tablero1,id_tablero2,id_tablero3,id_tablero4 )
+VALUES(2,0,0,0,0,NULL, 0,0,0,0,1,1,1,1);
+
 INSERT INTO users(username,password,enabled) VALUES ('jeszamgue','password',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (5,'jeszamgue','owner');
 

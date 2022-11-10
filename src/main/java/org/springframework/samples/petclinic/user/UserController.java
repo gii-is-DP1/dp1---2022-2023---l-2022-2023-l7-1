@@ -20,14 +20,15 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.owner.Owner;
-import org.springframework.samples.petclinic.owner.OwnerService;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Juergen Hoeller
@@ -39,6 +40,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserController {
 
 	private static final String VIEWS_OWNER_CREATE_FORM = "users/createUserForm";
+	private static final String USER_STATS_LISTING_VIEW = "users/stats";
+
 
 	private final UserService userService;
 
@@ -70,5 +73,13 @@ public class UserController {
 			return "redirect:/";
 		}
 	}
+
+	@Transactional
+    @GetMapping(value = "/users/{userId}/stats")
+    public ModelAndView showStats(@PathVariable String username) {
+        ModelAndView result = new ModelAndView(USER_STATS_LISTING_VIEW);
+        result.addObject("user", userService.findUser(username));
+        return result;
+    }
 
 }

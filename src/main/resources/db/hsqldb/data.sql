@@ -1,20 +1,26 @@
 -- One admin user, named admin1 with passwor 4dm1n and authority admin
-INSERT INTO users(name, last_name, username, password, birth_date, email, phone) VALUES ('ad', 'min', 'admin1', '4dm1n', '2010-09-07', 'admin@gmail.com', '954734895');
+INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one) 
+VALUES ('ad', 'min', 'admin1', '4dm1n', '2010-09-07', 'admin@gmail.com', '954734895', 5, 3, 550, 130, 5, 7);
 INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 -- One owner user, named owner1 with passwor 0wn3r
-INSERT INTO users(name, last_name, username, password, birth_date, email, phone) VALUES ('ow', 'ner', 'owner1', '0wn3r', '2010-09-07', 'owner@gmail.com', '954734895');
+INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one) 
+VALUES ('ow', 'ner', 'owner1', '0wn3r', '2010-09-07', 'owner@gmail.com', '954734895', 5, 3, 550, 130, 5, 7);
 INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
 -- One vet user, named vet1 with passwor v3t
-INSERT INTO users(name, last_name, username, password, birth_date, email, phone) VALUES ('vete', 'rinary', 'vet1', 'v3t', '2010-09-07', 'vet@gmail.com', '954734895');
+INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one) 
+VALUES ('vete', 'rinary', 'vet1', 'v3t', '2010-09-07', 'vet@gmail.com', '954734895', 5, 3, 550, 130, 5, 7);
 INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','veterinarian');
 -- Owner user
-INSERT INTO users(name, last_name, username, password, birth_date, email, phone) VALUES ('Francis', 'Villalobos', 'fravilpae', 'password', '2010-09-07', 'fravilpae@alum.us.es', '954734895');
+INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one) 
+VALUES ('Francis', 'Villalobos', 'fravilpae', 'password', '2010-09-07', 'fravilpae@alum.us.es', '954734895', 5, 3, 550, 130, 5, 7);
 INSERT INTO authorities(id,username,authority) VALUES (4,'fravilpae','owner');
 
-INSERT INTO users(name, last_name, username, password, birth_date, email, phone) VALUES ('Jesus', 'Zambrana', 'jeszamgue', 'password', '2010-09-07', 'jeszamgue@alum.us.es', '954734895');
+INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one) 
+VALUES ('Jesus', 'Zambrana', 'jeszamgue', 'password', '2010-09-07', 'jeszamgue@alum.us.es', '954734895', 5, 3, 550, 130, 5, 7);
 INSERT INTO authorities(id,username,authority) VALUES (5,'jeszamgue','owner');
 
-INSERT INTO users(name, last_name, username, password, birth_date, email, phone) VALUES ('Aitor', 'Rodriguez', 'aitroddue', 'password', '2010-09-07', 'aitroddue@alum.us.es', '954734895');
+INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one)
+VALUES ('Aitor', 'Rodriguez', 'aitroddue', 'password', '2010-09-07', 'aitroddue@alum.us.es', '954734895', 5, 3, 550, 130, 5, 7);
 INSERT INTO authorities(id,username,authority) VALUES (6,'aitroddue','owner');
 
 INSERT INTO vets(id, first_name,last_name) VALUES (1, 'James', 'Carter');

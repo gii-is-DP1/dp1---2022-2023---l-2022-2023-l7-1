@@ -44,6 +44,7 @@
 
 				</sec:authorize>
 
+				
 				<petclinic:menuItem active="${name eq 'settings'}" url=""
 					title="settings" dropdown="${true}">
 					<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
@@ -62,7 +63,7 @@
 							</li>
 							<li class="divider"></li>
 							<li>
-								<a href="<c:url value="URL ESTADISTICAS" />">Estadisticas <span class="glyphicon glyphicon-signal" aria-hidden="true"></span></a>
+								<a href="<c:url value="/users//stats" />">Estadisticas <span class="glyphicon glyphicon-signal" aria-hidden="true"></span></a>
 							</li>
 						</ul>
 				</petclinic:menuItem>

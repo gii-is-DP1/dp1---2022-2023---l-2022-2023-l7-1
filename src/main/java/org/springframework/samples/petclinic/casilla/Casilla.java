@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.casilla;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -31,5 +32,10 @@ public class Casilla extends BaseEntity{
     Boolean poder2;
 
     @ManyToMany
-    Collection<Casilla> adyacencia;
+    List<Casilla> adyacencia;
+    
+    @Override
+    public String toString(){
+        return ""+id+" "+borde+" "+poder1+""+poder2;
+    }
 }

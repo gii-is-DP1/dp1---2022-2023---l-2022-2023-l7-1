@@ -2,10 +2,12 @@ package org.springframework.samples.petclinic.accion;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.samples.petclinic.casilla.Casilla;
 import org.springframework.samples.petclinic.model.BaseEntity;
 
 import lombok.Getter;
@@ -25,9 +27,7 @@ public class Accion extends BaseEntity{
     @Column(name = "idJugador")
     private Integer idjugador;
 
-    @NotEmpty
-    @OneToOne
-    @Column(name = "idCasilla")
-    private Integer idCasilla;
+    @ManyToOne
+    private Casilla idCasilla;
     
 }

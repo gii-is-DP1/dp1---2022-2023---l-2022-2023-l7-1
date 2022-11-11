@@ -15,7 +15,7 @@
             <th>Partidas Ganadas</th>
             <th>Win Ratio</th>
             <th>Puntos Totales</th>
-            <th>Máxima puntuación</th>
+            <th>Maxima puntuacion</th>
             <th>Veces usadas poder ?</th>
             <th>Veces usadas poder +-1</th>
         </tr>

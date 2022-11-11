@@ -21,6 +21,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +40,14 @@ public class UserService {
 	public UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
+
+	public User getUserById(String id){
+        return userRepository.findById(id).get();
+    }
+
+    public void deleteUserById(String id){
+        userRepository.deleteById(id);
+    }
 
 	public List<User> getAll() {
 		return userRepository.findAll();

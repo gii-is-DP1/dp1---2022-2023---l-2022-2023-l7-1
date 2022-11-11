@@ -13,6 +13,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -37,8 +38,6 @@ public class User{
     @Column(name = "lastName")
     @NotEmpty
     String lastName;
-    
-    
 
     @Column(name = "password")
     @NotEmpty
@@ -91,11 +90,6 @@ public class User{
 
     @Column(name = "enabled")
     Boolean enabled;
-
-
-
-
-
  
     @Transient
     public Double getWinRatio() {

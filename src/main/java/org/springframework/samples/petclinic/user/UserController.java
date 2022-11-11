@@ -15,11 +15,13 @@
  */
 package org.springframework.samples.petclinic.user;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,9 +42,11 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class UserController {
 
-	private static final String VIEWS_OWNER_CREATE_FORM = "users/createUserForm";
+	private static final String VIEWS_USER_CREATE_UPDATE_FORM = "users/createOrUpdateUserForm";
 	private static final String STATS_LISTING_VIEW = "users/stats";
 	private static final String USER_STATS_LISTING_VIEW = "users/userStats";
+	private static final String VIEW_USER_LISTING = "users/userListing";
+	private static final String VIEW_USERNAME_EDITING = "users/userEdit";
 
 
 	private final UserService userService;
@@ -57,24 +61,77 @@ public class UserController {
 		dataBinder.setDisallowedFields("id");
 	}
 
+	@Transactional
+	@GetMapping(value = "/users/all")
+	public ModelAndView showUsers(){
+		ModelAndView res = new ModelAndView(VIEW_USER_LISTING);
+		res.addObject("users", userService.getAll());
+		return res;
+	}
+
+    @Transactional(readOnly = true)
 	@GetMapping(value = "/users/new")
 	public String initCreationForm(Map<String, Object> model) {
 		User user = new User();
 		model.put("user", user);
-		return VIEWS_OWNER_CREATE_FORM;
+		return VIEWS_USER_CREATE_UPDATE_FORM;
 	}
 
+    @Transactional
 	@PostMapping(value = "/users/new")
 	public String processCreationForm(@Valid User user, BindingResult result) {
 		if (result.hasErrors()) {
-			return VIEWS_OWNER_CREATE_FORM;
+			return VIEWS_USER_CREATE_UPDATE_FORM;
 		}
 		else {
-			//creating owner, user, and authority
 			this.userService.saveUser(user);
 			return "redirect:/";
 		}
 	}
+
+    @Transactional
+	@GetMapping(value = "/users/{username}/delete")
+    public ModelAndView deleteUser(@PathVariable String username){
+        userService.deleteUserById(username);        
+        return showUsers();
+    }
+
+    @Transactional(readOnly = true)
+    @GetMapping(value = "/users/{username}/edit")
+    public ModelAndView editUser(@PathVariable String username){
+        User user=userService.getUserById(username);        
+        ModelAndView result=new ModelAndView(VIEWS_USER_CREATE_UPDATE_FORM);
+        result.addObject("user", user);
+        return result;
+    }
+
+    @Transactional
+    @PostMapping(value = "/users/{username}/edit")
+    public ModelAndView saveUser(@PathVariable String username,User user){
+
+        User userToBeUpdated=userService.getUserById(username);
+        BeanUtils.copyProperties(user,userToBeUpdated, "winRatio");
+        userService.saveUser(userToBeUpdated);
+        return showUsers();
+    }
+
+    @Transactional(readOnly = true)
+	@GetMapping(value = "/users/{username}/userEdit")
+    public ModelAndView editUsername(@PathVariable String username){
+        User user=userService.getUserById(username);        
+        ModelAndView result=new ModelAndView(VIEW_USERNAME_EDITING);
+        result.addObject("user", user);
+        return result;
+    }
+
+    @Transactional
+    @PostMapping(value = "/users/{username}/userEdit")
+    public String saveUsername(@PathVariable String username,User user){
+        User usernameToBeUpdated=userService.getUserById(username);
+        BeanUtils.copyProperties(user,usernameToBeUpdated, "winRatio");
+        userService.saveUser(usernameToBeUpdated);
+        return "redirect:/";
+    }
 
 	@Transactional
     @GetMapping(value = "/stats")
@@ -86,8 +143,8 @@ public class UserController {
 
 	@Transactional
     @GetMapping(value = "/users/{username}/stats")
-    public String showStats(@PathVariable("username") String username,Map<String, Object> model) {
-        User user = userService.findUser(username).get();
+    public String showStats(@PathVariable String username,Map<String, Object> model) {
+        User user = userService.getUserById(username);
         model.put("user", user);
         return USER_STATS_LISTING_VIEW;
     }

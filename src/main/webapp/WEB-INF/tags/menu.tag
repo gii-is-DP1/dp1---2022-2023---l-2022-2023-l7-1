@@ -30,6 +30,12 @@
 
 				<sec:authorize access="hasAnyAuthority('admin')">
 
+				<petclinic:menuItem active="${name eq 'users'}" url="/users/all"
+					title="USUARIOS">
+					<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+					<span>Usuarios</span>
+				</petclinic:menuItem>
+
 				<petclinic:menuItem active="${name eq 'users'}" url="/users/find"
 					title="find users">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -42,31 +48,13 @@
 					<span>Estadisticas generales</span>
 				</petclinic:menuItem>
 
-				</sec:authorize>
-
-				
-				<petclinic:menuItem active="${name eq 'settings'}" url=""
-					title="settings" dropdown="${true}">
-					<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-					<span>Settings</span>
-						<ul class="dropdown-menu">
-							<li>
-								<a href="<c:url value="URL EDITAR USER" />">Cambiar nombre <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<a href="<c:url value="URL LOGROS" />">Logros <span class="glyphicon glyphicon-star" aria-hidden="true"></span></a>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<a href="https://drive.google.com/drive/folders/11Yo6jKHsDYNggtT3DaiqA4BDRsrVfb2d">Reglas <span class="glyphicon glyphicon-file" aria-hidden="true"></span></a>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<a href="<c:url value="/users//stats" />">Estadisticas <span class="glyphicon glyphicon-signal" aria-hidden="true"></span></a>
-							</li>
-						</ul>
+				<petclinic:menuItem active="${name eq 'rules'}" url="https://drive.google.com/drive/folders/11Yo6jKHsDYNggtT3DaiqA4BDRsrVfb2d"
+					title="REGLAS">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>REGLAS</span>
 				</petclinic:menuItem>
+
+				</sec:authorize>
 			</ul>
 
 

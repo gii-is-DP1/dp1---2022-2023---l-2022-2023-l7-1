@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.accion;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
@@ -25,6 +26,7 @@ public class Accion extends BaseEntity{
     private Integer idjugador;
 
     @NotEmpty
+    @OneToOne
     @Column(name = "idCasilla")
     private Integer idCasilla;
     

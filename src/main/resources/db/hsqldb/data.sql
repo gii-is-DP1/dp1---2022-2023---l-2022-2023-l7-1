@@ -1,3 +1,19 @@
+INSERT INTO CASILLAS(id, borde,poder1,poder2) VALUES(1,true,false,false);
+INSERT INTO CASILLAS(id, borde,poder1,poder2) VALUES(2,true,false,false);
+INSERT INTO CASILLAS(id, borde,poder1,poder2) VALUES(3,true,false,false);
+INSERT INTO CASILLAS(id, borde,poder1,poder2) VALUES(4,true,false,false);
+INSERT INTO CASILLAS(id, borde,poder1,poder2) VALUES(5,true,false,false);
+INSERT INTO CASILLAS(id, borde,poder1,poder2) VALUES(6,true,false,false);
+INSERT INTO CASILLAS(id, borde,poder1,poder2) VALUES(7,false,false,false);
+INSERT INTO CASILLAS(id, borde,poder1,poder2) VALUES(8,false,false,false);
+
+INSERT INTO CASILLAS_ADYACENCIA(casilla_id, adyacencia_id) VALUES(1,2);
+INSERT INTO CASILLAS_ADYACENCIA(casilla_id, adyacencia_id) VALUES(1,6);
+INSERT INTO CASILLAS_ADYACENCIA(casilla_id, adyacencia_id) VALUES(1,7);
+INSERT INTO CASILLAS_ADYACENCIA(casilla_id, adyacencia_id) VALUES(2,1);
+INSERT INTO CASILLAS_ADYACENCIA(casilla_id, adyacencia_id) VALUES(2,3);
+INSERT INTO CASILLAS_ADYACENCIA(casilla_id, adyacencia_id) VALUES(2,8);
+INSERT INTO CASILLAS_ADYACENCIA(casilla_id, adyacencia_id) VALUES(2,7);
 -- One admin user, named admin1 with passwor 4dm1n and authority admin
 INSERT INTO users(name, last_name, username, password, birth_date, email, phone) VALUES ('ad', 'min', 'admin1', '4dm1n', '2010-09-07', 'admin@gmail.com', '954734895');
 INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');

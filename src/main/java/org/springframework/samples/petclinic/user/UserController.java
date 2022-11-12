@@ -23,6 +23,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -43,6 +44,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class UserController {
 
 	private static final String VIEWS_USER_CREATE_UPDATE_FORM = "users/createOrUpdateUserForm";
+    private static final String VIEWS_ADMIN_UPDATE_FORM = "users/adminUpdateUserForm";
 	private static final String STATS_LISTING_VIEW = "users/stats";
 	private static final String USER_STATS_LISTING_VIEW = "users/userStats";
 	private static final String VIEW_USER_LISTING = "users/userListing";
@@ -50,6 +52,9 @@ public class UserController {
 
 
 	private final UserService userService;
+
+    @Autowired
+    private AuthoritiesService authoritiesService;
 
 	@Autowired
 	public UserController(UserService userService) {
@@ -77,14 +82,20 @@ public class UserController {
 		return VIEWS_USER_CREATE_UPDATE_FORM;
 	}
 
-    @Transactional
+    @Transactional(rollbackFor = DuplicatedUsernameException.class)
 	@PostMapping(value = "/users/new")
 	public String processCreationForm(@Valid User user, BindingResult result) {
 		if (result.hasErrors()) {
 			return VIEWS_USER_CREATE_UPDATE_FORM;
 		}
 		else {
-			this.userService.saveUser(user);
+            try{
+                this.userService.saveUser(user);
+                this.authoritiesService.saveAuthorities(user.username, "owner");
+            }catch(DuplicatedUsernameException ex){
+                result.rejectValue("username", "duplicate", "already exists");
+                return VIEWS_USER_CREATE_UPDATE_FORM;
+            }
 			return "redirect:/";
 		}
 	}
@@ -100,24 +111,25 @@ public class UserController {
     @GetMapping(value = "/users/{username}/edit")
     public ModelAndView editUser(@PathVariable String username){
         User user=userService.getUserById(username);        
-        ModelAndView result=new ModelAndView(VIEWS_USER_CREATE_UPDATE_FORM);
+        ModelAndView result=new ModelAndView(VIEWS_ADMIN_UPDATE_FORM);
         result.addObject("user", user);
         return result;
     }
 
     @Transactional
     @PostMapping(value = "/users/{username}/edit")
-    public ModelAndView saveUser(@PathVariable String username,User user){
+    public ModelAndView saveUser(@PathVariable String username,User user) throws DataAccessException, DuplicatedUsernameException{
 
         User userToBeUpdated=userService.getUserById(username);
-        BeanUtils.copyProperties(user,userToBeUpdated, "winRatio");
+        BeanUtils.copyProperties(user,userToBeUpdated,
+         "winRatio", "matchesPlayed", "gamesWin", "totalPoints", "maxPoints", "timesUsedPowerQuestion", "timesUsedPower1", "password", "birthDate");
         userService.saveUser(userToBeUpdated);
         return showUsers();
     }
 
     @Transactional(readOnly = true)
 	@GetMapping(value = "/users/{username}/userEdit")
-    public ModelAndView editUsername(@PathVariable String username){
+    public ModelAndView editUsername(@PathVariable("username") String username){
         User user=userService.getUserById(username);        
         ModelAndView result=new ModelAndView(VIEW_USERNAME_EDITING);
         result.addObject("user", user);
@@ -126,11 +138,16 @@ public class UserController {
 
     @Transactional
     @PostMapping(value = "/users/{username}/userEdit")
-    public String saveUsername(@PathVariable String username,User user){
+    public String saveUsername(@PathVariable("username") String username, User user, BindingResult br) throws DataAccessException, DuplicatedUsernameException{
+        if (br.hasErrors()) {
+            return VIEW_USERNAME_EDITING;
+        } else {
         User usernameToBeUpdated=userService.getUserById(username);
-        BeanUtils.copyProperties(user,usernameToBeUpdated, "winRatio");
+        BeanUtils.copyProperties(user,usernameToBeUpdated, 
+         "winRatio", "matchesPlayed", "gamesWin", "totalPoints", "maxPoints", "timesUsedPowerQuestion", "timesUsedPower1", "name", "lastName", "birthDate");
         userService.saveUser(usernameToBeUpdated);
         return "redirect:/";
+        }
     }
 
 	@Transactional

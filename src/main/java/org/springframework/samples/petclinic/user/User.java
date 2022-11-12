@@ -11,9 +11,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Past;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -44,12 +45,14 @@ public class User{
     String password;
 
     @Column(name = "birthDate")
+    @Past
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @NotNull
     LocalDate birthDate;
 
     @Column(name = "email")
     @NotEmpty
+    @Email
     String email;
 
     @Column(name = "phone")
@@ -95,7 +98,5 @@ public class User{
     public Double getWinRatio() {
         return ((double) gamesWin / ((double) matchesPlayed- (double) gamesWin));
     }
-
-    
 
 }

@@ -15,28 +15,5 @@ import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class UserServiceTests {
-    @Autowired
-    protected UserService userSerivce;
-
-    @Test
-    @Transactional
-    public void shouldInsertUser(){
-        try {
-        boolean user0 = this.userSerivce.findUser("diegarlin").isEmpty();
-        User user = new User();
-        user.setBirthDate(LocalDate.of(2002, 1, 2));
-        user.setEmail("diegarlin@user.com");
-        user.setLastName("Linares");
-        user.setName("Diego");
-        user.setUsername("diegarlin");
-        user.setEnabled(true);
-        user.setPassword("password");
-        user.setPhone("633787878");
-
-        this.userSerivce.saveUser(user);
-        assertThat(user.getUsername().length()).isNotEqualTo(0);
-
-        boolean user1 = this.userSerivce.findUser("diegarlin").isEmpty();
-		assertThat(user1).isNotEqualTo(user0);
-    }
+   
 }

@@ -36,6 +36,6 @@ public class Casilla extends BaseEntity{
     
     @Override
     public String toString(){
-        return ""+id+" "+borde+" "+poder1+""+poder2;
+        return "Id: "+id+" esBorde: "+borde+" esPoder1: "+poder1+" esPoder2: "+poder2;
     }
 }

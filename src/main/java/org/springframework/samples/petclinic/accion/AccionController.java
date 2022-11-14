@@ -18,7 +18,7 @@ public class AccionController {
     @GetMapping(value = "/prueba")
     public ModelAndView showAcciones(Integer idPartida, Integer idJugador){
         ModelAndView mav = new ModelAndView("acciones/acciones");
-        mav.addObject(this.accionService.getIdAcciones(idPartida, idJugador));
+        mav.addObject("acciones",this.accionService.getIdAcciones(1, 1));
         return mav;
     }
     

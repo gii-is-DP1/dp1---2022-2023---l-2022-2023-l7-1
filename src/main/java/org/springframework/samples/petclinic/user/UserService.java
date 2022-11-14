@@ -24,6 +24,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 /**
  * Mostly used as a facade for all Petclinic controllers Also a placeholder
@@ -54,11 +55,35 @@ public class UserService {
 	}
 
 	@Transactional
-	public void saveUser(User user) throws DataAccessException {
-		user.setEnabled(true);
-		userRepository.save(user);
+	public void saveUser(User user) throws DataAccessException, DuplicatedUsernameException {
+		User otherUser=getUserwithUsernameDifferent(user.getUsername());
+            if (StringUtils.hasLength(user.getUsername()) &&  (otherUser!= null && otherUser.getUsername()!=user.getUsername())) {            	
+            	throw new DuplicatedUsernameException();
+            }else {
+				user.setEnabled(true);
+				if (user.getMatchesPlayed()==null) {user.setMatchesPlayed(0);}
+				if (user.getGamesWin()==null) {user.setGamesWin(0);}
+				if (user.getMaxPoints()==null) {user.setMaxPoints(0);}
+				if (user.getTimesUsedPower1()==null) {user.setTimesUsedPower1(0);}
+				if (user.getTimesUsedPowerQuestion()==null) {user.setTimesUsedPowerQuestion(0);}
+				if (user.getTotalPoints()==null) {user.setTotalPoints(0);}
+				userRepository.save(user);
+			}
 	}
 	
+	private User getUserwithUsernameDifferent(String username) {
+        List<User> users = userRepository.findAll();
+		username = username.toLowerCase();
+		for (User user : users) {
+			String compUsername = user.getUsername();
+			compUsername = compUsername.toLowerCase();
+			if (compUsername.equals(username) && user.getUsername()!=username) {
+				return user;
+			}
+		}
+		return null;
+	}
+
 	public Optional<User> findUser(String username) {
 		return userRepository.findByUsername(username);
 	}

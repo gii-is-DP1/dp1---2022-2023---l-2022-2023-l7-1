@@ -48,13 +48,14 @@
 					<span>Estadisticas generales</span>
 				</petclinic:menuItem>
 
+				</sec:authorize>
+				
 				<petclinic:menuItem active="${name eq 'rules'}" url="https://drive.google.com/drive/folders/11Yo6jKHsDYNggtT3DaiqA4BDRsrVfb2d"
 					title="REGLAS">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>REGLAS</span>
 				</petclinic:menuItem>
 
-				</sec:authorize>
 			</ul>
 
 

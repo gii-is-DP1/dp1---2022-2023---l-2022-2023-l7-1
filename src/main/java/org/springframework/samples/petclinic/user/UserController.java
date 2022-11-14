@@ -91,7 +91,7 @@ public class UserController {
 		else {
             try{
                 this.userService.saveUser(user);
-                this.authoritiesService.saveAuthorities(user.username, "owner");
+                this.authoritiesService.saveAuthorities(user.username, "player");
             }catch(DuplicatedUsernameException ex){
                 result.rejectValue("username", "duplicate", "already exists");
                 return VIEWS_USER_CREATE_UPDATE_FORM;

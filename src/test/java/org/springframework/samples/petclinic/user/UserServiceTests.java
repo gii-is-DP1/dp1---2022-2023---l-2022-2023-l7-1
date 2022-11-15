@@ -63,5 +63,4 @@ class UserServiceTests {
         boolean user0 = this.userService.findUser("diegarlin").isEmpty();
         assertThat(user0).isTrue();
     }
-
 }

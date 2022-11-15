@@ -1,5 +1,9 @@
 package org.springframework.samples.petclinic.accion;
 
+import java.util.Date;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +20,10 @@ public class AccionController {
     }
 
     @GetMapping(value = "/prueba")
-    public ModelAndView showAcciones(Integer idPartida, Integer idJugador){
+    public ModelAndView showAcciones(Integer idPartida, Integer idJugador,HttpServletResponse response ){
+        response.addHeader("Refresh", "1");
         ModelAndView mav = new ModelAndView("acciones/acciones");
+        mav.addObject("now",new Date());
         mav.addObject("acciones",this.accionService.getIdAcciones(1, 1));
         return mav;
     }

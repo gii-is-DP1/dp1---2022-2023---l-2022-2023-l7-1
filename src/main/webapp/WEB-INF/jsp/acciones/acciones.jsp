@@ -5,11 +5,25 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<h2>Pets and Visits</h2>
+<html  >
+    <head>
+        <style>
+            body {
+              background-image: url('resources/images/tablero.png');
+              background-repeat: no-repeat;
+              background-position: center;
+            }
+            </style>
+    </head>
+    <body>
+        <h2><c:out value="${now}"/></h2>
+        
+        <c:forEach items= "${acciones}" var= "accion">
+        
+        <petclinick:territorio accion="${accion}"/>  
 
-<c:forEach items= "${acciones}" var= "accion">
+        
+        </c:forEach>    
+    </body>
+</html>
 
-<c:out value="${accion.idCasilla} ">
-    
-</c:out>
-</c:forEach>

@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class UserServiceTests {
-    @Autowired
+   /*  @Autowired
     protected UserService userSerivce;
 
     @Test
@@ -38,5 +38,5 @@ class UserServiceTests {
 
         boolean user1 = this.userSerivce.findUser("diegarlin").isEmpty();
 		assertThat(user1).isNotEqualTo(user0);
-    }
+    }*/
 }

@@ -12,9 +12,12 @@
     </h2>
     <form:form modelAttribute="user" class="form-horizontal" id="add-user-form">
         <div class="form-group has-feedback">
-            <petclinic:inputField label="Telephone" name="phone"/>
+            <petclinic:inputField label="First Name" name="name"/>
+            <petclinic:inputField label="Last Name" name="lastName"/>
             <petclinic:inputField label="Email" name="email"/>
-            <petclinic:inputField label="Password" name="password"/>
+            <petclinic:inputField label="Telephone" name="phone"/>
+            <petclinic:inputField label="BirthDate" name="birthDate"/>
+            <petclinic:inputField label="Password" name="password"/>  
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

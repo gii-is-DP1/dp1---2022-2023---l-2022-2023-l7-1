@@ -12,8 +12,6 @@ import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.junit.jupiter.api.Test;
-import org.springframework.samples.petclinic.user.AuthoritiesService;
-import org.springframework.samples.petclinic.user.UserService;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
@@ -23,6 +21,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @WebMvcTest(controllers = UserController.class,
  excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
@@ -30,9 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserControllerTests {
 
     private static final String USER_USERNAME = "diegarlin";
-
-	@Autowired
-	private UserController UserController;
 
 	@MockBean
 	private UserService userService;
@@ -63,7 +59,8 @@ public class UserControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testInitCreationForm() throws Exception {
-		mockMvc.perform(get("/users/new")).andExpect(status().isOk()).andExpect(model().attributeExists("user"))
+		mockMvc.perform(get("/users/new")).andExpect(status().isOk())
+				.andExpect(model().attributeExists("user"))
 				.andExpect(view().name("users/createOrUpdateUserForm"));
 	}
 
@@ -71,9 +68,10 @@ public class UserControllerTests {
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
 		mockMvc.perform(post("/users/new").param("name", "Diego").param("lastName", "Linares").with(csrf())
-				.param("birthDate", "2/1/2002").param("email", "diegarlin@user.com").param("phone", "633787878")
+				.param("birthDate", "02/01/2002").param("email", "diegarlin@user.com").param("phone", "633787878")
                 .param("username", "diegarlin").param("password", "password"))
-				.andExpect(status().is2xxSuccessful());
+				.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/"));
 	}
 
 	@WithMockUser(value = "spring")
@@ -89,5 +87,132 @@ public class UserControllerTests {
 				.andExpect(model().attributeHasFieldErrors("user", "phone"))
 				.andExpect(view().name("users/createOrUpdateUserForm"));
 	}
+
+	/* 
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessCreationFormDuplicateUsernameException() throws Exception {
+		mockMvc.perform(post("/users/new").param("name", "Diego").param("lastName", "Linares").with(csrf())
+				.param("birthDate", "02/01/2002").param("email", "diegarlin@user.com").param("phone", "633787878")
+                .param("username", "diegarlin").param("password", "password"));
+		mockMvc.perform(post("/users/new").param("name", "Diego").param("lastName", "Linares").with(csrf())
+				.param("birthDate", "02/03/2002").param("email", "diegarlin@user.com").param("phone", "633787878")
+                .param("username", "diegarlin").param("password", "password"));
+		assertThat(DuplicatedUsernameException.class);
+	}
+	*/
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testShowAllUsers() throws Exception {
+		mockMvc.perform(get("/users/all")).andExpect(status().isOk())
+		.andExpect(model().attributeExists("users"))
+		.andExpect(view().name("users/userListing"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testDeleteUser() throws Exception {
+		mockMvc.perform(get("/users/{username}/delete", USER_USERNAME).with(csrf())).andExpect(status().is3xxRedirection())
+				.andExpect(model().attributeDoesNotExist("user"))
+				.andExpect(view().name("redirect:/users/all"));
+		boolean user0 = this.userService.findUser("diegarlin").isEmpty();
+		assertThat(user0).isTrue();
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testEditUserAsAdmin() throws Exception {
+		mockMvc.perform(get("/users/{username}/edit", USER_USERNAME).with(csrf())).andExpect(status().isOk())
+				.andExpect(model().attributeExists("user"))
+				.andExpect(model().attribute("user", hasProperty("lastName", is("Linares"))))
+				.andExpect(model().attribute("user", hasProperty("name", is("Diego"))))
+				.andExpect(model().attribute("user", hasProperty("birthDate", is(LocalDate.of(2002, 1, 2)))))
+				.andExpect(model().attribute("user", hasProperty("email", is("diegarlin@user.com"))))
+				.andExpect(model().attribute("user", hasProperty("phone", is("633787878"))))
+				.andExpect(model().attribute("user", hasProperty("password", is("password"))))
+				.andExpect(model().attribute("user", hasProperty("username", is("diegarlin"))))
+				.andExpect(view().name("users/userEdit"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessEditUserFormAsAdmin() throws Exception {
+		mockMvc.perform(post("/users/{username}/edit", USER_USERNAME ).param("name", "Diego").param("lastName", "Linares").with(csrf())
+		.param("birthDate", "02/01/2002").param("email", "diegarlin@user.com")
+		.param("phone", "633787878").param("password", "password"))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/users/all"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessEditUserFormAsAdminHasError() throws Exception {
+		mockMvc.perform(post("/users/{username}/edit", USER_USERNAME ).param("name", "")
+				.param("lastName", "").with(csrf())
+				.param("email", ""))
+				.andExpect(status().isOk()).andExpect(model().attributeHasErrors("user"))
+				.andExpect(model().attributeHasFieldErrors("user", "name"))
+                .andExpect(model().attributeHasFieldErrors("user", "lastName"))
+				.andExpect(model().attributeHasFieldErrors("user", "email"))
+				.andExpect(model().attributeHasFieldErrors("user", "phone"))
+				.andExpect(view().name("users/userEdit"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testEditUserAsPlayer() throws Exception {
+		mockMvc.perform(get("/users/{username}/userEdit", USER_USERNAME).with(csrf())).andExpect(status().isOk())
+				.andExpect(model().attributeExists("user"))
+				.andExpect(model().attribute("user", hasProperty("lastName", is("Linares"))))
+				.andExpect(model().attribute("user", hasProperty("name", is("Diego"))))
+				.andExpect(model().attribute("user", hasProperty("birthDate", is(LocalDate.of(2002, 1, 2)))))
+				.andExpect(model().attribute("user", hasProperty("email", is("diegarlin@user.com"))))
+				.andExpect(model().attribute("user", hasProperty("phone", is("633787878"))))
+				.andExpect(model().attribute("user", hasProperty("password", is("password"))))
+				.andExpect(model().attribute("user", hasProperty("username", is("diegarlin"))))
+				.andExpect(view().name("users/userEdit"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessEditUserFormAsPlayer() throws Exception {
+		mockMvc.perform(post("/users/{username}/userEdit", USER_USERNAME ).param("name", "Diego").param("lastName", "Linares").with(csrf())
+		.param("birthDate", "02/01/2002").param("email", "diegarlin@user.com")
+		.param("phone", "633787878").param("password", "password"))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessEditUserFormAsPlayerHasError() throws Exception {
+		mockMvc.perform(post("/users/{username}/userEdit", USER_USERNAME ).param("name", "")
+				.param("lastName", "").with(csrf())
+				.param("email", ""))
+				.andExpect(status().isOk()).andExpect(model().attributeHasErrors("user"))
+				.andExpect(model().attributeHasFieldErrors("user", "name"))
+                .andExpect(model().attributeHasFieldErrors("user", "lastName"))
+				.andExpect(model().attributeHasFieldErrors("user", "email"))
+				.andExpect(model().attributeHasFieldErrors("user", "phone"))
+				.andExpect(view().name("users/userEdit"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testShowAllStats() throws Exception {
+		mockMvc.perform(get("/stats")).andExpect(status().isOk())
+		.andExpect(model().attributeExists("users"))
+		.andExpect(view().name("users/stats"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testShowUserStats() throws Exception {
+		mockMvc.perform(get("/users/{username}/stats", USER_USERNAME)).andExpect(status().isOk())
+		.andExpect(model().attributeExists("user"))
+		.andExpect(view().name("users/userStats"));
+	}
+
 }
     

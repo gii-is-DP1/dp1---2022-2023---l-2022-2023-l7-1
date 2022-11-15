@@ -35,7 +35,7 @@ public class Casilla extends BaseEntity{
     Integer fila;
 
     @NotBlank
-    Float columna;
+    Double columna;
 
     @ManyToMany
     List<Casilla> adyacencia;

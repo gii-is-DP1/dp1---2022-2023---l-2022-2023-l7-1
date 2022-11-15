@@ -30,6 +30,12 @@ public class Casilla extends BaseEntity{
 
     @NotBlank
     Boolean poder2;
+    
+    @NotBlank
+    Integer fila;
+
+    @NotBlank
+    Float columna;
 
     @ManyToMany
     List<Casilla> adyacencia;

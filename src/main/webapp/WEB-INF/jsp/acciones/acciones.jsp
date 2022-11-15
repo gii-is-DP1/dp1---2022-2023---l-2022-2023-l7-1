@@ -8,22 +8,24 @@
 <html  >
     <head>
         <style>
-            body {
+           /* body {
               background-image: url('resources/images/tablero.png');
               background-repeat: no-repeat;
               background-position: center;
-            }
+            }*/
             </style>
     </head>
     <body>
         <h2><c:out value="${now}"/></h2>
         
-        <c:forEach items= "${acciones}" var= "accion">
-        
-        <petclinick:territorio accion="${accion}"/>  
+        <petclinic:mapa> 
+            <c:forEach items= "${acciones}" var= "accion">
+                <petclinic:territorio accion="${accion}"/>
+            </c:forEach>    
+        </petclinic:mapa>
 
         
-        </c:forEach>    
+        
     </body>
 </html>
 

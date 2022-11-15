@@ -44,7 +44,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class UserController {
 
 	private static final String VIEWS_USER_CREATE_UPDATE_FORM = "users/createOrUpdateUserForm";
-    private static final String VIEWS_ADMIN_UPDATE_FORM = "users/adminUpdateUserForm";
 	private static final String STATS_LISTING_VIEW = "users/stats";
 	private static final String USER_STATS_LISTING_VIEW = "users/userStats";
 	private static final String VIEW_USER_LISTING = "users/userListing";
@@ -91,7 +90,7 @@ public class UserController {
 		else {
             try{
                 this.userService.saveUser(user);
-                this.authoritiesService.saveAuthorities(user.username, "player");
+                this.authoritiesService.saveAuthorities(user.username, "owner");
             }catch(DuplicatedUsernameException ex){
                 result.rejectValue("username", "duplicate", "already exists");
                 return VIEWS_USER_CREATE_UPDATE_FORM;
@@ -102,29 +101,33 @@ public class UserController {
 
     @Transactional
 	@GetMapping(value = "/users/{username}/delete")
-    public ModelAndView deleteUser(@PathVariable String username){
+    public String deleteUser(@PathVariable String username){
         userService.deleteUserById(username);        
-        return showUsers();
+        return "redirect:/users/all";
     }
 
     @Transactional(readOnly = true)
     @GetMapping(value = "/users/{username}/edit")
     public ModelAndView editUser(@PathVariable String username){
         User user=userService.getUserById(username);        
-        ModelAndView result=new ModelAndView(VIEWS_ADMIN_UPDATE_FORM);
+        ModelAndView result=new ModelAndView(VIEW_USERNAME_EDITING);
         result.addObject("user", user);
         return result;
     }
 
-    @Transactional
+    @Transactional()
     @PostMapping(value = "/users/{username}/edit")
-    public ModelAndView saveUser(@PathVariable String username,User user) throws DataAccessException, DuplicatedUsernameException{
-
-        User userToBeUpdated=userService.getUserById(username);
-        BeanUtils.copyProperties(user,userToBeUpdated,
-         "winRatio", "matchesPlayed", "gamesWin", "totalPoints", "maxPoints", "timesUsedPowerQuestion", "timesUsedPower1", "password", "birthDate");
-        userService.saveUser(userToBeUpdated);
-        return showUsers();
+    public String saveUser(@PathVariable String username,@Valid User user, BindingResult br) throws DataAccessException, DuplicatedUsernameException{
+        if (br.hasErrors()) {
+			return VIEW_USERNAME_EDITING;
+		} else{
+            user.setUsername(username);
+            User userToBeUpdated=userService.getUserById(username);
+            BeanUtils.copyProperties(user,userToBeUpdated,
+        "winRatio", "matchesPlayed", "gamesWin", "totalPoints", "maxPoints", "timesUsedPowerQuestion", "timesUsedPower1");
+            userService.saveUser(userToBeUpdated);
+        return "redirect:/users/all";
+        }
     }
 
     @Transactional(readOnly = true)
@@ -136,15 +139,15 @@ public class UserController {
         return result;
     }
 
-    @Transactional
+    @Transactional()
     @PostMapping(value = "/users/{username}/userEdit")
-    public String saveUsername(@PathVariable("username") String username, User user, BindingResult br) throws DataAccessException, DuplicatedUsernameException{
+    public String saveUsername(@PathVariable("username") String username,@Valid User user, BindingResult br) throws DataAccessException, DuplicatedUsernameException{
         if (br.hasErrors()) {
             return VIEW_USERNAME_EDITING;
         } else {
         User usernameToBeUpdated=userService.getUserById(username);
         BeanUtils.copyProperties(user,usernameToBeUpdated, 
-         "winRatio", "matchesPlayed", "gamesWin", "totalPoints", "maxPoints", "timesUsedPowerQuestion", "timesUsedPower1", "name", "lastName", "birthDate");
+         "winRatio", "matchesPlayed", "gamesWin", "totalPoints", "maxPoints", "timesUsedPowerQuestion", "timesUsedPower1");
         userService.saveUser(usernameToBeUpdated);
         return "redirect:/";
         }

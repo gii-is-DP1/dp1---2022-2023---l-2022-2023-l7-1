@@ -24,6 +24,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.accion.Accion;
+import org.springframework.samples.petclinic.accion.AccionService;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,60 +66,17 @@ class CasillaServiceTests {
 	@Autowired
 	protected CasillaService casillaService;
 
-	@Test
+	@Autowired
+	protected AccionService accionService;
+	/*@Test
 	void shouldFindCasillasAdyacentes() {
 		List<Casilla> casillasAdyacentes = this.casillaService.getCasillasAdyacentes(1);
 		assertThat(casillasAdyacentes.size()).isEqualTo(3);
-	}
-
-	/*@Test
-	void shouldFindSingleOwnerWithPet() {
-		Owner owner = this.ownerService.findOwnerById(1);
-		assertThat(owner.getLastName()).startsWith("Franklin");
-		assertThat(owner.getPets().size()).isEqualTo(1);
-		assertThat(owner.getPets().get(0).getType()).isNotNull();
-		assertThat(owner.getPets().get(0).getType().getName()).isEqualTo("cat");
-	}
+	}*/
 
 	@Test
-	@Transactional
-	public void shouldInsertOwner() {
-		Collection<Owner> owners = this.ownerService.findOwnerByLastName("Schultz");
-		int found = owners.size();
-
-		Owner owner = new Owner();
-		owner.setFirstName("Sam");
-		owner.setLastName("Schultz");
-		owner.setAddress("4, Evans Street");
-		owner.setCity("Wollongong");
-		owner.setTelephone("4444444444");
-                User user=new User();
-                user.setUsername("Sam");
-                user.setPassword("supersecretpassword");
-                user.setEnabled(true);
-                owner.setUser(user);                
-                
-		this.ownerService.saveOwner(owner);
-		assertThat(owner.getId().longValue()).isNotEqualTo(0);
-
-		owners = this.ownerService.findOwnerByLastName("Schultz");
-		assertThat(owners.size()).isEqualTo(found + 1);
+	void shouldFindTurno(){
+		Accion ac = this.accionService.getAccionById(1);
+		assertThat(ac.getTurno()).isEqualTo("");
 	}
-
-	@Test
-	@Transactional
-	void shouldUpdateOwner() {
-		Owner owner = this.ownerService.findOwnerById(1);
-		String oldLastName = owner.getLastName();
-		String newLastName = oldLastName + "X";
-
-		owner.setLastName(newLastName);
-		this.ownerService.saveOwner(owner);
-
-		// retrieving new name from database
-		owner = this.ownerService.findOwnerById(1);
-		assertThat(owner.getLastName()).isEqualTo(newLastName);
-	}
-
-*/
 }

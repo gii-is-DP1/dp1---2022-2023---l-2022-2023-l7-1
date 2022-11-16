@@ -9,6 +9,7 @@ import javax.validation.constraints.NotEmpty;
 
 import org.springframework.samples.petclinic.casilla.Casilla;
 import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.turnos.Turno;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -19,15 +20,15 @@ import lombok.Setter;
 @Table(name = "acciones")
 public class Accion extends BaseEntity{
 
-    @NotEmpty
-    @Column(name = "idTurno")
-    private Integer idTurno;
+    
+    @OneToOne
+    private Turno turno;
 
     @NotEmpty
     @Column(name = "idJugador")
     private Integer idjugador;
 
     @ManyToOne
-    private Casilla idCasilla;
+    private Casilla casilla;
     
 }

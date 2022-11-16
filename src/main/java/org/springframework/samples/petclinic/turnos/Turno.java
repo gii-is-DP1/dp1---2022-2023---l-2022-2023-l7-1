@@ -40,4 +40,8 @@ public class Turno extends BaseEntity{
 
     @NotEmpty
     private Territorio territorio;
+
+    public String toString(){
+        return "Turno"+ getId()+" Territorio"+  getTerritorio();
+    }
 }

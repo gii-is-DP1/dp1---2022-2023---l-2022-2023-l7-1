@@ -22,6 +22,9 @@ public class AccionService {
         return accionRepository.findByTurno(idPartida, idJugador);
     }
 
-
+    @Transactional
+    public Accion getAccionById(Integer id){
+        return accionRepository.findById(id).get();
+    }
     
 }

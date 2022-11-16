@@ -32,7 +32,7 @@ public class Casilla extends BaseEntity{
     Boolean poder2;
     
     @NotBlank
-    Integer fila;
+    Double fila;
 
     @NotBlank
     Double columna;

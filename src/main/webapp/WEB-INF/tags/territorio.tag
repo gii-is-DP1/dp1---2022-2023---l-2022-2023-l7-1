@@ -3,4 +3,4 @@
 
 
  image = document.getElementById('${accion.turno.territorio}');
- ctx.drawImage(image,(${accion.casilla.columna})*100,${accion.casilla.fila*180},112,112);
+ ctx.drawImage(image,'${accion.casilla.fila}'*10,'${accion.casilla.columna}'*10,100,100);

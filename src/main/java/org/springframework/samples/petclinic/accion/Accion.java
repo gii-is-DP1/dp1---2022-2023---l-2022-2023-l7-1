@@ -24,10 +24,6 @@ public class Accion extends BaseEntity{
     @ManyToOne
     private Turno turno;
 
-    @NotEmpty
-    @Column(name = "idJugador")
-    private Integer idjugador;
-
     @ManyToOne
     private Casilla casilla;
     

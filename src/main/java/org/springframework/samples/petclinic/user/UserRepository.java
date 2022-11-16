@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.user;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,9 @@ public interface UserRepository extends  CrudRepository<User, String>{
     List<User> findAll();
 
     @Query("SELECT user FROM User user WHERE user.username = :username")
-    Optional<User> findByUsername(String username) throws DataAccessException;
+    Collection<User> findByUsername(String username) throws DataAccessException;
+
+    @Query("SELECT user FROM User user WHERE user.username = :username")
+    Optional<User> findByUsernameOptional(String username) throws DataAccessException;
 	
 }

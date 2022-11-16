@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.user;
 
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,7 +84,11 @@ public class UserService {
 		return null;
 	}
 
-	public Optional<User> findUser(String username) {
+	public Collection<User> findUser(String username) {
 		return userRepository.findByUsername(username);
+	}
+
+	public Optional<User> findUserOptional(String username) {
+		return userRepository.findByUsernameOptional(username);
 	}
 }

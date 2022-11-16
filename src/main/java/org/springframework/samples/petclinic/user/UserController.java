@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.user;
 
 import java.security.Principal;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +50,8 @@ public class UserController {
 	private static final String USER_STATS_LISTING_VIEW = "users/userStats";
 	private static final String VIEW_USER_LISTING = "users/userListing";
 	private static final String VIEW_USERNAME_EDITING = "users/userEdit";
+    private static final String VIEW_FIND_USER = "users/findUsers";
+    private static final String VIEW_USER_DETAILS = "users/userDetails";
 
 
 	private final UserService userService;
@@ -165,5 +168,48 @@ public class UserController {
         model.put("user", user);
         return USER_STATS_LISTING_VIEW;
     }
+
+    @Transactional
+    @GetMapping(value = "/users/find")
+	public String initFindForm(Map<String, Object> model) {
+		model.put("user", new User());
+		return VIEW_FIND_USER;
+	}
+
+    @Transactional
+    @GetMapping("/users/{username}")
+	public ModelAndView showOwner(@PathVariable("username") String username) {
+		ModelAndView mav = new ModelAndView(VIEW_USER_DETAILS);
+		mav.addObject(this.userService.findUser(username));
+		return mav;
+	}
+
+    @Transactional
+    @GetMapping(value = "/users")
+	public String processFindForm(User user, BindingResult result, Map<String, Object> model) {
+
+		// allow parameterless GET request for /users to return all records
+		if (user.getUsername() == null) {
+			user.setUsername(""); // empty string signifies broadest possible search
+		}
+
+		// find users by user name
+		Collection<User> results = this.userService.findUser(user.getUsername());
+		if (results.isEmpty()) {
+			// no users found
+			result.rejectValue("username", "notFound", "not found");
+			return VIEW_FIND_USER;
+		}
+		else if (results.size() == 1) {
+			// 1 user found
+			user = results.iterator().next();
+			return "redirect:/users/" + user.getUsername();
+		}
+		else {
+			// multiple users found
+			model.put("selections", results);
+			return VIEW_USER_LISTING;
+		}
+	}
 
 }

@@ -21,7 +21,7 @@ import lombok.Setter;
 public class Accion extends BaseEntity{
 
     
-    @OneToOne
+    @ManyToOne
     private Turno turno;
 
     @NotEmpty

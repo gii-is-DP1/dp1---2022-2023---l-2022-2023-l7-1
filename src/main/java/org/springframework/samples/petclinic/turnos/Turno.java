@@ -2,10 +2,12 @@ package org.springframework.samples.petclinic.turnos;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.samples.petclinic.util.Territorio;
 
 import lombok.Getter;
@@ -16,14 +18,9 @@ import lombok.Setter;
 @Entity
 @Table(name = "turnos")
 public class Turno extends BaseEntity{
-    
-    @NotEmpty
-    @Column(name = "idJugador")
-    private Integer idJugador;
 
-    @NotEmpty
-    @Column(name = "idPartida")
-    private Integer idPartida;
+    @ManyToOne
+    private Tablero tablero;
 
     @NotEmpty
     @Column(name = "numTerritoriosJ1")
@@ -40,4 +37,8 @@ public class Turno extends BaseEntity{
 
     @NotEmpty
     private Territorio territorio;
+
+    public String toString(){
+        return "Turno"+ getId()+" Territorio"+  getTerritorio();
+    }
 }

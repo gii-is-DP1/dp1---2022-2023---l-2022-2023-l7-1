@@ -1,73 +1,73 @@
 --FILA 1
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(1,true,false,false, 1, 3.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(2,true,false,false, 1, 4.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(3,true,false,false, 1, 5.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(4,true,false,false, 1, 6.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(5,true,false,false, 1, 7.0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(1,true,false,false, 31, 15);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(2,true,false,false, 40, 15);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(3,true,false,false, 49, 15);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(4,true,false,false, 58, 15);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(5,true,false,false, 67, 15);
 --FILA 2
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(6,true,false,false,2, 2.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(7,false,true,false,2, 3.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(8,false,false,false,2, 4.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(9,false,false,false,2, 5.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(10,false,true,false,2, 6.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(11,true,false,false,2, 7.5);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(6,true,false,false,27.5, 22);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(7,false,true,false,36.5, 22);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(8,false,false,false,45.5, 22);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(9,false,false,false,54.5, 22);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(10,false,true,false,63.5, 22);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(11,true,false,false,72.5, 22);
 --FILA 3
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(12,true,false,false,3, 2.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(13,false,false,false,3, 3.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(14,false,false,false,3, 4.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(15,false,false,false,3, 5.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(16,false,false,false,3, 6.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(17,false,false,false,3, 7.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(18,true,false,false,3, 8.0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(12,true,false,false,22, 30);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(13,false,false,false,31, 30);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(14,false,false,false,40, 30);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(15,false,false,false,49, 30);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(16,false,false,false,58, 30);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(17,false,false,false,67, 30);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(18,true,false,false,76, 30);
 --FILA 4
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(19,true,false,false,4, 1.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(20,false,false,false,4, 2.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(21,false,false,false,4, 3.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(22,false,false,false,4, 4.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(23,false,false,false,4, 5.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(24,false,false,false,4, 6.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(25,false,false,false,4, 7.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(26,true,false,false,4, 8.5);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(19,true,false,false,18.5, 37);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(20,false,false,false,27.5, 37);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(21,false,false,false,36.5, 37);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(22,false,false,false,45.5, 37);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(23,false,false,false,54.5, 37);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(24,false,false,false,63, 37);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(25,false,false,false,72, 37);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(26,true,false,false,81, 37);
 --FILA 5
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(27,true,true,false,5, 1.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(28,false,false,false,5, 2.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(29,false,false,false,5, 3.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(30,false,false,false,5, 4.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(31,false,false,true,5, 5.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(32,false,false,false,5, 6.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(33,false,false,false,5, 7.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(34,false,false,false,5, 8.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(35,true,true,false,5, 9.0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(27,true,true,false,13, 44);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(28,false,false,false,22, 44);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(29,false,false,false,31, 44);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(30,false,false,false,40, 44);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(31,false,false,true,49, 44);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(32,false,false,false,58, 44);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(33,false,false,false,67, 44);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(34,false,false,false,76, 44);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(35,true,true,false,85, 44);
 --FILA 6
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(36,true,false,false,6, 1.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(37,false,false,false,6, 2.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(38,false,false,false,6, 3.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(39,false,false,false,6, 4.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(40,false,false,false,6, 5.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(41,false,false,false,6, 6.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(42,false,false,false,6, 7.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(43,true,false,false,6, 8.5);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(36,true,false,false,18.5,53);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(37,false,false,false,27.5, 53);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(38,false,false,false,36.5, 53);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(39,false,false,false,45.5, 53);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(40,false,false,false,54.5, 53);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(41,false,false,false,63, 53);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(42,false,false,false,72, 53);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(43,true,false,false,81, 53);
 --FILA 7
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(44,true,false,false,7, 2.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(45,false,false,false,7, 3.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(46,false,false,false,7, 4.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(47,false,false,false,7, 5.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(48,false,false,false,7, 6.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(49,false,false,false,7, 7.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(50,true,false,false,7, 8.0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(44,true,false,false,22,60);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(45,false,false,false,31, 60);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(46,false,false,false,40, 60);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(47,false,false,false,49, 60);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(48,false,false,false,58,60);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(49,false,false,false,67, 60);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(50,true,false,false,76, 60);
 --FILA 8
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(51,true,false,false,8, 2.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(52,false,true,false,8, 3.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(53,false,false,false,8, 4.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(54,false,false,false,8, 5.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(55,false,true,false,8, 6.5);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(56,true,false,false,8, 7.5);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(51,true,false,false,27.5, 68);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(52,false,true,false,36.5, 68);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(53,false,false,false,45.5, 68);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(54,false,false,false,54.5, 68);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(55,false,true,false,63.5, 68);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(56,true,false,false,72.5, 68);
 --FILA 9
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(57,true,false,false,9, 3.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(58,true,false,false,9, 3.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(59,true,false,false,9, 3.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(60,true,false,false,9, 3.0);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(61,true,false,false,9, 3.0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(57,true,false,false,31, 75);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(58,true,false,false,40, 75);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(59,true,false,false,49, 75);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(60,true,false,false,58, 75);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(61,true,false,false,67, 75);
 
 -- Fila es un INTEGER, columna un FLOAT
 -- Casillas adyacencia
@@ -462,14 +462,31 @@ VALUES(1,0,0,0,0,NULL, 0,0,0,0,1,1,1,1);
 INSERT INTO PARTIDAS(id,puntos_tablero1,puntos_tablero2,puntos_tablero3,puntos_tablero4, fecha,id_criterioa1,id_criterioa2,id_criteriob1,id_criteriob2,id_tablero1,id_tablero2,id_tablero3,id_tablero4 )
 VALUES(2,0,0,0,0,NULL, 0,0,0,0,1,1,1,1);
 
-INSERT INTO TURNOS(id, id_jugador, id_partida,num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
- VALUES(1,1,1,4,0,0,0,2);
+INSERT INTO TABLEROS(id, id_partida,id_jugador,id_poderes,puntos) VALUES(1,1,1,1,0);
 
-INSERT INTO ACCIONES (id, turno_id, id_jugador, casilla_id) VALUES(1,1,1,1);
-INSERT INTO ACCIONES (id, turno_id, id_jugador, casilla_id) VALUES(2,1,1,2);
-INSERT INTO ACCIONES (id, turno_id, id_jugador, casilla_id) VALUES(3,1,1,3);
-INSERT INTO ACCIONES (id, turno_id, id_jugador, casilla_id) VALUES(4,1,1,4);
+INSERT INTO TURNOS(id, tablero_id, num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
+ VALUES(1,1,0,0,0,0,0);
 
+INSERT INTO TURNOS(id, tablero_id, num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
+ VALUES(2,1,0,0,0,0,1);
+ INSERT INTO TURNOS(id, tablero_id, num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
+ VALUES(3,1,0,0,0,0,2);
+ INSERT INTO TURNOS(id, tablero_id, num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
+ VALUES(4,1,0,0,0,0,3);
+ INSERT INTO TURNOS(id, tablero_id, num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
+ VALUES(5,1,0,0,0,0,4);
+ INSERT INTO TURNOS(id, tablero_id, num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
+ VALUES(6,1,0,0,0,0,5);
+
+INSERT INTO ACCIONES (id, turno_id, casilla_id) VALUES(1,1,7);
+INSERT INTO ACCIONES (id, turno_id, casilla_id) VALUES(2,2,15);
+INSERT INTO ACCIONES (id, turno_id, casilla_id) VALUES(3,3,23);
+INSERT INTO ACCIONES (id, turno_id, casilla_id) VALUES(4,4,43);
+INSERT INTO ACCIONES (id, turno_id, casilla_id) VALUES(5,5,52);
+INSERT INTO ACCIONES (id, turno_id, casilla_id) VALUES(6,6,56);
+INSERT INTO ACCIONES (id, turno_id, casilla_id) VALUES(7,4,60);
+INSERT INTO ACCIONES (id, turno_id, casilla_id) VALUES(8,5,33);
+INSERT INTO ACCIONES (id, turno_id, casilla_id) VALUES(9,6,47);
 
 
 

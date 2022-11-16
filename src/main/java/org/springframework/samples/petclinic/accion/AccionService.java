@@ -18,8 +18,8 @@ public class AccionService {
     }
 
     @Transactional
-    public List<Accion> getIdAcciones(Integer idPartida, Integer idJugador){
-        return accionRepository.findByTurno(idPartida, idJugador);
+    public List<Accion> getIdAcciones(Integer tableroId){
+        return accionRepository.findByTablero(tableroId);
     }
 
     @Transactional

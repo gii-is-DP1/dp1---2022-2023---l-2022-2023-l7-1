@@ -22,9 +22,9 @@ public class AccionController {
     @GetMapping(value = "/prueba")
     public ModelAndView showAcciones(Integer idPartida, Integer idJugador,HttpServletResponse response ){
        // response.addHeader("Refresh", "1");
-        ModelAndView mav = new ModelAndView("acciones/acciones");
+        ModelAndView mav = new ModelAndView("tablero/tablero");
         //mav.addObject("now",new Date());
-        mav.addObject("acciones",this.accionService.getIdAcciones(1, 1));
+        mav.addObject("acciones",this.accionService.getIdAcciones(1));
         return mav;
     }
     

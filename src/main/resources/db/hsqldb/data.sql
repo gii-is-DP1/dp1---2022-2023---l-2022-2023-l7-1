@@ -456,13 +456,9 @@ INSERT INTO CASILLAS_ADYACENCIA(casilla_id, adyacencia_id) VALUES(61, 55);
 INSERT INTO CASILLAS_ADYACENCIA(casilla_id, adyacencia_id) VALUES(61, 56);
 INSERT INTO CASILLAS_ADYACENCIA(casilla_id, adyacencia_id) VALUES(61, 60);
 
-INSERT INTO PARTIDAS(id,puntos_tablero1,puntos_tablero2,puntos_tablero3,puntos_tablero4, fecha  ,id_criterioa1,id_criterioa2,id_criteriob1,id_criteriob2,id_tablero1,id_tablero2,id_tablero3,id_tablero4 )
-VALUES(1,0,0,0,0,NULL, 0,0,0,0,1,1,1,1);
+INSERT INTO tablero(id, idpartida, idpoderes, puntos) VALUES(1,1,1,1);
 
-INSERT INTO PARTIDAS(id,puntos_tablero1,puntos_tablero2,puntos_tablero3,puntos_tablero4, fecha,id_criterioa1,id_criterioa2,id_criteriob1,id_criteriob2,id_tablero1,id_tablero2,id_tablero3,id_tablero4 )
-VALUES(2,0,0,0,0,NULL, 0,0,0,0,1,1,1,1);
-
-INSERT INTO TABLEROS(id, id_partida,id_jugador,id_poderes,puntos) VALUES(1,1,1,1,0);
+INSERT INTO tablero(id, idpartida, idpoderes, puntos) VALUES(2,1,1,1);
 
 INSERT INTO TURNOS(id, tablero_id, num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
  VALUES(1,1,0,0,0,0,0);
@@ -518,9 +514,7 @@ VALUES ('Aitor', 'Rodriguez', 'aitroddue', 'password', '2010-09-07', 'aitroddue@
 INSERT INTO authorities(id,username,authority) VALUES (6,'aitroddue','player');
 
 
-INSERT INTO tablero(id, idpartida, idpoderes, puntos) VALUES(1,1,1,1);
 
-INSERT INTO tablero(id, idpartida, idpoderes, puntos) VALUES(2,1,1,1);
 
 /*
 INSERT INTO jugador(id,activo,nombrereino,usosterritorio1,usosterritorio2,

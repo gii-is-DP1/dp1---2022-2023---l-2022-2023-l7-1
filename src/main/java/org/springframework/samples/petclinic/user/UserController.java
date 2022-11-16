@@ -25,6 +25,7 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -178,9 +179,9 @@ public class UserController {
 
     @Transactional
     @GetMapping("/users/{username}")
-	public ModelAndView showOwner(@PathVariable("username") String username) {
+	public ModelAndView showUser(@PathVariable("username") String username) {
 		ModelAndView mav = new ModelAndView(VIEW_USER_DETAILS);
-		mav.addObject(this.userService.findUser(username));
+		mav.addObject("user", this.userService.findUserOptional(username).get());
 		return mav;
 	}
 

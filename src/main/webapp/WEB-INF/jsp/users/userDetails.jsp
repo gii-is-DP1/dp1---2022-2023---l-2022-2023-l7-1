@@ -7,8 +7,6 @@
 <petclinic:layout pageName="users">
 
     <h2>User Information</h2>
-
-
     <table class="table table-striped">
         <tr>
             <th>Name</th>
@@ -36,10 +34,6 @@
         </tr>
     </table>
 
-    <spring:url value="{username}/edit" var="editUrl">
-        <spring:param name="username" value="${user.username}"/>
-    </spring:url>
-    <a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Edit User</a>
-
+    
 
 </petclinic:layout>

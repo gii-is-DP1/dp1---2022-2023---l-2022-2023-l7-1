@@ -32,9 +32,6 @@
 
     </form:form>
 
-    <br/> 
-    <sec:authorize access="hasAuthority('admin')">
-		<a class="btn btn-default" href='<spring:url value="/users/new" htmlEscape="true"/>'>Add User</a>
-	</sec:authorize>
+    <br/>
 	
 </petclinic:layout>

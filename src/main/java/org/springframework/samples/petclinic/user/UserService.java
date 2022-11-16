@@ -16,12 +16,15 @@
 package org.springframework.samples.petclinic.user;
 
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 /**
  * Mostly used as a facade for all Petclinic controllers Also a placeholder
@@ -39,13 +42,53 @@ public class UserService {
 		this.userRepository = userRepository;
 	}
 
+	public User getUserById(String id){
+        return userRepository.findById(id).get();
+    }
+
+    public void deleteUserById(String id){
+        userRepository.deleteById(id);
+    }
+
+	public List<User> getAll() {
+		return userRepository.findAll();
+	}
+
 	@Transactional
-	public void saveUser(User user) throws DataAccessException {
-		user.setEnabled(true);
-		userRepository.save(user);
+	public void saveUser(User user) throws DataAccessException, DuplicatedUsernameException {
+		User otherUser=getUserwithUsernameDifferent(user.getUsername());
+            if (StringUtils.hasLength(user.getUsername()) &&  (otherUser!= null && otherUser.getUsername()!=user.getUsername())) {            	
+            	throw new DuplicatedUsernameException();
+            }else {
+				user.setEnabled(true);
+				if (user.getMatchesPlayed()==null) {user.setMatchesPlayed(0);}
+				if (user.getGamesWin()==null) {user.setGamesWin(0);}
+				if (user.getMaxPoints()==null) {user.setMaxPoints(0);}
+				if (user.getTimesUsedPower1()==null) {user.setTimesUsedPower1(0);}
+				if (user.getTimesUsedPowerQuestion()==null) {user.setTimesUsedPowerQuestion(0);}
+				if (user.getTotalPoints()==null) {user.setTotalPoints(0);}
+				userRepository.save(user);
+			}
 	}
 	
-	public Optional<User> findUser(String username) {
-		return userRepository.findById(username);
+	private User getUserwithUsernameDifferent(String username) {
+        List<User> users = userRepository.findAll();
+		username = username.toLowerCase();
+		for (User user : users) {
+			String compUsername = user.getUsername();
+			compUsername = compUsername.toLowerCase();
+			if (compUsername.equals(username) && user.getUsername()!=username) {
+				return user;
+			}
+		}
+		return null;
+	}
+
+	public Collection<User> findUser(String username) {
+		return userRepository.findByUsername(username);
+	}
+
+	public Optional<User> findUserOptional(String username) {
+		return userRepository.findByUsernameOptional(username);
 	}
 }

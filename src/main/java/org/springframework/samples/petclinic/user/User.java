@@ -18,6 +18,7 @@ import javax.validation.constraints.Past;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.samples.petclinic.model.Person;
 
 import lombok.Getter;
 import lombok.Setter;

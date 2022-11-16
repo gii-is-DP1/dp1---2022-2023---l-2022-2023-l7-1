@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.user;
 
 import java.security.Principal;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -48,6 +50,8 @@ public class UserController {
 	private static final String USER_STATS_LISTING_VIEW = "users/userStats";
 	private static final String VIEW_USER_LISTING = "users/userListing";
 	private static final String VIEW_USERNAME_EDITING = "users/userEdit";
+    private static final String VIEW_FIND_USER = "users/findUsers";
+    private static final String VIEW_USER_DETAILS = "users/userDetails";
 
 
 	private final UserService userService;
@@ -168,5 +172,48 @@ public class UserController {
         model.put("user", user);
         return USER_STATS_LISTING_VIEW;
     }
+
+    @Transactional
+    @GetMapping(value = "/users/find")
+	public String initFindForm(Map<String, Object> model) {
+		model.put("user", new User());
+		return VIEW_FIND_USER;
+	}
+
+    @Transactional
+    @GetMapping("/users/{username}")
+	public ModelAndView showUser(@PathVariable("username") String username) {
+		ModelAndView mav = new ModelAndView(VIEW_USER_DETAILS);
+		mav.addObject("user", this.userService.findUserOptional(username).get());
+		return mav;
+	}
+
+    @Transactional
+    @GetMapping(value = "/users")
+	public String processFindForm(User user, BindingResult result, Map<String, Object> model) {
+
+		// allow parameterless GET request for /users to return all records
+		if (user.getUsername() == null) {
+			user.setUsername(""); // empty string signifies broadest possible search
+		}
+
+		// find users by user name
+		Collection<User> results = this.userService.findUser(user.getUsername());
+		if (results.isEmpty()) {
+			// no users found
+			result.rejectValue("username", "notFound", "not found");
+			return VIEW_FIND_USER;
+		}
+		else if (results.size() == 1) {
+			// 1 user found
+			user = results.iterator().next();
+			return "redirect:/users/" + user.getUsername();
+		}
+		else {
+			// multiple users found
+			model.put("selections", results);
+			return VIEW_USER_LISTING;
+		}
+	}
 
 }

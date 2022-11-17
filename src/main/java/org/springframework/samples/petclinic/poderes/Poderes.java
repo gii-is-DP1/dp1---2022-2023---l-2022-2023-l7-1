@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.samples.petclinic.jugador.Jugador;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.partida.Partida;
+import org.springframework.samples.petclinic.tablero.Tablero;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,14 +25,8 @@ import lombok.Setter;
 public class Poderes extends BaseEntity{
 
     @OneToOne(optional = false)
-    @JoinColumn(name = "partidaid")
     @NotEmpty
-    Partida idpartida;
-
-    @OneToOne(optional = false)
-    @JoinColumn(name = "jugadorid")
-    @NotEmpty
-    Jugador idjugador;
+    Tablero tablero;
 
     @Column(name = "poder+-1")
     @NotEmpty

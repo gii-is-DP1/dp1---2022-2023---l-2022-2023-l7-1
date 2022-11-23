@@ -9,12 +9,12 @@
         <div class="row">
             
             <div class="form-group">
-                <spring:url value="users/{username}/userEdit" htmlEscape="true" var="perfil">
+                <spring:url value="users/{username}" htmlEscape="true" var="perfil">
                     <spring:param name="username" value="${username}" />
                 </spring:url>
                 <div class="col-sm-offset-2 col-sm-10">
                     <sec:authorize access="hasAnyAuthority('admin','owner')">
-                   <a class="btn btn-default" href="${perfil}">EDITAR PERFIL</a>
+                   <a class="btn btn-default" href="${perfil}">VER PERFIL</a>
                     </sec:authorize>
                 </div>
                 <spring:url value="users/{username}/stats" htmlEscape="true" var="stats">

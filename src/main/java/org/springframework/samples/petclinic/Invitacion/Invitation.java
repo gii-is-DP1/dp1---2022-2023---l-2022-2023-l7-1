@@ -20,6 +20,17 @@ public class Invitation extends BaseEntity {
 	@ManyToOne
 	private User sender;
 
+	public Invitation() {
+	}
+
+    public Invitation(User sender, User receiver) {
+		this.sender = sender;
+		this.receiver = receiver;
+		
+		sender.getSendedInvitations().add(this);
+		receiver.getReceivedInvitations().add(this);		
+	}
+
     public void accept() {
 		sender.getFriends().add(receiver);
 		receiver.getFriends().add(sender);

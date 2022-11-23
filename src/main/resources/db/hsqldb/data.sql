@@ -515,7 +515,8 @@ INSERT INTO authorities(id,username,authority) VALUES (6,'aitroddue','player');
 
 INSERT INTO Friends(friend_id, aux_friend_id) VALUES('jeszamgue', 'fravilpae');
 INSERT INTO Friends(friend_id, aux_friend_id) VALUES('fravilpae', 'jeszamgue');
-INSERT INTO Friends(friend_id, aux_friend_id) VALUES('aitroddue', 'jeszamgue');
+
+INSERT INTO Invitation(id, receiver_username, sender_username) VALUES(1, 'fravilpae', 'aitroddue');
 
 /*
 INSERT INTO jugador(id,activo,nombrereino,usosterritorio1,usosterritorio2,

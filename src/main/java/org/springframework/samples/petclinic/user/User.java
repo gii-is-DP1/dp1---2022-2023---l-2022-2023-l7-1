@@ -118,4 +118,22 @@ public class User{
 	@OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
 	private Set<Invitation> sendedInvitations = new HashSet<Invitation>();
 
+    public boolean canInvite(String username) {
+		if(getUsername().equals(username))
+			return false;
+		for(User friend : friends) 
+			if(friend.getUsername().equals(username))
+				return false;
+		for(User friend : auxFriends) 
+			if(friend.getUsername().equals(username))
+				return false;
+		for(Invitation sended : sendedInvitations) 
+			if(sended.esDelUsuario(username))
+				return false;
+		for(Invitation receiver : receivedInvitations) 
+			if(receiver.esDelUsuario(username))
+				return false;
+		return true;
+	}
+
 }

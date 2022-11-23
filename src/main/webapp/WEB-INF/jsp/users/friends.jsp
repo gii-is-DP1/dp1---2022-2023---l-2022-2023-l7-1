@@ -11,6 +11,7 @@
             <th>First Name</th>
             <th>LastName</th>
             <th>Username</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>

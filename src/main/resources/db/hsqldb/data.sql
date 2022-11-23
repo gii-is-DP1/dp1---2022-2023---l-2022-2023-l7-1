@@ -513,8 +513,9 @@ INSERT INTO users(name, last_name, username, password, birth_date, email, phone,
 VALUES ('Aitor', 'Rodriguez', 'aitroddue', 'password', '2010-09-07', 'aitroddue@alum.us.es', '954734895', 5, 3, 550, 130, 5, 7, true);
 INSERT INTO authorities(id,username,authority) VALUES (6,'aitroddue','player');
 
-
-
+INSERT INTO Friends(friend_id, aux_friend_id) VALUES('jeszamgue', 'fravilpae');
+INSERT INTO Friends(friend_id, aux_friend_id) VALUES('fravilpae', 'jeszamgue');
+INSERT INTO Friends(friend_id, aux_friend_id) VALUES('aitroddue', 'jeszamgue');
 
 /*
 INSERT INTO jugador(id,activo,nombrereino,usosterritorio1,usosterritorio2,

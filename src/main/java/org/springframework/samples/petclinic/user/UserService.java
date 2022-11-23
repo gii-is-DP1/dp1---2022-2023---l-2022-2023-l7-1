@@ -15,7 +15,6 @@
  */
 package org.springframework.samples.petclinic.user;
 
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -91,4 +90,14 @@ public class UserService {
 	public Optional<User> findUserOptional(String username) {
 		return userRepository.findByUsernameOptional(username);
 	}
+
+	public List<User> getFriends(String username) {
+		return userRepository.getFriendsOf(username);
+	}
+
+	public void Deletefriend(String username, String username2){
+		userRepository.Deletefriend(username, username2);
+		userRepository.Deletefriend(username2, username);
+	}
+
 }

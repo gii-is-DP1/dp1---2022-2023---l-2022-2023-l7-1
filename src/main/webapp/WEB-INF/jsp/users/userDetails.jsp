@@ -34,6 +34,23 @@
         </tr>
     </table>
 
+    <tr> 
+        <td>
+            <a class="btn btn-default" href="/users/${user.username}/friends">friends</a>
+        </td>  
+    </tr>
+
+    <tr> 
+        <td>
+            <a class="btn btn-default" href="/users/${user.username}/invitations">invitations</a>
+        </td>  
+    </tr>
+
+    <tr> 
+        <td>
+            <a class="btn btn-default" href="/users/${user.username}/userEdit">Edit User</a>
+        </td>  
+    </tr>
     
 
 </petclinic:layout>

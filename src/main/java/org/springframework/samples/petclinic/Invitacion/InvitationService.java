@@ -27,7 +27,7 @@ public class InvitationService {
 		User receiver = userRepository.findById(receiver_username).get();
 		User sender = userRepository.findById(sender_username).get();
 		
-		if(receiver != null && sender.canInvite(receiver.getEmail())) {
+		if(receiver != null && sender.canInvite(receiver.getUsername())) {
 			invitationRepository.save(new Invitation(sender, receiver));
 		}
 	}

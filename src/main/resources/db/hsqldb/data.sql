@@ -513,6 +513,10 @@ INSERT INTO users(name, last_name, username, password, birth_date, email, phone,
 VALUES ('Aitor', 'Rodriguez', 'aitroddue', 'password', '2010-09-07', 'aitroddue@alum.us.es', '954734895', 5, 3, 550, 130, 5, 7, true);
 INSERT INTO authorities(id,username,authority) VALUES (6,'aitroddue','player');
 
+INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled)
+VALUES ('Ramonr', 'Guerrero', 'raymon', 'password', '2002-08-07', 'ramonguerom@alum.us.es', '954734895', 5, 3, 550, 130, 5, 7, true);
+INSERT INTO authorities(id,username,authority) VALUES (7,'aitroddue','player');
+
 INSERT INTO Friends(friend_id, aux_friend_id) VALUES('jeszamgue', 'fravilpae');
 INSERT INTO Friends(friend_id, aux_friend_id) VALUES('fravilpae', 'jeszamgue');
 

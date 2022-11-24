@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -46,6 +47,7 @@ public class User{
     String lastName;
 
     @Column(name = "password")
+    @Digits(fraction = 0, integer = 5)
     @NotEmpty
     String password;
 
@@ -115,6 +117,7 @@ public class User{
 
 	@OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
 	private Set<Invitation> receivedInvitations = new HashSet<Invitation>();
+    
 	@OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
 	private Set<Invitation> sendedInvitations = new HashSet<Invitation>();
 

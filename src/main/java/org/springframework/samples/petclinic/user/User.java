@@ -47,7 +47,6 @@ public class User{
     String lastName;
 
     @Column(name = "password")
-    @Digits(fraction = 0, integer = 5)
     @NotEmpty
     String password;
 

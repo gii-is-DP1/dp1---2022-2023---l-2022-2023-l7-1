@@ -6,8 +6,16 @@
 	uri="http://www.springframework.org/security/tags"%>
 <!--  >%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%-->
 
-<petclinic:layout pageName="home">
-    <body style="background: #e0e0e0">          
+<style>
+    body {
+        background-image: url("/resources/images/background4.png");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100% 100%;
+    }
+</style>
+
+<petclinic:layout pageName="home">         
         <div class="row">
             <sec:authorize access="isAuthenticated()">
             
@@ -40,5 +48,4 @@
             <div class="col-md-12">
             </div>
         </div>
-    </body>
 </petclinic:layout>

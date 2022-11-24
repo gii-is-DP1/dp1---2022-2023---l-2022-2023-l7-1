@@ -29,6 +29,7 @@ public class InvitationController {
 		return VIEW_INVITATIONS_LIST;
 	}
 
+    @Transactional
     @GetMapping("users/{username}/invite")
     public String getUsersToInvite(@PathVariable("username") String username, Model model) {
         List<User> users = invitationService.getAvailableUsers(username);
@@ -39,6 +40,7 @@ public class InvitationController {
 		return VIEW_AVAILABLE_INVITATIONS_LIST;
     }
 
+    @Transactional
     @GetMapping("users/{username1}/invitate/{username2}")
 	public String invitateUser(@PathVariable("username1") String username1, @PathVariable("username2") String username2 ) {
 		invitationService.sendInvitation(username1, username2);		
@@ -46,10 +48,18 @@ public class InvitationController {
 		return "redirect:/users/"+ username1;
 	}
 
+    @Transactional
     @GetMapping("users/{username}/accept/{id}")
 	public String acceptInvitation(@PathVariable("username") String username, @PathVariable Integer id ) {
 		invitationService.acceptInvitation(username, id);
 		
 		return "redirect:/users/"+username+"/friends";
 	}
+
+    @Transactional
+	@GetMapping(value = "/users/{username}/cancelInvite/{id}")
+    public String cancelInvitation(@PathVariable("username") String username, @PathVariable("id") Integer id){
+        invitationService.deleteInvitationById(id);        
+        return "redirect:/users/"+username+"/invitations";
+    }
 }

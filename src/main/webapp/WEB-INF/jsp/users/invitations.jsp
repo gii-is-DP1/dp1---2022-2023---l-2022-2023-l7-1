@@ -18,9 +18,10 @@
                 <td>
                     <c:out value="${invitation.sender.username}"/>
                 </td> 
-                <td>
+                <td style="text-align:right">
                     <a class="btn btn-default" href="/users/${invitation.receiver.username}/accept/${invitation.id}">Accept Invitation</a>
-                </td>  
+                    <a class="btn btn-default" href="/users/${invitation.receiver.username}/cancelInvite/${invitation.id}">Cancel Invitation</a>
+                </td> 
             </tr>
         </c:forEach>
         </tbody>

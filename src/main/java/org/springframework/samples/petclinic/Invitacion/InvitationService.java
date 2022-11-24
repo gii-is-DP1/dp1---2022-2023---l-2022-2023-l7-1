@@ -42,6 +42,11 @@ public class InvitationService {
 		}
 	}
 
+	@Transactional
+	public void deleteInvitationById(Integer id){
+        invitationRepository.deleteById(id);
+    }
+
     @Transactional
     public List<User> getAvailableUsers(String username) {
         List<User> users = userRepository.findAll();

@@ -83,10 +83,10 @@ class UserServiceTests {
         List<User> list = this.userService.getFriends(user.getUsername());
         boolean listEmpty = list.isEmpty();
         assertThat(listEmpty).isTrue();
-        List<User> list2 = this.userService.getFriends(JESZAMGUE); //user jeszamgue has 2 friends
+        List<User> list2 = this.userService.getFriends(JESZAMGUE); //user jeszamgue has 1 friend
         boolean listNotEmpty = !list2.isEmpty();
         assertThat(listNotEmpty).isTrue();
-        boolean friends = list2.size()==2;
+        boolean friends = list2.size()==1;
         assertThat(friends).isTrue();
     }
 

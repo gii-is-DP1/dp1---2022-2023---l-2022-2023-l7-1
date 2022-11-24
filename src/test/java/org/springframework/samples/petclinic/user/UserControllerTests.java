@@ -214,5 +214,45 @@ public class UserControllerTests {
 		.andExpect(view().name("users/userStats"));
 	}
 
+	@WithMockUser(value = "spring")
+	@Test
+	void testInitFindForm() throws Exception {
+		mockMvc.perform(get("/users/find")).andExpect(status().isOk())
+		.andExpect(model().attributeExists("user"))
+		.andExpect(view().name("users/findUsers"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testShowUser() throws Exception {
+		mockMvc.perform(get("/users/{username}", USER_USERNAME)).andExpect(status().isOk())
+		.andExpect(model().attributeExists("user"))
+		.andExpect(view().name("users/userDetails"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testShowFriends() throws Exception {
+		mockMvc.perform(get("/users/{username}/friends", USER_USERNAME)).andExpect(status().isOk())
+		.andExpect(model().attributeExists("friends"))
+		.andExpect(model().attributeExists("user"))
+		.andExpect(view().name("users/friends"));
+	}
+
+	/*@WithMockUser(value = "spring")
+	@Test
+	void testDeleteFriend() throws Exception {
+		User user1 = userService.getUserById("fravilpae");
+		User user2 = userService.getUserById("jeszamgue");
+		String USERNAME1 = user1.getUsername();
+		String USERNAME2 = user2.getUsername();
+		mockMvc.perform(get("/users/{username}/friends/{username2}/delete", USERNAME1, USERNAME2).with(csrf())).andExpect(status().is3xxRedirection())
+				.andExpect(model().attributeExists("user"))
+				.andExpect(model().attributeDoesNotExist("friends"))
+				.andExpect(view().name("redirect:/users/"+USERNAME1+"/friends"));
+		boolean user0 = this.userService.getUserById(USERNAME2).getFriends().isEmpty();
+		assertThat(user0).isTrue();
+
+	}   ARREGLAR TEST, NO SE POR QUE FALLA*/
 }
     

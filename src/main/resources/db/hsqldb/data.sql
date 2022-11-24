@@ -498,7 +498,7 @@ VALUES ('ow', 'ner', 'owner1', '0wn3r', '2010-09-07', 'owner@gmail.com', '954734
 INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','player');
 -- One vet user, named vet1 with passwor v3t
 INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled) 
-VALUES ('vete', 'rinary', 'vet1', 'v3t', '2010-09-07', 'vet@gmail.com', '954734895', 5, 3, 550, 130, 5, 7, true);
+VALUES ('vete', 'rinary', 'vet1', 'v3t02', '2010-09-07', 'vet@gmail.com', '954734895', 5, 3, 550, 130, 5, 7, true);
 INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','player');
 -- Owner user
 INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled) 
@@ -513,8 +513,14 @@ INSERT INTO users(name, last_name, username, password, birth_date, email, phone,
 VALUES ('Aitor', 'Rodriguez', 'aitroddue', 'password', '2010-09-07', 'aitroddue@alum.us.es', '954734895', 5, 3, 550, 130, 5, 7, true);
 INSERT INTO authorities(id,username,authority) VALUES (6,'aitroddue','player');
 
+INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled)
+VALUES ('Ramonr', 'Guerrero', 'raymon', 'password', '2002-08-07', 'ramonguerom@alum.us.es', '954734895', 5, 3, 550, 130, 5, 7, true);
+INSERT INTO authorities(id,username,authority) VALUES (7,'aitroddue','player');
 
+INSERT INTO Friends(friend_id, aux_friend_id) VALUES('jeszamgue', 'fravilpae');
+INSERT INTO Friends(friend_id, aux_friend_id) VALUES('fravilpae', 'jeszamgue');
 
+INSERT INTO Invitation(id, receiver_username, sender_username) VALUES(1, 'fravilpae', 'aitroddue');
 
 /*
 INSERT INTO jugador(id,activo,nombrereino,usosterritorio1,usosterritorio2,

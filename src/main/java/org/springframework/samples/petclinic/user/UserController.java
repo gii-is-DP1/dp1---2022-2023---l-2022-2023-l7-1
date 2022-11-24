@@ -15,7 +15,6 @@
  */
 package org.springframework.samples.petclinic.user;
 
-import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,6 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -52,6 +50,7 @@ public class UserController {
 	private static final String VIEW_USERNAME_EDITING = "users/userEdit";
     private static final String VIEW_FIND_USER = "users/findUsers";
     private static final String VIEW_USER_DETAILS = "users/userDetails";
+    private static final String VIEW_USER_FRIENDS = "users/friends";
 
 
 	private final UserService userService;
@@ -94,7 +93,7 @@ public class UserController {
 		else {
             try{
                 this.userService.saveUser(user);
-                this.authoritiesService.saveAuthorities(user.username, "owner");
+                this.authoritiesService.saveAuthorities(user.username, "player");
             }catch(DuplicatedUsernameException ex){
                 result.rejectValue("username", "duplicate", "already exists");
                 return VIEWS_USER_CREATE_UPDATE_FORM;
@@ -128,7 +127,7 @@ public class UserController {
             user.setUsername(username);
             User userToBeUpdated=userService.getUserById(username);
             BeanUtils.copyProperties(user,userToBeUpdated,
-        "winRatio", "matchesPlayed", "gamesWin", "totalPoints", "maxPoints", "timesUsedPowerQuestion", "timesUsedPower1");
+        "winRatio", "matchesPlayed", "gamesWin", "totalPoints", "maxPoints", "timesUsedPowerQuestion", "timesUsedPower1", "friends");
             userService.saveUser(userToBeUpdated);
         return "redirect:/users/all";
         }
@@ -151,7 +150,7 @@ public class UserController {
         } else {
         User usernameToBeUpdated=userService.getUserById(username);
         BeanUtils.copyProperties(user,usernameToBeUpdated, 
-         "winRatio", "matchesPlayed", "gamesWin", "totalPoints", "maxPoints", "timesUsedPowerQuestion", "timesUsedPower1");
+         "winRatio", "matchesPlayed", "gamesWin", "totalPoints", "maxPoints", "timesUsedPowerQuestion", "timesUsedPower1", "friends");
         userService.saveUser(usernameToBeUpdated);
         return "redirect:/";
         }
@@ -191,7 +190,7 @@ public class UserController {
     @Transactional
     @GetMapping(value = "/users")
 	public String processFindForm(User user, BindingResult result, Map<String, Object> model) {
-
+        
 		// allow parameterless GET request for /users to return all records
 		if (user.getUsername() == null) {
 			user.setUsername(""); // empty string signifies broadest possible search
@@ -215,5 +214,22 @@ public class UserController {
 			return VIEW_USER_LISTING;
 		}
 	}
+
+    @Transactional
+    @GetMapping("/users/{username}/friends")
+	public ModelAndView showFriends(@PathVariable("username") String username) {
+		List<User> friends = userService.getFriends(username);
+		ModelAndView mav = new ModelAndView(VIEW_USER_FRIENDS);
+		mav.addObject("friends", friends);
+		mav.addObject("user", this.userService.findUserOptional(username).get());
+		return mav;
+	}
+
+	@Transactional
+	@GetMapping(value = "/users/{username}/friends/{username2}/delete")
+    public String deleteFriend(@PathVariable String username, @PathVariable String username2){
+        userService.Deletefriend(username, username2);        
+        return "redirect:/users/"+username+"/friends";
+    }
 
 }

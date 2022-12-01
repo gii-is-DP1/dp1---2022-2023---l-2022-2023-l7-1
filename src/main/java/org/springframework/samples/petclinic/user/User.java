@@ -58,7 +58,7 @@ public class User{
 
     @Column(name = "email")
     @NotEmpty
-    @Email
+    @Email(regexp = ".+[@].+[\\.].+")
     String email;
 
     @Column(name = "phone")
@@ -109,10 +109,10 @@ public class User{
 	@JoinTable(name="friends",
 			joinColumns= {@JoinColumn(name="friend_id")},
 			inverseJoinColumns = {@JoinColumn(name="aux_friend_id")})
-	private Set<User> friends = new HashSet<User>();  //Set de mis amigos
+	private Set<User> friends = new HashSet<User>();  //Set de mis amigos de un user
 
     @ManyToMany(mappedBy="friends", cascade = {CascadeType.PERSIST , CascadeType.REFRESH, CascadeType.REMOVE})
-	private Set<User> auxFriends = new HashSet<User>(); //amigos de mis amigos
+	private Set<User> auxFriends = new HashSet<User>(); //quienes son amigos de un user
 
 	@OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
 	private Set<Invitation> receivedInvitations = new HashSet<Invitation>();

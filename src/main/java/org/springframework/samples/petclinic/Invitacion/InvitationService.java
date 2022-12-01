@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.Invitacion;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.user.User;
@@ -17,6 +18,10 @@ public class InvitationService {
 	
 	@Autowired
 	private UserRepository userRepository;
+
+	public Optional<Invitation> geInvitationByID(Integer id){
+		return invitationRepository.findById(id);	
+	}
 
     public List<Invitation> getInvitationsOf(String username) {
 		return invitationRepository.getInvitationsOf(username);

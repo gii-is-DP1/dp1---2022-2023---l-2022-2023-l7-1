@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.user;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -85,6 +86,17 @@ public class UserService {
 
 	public Collection<User> findUser(String username) {
 		return userRepository.findByUsername(username);
+	}
+
+	public List<User> findUsers(String username) {
+		List<User> users =userRepository.findAll();
+		List<User> res = new ArrayList<>();
+		for(User user : users){
+			if(user.getUsername().contains(username)){
+				res.add(user);
+			}
+		}
+		return res;
 	}
 
 	public Optional<User> findUserOptional(String username) {

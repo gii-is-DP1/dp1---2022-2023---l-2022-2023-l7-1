@@ -197,7 +197,7 @@ public class UserController {
 		}
 
 		// find users by user name
-		Collection<User> results = this.userService.findUser(user.getUsername());
+		List<User> results = this.userService.findUsers(user.getUsername());
 		if (results.isEmpty()) {
 			// no users found
 			result.rejectValue("username", "notFound", "not found");
@@ -210,7 +210,7 @@ public class UserController {
 		}
 		else {
 			// multiple users found
-			model.put("selections", results);
+			model.put("users", results);
 			return VIEW_USER_LISTING;
 		}
 	}

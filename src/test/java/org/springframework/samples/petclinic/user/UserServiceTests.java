@@ -104,4 +104,16 @@ class UserServiceTests {
         boolean AreNOtFriends = !(list.contains(jeszamgue) && list2.contains(fravilpae));
         assertThat(AreNOtFriends).isTrue();
     }
+
+    @Test
+    void shoulFindUsers() throws DataAccessException, DuplicatedUsernameException{
+        this.userService.saveUser(user);
+		List<User> user = this.userService.findUsers("diegarlin");
+		assertThat(user.size()==1);
+        assertThat(user.get(0).getUsername()== "diegarlin");
+        List<User> user2 = this.userService.findUsers("bkvewbovcobuwevoew");
+        assertThat(user2.size()==0);
+        List<User> users = this.userService.findUsers("");
+        assertThat(users.size()>1);
+    }
 }

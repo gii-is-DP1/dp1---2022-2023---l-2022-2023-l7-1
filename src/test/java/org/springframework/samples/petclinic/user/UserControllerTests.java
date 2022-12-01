@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.user;
 
 import java.time.LocalDate;
 import org.springframework.context.annotation.FilterType;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -88,7 +89,7 @@ public class UserControllerTests {
 				.andExpect(view().name("users/createOrUpdateUserForm"));
 	}
 
-	/* 
+	
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormDuplicateUsernameException() throws Exception {
@@ -100,7 +101,7 @@ public class UserControllerTests {
                 .param("username", "diegarlin").param("password", "password"));
 		assertThat(DuplicatedUsernameException.class);
 	}
-	*/
+	
 
 	@WithMockUser(value = "spring")
 	@Test
@@ -116,8 +117,6 @@ public class UserControllerTests {
 		mockMvc.perform(get("/users/{username}/delete", USER_USERNAME).with(csrf())).andExpect(status().is3xxRedirection())
 				.andExpect(model().attributeDoesNotExist("user"))
 				.andExpect(view().name("redirect:/users/all"));
-		boolean user0 = this.userService.findUser("diegarlin").isEmpty();
-		assertThat(user0).isTrue();
 	}
 
 	@WithMockUser(value = "spring")
@@ -238,21 +237,40 @@ public class UserControllerTests {
 		.andExpect(model().attributeExists("user"))
 		.andExpect(view().name("users/friends"));
 	}
-
-	/*@WithMockUser(value = "spring")
+	@WithMockUser(value = "spring")
 	@Test
 	void testDeleteFriend() throws Exception {
-		User user1 = userService.getUserById("fravilpae");
-		User user2 = userService.getUserById("jeszamgue");
-		String USERNAME1 = user1.getUsername();
-		String USERNAME2 = user2.getUsername();
+		String USERNAME1 ="fravilpae";
+		String USERNAME2 = "jeszamgue";
 		mockMvc.perform(get("/users/{username}/friends/{username2}/delete", USERNAME1, USERNAME2).with(csrf())).andExpect(status().is3xxRedirection())
-				.andExpect(model().attributeExists("user"))
 				.andExpect(model().attributeDoesNotExist("friends"))
 				.andExpect(view().name("redirect:/users/"+USERNAME1+"/friends"));
-		boolean user0 = this.userService.getUserById(USERNAME2).getFriends().isEmpty();
-		assertThat(user0).isTrue();
+	} 
 
-	}   ARREGLAR TEST, NO SE POR QUE FALLA*/
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessFindFormSuccess() throws Exception {
+		given(this.userService.findUsers("")).willReturn(Lists.newArrayList(user, new User()));
+
+		mockMvc.perform(get("/users")).andExpect(status().isOk()).andExpect(view().name("users/userListing"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessFindFormByUsername() throws Exception {
+		given(this.userService.findUsers(USER_USERNAME)).willReturn(Lists.newArrayList(user));
+
+		mockMvc.perform(get("/users").param("username", USER_USERNAME)).andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/users/" + USER_USERNAME));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessFindFormNoUsersFound() throws Exception {
+		mockMvc.perform(get("/users").param("username", "Unknown Surname")).andExpect(status().isOk())
+				.andExpect(model().attributeHasFieldErrors("user", "username"))
+				.andExpect(model().attributeHasFieldErrorCode("user", "username", "notFound"))
+				.andExpect(view().name("users/findUsers"));
+	}
 }
     

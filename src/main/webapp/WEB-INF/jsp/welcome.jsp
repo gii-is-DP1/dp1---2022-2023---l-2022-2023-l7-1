@@ -36,7 +36,8 @@
                     <a class="btn btn-default" href="${stats}">VER ESTADISTICAS</a>
                     </sec:authorize>
                  </div>
-                 <spring:url value="crearPartida" htmlEscape="true" var="crear">
+                 <spring:url value="{username}/crearPartida" htmlEscape="true" var="crear">
+                    <spring:param name="username" value="${username}" />
                  </spring:url>
                  <div class="col-sm-offset-2 col-sm-10">
                     <a class="btn btn-default" href="${crear}">CREAR PARTIDA</a>

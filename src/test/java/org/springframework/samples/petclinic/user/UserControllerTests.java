@@ -237,7 +237,6 @@ public class UserControllerTests {
 		.andExpect(model().attributeExists("user"))
 		.andExpect(view().name("users/friends"));
 	}
-
 	@WithMockUser(value = "spring")
 	@Test
 	void testDeleteFriend() throws Exception {
@@ -273,6 +272,5 @@ public class UserControllerTests {
 				.andExpect(model().attributeHasFieldErrorCode("user", "username", "notFound"))
 				.andExpect(view().name("users/findUsers"));
 	}
-
 }
     

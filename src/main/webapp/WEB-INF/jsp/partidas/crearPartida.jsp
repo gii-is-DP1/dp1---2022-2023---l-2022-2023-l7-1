@@ -8,6 +8,8 @@
     function mostrarForm(){ 
     var formulario = document.getElementById('Invitation');
     formulario.style.display = "block";  
+    formulario.style.height = "50px";
+    formulario.style.width = "300px";
 }
 </script>
 
@@ -23,10 +25,11 @@
             <input type=button class="btn btn-default" onclick="mostrarForm()" value="MODO MULTIJUGADOR"/>
 	                <div id="Invitation" style="display: none;" class="modal-content">
                 <form name="Invitation" >
-                        <div class="form-group">
-                            <form:input class="form-control" path="username" size="30" maxlength="80" placeholder="Friend's username"/>
-                        </div>
-	            <button type="submit" class="btn btn-default">Add player</button>
+                    <spring:url value="/${username}/lobby" htmlEscape="true" var="invite">
+                     </spring:url>
+                     <div class="col-sm-offset-2 col-sm-10">
+                        <a class="btn btn-default" href="${invite}">INVITAR</a>
+                     </div>
 		        </form>
         </div>
     </form:form>

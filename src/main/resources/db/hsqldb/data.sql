@@ -498,7 +498,8 @@ INSERT INTO Friends(friend_id, aux_friend_id) VALUES('fravilpae', 'jeszamgue');
 
 INSERT INTO Invitation(id, receiver_username, sender_username) VALUES(1, 'fravilpae', 'aitroddue');
 
-INSERT INTO PARTIDAS(id_tablero2,id_tablero3, id_tablero4, id_criterioa1, id_criterioa2, id_criteriob1, id_criteriob2, fecha) VALUES(1,1,1,1,1,1,1, '2022-12-01');
+INSERT INTO PARTIDAS(id_tablero2,id_tablero3, id_tablero4, id_criterioa1, id_criterioa2, id_criteriob1, id_criteriob2, fecha)
+ VALUES(1,1,1,1,1,1,1, '2022-12-01');
 
 INSERT INTO tablero(id, partida_id, idpoderes, puntos, user_username) VALUES(1,1,1,1,'aitroddue');
 

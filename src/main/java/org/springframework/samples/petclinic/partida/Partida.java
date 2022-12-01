@@ -13,7 +13,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -32,12 +34,11 @@ public class Partida {
 	protected Integer id;
 
     @Column(name = "fecha")
-    @NotEmpty
-    @DateTimeFormat(iso = ISO.DATE)
+    @NotNull
+    @DateTimeFormat(iso = ISO.DATE_TIME)
     LocalDateTime dateTime;
-   
     
-    @NotEmpty
+    
     @OneToMany
     @JoinTable(name = "PARTIDAS_TABLEROS",
         joinColumns = @JoinColumn(name="PARTIDA_ID", referencedColumnName = "id"),
@@ -55,19 +56,19 @@ public class Partida {
 
     
     @Column(name = "IdCriterioA1")
-    @NotEmpty
+    @NotNull
     Integer idCriterioA1;
 
     @Column(name = "IdCriterioA2")
-    @NotEmpty
+    @NotNull
     Integer idCriterioA2;
 
     @Column(name = "IdCriterioB1")
-    @NotEmpty
+    @NotNull
     Integer idCriterioB1;
 
     @Column(name = "IdCriterioB2")
-    @NotEmpty
+    @NotNull
     Integer idCriterioB2;
     
 }

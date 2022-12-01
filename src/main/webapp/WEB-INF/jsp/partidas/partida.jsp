@@ -13,13 +13,11 @@
 
 
 <petclinic:layout pageName="CREAR PARTIDA">
-    <form:form>
-        <form name="Invitation" >
-            <div class="form-group">
-                <form:input class="form-control" path="username" size="30" maxlength="80" placeholder="Friend's username"/>
-            </div>
-    <button type="submit" class="btn btn-default">Add player</button>
-    </form>
-    </form:form>
+    
+    <form method = "post">
+        <button class="btn btn-default" href="/partida1" type = "submit">Upvote</button>
+    <form>
+   
+   
 
 </petclinic:layout>

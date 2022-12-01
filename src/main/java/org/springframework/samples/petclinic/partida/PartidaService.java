@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.partida;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,20 @@ public class PartidaService {
    }
 
    public void crearPartidaSolitario(User user){
+   
+      Partida p = new Partida();
 
-      Turno turno = new Turno();
+      p.setDateTime(LocalDateTime.now());
+      p.setIdCriterioA1(1);
+      p.setIdCriterioA2(2);
+      p.setIdCriterioB1(1);
+      p.setIdCriterioB2(2);
+      partidaRepo.save(p);
+
+  
+      
+      
+      /*Turno turno = new Turno();
       
       Tablero t = new Tablero();
       
@@ -52,6 +65,6 @@ public class PartidaService {
 
       partidaRepo.save(p);
       tableroService.saveTablero(t);
-      turnoService.saveTurno(turno);
+      turnoService.saveTurno(turno);*/
    }
 }

@@ -35,17 +35,18 @@ public class PartidaController {
     @Transactional
 	@GetMapping(value = "/partida")
 	public ModelAndView getpartidaSolitaria(){
+        User aitor = userservice.getUserById("fravilpae");
+		this.service.crearPartidaSolitario(aitor);
         ModelAndView res = new ModelAndView("partidas/partida");
 		return res;
 	}
 
-    @Transactional
+   /*  @Transactional
 	@PostMapping(value = "/partida")
-	public ModelAndView partidaSolitaria(){
-        User aitor = userservice.getUserById("aitroddue");
-		this.service.crearPartidaSolitario(aitor);
-        ModelAndView res = new ModelAndView("welcome");
-		return res;
-	}
+	public String  partidaSolitaria(){
+        
+        //ModelAndView res = new ModelAndView("welcome");
+		return "redirect:/welcome";
+	}*/
 
 }

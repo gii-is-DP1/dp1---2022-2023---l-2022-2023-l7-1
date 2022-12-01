@@ -4,12 +4,18 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.model.NamedEntity;
+import org.springframework.samples.petclinic.partida.Partida;
+import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.util.Territorio;
 
 import lombok.Getter;
@@ -24,8 +30,8 @@ import lombok.Builder.Default;
 public class Tablero extends BaseEntity{
     
     @NotEmpty
-    @Column(name = "idpartida")
-    private Integer idPartida;
+    @ManyToOne(optional = false, targetEntity = Partida.class)
+    private Partida partida;
 
     @NotEmpty
     @Column(name = "idpoderes")
@@ -34,4 +40,8 @@ public class Tablero extends BaseEntity{
     @NotEmpty
     @Column(columnDefinition = "integer default 0")
     private Integer puntos;
+
+    @NotEmpty
+    @OneToOne(optional = false)
+    private User user;
 }

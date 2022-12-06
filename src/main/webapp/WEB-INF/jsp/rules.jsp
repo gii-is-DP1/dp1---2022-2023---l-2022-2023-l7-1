@@ -64,8 +64,7 @@
         <p id="p0">-Se toman los 3 dados de nuevo y comienza una nueva ronda.</p>  
     </h4>
     <p><strong>Video explicativo si tiene alguna duda:</strong></p>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/ktpGHfoNuZI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/EXVKaqZB4MQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 

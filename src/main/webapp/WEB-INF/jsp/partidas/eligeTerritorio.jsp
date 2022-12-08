@@ -2,10 +2,10 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<html  >
+<petclinic:layout pageName="CREAR PARTIDA">
+    <h2>CREACION DE PARTIDAS</h2>
     <head>
         <style>
            /* body {
@@ -23,15 +23,23 @@
                 <petclinic:territorio accion="${accion}"/>
             </c:forEach>    
         </petclinic:mapa>
-        <div class="col-sm-offset-2 col-sm-10">
-            <input type=button class="btn btn-default" onclick="mostrarForm()" value="MODO MULTIJUGADOR"/>
-	                <div id="Invitation" style="display: none;" class="modal-content">
-                <form name="Invitation" >
-                        <div class="form-group">
-                            <form:input class="form-control" path="username" size="30" maxlength="80" placeholder="Friend's username"/>
-                        </div>
-	            <button type="submit" class="btn btn-default">Add player</button>
-		        </form>
-        </div>
+
+        
+        
     </body>
-</html>
+    <form:form>
+        <div class="col-sm-offset-2 col-sm-10">
+            <form name = "SeleccionarTerritorio" ><select name="Territorios" size = "1">
+                <c:forEach items="${territorios}" var="territorio" varStatus="loop">
+                    <option value="${loop.index}">
+                        ${territorio}
+                    </option>
+                </c:forEach>
+            </select> 
+            <button type="submit" class="btn btn-default">Seleccionar</button>  
+            </form>
+                
+        </div>
+    </form:form>
+
+</petclinic:layout>

@@ -44,4 +44,16 @@ public class Tablero extends BaseEntity{
     @NotNull
     @ManyToOne(optional = false)
     private User user;
+
+    private Integer Usos0;
+    
+    private Integer Usos1;
+    
+    private Integer Usos2;
+    
+    private Integer Usos3;
+    
+    private Integer Usos4;
+
+    private Integer Usos5;
 }

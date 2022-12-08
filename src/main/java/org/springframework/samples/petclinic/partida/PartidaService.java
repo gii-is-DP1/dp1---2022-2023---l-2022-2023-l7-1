@@ -38,7 +38,7 @@ public class PartidaService {
       Tablero tablero = new Tablero();
 
       Partida p = new Partida();
-
+      
       p.setDateTime(LocalDateTime.now());
       p.setIdCriterioA1(1);
       p.setIdCriterioA2(2);
@@ -49,11 +49,23 @@ public class PartidaService {
       tablero.setPartida(p);
       tablero.setUser(user);
       tablero.setPuntos(0);
+      tablero.setUsos0(3);
+      tablero.setUsos1(3);
+      tablero.setUsos2(3);
+      tablero.setUsos3(3);
+      tablero.setUsos4(3);
+      tablero.setUsos5(3);
       tableroService.saveTablero(tablero);
 
       turno.setTablero(tablero);
       turnoService.saveTurno(turno);
   
       return List.of(p.getId(),turno.getId());
+
    }
+
+   public void eligeTerritorio(){
+      
+   }
+   
 }

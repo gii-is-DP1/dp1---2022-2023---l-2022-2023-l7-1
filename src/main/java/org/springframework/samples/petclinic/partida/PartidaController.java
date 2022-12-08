@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
+import org.springframework.samples.petclinic.util.Territorio;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,8 @@ public class PartidaController {
 
     private static final String VIEW_CREAR_PARTIDA = "partidas/crearPartida";
     private static final String VIEW_ELIGE_TERRITORIO = "partidas/eligeTerritorio";
-    
+    private static final List<Territorio> listaTerritorios = List.of(Territorio.BOSQUE, Territorio.CASTILLO, Territorio.MONTANA, Territorio.POBLADO, Territorio.PRADERA, Territorio.RIO);
+
     private PartidaService partidaService;
     private UserService userService;
 
@@ -53,6 +55,7 @@ public class PartidaController {
     public ModelAndView eligeTerritorio(@PathVariable("idpartida") Integer idpartida, @PathVariable("idturno") Integer idturno){
 
         ModelAndView res = new ModelAndView(VIEW_ELIGE_TERRITORIO);
+        res.addObject("territorios", listaTerritorios);
         return res;
     }
 

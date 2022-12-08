@@ -37,9 +37,9 @@ public class PartidaService {
       int i = 0, cantidad = 2, rango = 6;
       int arreglo[] = new int[cantidad];
 
-      arreglo[i] = (int)(Math.random()*rango);
+      arreglo[i] = (int)(Math.random()*rango + 1);
       for(i=1; i < cantidad; i++){
-         arreglo[i] = (int)(Math.random()*rango);
+         arreglo[i] = (int)(Math.random()*rango + 1);
          for(int j=0; j < 1; j++){
             if(arreglo[i] == arreglo[j]){
                i--;

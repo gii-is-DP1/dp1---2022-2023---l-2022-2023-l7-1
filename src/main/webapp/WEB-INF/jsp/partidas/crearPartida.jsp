@@ -17,7 +17,7 @@
     <form:form>
         <h3>SELECCIONA MODO DE JUEGO</h3>
         <div class="col-sm-offset-2 col-sm-10">
-            <a class="btn btn-default" href="/prueba"  formmethod=" post">MODO SOLITARIO</a>
+            <a class="btn btn-default" href="crearPartidaSolitaria"  formmethod=" post">MODO SOLITARIO</a>
         </div>
         <div class="col-sm-offset-2 col-sm-10">
             <input type=button class="btn btn-default" onclick="mostrarForm()" value="MODO MULTIJUGADOR"/>

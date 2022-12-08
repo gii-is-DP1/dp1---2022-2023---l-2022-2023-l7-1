@@ -33,7 +33,6 @@ public class Tablero extends BaseEntity{
     @ManyToOne(optional = false, targetEntity = Partida.class)
     private Partida partida;
 
- 
     
     @Column(name = "idpoderes")
     private Integer idPoderes;
@@ -43,6 +42,6 @@ public class Tablero extends BaseEntity{
     private Integer puntos;
 
     @NotNull
-    @OneToOne(optional = false, )
+    @ManyToOne(optional = false)
     private User user;
 }

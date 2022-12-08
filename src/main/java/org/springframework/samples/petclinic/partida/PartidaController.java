@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.partida;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +10,12 @@ import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@RequestMapping("/partida")
 public class PartidaController {
 
     private static final String VIEW_CREAR_PARTIDA = "partidas/crearPartida";
@@ -33,13 +38,19 @@ public class PartidaController {
 	}
 
     @Transactional
-	@GetMapping(value = "/prueba")
-	public ModelAndView getpartidaSolitaria(){
+	@GetMapping(value = "/crearPartidaSolitaria")// tenenmos que coger el usuario que esté con la sesión iniciada
+	public String getpartidaSolitaria(){
         User fran = userservice.getUserById("aitroddue");
-		this.service.crearPartidaSolitario(fran);
-        ModelAndView res = new ModelAndView("partidas/partida");
-		return res;
+		List<Integer> x = this.service.crearPartidaSolitario(fran);
+        ModelAndView res = new ModelAndView("partidas/partida"); 
+		return "redirect:/partida/eligeTerritorio/"+x.get(0)+"/"+x.get(1);
 	}
+
+    @Transactional  
+    @GetMapping(value = "eligeTerritorio/{idpartida}/{idturno}")
+    public String eligeTerritorio(){
+        return "redirect:/p";
+    }
 
    /*  @Transactional
 	@PostMapping(value = "/partida")

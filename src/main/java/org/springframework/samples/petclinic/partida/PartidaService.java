@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.partida;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.tablero.Tablero;
@@ -31,7 +32,7 @@ public class PartidaService {
     this.turnoService = turnoService;
    }
 
-   public void crearPartidaSolitario(User user){
+   public List<Integer> crearPartidaSolitario(User user){
       Turno turno = new Turno();
 
       Tablero tablero = new Tablero();
@@ -53,5 +54,6 @@ public class PartidaService {
       turno.setTablero(tablero);
       turnoService.saveTurno(turno);
   
+      return List.of(p.getId(),turno.getId());
    }
 }

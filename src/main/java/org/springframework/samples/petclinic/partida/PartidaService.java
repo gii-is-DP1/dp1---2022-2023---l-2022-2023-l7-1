@@ -32,7 +32,27 @@ public class PartidaService {
     this.turnoService = turnoService;
    }
 
+   public int[] criterioAleatorio(){
+
+      int i = 0, cantidad = 2, rango = 6;
+      int arreglo[] = new int[cantidad];
+
+      arreglo[i] = (int)(Math.random()*rango);
+      for(i=1; i < cantidad; i++){
+         arreglo[i] = (int)(Math.random()*rango);
+         for(int j=0; j < 1; j++){
+            if(arreglo[i] == arreglo[j]){
+               i--;
+            }
+         }
+      }
+      return arreglo;
+   }
+
+   
    public List<Integer> crearPartidaSolitario(User user){
+      int[] criteriosA = criterioAleatorio();
+      int[] criteriosB = criterioAleatorio();
       Turno turno = new Turno();
 
       Tablero tablero = new Tablero();
@@ -40,10 +60,12 @@ public class PartidaService {
       Partida p = new Partida();
       
       p.setDateTime(LocalDateTime.now());
-      p.setIdCriterioA1(1);
-      p.setIdCriterioA2(2);
-      p.setIdCriterioB1(1);
-      p.setIdCriterioB2(2);
+      
+      p.setIdCriterioA1(criteriosA[0]);
+      p.setIdCriterioA2(criteriosA[1]);
+
+      p.setIdCriterioB1(criteriosB[0]);
+      p.setIdCriterioB2(criteriosB[1]);
       partidaRepo.save(p);
 
       tablero.setPartida(p);

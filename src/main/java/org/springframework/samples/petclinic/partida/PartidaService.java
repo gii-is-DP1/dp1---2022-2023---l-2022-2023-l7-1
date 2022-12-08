@@ -32,7 +32,10 @@ public class PartidaService {
    }
 
    public void crearPartidaSolitario(User user){
-   
+      Turno turno = new Turno();
+
+      Tablero tablero = new Tablero();
+
       Partida p = new Partida();
 
       p.setDateTime(LocalDateTime.now());
@@ -42,29 +45,13 @@ public class PartidaService {
       p.setIdCriterioB2(2);
       partidaRepo.save(p);
 
+      tablero.setPartida(p);
+      tablero.setUser(user);
+      tablero.setPuntos(0);
+      tableroService.saveTablero(tablero);
+
+      turno.setTablero(tablero);
+      turnoService.saveTurno(turno);
   
-      
-      
-      /*Turno turno = new Turno();
-      
-      Tablero t = new Tablero();
-      
-      Partida p = new Partida();
-
-      p.setDateTime(LocalDateTime.now());
-      p.setIdCriterioA1(1);
-      p.setIdCriterioA2(2);
-      p.setIdCriterioB1(1);
-      p.setIdCriterioB2(2);
-      p.getTableros().add(t);
-
-      t.setPartida(p);
-      t.setUser(user);      
-      
-      turno.setTablero(t);
-
-      partidaRepo.save(p);
-      tableroService.saveTablero(t);
-      turnoService.saveTurno(turno);*/
    }
 }

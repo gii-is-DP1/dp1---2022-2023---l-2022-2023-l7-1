@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
-
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.samples.petclinic.model.BaseEntity;
@@ -29,19 +29,20 @@ import lombok.Builder.Default;
 @Table(name = "tablero")
 public class Tablero extends BaseEntity{
     
-    @NotEmpty
+    @NotNull
     @ManyToOne(optional = false, targetEntity = Partida.class)
     private Partida partida;
 
-    @NotEmpty
+ 
+    
     @Column(name = "idpoderes")
     private Integer idPoderes;
 
-    @NotEmpty
+    @NotNull
     @Column(columnDefinition = "integer default 0")
     private Integer puntos;
 
-    @NotEmpty
-    @OneToOne(optional = false)
+    @NotNull
+    @OneToOne(optional = false, )
     private User user;
 }

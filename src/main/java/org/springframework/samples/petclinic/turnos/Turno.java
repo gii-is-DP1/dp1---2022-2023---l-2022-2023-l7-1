@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.samples.petclinic.model.BaseEntity;
@@ -22,7 +23,7 @@ public class Turno extends BaseEntity{
     @ManyToOne
     private Tablero tablero;
 
-    @NotEmpty
+    
     @Column(name = "numTerritoriosJ1")
     private Integer numTerritoriosJ1;
 
@@ -35,7 +36,7 @@ public class Turno extends BaseEntity{
     @Column(name = "numTerritoriosJ4")
     private Integer numTerritoriosJ4;
 
-    @NotEmpty
+    
     private Territorio territorio;
 
     public String toString(){

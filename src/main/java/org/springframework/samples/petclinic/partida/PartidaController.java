@@ -33,10 +33,10 @@ public class PartidaController {
 	}
 
     @Transactional
-	@GetMapping(value = "/partida")
+	@GetMapping(value = "/prueba")
 	public ModelAndView getpartidaSolitaria(){
-        User aitor = userservice.getUserById("fravilpae");
-		this.service.crearPartidaSolitario(aitor);
+        User fran = userservice.getUserById("aitroddue");
+		this.service.crearPartidaSolitario(fran);
         ModelAndView res = new ModelAndView("partidas/partida");
 		return res;
 	}

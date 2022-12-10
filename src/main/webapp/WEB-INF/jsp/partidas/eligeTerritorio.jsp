@@ -2,6 +2,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="CREAR PARTIDA">
@@ -25,21 +27,16 @@
         </petclinic:mapa>
 
         
-        
-    </body>
-    <form:form>
-        <div class="col-sm-offset-2 col-sm-10">
-            <form name = "SeleccionarTerritorio" ><select name="Territorios" size = "1">
-                <c:forEach items="${territorios}" var="territorio" varStatus="loop">
-                    <option value="${loop.index}">
-                        ${territorio}
-                    </option>
-                </c:forEach>
-            </select> 
-            <button type="submit" class="btn btn-default">Seleccionar</button>  
-            </form>
-                
+        <form:form modelAttribute="turno" class="form-horizontal">
+        <div class="form-group has-feedback">
+            <petclinic:inputField label="First Name" name="territorio"/>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-default" type="submit">Confirm</button>
+            </div>
         </div>
     </form:form>
-
+    </body>
+    
 </petclinic:layout>

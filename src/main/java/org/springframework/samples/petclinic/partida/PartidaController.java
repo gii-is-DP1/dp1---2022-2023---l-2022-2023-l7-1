@@ -3,8 +3,12 @@ package org.springframework.samples.petclinic.partida;
 import java.util.List;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.turnos.Turno;
+import org.springframework.samples.petclinic.turnos.TurnoService;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.samples.petclinic.util.Territorio;
@@ -27,11 +31,13 @@ public class PartidaController {
 
     private PartidaService partidaService;
     private UserService userService;
+    private TurnoService turnoService;
 
     @Autowired
-    public PartidaController(PartidaService service, UserService userService) {
+    public PartidaController(PartidaService service, UserService userService, TurnoService turnoService) {
         this.partidaService=service;
         this.userService = userService;
+        this.turnoService = turnoService;
     }
 
     @Transactional
@@ -53,21 +59,24 @@ public class PartidaController {
     @Transactional  
     @GetMapping(value = "eligeTerritorio/{idpartida}/{idturno}")
     public ModelAndView eligeTerritorio(@PathVariable("idpartida") Integer idpartida, @PathVariable("idturno") Integer idturno){
-
         ModelAndView res = new ModelAndView(VIEW_ELIGE_TERRITORIO);
+        Turno turno = turnoService.getTurnoById(idturno);
+        res.addObject("turno", turno);
         res.addObject("territorios", listaTerritorios);
         return res;
     }
 
     @Transactional  
     @PostMapping(value = "eligeTerritorio/{idpartida}/{idturno}")
-    public String eligeTerritorioPost(BindingResult result, @PathVariable("idpartida") Integer idpartida, @PathVariable("idturno") Integer idturno){
+    public String eligeTerritorioPost(@Valid Turno turno, BindingResult result, @PathVariable("idpartida") Integer idpartida, @PathVariable("idturno") Integer idturno){
         if (result.hasErrors()) {
 			return VIEW_ELIGE_TERRITORIO;
 		}
 		else {
            try{
-                this.partidaService.eligeTerritorio();
+                Turno turnoToBeUpdated = turnoService.getTurnoById(idturno);
+                BeanUtils.copyProperties(turno, turnoToBeUpdated, "id", "tablero", "numTerritoriosJ1","numTerritoriosJ2","numTerritoriosJ3","numTerritoriosJ4");
+                turnoService.saveTurno(turnoToBeUpdated);
            }catch(Error er){
 
            }

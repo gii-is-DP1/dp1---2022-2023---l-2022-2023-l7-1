@@ -15,4 +15,8 @@ public class TurnoService {
     public void saveTurno(Turno Turno){
         TurnoRepository.save(Turno);
     }
+
+    public Turno getTurnoById(Integer id){
+        return TurnoRepository.findById(id).get();
+    }
 }

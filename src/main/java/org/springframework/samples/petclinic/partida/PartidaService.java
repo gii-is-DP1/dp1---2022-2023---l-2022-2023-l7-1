@@ -86,7 +86,7 @@ public class PartidaService {
 
    }
 
-   public void eligeTerritorio(){
+   public void eligeTerritorio(Turno turno){
       
    }
    

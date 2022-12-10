@@ -6,6 +6,7 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <html  >
+    <petclinic:layout pageName="CREAR PARTIDA">
     <head>
         <style>
            /* body {
@@ -27,5 +28,6 @@
         
         
     </body>
+</petclinic:layout>
 </html>
 

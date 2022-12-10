@@ -27,18 +27,15 @@
         </petclinic:mapa>
 
         
-        <form:form modelAttribute="turno" class="form-horizontal">
-        <div class="form-select">
-            <form:select path = "territorio">
-                <form:options items = "${territorios}" />
-             </form:select>
-             <form:select path = "numTerritoriosJ1">
+       
+        <form:form method="post"  modelAttribute="acciones">
+            <c:forEach var="accion" items="${acciones}" varStatus="status">
+            </c:forEach>
+             <input name="acciones[0].casilla" value="${accion.casilla}"/> 
                 
-                <form:options items = "${dados}" />
-             </form:select>
-             <button class="btn btn-default" type="submit">Confirm</button> 
-        </div>
-    </form:form>
+                <button class="btn btn-default" type="get">Confirm</button> 
+            </form:form>
+        
     </body>
     
 </petclinic:layout>

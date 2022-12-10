@@ -20,10 +20,6 @@ import lombok.Setter;
 @Table(name = "turnos")
 public class Turno extends BaseEntity{
 
-    @ManyToOne
-    private Tablero tablero;
-
-    
     @Column(name = "numTerritoriosJ1")
     private Integer numTerritoriosJ1;
 
@@ -36,10 +32,18 @@ public class Turno extends BaseEntity{
     @Column(name = "numTerritoriosJ4")
     private Integer numTerritoriosJ4;
 
-    
     private Territorio territorio;
 
-    public String toString(){
-        return "Turno"+ getId()+" Territorio"+  getTerritorio();
+
+    @Override
+    public String toString() {
+        return "{" +
+            " numTerritoriosJ1='" + getNumTerritoriosJ1() + "'" +
+            ", numTerritoriosJ2='" + getNumTerritoriosJ2() + "'" +
+            ", numTerritoriosJ3='" + getNumTerritoriosJ3() + "'" +
+            ", numTerritoriosJ4='" + getNumTerritoriosJ4() + "'" +
+            ", territorio='" + getTerritorio() + "'" +
+            "}";
     }
+    
 }

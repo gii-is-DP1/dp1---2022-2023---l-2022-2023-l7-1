@@ -505,29 +505,28 @@ INSERT INTO tablero(id, partida_id, idpoderes, puntos, user_username) VALUES(1,1
 
 INSERT INTO tablero(id, partida_id, idpoderes, puntos, user_username) VALUES(2,1,1,1,'raymon');
 
-INSERT INTO TURNOS(id, tablero_id, num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
- VALUES(1,1,0,0,0,0,0);
+INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
+ VALUES(1,0,0,0,0,0);
+INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
+ VALUES(2,0,0,0,0,1);
+ INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
+ VALUES(3,0,0,0,0,2);
+ INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
+ VALUES(4,0,0,0,0,3);
+ INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
+ VALUES(5,0,0,0,0,4);
+ INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
+ VALUES(6,0,0,0,0,5);
 
-INSERT INTO TURNOS(id, tablero_id, num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
- VALUES(2,1,0,0,0,0,1);
- INSERT INTO TURNOS(id, tablero_id, num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
- VALUES(3,1,0,0,0,0,2);
- INSERT INTO TURNOS(id, tablero_id, num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
- VALUES(4,1,0,0,0,0,3);
- INSERT INTO TURNOS(id, tablero_id, num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
- VALUES(5,1,0,0,0,0,4);
- INSERT INTO TURNOS(id, tablero_id, num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
- VALUES(6,1,0,0,0,0,5);
-
-INSERT INTO ACCIONES (id, turno_id, casilla_id) VALUES(1,1,7);
-INSERT INTO ACCIONES (id, turno_id, casilla_id) VALUES(2,2,15);
-INSERT INTO ACCIONES (id, turno_id, casilla_id) VALUES(3,3,23);
-INSERT INTO ACCIONES (id, turno_id, casilla_id) VALUES(4,4,43);
-INSERT INTO ACCIONES (id, turno_id, casilla_id) VALUES(5,5,52);
-INSERT INTO ACCIONES (id, turno_id, casilla_id) VALUES(6,6,56);
-INSERT INTO ACCIONES (id, turno_id, casilla_id) VALUES(7,4,60);
-INSERT INTO ACCIONES (id, turno_id, casilla_id) VALUES(8,5,33);
-INSERT INTO ACCIONES (id, turno_id, casilla_id) VALUES(9,6,47);
+INSERT INTO ACCIONES (id, turno_id, casilla_id, tablero_id) VALUES(1,1,7,1);
+INSERT INTO ACCIONES (id, turno_id, casilla_id, tablero_id) VALUES(2,2,15,1);
+INSERT INTO ACCIONES (id, turno_id, casilla_id, tablero_id) VALUES(3,3,23,1);
+INSERT INTO ACCIONES (id, turno_id, casilla_id, tablero_id) VALUES(4,4,43,1);
+INSERT INTO ACCIONES (id, turno_id, casilla_id, tablero_id) VALUES(5,5,52,1);
+INSERT INTO ACCIONES (id, turno_id, casilla_id, tablero_id) VALUES(6,6,56,1);
+INSERT INTO ACCIONES (id, turno_id, casilla_id, tablero_id) VALUES(7,4,60,1);
+INSERT INTO ACCIONES (id, turno_id, casilla_id, tablero_id) VALUES(8,5,33,1);
+INSERT INTO ACCIONES (id, turno_id, casilla_id, tablero_id) VALUES(9,6,47,1);
 /*
 INSERT INTO jugador(id,activo,nombrereino,usosterritorio1,usosterritorio2,
 usosterritorio3,usosterritorio4,usosterritorio5,usosterritorio6,anfitrión,usuario_id,tablero_id)

@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.accion.AccionService;
+import org.springframework.samples.petclinic.casilla.Casilla;
 import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.samples.petclinic.tablero.TableroRepository;
 import org.springframework.samples.petclinic.tablero.TableroService;
@@ -22,14 +24,22 @@ public class PartidaService {
    TableroService tableroService;
 
    TurnoService turnoService;
+
+   AccionService accionService;
+   
    
    @Autowired
-   public PartidaService(PartidaRepository partidaRepo, TableroService tableroService, TurnoService turnoService) {
+   public PartidaService(PartidaRepository partidaRepo, TableroService tableroService, TurnoService turnoService, AccionService accionService) {
     this.partidaRepo = partidaRepo;
 
     this.tableroService = tableroService;
 
     this.turnoService = turnoService;
+    this.accionService = accionService;
+   }
+
+   public Partida getPartidaById(Integer id){
+      return partidaRepo.findById(id).get();
    }
 
    public int[] criterioAleatorio(){
@@ -53,6 +63,7 @@ public class PartidaService {
    public List<Integer> crearPartidaSolitario(User user){
       int[] criteriosA = criterioAleatorio();
       int[] criteriosB = criterioAleatorio();
+
       Turno turno = new Turno();
 
       Tablero tablero = new Tablero();
@@ -66,6 +77,7 @@ public class PartidaService {
 
       p.setIdCriterioB1(criteriosB[0]);
       p.setIdCriterioB2(criteriosB[1]);
+      p.setTableros(List.of(tablero));
       partidaRepo.save(p);
 
       tablero.setPartida(p);
@@ -76,18 +88,21 @@ public class PartidaService {
       tablero.setUsos2(3);
       tablero.setUsos3(3);
       tablero.setUsos4(3);
-      tablero.setUsos5(3);
+      tablero.setUsos5(3); 
       tableroService.saveTablero(tablero);
 
-      turno.setTablero(tablero);
       turnoService.saveTurno(turno);
   
       return List.of(p.getId(),turno.getId());
 
    }
 
-   public void eligeTerritorio(Turno turno){
-      
+   public List<Casilla> casillasPorDibujar(Integer tableroId, Integer partidaId){
+      List<Casilla> casillasDibujadas = accionService.getIdAcciones(partidaId,tableroId).stream().map(x-> x.getCasilla()).toList();
+      List<Casilla> casillasAdyacentes = casillasDibujadas.stream().map(x->x.getAdyacencia()).flatMap(List::stream).toList();
+      casillasAdyacentes.removeAll(casillasDibujadas);
+      return casillasAdyacentes;
    }
+   
    
 }

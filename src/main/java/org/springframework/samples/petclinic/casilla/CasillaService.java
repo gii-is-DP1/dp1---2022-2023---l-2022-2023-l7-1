@@ -18,6 +18,9 @@ public class CasillaService {
         repo = casillaRepository;
     }
 
+    public List<Casilla> getTodasCasillas(){
+        return repo.findTodasCasillas(); 
+    }
     public Casilla getCasillaById(Integer id){
         return repo.findById(id).get();
     }

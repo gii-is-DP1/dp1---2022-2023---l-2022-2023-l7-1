@@ -28,10 +28,11 @@
 
         
        
-        <form:form method="post"  modelAttribute="acciones">
+        <form:form   modelAttribute="acciones">
             <c:forEach var="accion" items="${acciones}" varStatus="status">
+                <input name="acciones[${status.index}].casilla" value="${accion.casilla}"/> 
             </c:forEach>
-             <input name="acciones[0].casilla" value="${accion.casilla}"/> 
+             
                 
                 <button class="btn btn-default" type="get">Confirm</button> 
             </form:form>

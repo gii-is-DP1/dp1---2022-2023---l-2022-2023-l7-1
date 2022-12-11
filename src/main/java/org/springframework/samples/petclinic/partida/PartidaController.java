@@ -37,6 +37,7 @@ public class PartidaController {
     private static final String VIEW_ELIGE_TERRITORIO = "partidas/eligeTerritorio";
     private static final List<Territorio> listaTerritorios = List.of(Territorio.BOSQUE, Territorio.CASTILLO, Territorio.MONTANA, Territorio.POBLADO, Territorio.PRADERA, Territorio.RIO);
     private static final String VIEW_DIBUJAR = "partidas/dibujar";
+    private static int[] dados =lanzamiento();
 
 
     private PartidaService partidaService;
@@ -86,10 +87,11 @@ public class PartidaController {
     public ModelAndView eligeTerritorio(@PathVariable("idpartida") Integer idpartida, @PathVariable("idturno") Integer idturno){
         ModelAndView res = new ModelAndView(VIEW_ELIGE_TERRITORIO);
         Turno turno = turnoService.getTurnoById(idturno);
-        int[] dados = lanzamiento();
+        
+        res.addObject("dados", dados);
         res.addObject("turno", turno);
         res.addObject("territorios", listaTerritorios);
-        res.addObject("dados", dados);
+        
         
         return res;
     }

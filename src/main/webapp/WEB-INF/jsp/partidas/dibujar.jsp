@@ -28,10 +28,10 @@
 
         
        
-        <form:form   modelAttribute="acciones">
-            <c:forEach var="accion" items="${acciones}" varStatus="status">
-                <input name="acciones[${status.index}].casilla" value="${accion.casilla}"/> 
-            </c:forEach>
+        <form:form   modelAttribute="accion">
+            
+                <petclinic:inputField label="Casilla" name="casilla"/>
+            
              
                 
                 <button class="btn btn-default" type="get">Confirm</button> 

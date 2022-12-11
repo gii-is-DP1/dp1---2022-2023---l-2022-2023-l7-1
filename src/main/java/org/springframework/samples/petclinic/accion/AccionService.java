@@ -27,4 +27,7 @@ public class AccionService {
         return accionRepository.findById(id).get();
     }
     
+    public void save(Accion accion){
+        accionRepository.save(accion);
+    }
 }

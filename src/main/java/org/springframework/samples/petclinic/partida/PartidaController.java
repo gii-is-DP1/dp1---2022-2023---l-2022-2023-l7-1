@@ -126,32 +126,41 @@ public class PartidaController {
     @GetMapping(value = "dibujar/{idpartida}/{idturno}/{idaccion}")
     public ModelAndView dibujar(Accion accion, @PathVariable("idpartida") Integer idpartida, @PathVariable("idturno") Integer idturno, @PathVariable("idaccion") Integer idaccion) {
         ModelAndView res = new ModelAndView(VIEW_DIBUJAR);
-        res.addObject("accion", accion);
+        List<Accion> acciones =accionService.getIdAcciones(idpartida, partidaService.getPartidaById(idpartida).getTableros().get(0).getId());    
+        res.addObject("acciones", acciones);
+        System.out.println(acciones);
+        res.addObject("action", accion);
+        //List<Integer> casillas = partidaService.casillasPorDibujar(partidaService.getPartidaById(idpartida).getTableros().get(0).getId(), idpartida);
+        //res.addObject("casillas", casillas);
+        //System.out.println(casillas);
         return res;
     }
 
     @Transactional  
     @PostMapping(value = "dibujar/{idpartida}/{idturno}/{idaccion}")
-    public ModelAndView dibujarPost(Accion accion,@PathVariable("idpartida") Integer idpartida, @PathVariable("idturno") Integer idturno, @PathVariable("idaccion") Integer idaccion){
+    public String dibujarPost(Accion accion,@PathVariable("idpartida") Integer idpartida, @PathVariable("idturno") Integer idturno, @PathVariable("idaccion") Integer idaccion
+    , Map<String, Object> model){
         Turno turno = turnoService.getTurnoById(idturno);
         if(turno.getNumTerritoriosJ1()>1){
-        
             Accion accionToBeUpdated = accionService.getAccionById(idaccion);
             BeanUtils.copyProperties(accion, accionToBeUpdated, "id","tablero","turno");
-
+            accionService.save(accionToBeUpdated);
             Accion ac = new Accion();
             ac.setTablero(partidaService.getPartidaById(idpartida).getTableros().get(0));
             ac.setTurno(turnoService.getTurnoById(idturno));
             accionService.save(ac); 
             turno.setNumTerritoriosJ1(turno.getNumTerritoriosJ1()-1);
             turnoService.saveTurno(turno);
-            ModelAndView res = new ModelAndView(VIEW_DIBUJAR);
-            res.addObject("accion", ac);
-            res.addObject("acciones", accionService.getIdAcciones(idpartida, partidaService.getPartidaById(idpartida).getTableros().get(0).getId()));
-            return res;
+            model.put("action", ac);
+            return "redirect:/partida/dibujar/"+idpartida+"/"+idturno+"/"+ac.getId();
         
+        }else{
+            Accion accionToBeUpdated = accionService.getAccionById(idaccion);
+            BeanUtils.copyProperties(accion, accionToBeUpdated, "id","tablero","turno");
+            accionService.save(accionToBeUpdated);
+            return VIEW_WELCOME;
         }
-        return new ModelAndView(VIEW_WELCOME);
+        
     }
 
   

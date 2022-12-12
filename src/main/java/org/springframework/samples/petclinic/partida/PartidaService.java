@@ -2,8 +2,12 @@ package org.springframework.samples.petclinic.partida;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+import org.h2.store.RangeInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.accion.AccionService;
 import org.springframework.samples.petclinic.casilla.Casilla;
@@ -97,11 +101,17 @@ public class PartidaService {
 
    }
 
-   public List<Casilla> casillasPorDibujar(Integer tableroId, Integer partidaId){
-      List<Casilla> casillasDibujadas = accionService.getIdAcciones(partidaId,tableroId).stream().map(x-> x.getCasilla()).toList();
-      List<Casilla> casillasAdyacentes = casillasDibujadas.stream().map(x->x.getAdyacencia()).flatMap(List::stream).toList();
+   public List<Integer> casillasPorDibujar(Integer tableroId, Integer partidaId){
+      List<Casilla> casillasDibujadas = new ArrayList<>();
+      casillasDibujadas = accionService.getIdAcciones(partidaId,tableroId).stream().map(x-> x.getCasilla()).collect(Collectors.toList());
+      List<Casilla> casillasAdyacentes = new ArrayList<> ();
+      if(casillasDibujadas.isEmpty()){
+         return IntStream.range(1, 68).boxed().collect(Collectors.toList());
+      }
+
+      casillasAdyacentes = casillasDibujadas.stream().map(x->x.getAdyacencia()).flatMap(List::stream).collect(Collectors.toList());
       casillasAdyacentes.removeAll(casillasDibujadas);
-      return casillasAdyacentes;
+      return casillasAdyacentes.stream().map(x-> x.getId()).collect(Collectors.toList());
    }
    
    

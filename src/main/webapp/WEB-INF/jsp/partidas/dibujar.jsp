@@ -28,7 +28,7 @@
 
         
        
-        <form:form   modelAttribute="accion">
+        <form:form   modelAttribute="action">
             
                 <petclinic:inputField label="Casilla" name="casilla"/>
             

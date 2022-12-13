@@ -29,8 +29,10 @@
         
        
         <form:form   modelAttribute="action">
-            
-                <petclinic:inputField label="Casilla" name="casilla"/>
+            <form:select path = "casilla">
+                <form:options items = "${casillas}" />
+             </form:select>
+                
             
              
                 

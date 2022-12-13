@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.partida;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -42,22 +43,23 @@ public class PartidaController {
     private static final String VIEW_ELIGE_TERRITORIO = "partidas/eligeTerritorio";
     private static final List<Territorio> listaTerritorios = List.of(Territorio.BOSQUE, Territorio.CASTILLO, Territorio.MONTANA, Territorio.POBLADO, Territorio.PRADERA, Territorio.RIO);
     private static final String VIEW_DIBUJAR = "partidas/dibujar";
-    private static int[] dados =lanzamiento();
+    private static int[] dados3 =lanzamiento3();
+    private static int[] dados2 =lanzamiento2();
 
 
     private PartidaService partidaService;
     private UserService userService;
     private TurnoService turnoService;
     private AccionService accionService;
-    private CasillaService casillaService;
+    
 
     @Autowired
-    public PartidaController(PartidaService service, UserService userService, TurnoService turnoService, AccionService accionService,CasillaService casillaService ) {
+    public PartidaController(PartidaService service, UserService userService, TurnoService turnoService, AccionService accionService) {
         this.partidaService=service;
         this.userService = userService;
         this.turnoService = turnoService;
         this.accionService = accionService;
-        this.casillaService = casillaService;
+        
     }
 
     @Transactional
@@ -73,10 +75,10 @@ public class PartidaController {
         User fran = userService.getUserById("aitroddue");
 		List<Integer> x = this.partidaService.crearPartidaSolitario(fran);
         ModelAndView res = new ModelAndView("partidas/partida"); 
-		return "redirect:/partida/eligeTerritorio/"+x.get(0)+"/"+x.get(1);
+		return "redirect:/partida/eligeTerritorio3/"+x.get(0)+"/"+x.get(1);
 	}
 
-    static int[] lanzamiento() {
+    static int[] lanzamiento2() {
  
 		int[] resultados = new int[3]; //Se tiran tres dados
  
@@ -87,13 +89,24 @@ public class PartidaController {
 		return resultados;
 	}
 
-    @Transactional  
-    @GetMapping(value = "eligeTerritorio/{idpartida}/{idturno}")
-    public ModelAndView eligeTerritorio(@PathVariable("idpartida") Integer idpartida, @PathVariable("idturno") Integer idturno){
+    static int[] lanzamiento3() {
+ 
+		int[] resultados = new int[3]; //Se tiran tres dados
+ 
+		resultados[0] = (int)(Math.random()*6 + 1); //Primer dado
+		resultados[1] = (int)(Math.random()*6 + 1); //Segundo dado
+		resultados[2] = (int)(Math.random()*6 + 1); //Tercer dado
+ 
+		return resultados;
+	}
+
+    @Transactional
+    @GetMapping(value = "eligeTerritorio3/{idpartida}/{idturno}")
+    public ModelAndView eligeTerritorio3(@PathVariable("idpartida") Integer idpartida, @PathVariable("idturno") Integer idturno){
         ModelAndView res = new ModelAndView(VIEW_ELIGE_TERRITORIO);
         Turno turno = turnoService.getTurnoById(idturno);
         
-        res.addObject("dados", dados);
+        res.addObject("dados", dados3);
         res.addObject("turno", turno);
         res.addObject("territorios", listaTerritorios);
         
@@ -102,8 +115,8 @@ public class PartidaController {
     }
 
     @Transactional
-    @PostMapping(value = "eligeTerritorio/{idpartida}/{idturno}")
-    public String eligeTerritorioPost(@Valid Turno turno, BindingResult result, @PathVariable("idpartida") Integer idpartida, @PathVariable("idturno") Integer idturno,
+    @PostMapping(value = "eligeTerritorio3/{idpartida}/{idturno}")
+    public String eligeTerritorio3Post(@Valid Turno turno, BindingResult result, @PathVariable("idpartida") Integer idpartida, @PathVariable("idturno") Integer idturno,
      Map<String, Object> model){
         if (result.hasErrors()) {
 			return VIEW_ELIGE_TERRITORIO;
@@ -128,11 +141,9 @@ public class PartidaController {
         ModelAndView res = new ModelAndView(VIEW_DIBUJAR);
         List<Accion> acciones =accionService.getIdAcciones(idpartida, partidaService.getPartidaById(idpartida).getTableros().get(0).getId());    
         res.addObject("acciones", acciones);
-        System.out.println(acciones);
         res.addObject("action", accion);
-        //List<Integer> casillas = partidaService.casillasPorDibujar(partidaService.getPartidaById(idpartida).getTableros().get(0).getId(), idpartida);
-        //res.addObject("casillas", casillas);
-        //System.out.println(casillas);
+        Set<Integer> casillas = partidaService.casillasPorDibujar(partidaService.getPartidaById(idpartida).getTableros().get(0).getId(), idpartida);
+        res.addObject("casillas", casillas);
         return res;
     }
 
@@ -153,7 +164,6 @@ public class PartidaController {
             turnoService.saveTurno(turno);
             model.put("action", ac);
             return "redirect:/partida/dibujar/"+idpartida+"/"+idturno+"/"+ac.getId();
-        
         }else{
             Accion accionToBeUpdated = accionService.getAccionById(idaccion);
             BeanUtils.copyProperties(accion, accionToBeUpdated, "id","tablero","turno");
@@ -163,5 +173,19 @@ public class PartidaController {
         
     }
 
+
+    @Transactional  
+    @GetMapping(value = "eligeTerritorio2/{idpartida}/{idturno}")
+    public ModelAndView eligeTerritorio2(@PathVariable("idpartida") Integer idpartida, @PathVariable("idturno") Integer idturno){
+        ModelAndView res = new ModelAndView(VIEW_ELIGE_TERRITORIO);
+        Turno turno = turnoService.getTurnoById(idturno);
+        
+        res.addObject("dados", dados2);
+        res.addObject("turno", turno);
+        res.addObject("territorios", listaTerritorios);
+        
+        
+        return res;
+    }
   
 }

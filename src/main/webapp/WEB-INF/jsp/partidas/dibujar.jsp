@@ -44,14 +44,11 @@
                 
         </form:form>
 
-            
-                
-                 
-                
-                 
-                         
-                    
-               
+        <p>Criterio A1: <c:out value="${criterios[0]}"/></p>
+        <p>Criterio A2: <c:out value="${criterios[1]}"/></p>
+        <p>Criterio B1: <c:out value="${criterios[2]}"/></p>
+        <p>Criterio B2: <c:out value="${criterios[3]}"/></p>
+                     
     </body>
     
 </petclinic:layout>

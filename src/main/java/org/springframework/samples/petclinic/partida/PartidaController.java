@@ -114,7 +114,8 @@ public class PartidaController {
         res.addObject("dados", lanzamiento3());
         res.addObject("turno", turno);
         res.addObject("territorios", listaTerritorios);
-        
+        Partida partida = partidaService.getPartidaById(idpartida);
+        res.addObject("criterios", List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2));
         
         return res;
     }
@@ -155,6 +156,8 @@ public class PartidaController {
         res.addObject("poder", poder);
         Turno turno = new Turno();
         res.addObject("turno", turno);
+        Partida partida = partidaService.getPartidaById(idpartida);
+        res.addObject("criterios", List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2));
         return res;
     }
 
@@ -225,6 +228,8 @@ public class PartidaController {
         res.addObject("dados", dados);
         res.addObject("turno", turno);
         session.setAttribute("dados", dados);
+        Partida partida = partidaService.getPartidaById(idpartida);
+        res.addObject("criterios", List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2));
         return res;
     }
   
@@ -273,6 +278,8 @@ public class PartidaController {
         res.addObject("poder", poder);
         Turno turno = new Turno();
         res.addObject("turno", turno);
+        Partida partida = partidaService.getPartidaById(idpartida);
+        res.addObject("criterios", List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2));
         return res;
     }
 

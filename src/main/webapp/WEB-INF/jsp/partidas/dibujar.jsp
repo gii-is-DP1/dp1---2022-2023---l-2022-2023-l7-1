@@ -7,7 +7,7 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="CREAR PARTIDA">
-    <h2>CREACION DE PARTIDAS</h2>
+    
     <head>
         <style>
            /* body {
@@ -27,18 +27,31 @@
         </petclinic:mapa>
 
         
-       
+        <h2>DIBUJAR</h2>
         <form:form   modelAttribute="action">
             <form:select path = "casilla">
                 <form:options items = "${casillas}" />
-             </form:select>
+            </form:select>
+            <c:if test = "${tablero.poder1 > 0}">
+                <form:form   modelAttribute="turno">
+                    <form:select path = "numTerritoriosJ1">
+                        <form:options items = "${poder}" />
+                    </form:select>
+                    <button class="btn btn-default" type="submit">Confirm</button> 
+                </form:form>                 
+             </c:if>
+            <button class="btn btn-default" type="submit">Confirm</button> 
                 
+        </form:form>
+
             
-             
                 
-                <button class="btn btn-default" type="get">Confirm</button> 
-            </form:form>
-        
+                 
+                
+                 
+                         
+                    
+               
     </body>
     
 </petclinic:layout>

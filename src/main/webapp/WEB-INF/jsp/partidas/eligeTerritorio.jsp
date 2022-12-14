@@ -7,7 +7,7 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="CREAR PARTIDA">
-    <h2>CREACION DE PARTIDAS</h2>
+    
     <head>
         <style>
            /* body {
@@ -26,7 +26,7 @@
             </c:forEach>    
         </petclinic:mapa>
 
-        
+        <h2>ELIGE TERRITORIO 3</h2>
         <form:form modelAttribute="turno" class="form-horizontal">
         <div class="form-select">
             <form:select path = "territorio">

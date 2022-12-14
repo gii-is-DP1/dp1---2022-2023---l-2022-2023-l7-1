@@ -32,10 +32,12 @@ public class Tablero extends BaseEntity{
     @NotNull
     @ManyToOne(optional = false, targetEntity = Partida.class)
     private Partida partida;
-
     
-    @Column(name = "idpoderes")
-    private Integer idPoderes;
+    @Column(columnDefinition = "integer default 0")
+    private Integer poder1 = 0;
+
+    @Column(columnDefinition = "integer default 0")
+    private Integer poder2 = 0;
 
     @NotNull
     @Column(columnDefinition = "integer default 0")

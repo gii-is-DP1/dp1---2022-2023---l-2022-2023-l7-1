@@ -106,7 +106,7 @@ public class PartidaService {
 
    public Set<Integer> casillasPorDibujar(Integer tableroId, Integer partidaId){
       List<Accion> acciones = accionService.getIdAcciones(partidaId,tableroId);
-      Set<Integer> todos = IntStream.range(1, 68).boxed().collect(Collectors.toSet());
+      Set<Integer> todos = IntStream.range(1, 62).boxed().collect(Collectors.toSet());
       Set<Integer> quitar1 = new HashSet();
       if(acciones.size()==1){
          return todos;

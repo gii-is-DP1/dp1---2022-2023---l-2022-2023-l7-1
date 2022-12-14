@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.partida;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -72,19 +73,18 @@ private static final String VIEW_WELCOME = "welcome";
     }
 
     @Transactional
-	@GetMapping(value = "/{username}/crearPartida")
-	public ModelAndView creacionPartida(@PathVariable("username") String username){
-		ModelAndView mav = new ModelAndView(VIEW_CREAR_PARTIDA);
-		mav.addObject("username", username);
-		return mav;
+	@GetMapping(value = "/crearPartida")
+	public ModelAndView creacionPartida(){
+		ModelAndView res = new ModelAndView(VIEW_CREAR_PARTIDA);
+		return res;
 	}
 
     @Transactional
 
 @GetMapping(value = "/crearPartidaSolitaria")// tenenmos que coger el usuario que esté con la sesión iniciada
-	public String getpartidaSolitaria(){
-        User fran = userService.getUserById("aitroddue");
-		List<Integer> x = this.partidaService.crearPartidaSolitario(fran);
+	public String getpartidaSolitaria(Principal principal){
+        User usuario = userService.getUserById(principal.getName());
+		List<Integer> x = this.partidaService.crearPartidaSolitario(usuario);
         ModelAndView res = new ModelAndView("partidas/partida"); 
 		return "redirect:/partida/eligeTerritorio3/"+x.get(0)+"/"+x.get(1);
 	}

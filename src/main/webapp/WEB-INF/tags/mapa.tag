@@ -1,6 +1,6 @@
 
 <canvas id="canvas" width="1000" height="1000"></canvas>
-<img id="source" src="/resources/images/tablero.png" style="display:none">
+<img id="source" src="/resources/images/tablero2.png" style="display:none">
 <img id="BOSQUE" src="/resources/images/territorios/BOSQUE.png" style="display:none">
 <img id="CASTILLO" src="/resources/images/territorios/CASTILLO.png" style="display:none">
 <img id="MONTANA" src="/resources/images/territorios/MONTANA.png" style="display:none">

@@ -11,6 +11,9 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.samples.petclinic.accion.Accion;
 import org.springframework.samples.petclinic.accion.AccionForm;
 import org.springframework.samples.petclinic.accion.AccionService;
@@ -23,9 +26,10 @@ import org.springframework.samples.petclinic.turnos.TurnoService;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.samples.petclinic.util.Territorio;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
+
+import org.springframework.samples.petclinic.user.UserService;
+
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,8 +37,7 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.servlet.ModelAndView;
-
+import org.springframework.web.bind.annotation.PathVariable;
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 
 @Controller
@@ -42,13 +45,15 @@ import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 public class PartidaController {
 
     private static final String VIEW_CREAR_PARTIDA = "partidas/crearPartida";
-    private static final String VIEW_WELCOME = "welcome";
+
+private static final String VIEW_WELCOME = "welcome";
     private static final String VIEW_ELIGE_TERRITORIO = "partidas/eligeTerritorio";
     private static final String VIEW_ELIGE_TERRITORIO2 = "partidas/eligeTerritorio2";
     private static final List<Territorio> listaTerritorios = List.of(Territorio.BOSQUE, Territorio.CASTILLO, Territorio.MONTANA, Territorio.POBLADO, Territorio.PRADERA, Territorio.RIO);
     private static final List<Integer> poder = List.of(0,1,-1);
     private static final String VIEW_DIBUJAR = "partidas/dibujar";
 
+    private static final String VIEW_AMIGOS = "partidas/lobby";
 
     private PartidaService partidaService;
     private UserService userService;
@@ -67,14 +72,16 @@ public class PartidaController {
     }
 
     @Transactional
-	@GetMapping(value = "/crearPartida")
-	public ModelAndView creacionPartida(){
-		ModelAndView res = new ModelAndView(VIEW_CREAR_PARTIDA);
-		return res;
+	@GetMapping(value = "/{username}/crearPartida")
+	public ModelAndView creacionPartida(@PathVariable("username") String username){
+		ModelAndView mav = new ModelAndView(VIEW_CREAR_PARTIDA);
+		mav.addObject("username", username);
+		return mav;
 	}
 
     @Transactional
-	@GetMapping(value = "/crearPartidaSolitaria")// tenenmos que coger el usuario que esté con la sesión iniciada
+
+@GetMapping(value = "/crearPartidaSolitaria")// tenenmos que coger el usuario que esté con la sesión iniciada
 	public String getpartidaSolitaria(){
         User fran = userService.getUserById("aitroddue");
 		List<Integer> x = this.partidaService.crearPartidaSolitario(fran);
@@ -333,4 +340,11 @@ public class PartidaController {
         }
         
     }
+
+	@GetMapping(value = "/{username}/lobby")
+	public ModelAndView mostrarAmigos(@PathVariable("username") String username){
+		ModelAndView mav = new ModelAndView(VIEW_AMIGOS);
+		mav.addObject("username", username);
+		return mav;
+	}
 }

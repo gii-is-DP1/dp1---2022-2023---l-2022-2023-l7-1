@@ -83,10 +83,10 @@ class UserServiceTests {
         List<User> list = this.userService.getFriends(user.getUsername());
         boolean listEmpty = list.isEmpty();
         assertThat(listEmpty).isTrue();
-        List<User> list2 = this.userService.getFriends(JESZAMGUE); //user jeszamgue has 2 friends
+        List<User> list2 = this.userService.getFriends(JESZAMGUE); //user jeszamgue has 1 friend
         boolean listNotEmpty = !list2.isEmpty();
         assertThat(listNotEmpty).isTrue();
-        boolean friends = list2.size()==2;
+        boolean friends = list2.size()==1;
         assertThat(friends).isTrue();
     }
 
@@ -103,5 +103,17 @@ class UserServiceTests {
         list2 = this.userService.getFriends(JESZAMGUE);
         boolean AreNOtFriends = !(list.contains(jeszamgue) && list2.contains(fravilpae));
         assertThat(AreNOtFriends).isTrue();
+    }
+
+    @Test
+    void shoulFindUsers() throws DataAccessException, DuplicatedUsernameException{
+        this.userService.saveUser(user);
+		List<User> user = this.userService.findUsers("diegarlin");
+		assertThat(user.size()==1);
+        assertThat(user.get(0).getUsername()== "diegarlin");
+        List<User> user2 = this.userService.findUsers("bkvewbovcobuwevoew");
+        assertThat(user2.size()==0);
+        List<User> users = this.userService.findUsers("");
+        assertThat(users.size()>1);
     }
 }

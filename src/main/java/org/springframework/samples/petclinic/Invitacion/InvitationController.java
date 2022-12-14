@@ -33,7 +33,6 @@ public class InvitationController {
     @GetMapping("users/{username}/invite")
     public String getUsersToInvite(@PathVariable("username") String username, Model model) {
         List<User> users = invitationService.getAvailableUsers(username);
-        System.out.println(users);
         model.addAttribute("availableList", users);
         model.addAttribute("username", username);
 		

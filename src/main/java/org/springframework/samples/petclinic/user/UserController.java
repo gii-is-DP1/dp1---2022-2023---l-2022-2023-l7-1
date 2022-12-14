@@ -183,7 +183,7 @@ public class UserController {
     @GetMapping("/users/{username}")
 	public ModelAndView showUser(@PathVariable("username") String username) {
 		ModelAndView mav = new ModelAndView(VIEW_USER_DETAILS);
-		mav.addObject("user", this.userService.findUserOptional(username).get());
+		mav.addObject("user", this.userService.getUserById(username));
 		return mav;
 	}
 
@@ -197,7 +197,7 @@ public class UserController {
 		}
 
 		// find users by user name
-		Collection<User> results = this.userService.findUser(user.getUsername());
+		List<User> results = this.userService.findUsers(user.getUsername());
 		if (results.isEmpty()) {
 			// no users found
 			result.rejectValue("username", "notFound", "not found");
@@ -210,7 +210,7 @@ public class UserController {
 		}
 		else {
 			// multiple users found
-			model.put("selections", results);
+			model.put("users", results);
 			return VIEW_USER_LISTING;
 		}
 	}
@@ -221,7 +221,7 @@ public class UserController {
 		List<User> friends = userService.getFriends(username);
 		ModelAndView mav = new ModelAndView(VIEW_USER_FRIENDS);
 		mav.addObject("friends", friends);
-		mav.addObject("user", this.userService.findUserOptional(username).get());
+		mav.addObject("user", this.userService.getUserById(username));
 		return mav;
 	}
 

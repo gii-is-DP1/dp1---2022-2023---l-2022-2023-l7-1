@@ -9,6 +9,7 @@ import javax.validation.constraints.NotEmpty;
 
 import org.springframework.samples.petclinic.casilla.Casilla;
 import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.samples.petclinic.turnos.Turno;
 
 import lombok.Getter;
@@ -26,5 +27,18 @@ public class Accion extends BaseEntity{
 
     @ManyToOne
     private Casilla casilla;
+
+    @ManyToOne
+    private Tablero tablero;
     
+
+    @Override
+    public String toString() {
+        return "{" +
+            " turno='" + getTurno() + "'" +
+            ", casilla='" + getCasilla() + "'" +
+            ", tablero='" + getTablero().getId() + "'" +
+            "}";
+    }
+
 }

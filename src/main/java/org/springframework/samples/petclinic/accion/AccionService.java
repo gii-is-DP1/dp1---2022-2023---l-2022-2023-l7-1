@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.accion;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -18,13 +20,23 @@ public class AccionService {
     }
 
     @Transactional
-    public List<Accion> getIdAcciones(Integer tableroId){
-        return accionRepository.findByTablero(tableroId);
+    public List<Accion> getIdAcciones(Integer partida, Integer tablero){
+        List<Accion> list = new ArrayList<>();
+        list = accionRepository.findByTablero(partida,tablero);
+        
+        
+        return list;
     }
 
     @Transactional
     public Accion getAccionById(Integer id){
         return accionRepository.findById(id).get();
     }
+    
+    @Transactional
+    public void save(Accion accion){
+        accionRepository.save(accion);
+    }
+
     
 }

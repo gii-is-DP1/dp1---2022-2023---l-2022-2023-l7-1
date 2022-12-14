@@ -19,12 +19,12 @@ public class AccionController {
         this.accionService = accionService;
     }
 
-    @GetMapping(value = "/prueba")
+    @GetMapping(value = "/p")
     public ModelAndView showAcciones(Integer idPartida, Integer idJugador,HttpServletResponse response ){
        // response.addHeader("Refresh", "1");
         ModelAndView mav = new ModelAndView("tablero/tablero");
         //mav.addObject("now",new Date());
-        mav.addObject("acciones",this.accionService.getIdAcciones(1));
+        mav.addObject("acciones",this.accionService.getIdAcciones(1,1));
         return mav;
     }
     

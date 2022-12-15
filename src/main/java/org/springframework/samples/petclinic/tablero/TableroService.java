@@ -1,6 +1,9 @@
 package org.springframework.samples.petclinic.tablero;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.user.User;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +18,10 @@ public class TableroService {
     
     public void saveTablero(Tablero tablero){
         tableroRepository.save(tablero);
+    }
+
+    public List<User> getActivePlayers() {
+        return tableroRepository.getUsersWithActiveMatches();
     }
     
 }

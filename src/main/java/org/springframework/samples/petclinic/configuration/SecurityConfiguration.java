@@ -50,7 +50,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/users/{username}").authenticated()
 				.antMatchers("/rules").permitAll()
 				.antMatchers("/partida/**").permitAll()
-				.antMatchers("/partidaEnCurso").authenticated()
 				.antMatchers("/p").permitAll()
 				.anyRequest().denyAll()
 				.and()

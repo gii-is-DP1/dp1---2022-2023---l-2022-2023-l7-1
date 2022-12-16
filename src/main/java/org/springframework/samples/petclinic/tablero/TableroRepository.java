@@ -12,5 +12,8 @@ public interface TableroRepository extends CrudRepository<Tablero, Integer>{
 
     @Query("SELECT t.user FROM Tablero t WHERE t.partidaEnCurso = true")
     List<User> getUsersWithActiveMatches();
+
+    @Query("SELECT t FROM Tablero t WHERE t.user = ?1 AND t.partidaEnCurso = true")
+    Tablero getTableroByUser(User user);
     
 }

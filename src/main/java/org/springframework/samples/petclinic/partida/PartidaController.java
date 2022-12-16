@@ -72,19 +72,23 @@ public class PartidaController {
         User usuario = userService.getUserById(principal.getName());
         List<User> usersActive = tableroService.getActivePlayers();
         if (usersActive.contains(usuario)){
-            return "redirect:/partidaEnCurso";
+            Tablero tablero = tableroService.getTableroByUser(usuario);
+            List<Accion> acciones = accionService.getAccionesByTablero(tablero);
+            if(!acciones.isEmpty()){
+                Accion accion = acciones.get(acciones.size()-1);
+                if (acciones.size()%2==0){
+                    return "redirect:/partida/dibujar3/"+tablero.getPartida().getId()+"/"+accion.getTurno().getId()+"/"+accion.getId();
+                } else {
+                    return "redirect:/partida/dibujar2/"+tablero.getPartida().getId()+"/"+accion.getTurno().getId()+"/"+accion.getId();
+                }
+            }
+            tablero.setPartidaEnCurso(false);
+            tableroService.saveTablero(tablero);
         }
 		List<Integer> x = this.partidaService.crearPartidaSolitario(usuario);
         ModelAndView res = new ModelAndView("partidas/partida"); 
 		return "redirect:/partida/eligeTerritorio3/"+x.get(0)+"/"+x.get(1);
 	}
-
-    @Transactional
-    @GetMapping(value = "/partidaEnCurso")
-	public ModelAndView getPartidaEnCurso() {
-        ModelAndView res = new ModelAndView("partidas/partidaCurso");
-		return res;
-    }
 
     static int[] lanzamiento2() {
  

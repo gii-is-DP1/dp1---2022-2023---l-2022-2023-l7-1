@@ -23,5 +23,9 @@ public class TableroService {
     public List<User> getActivePlayers() {
         return tableroRepository.getUsersWithActiveMatches();
     }
+
+    public Tablero getTableroByUser(User usuario) {
+        return tableroRepository.getTableroByUser(usuario);
+    }
     
 }

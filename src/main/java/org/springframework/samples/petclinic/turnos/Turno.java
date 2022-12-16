@@ -6,6 +6,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.tablero.Tablero;
@@ -33,6 +34,9 @@ public class Turno extends BaseEntity{
     private Integer numTerritoriosJ4;
 
     private Territorio territorio;
+
+    @ManyToOne
+    private Tablero tablero;
 
 
     @Override

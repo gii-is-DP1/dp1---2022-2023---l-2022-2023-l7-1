@@ -74,16 +74,25 @@ public class PartidaController {
         if (usersActive.contains(usuario)){
             Tablero tablero = tableroService.getTableroByUser(usuario);
             List<Accion> acciones = accionService.getAccionesByTablero(tablero);
+            List<Turno> turnos = turnoService.getTurnosByTablero(tablero);
+            Turno turno = turnos.get(turnos.size()-1);
             if(!acciones.isEmpty()){
                 Accion accion = acciones.get(acciones.size()-1);
-                if (acciones.size()%2==0){
-                    return "redirect:/partida/dibujar3/"+tablero.getPartida().getId()+"/"+accion.getTurno().getId()+"/"+accion.getId();
-                } else {
-                    return "redirect:/partida/dibujar2/"+tablero.getPartida().getId()+"/"+accion.getTurno().getId()+"/"+accion.getId();
+                if(turno.getId()!=accion.getTurno().getId()){
+                    if ((turno.getId()-turnos.get(0).getId())%2==0){
+                        return "redirect:/partida/eligeTerritorio3/"+tablero.getPartida().getId()+"/"+turno.getId();
+                    } else {
+                        return "redirect:/partida/eligeTerritorio2/"+tablero.getPartida().getId()+"/"+turno.getId();
+                }
+                } else{
+                    if ((turno.getId()-turnos.get(0).getId())%2==0){
+                        return "redirect:/partida/dibujar3/"+tablero.getPartida().getId()+"/"+turno.getId()+"/"+accion.getId();
+                    } else {
+                        return "redirect:/partida/dibujar2/"+tablero.getPartida().getId()+"/"+turno.getId()+"/"+accion.getId();
+                    }
                 }
             }
-            tablero.setPartidaEnCurso(false);
-            tableroService.saveTablero(tablero);
+            return "redirect:/partida/eligeTerritorio3/"+tablero.getPartida().getId()+"/"+turno.getId();
         }
 		List<Integer> x = this.partidaService.crearPartidaSolitario(usuario);
         ModelAndView res = new ModelAndView("partidas/partida"); 
@@ -117,7 +126,9 @@ public class PartidaController {
     public ModelAndView eligeTerritorio3(@PathVariable("idpartida") Integer idpartida, @PathVariable("idturno") Integer idturno){
         ModelAndView res = new ModelAndView(VIEW_ELIGE_TERRITORIO);
         Turno turno = turnoService.getTurnoById(idturno);
-        List<Accion> acciones =accionService.getIdAcciones(idpartida, partidaService.getPartidaById(idpartida).getTableros().get(0).getId());    
+        List<Accion> acciones =accionService.getIdAcciones(idpartida, partidaService.getPartidaById(idpartida).getTableros().get(0).getId()); 
+        Tablero tablero = partidaService.getPartidaById(idpartida).getTableros().get(0);
+        turno.setTablero(tablero);   
         res.addObject("acciones", acciones);
         res.addObject("dados", lanzamiento3());
         res.addObject("turno", turno);
@@ -136,12 +147,12 @@ public class PartidaController {
 			return VIEW_ELIGE_TERRITORIO;
 		}
 		else {
-           
-                Turno turnoToBeUpdated = turnoService.getTurnoById(idturno);
-                BeanUtils.copyProperties(turno, turnoToBeUpdated, "id","numTerritoriosJ2","numTerritoriosJ3","numTerritoriosJ4");
-                turnoService.saveTurno(turnoToBeUpdated);
                 Accion ac = new Accion();
                 ac.setTablero(partidaService.getPartidaById(idpartida).getTableros().get(0));
+                Turno turnoToBeUpdated = turnoService.getTurnoById(idturno);
+                BeanUtils.copyProperties(turno, turnoToBeUpdated, "id","numTerritoriosJ2","numTerritoriosJ3","numTerritoriosJ4");
+                turnoToBeUpdated.setTablero(ac.getTablero());
+                turnoService.saveTurno(turnoToBeUpdated);
                 ac.setTurno(turnoToBeUpdated);
                 accionService.save(ac);
            return "redirect:/partida/dibujar3/"+idpartida+"/"+idturno+"/"+ac.getId();
@@ -175,6 +186,7 @@ public class PartidaController {
     , Map<String, Object> model){
         Turno turno = turnoService.getTurnoById(idturno);
         Tablero tablero = partidaService.getPartidaById(idpartida).getTableros().get(0);
+        turno.setTablero(tablero);
         if(turno.getNumTerritoriosJ1()>1){
             if(accion.getCasilla().getPoder1()){
                 tablero.setPoder1(tablero.getPoder1()+1);
@@ -231,7 +243,8 @@ public class PartidaController {
         ModelAndView res = new ModelAndView(VIEW_ELIGE_TERRITORIO2);
         Turno turno = turnoService.getTurnoById(idturno);
         int[] dados = lanzamiento2();
-        List<Accion> acciones =accionService.getIdAcciones(idpartida, partidaService.getPartidaById(idpartida).getTableros().get(0).getId());    
+        List<Accion> acciones =accionService.getIdAcciones(idpartida, partidaService.getPartidaById(idpartida).getTableros().get(0).getId()); 
+        turno.setTablero(acciones.get(0).getTablero());     
         res.addObject("acciones", acciones);
         res.addObject("dados", dados);
         res.addObject("turno", turno);
@@ -260,11 +273,11 @@ public class PartidaController {
                 }else{
                     territorio = dados[0]-1;
                 }
-
-                turnoToBeUpdated.setTerritorio(listaTerritorios.get(territorio));
-                turnoService.saveTurno(turnoToBeUpdated);
                 Accion ac = new Accion();
                 ac.setTablero(partidaService.getPartidaById(idpartida).getTableros().get(0));
+                turnoToBeUpdated.setTerritorio(listaTerritorios.get(territorio));
+                turnoToBeUpdated.setTablero(ac.getTablero());
+                turnoService.saveTurno(turnoToBeUpdated);
                 ac.setTurno(turnoToBeUpdated);
                 accionService.save(ac);
                 model.put("turno", turnoToBeUpdated);
@@ -297,6 +310,7 @@ public class PartidaController {
     , Map<String, Object> model){
         Turno turno = turnoService.getTurnoById(idturno);
         Tablero tablero = partidaService.getPartidaById(idpartida).getTableros().get(0);
+        turno.setTablero(tablero);
         if(turno.getNumTerritoriosJ1()>1){
             if(accion.getCasilla().getPoder1()){
                 tablero.setPoder1(tablero.getPoder1()+1);

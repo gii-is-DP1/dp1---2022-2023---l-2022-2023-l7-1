@@ -74,6 +74,7 @@ public class PartidaService {
       Turno turno = new Turno();
 
       Tablero tablero = new Tablero();
+      turno.setTablero(tablero);
 
       Partida p = new Partida();
       

@@ -501,22 +501,22 @@ INSERT INTO Invitation(id, receiver_username, sender_username) VALUES(1, 'fravil
 INSERT INTO PARTIDAS(id_tablero2,id_tablero3, id_tablero4, id_criterioa1, id_criterioa2, id_criteriob1, id_criteriob2, fecha)
  VALUES(1,1,1,1,1,1,1, '2022-12-01');
 
-INSERT INTO tablero(id, partida_id, puntos, user_username) VALUES(1,1,0,'aitroddue');
+INSERT INTO tablero(id, partida_id, puntos,en_curso, user_username) VALUES(1,1,0,false, 'aitroddue');
 
-INSERT INTO tablero(id, partida_id, puntos, user_username) VALUES(2,1,0,'raymon');
+INSERT INTO tablero(id, partida_id, puntos,en_curso, user_username) VALUES(2,1,0,false, 'raymon');
 
-INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
- VALUES(1,0,0,0,0,0);
-INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
- VALUES(2,0,0,0,0,1);
- INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
- VALUES(3,0,0,0,0,2);
- INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
- VALUES(4,0,0,0,0,3);
- INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
- VALUES(5,0,0,0,0,4);
- INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
- VALUES(6,0,0,0,0,5);
+INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, tablero_id)
+ VALUES(1,0,0,0,0,0,1);
+INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, tablero_id)
+ VALUES(2,0,0,0,0,1,1);
+ INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, tablero_id)
+ VALUES(3,0,0,0,0,2,1);
+ INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, tablero_id)
+ VALUES(4,0,0,0,0,3,1);
+ INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, tablero_id)
+ VALUES(5,0,0,0,0,4,1);
+ INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, tablero_id)
+ VALUES(6,0,0,0,0,5,1);
 
 INSERT INTO ACCIONES (id, turno_id, casilla_id, tablero_id) VALUES(1,1,7,1);
 INSERT INTO ACCIONES (id, turno_id, casilla_id, tablero_id) VALUES(2,2,15,1);

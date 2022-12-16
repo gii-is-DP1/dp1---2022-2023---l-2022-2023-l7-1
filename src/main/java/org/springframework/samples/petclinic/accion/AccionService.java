@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.tablero.Tablero;
+import org.springframework.samples.petclinic.user.User;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,6 +38,10 @@ public class AccionService {
     @Transactional
     public void save(Accion accion){
         accionRepository.save(accion);
+    }
+
+    public List<Accion> getAccionesByTablero( Tablero tablero) {
+        return accionRepository.findByJugadoryTablero(tablero);
     }
 
     

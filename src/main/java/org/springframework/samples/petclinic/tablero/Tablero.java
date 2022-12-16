@@ -44,6 +44,10 @@ public class Tablero extends BaseEntity{
     private Integer puntos;
 
     @NotNull
+    @Column(name = "en_curso")
+    private Boolean partidaEnCurso;
+
+    @NotNull
     @ManyToOne(optional = false)
     private User user;
 

@@ -99,6 +99,8 @@ public class User{
 
     @Column(name = "enabled")
     Boolean enabled;
+
+    
  
     @Transient
     public Double getWinRatio() {

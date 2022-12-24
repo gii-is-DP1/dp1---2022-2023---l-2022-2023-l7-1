@@ -15,23 +15,30 @@
  */
 package org.springframework.samples.petclinic.user;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -51,6 +58,7 @@ public class UserController {
     private static final String VIEW_FIND_USER = "users/findUsers";
     private static final String VIEW_USER_DETAILS = "users/userDetails";
     private static final String VIEW_USER_FRIENDS = "users/friends";
+    private static final String VIEW_USER_Partidas = "users/partida";
 
 
 	private final UserService userService;
@@ -70,10 +78,21 @@ public class UserController {
 
 	@Transactional
 	@GetMapping(value = "/users/all")
-	public ModelAndView showUsers(){
-		ModelAndView res = new ModelAndView(VIEW_USER_LISTING);
-		res.addObject("users", userService.getAll());
-		return res;
+	public String showUsers(@RequestParam Map<String, Object> params, Model res){ //show users con paginacion
+        Integer page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) - 1) : 0;
+        Pageable pageable = PageRequest.of(page, 3);
+        Page<User> users = userService.getAll(pageable);
+        Integer totalPage = users.getTotalPages();
+        if(totalPage > 0) {
+			List<Integer> pages = IntStream.rangeClosed(1, totalPage).boxed().collect(Collectors.toList());
+			res.addAttribute("pages", pages);
+		}
+		res.addAttribute("current", page + 1);
+		res.addAttribute("next", page + 2);
+		res.addAttribute("prev", page);
+		res.addAttribute("last", totalPage);
+		res.addAttribute("users", users.getContent());
+		return VIEW_USER_LISTING;
 	}
 
     @Transactional(readOnly = true)
@@ -231,5 +250,24 @@ public class UserController {
         userService.Deletefriend(username, username2);        
         return "redirect:/users/"+username+"/friends";
     }
+
+    @Transactional
+    @GetMapping("/users/{username}/partidas")
+	public ModelAndView showPartidasJugador(@PathVariable("username") String username) {
+		List<Tablero> tableros = userService.getTableroByUser(username);
+		ModelAndView mav = new ModelAndView(VIEW_USER_Partidas);
+		mav.addObject("tablero", tableros);
+		return mav;
+	}
+
+    @Transactional
+    @GetMapping("/partidas")
+	public ModelAndView showPartidas() {
+		List<Tablero> tableros = userService.getTableros();
+		ModelAndView mav = new ModelAndView(VIEW_USER_Partidas);
+		mav.addObject("tablero", tableros);
+		return mav;
+	}
+
 
 }

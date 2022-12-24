@@ -48,6 +48,12 @@
 					<span>Estadisticas generales</span>
 				</petclinic:menuItem>
 
+				<petclinic:menuItem active="${name eq 'games'}" url="/partidas"
+					title="Partidas">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Partidas</span>
+				</petclinic:menuItem>
+
 				</sec:authorize>
 				
 				<petclinic:menuItem active="${name eq 'rules'}" url="/rules"

@@ -60,4 +60,26 @@
         </tbody>
     </table>
 
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <nav aria-label="Pagination">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <c:if test ="${prev != 0}"><a href="/users/all?page=${prev}">Anterior</a> </c:if>
+                    </li>
+                    <li class="page-item">
+                    <c:forEach items="${pages}" var="page">
+                        <a href="/users/all?page=${page}"> <c:out value="${page}"/></a>
+                    </c:forEach>
+                    </li>
+                    <li class="page-item">
+                        <c:if test ="${next != last+1}"> <a href="/users/all?page=${next}">Siguiente</a> </c:if>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
 </petclinic:layout>

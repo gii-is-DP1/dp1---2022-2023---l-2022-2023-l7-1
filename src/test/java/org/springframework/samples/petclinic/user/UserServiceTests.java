@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -115,5 +116,14 @@ class UserServiceTests {
         assertThat(user2.size()==0);
         List<User> users = this.userService.findUsers("");
         assertThat(users.size()>1);
+    }
+
+    @Test
+    void shoulFindTableros() throws DataAccessException, DuplicatedUsernameException{
+        this.userService.saveUser(user);
+		List<Tablero> user = this.userService.getTableroByUser("diegarlin");
+		assertThat(user.size()==0);
+        List<Tablero> user2 = this.userService.getTableroByUser("raymon"); //has 1 tablero
+        assertThat(user2.size()!=0);
     }
 }

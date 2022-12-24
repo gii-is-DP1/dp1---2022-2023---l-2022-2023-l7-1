@@ -51,6 +51,12 @@
             <a class="btn btn-default" href="/users/${user.username}/userEdit">Edit User</a>
         </td>  
     </tr>
+
+    <tr> 
+        <td>
+            <a class="btn btn-default" href="/users/${user.username}/partidas">Games User</a>
+        </td>  
+    </tr>
     
 
 </petclinic:layout>

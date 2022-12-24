@@ -24,8 +24,16 @@ public class TableroService {
         return tableroRepository.getUsersWithActiveMatches();
     }
 
+    public List<Tablero> getAll() {
+        return tableroRepository.findAll();
+    }
+
     public Tablero getTableroByUser(User usuario) {
-        return tableroRepository.getTableroByUser(usuario);
+        return tableroRepository.getTableroActiveByUser(usuario);
+    }
+
+    public List<Tablero> getTablerosByUser(User usuario){
+        return tableroRepository.getTablerosByUser(usuario);
     }
     
 }

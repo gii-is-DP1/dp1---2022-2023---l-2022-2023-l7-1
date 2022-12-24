@@ -28,14 +28,14 @@ public class Poderes extends BaseEntity{
     @NotEmpty
     Tablero tablero;
 
-    @Column(name = "poder+-1")
+    @Column(name = "poder1")
     @NotEmpty
     @Min(0)
     @Max(6)
     @Value("0")
     Integer poder1; //Si lo pongo con el +-1 da error ya que lo toma como operacion
 
-    @Column(name = "poder?")
+    @Column(name = "poder2")
     @NotEmpty
     @Value("0")
     Integer poder2; //Igual q el otro poder

@@ -106,9 +106,7 @@ public class UserControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowAllUsers() throws Exception {
-		mockMvc.perform(get("/users/all")).andExpect(status().isOk())
-		.andExpect(model().attributeExists("users"))
-		.andExpect(view().name("users/userListing"));
+		mockMvc.perform(get("/users/all").with(csrf())).andExpect(status().isOk());
 	}
 
 	@WithMockUser(value = "spring")
@@ -237,6 +235,23 @@ public class UserControllerTests {
 		.andExpect(model().attributeExists("user"))
 		.andExpect(view().name("users/friends"));
 	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testShowPartidaJugador() throws Exception {
+		mockMvc.perform(get("/users/{username}/partidas", USER_USERNAME)).andExpect(status().isOk())
+		.andExpect(model().attributeExists("tablero"))
+		.andExpect(view().name("users/partida"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testShowPartidas() throws Exception {
+		mockMvc.perform(get("/partidas")).andExpect(status().isOk())
+		.andExpect(model().attributeExists("tablero"))
+		.andExpect(view().name("users/partida"));
+	}
+
 	@WithMockUser(value = "spring")
 	@Test
 	void testDeleteFriend() throws Exception {

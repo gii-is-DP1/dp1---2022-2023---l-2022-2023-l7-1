@@ -48,6 +48,10 @@ public class Tablero extends BaseEntity{
     private Boolean partidaEnCurso;
 
     @NotNull
+    @Column(name = "creada")
+    private Boolean partidaCreada;
+
+    @NotNull
     @ManyToOne(optional = false)
     private User user;
 

@@ -22,6 +22,10 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.tablero.Tablero;
+import org.springframework.samples.petclinic.tablero.TableroService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -37,9 +41,12 @@ public class UserService {
 
 	private UserRepository userRepository;
 
+	private TableroService tableroService;
+
 	@Autowired
-	public UserService(UserRepository userRepository) {
+	public UserService(UserRepository userRepository, TableroService tableroService) {
 		this.userRepository = userRepository;
+		this.tableroService = tableroService;
 	}
 
 	public User getUserById(String id){
@@ -52,6 +59,10 @@ public class UserService {
 
 	public List<User> getAll() {
 		return userRepository.findAll();
+	}
+
+	public Page<User> getAll(Pageable pageable) {
+		return userRepository.getAll(pageable);
 	}
 
 	@Transactional
@@ -110,6 +121,14 @@ public class UserService {
 	public void Deletefriend(String username, String username2){
 		userRepository.Deletefriend(username, username2);
 		userRepository.Deletefriend(username2, username);
+	}
+
+	public List<Tablero> getTableroByUser(String username) {
+		return tableroService.getTablerosByUser(getUserById(username));
+	}
+
+	public List<Tablero> getTableros() {
+		return tableroService.getAll();
 	}
 
 }

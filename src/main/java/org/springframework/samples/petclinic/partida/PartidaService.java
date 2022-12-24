@@ -98,6 +98,7 @@ public class PartidaService {
       tablero.setUsos4(3);
       tablero.setUsos5(3); 
       tablero.setPartidaEnCurso(true);
+      tablero.setPartidaCreada(true);
       tableroService.saveTablero(tablero);
 
       turnoService.saveTurno(turno);

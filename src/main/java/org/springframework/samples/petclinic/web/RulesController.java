@@ -10,5 +10,4 @@ public class RulesController {
 	public String showRules() {
 		return "/rules";
 	}
-
 }

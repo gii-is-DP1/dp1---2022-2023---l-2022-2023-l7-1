@@ -1,71 +1,55 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
-<!--  >%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%-->
-<%@ attribute name="name" required="true" rtexprvalue="true"
-	description="Name of the active menu: home, owners, vets or error"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ attribute name="name" required="true" rtexprvalue="true" description="Name of the active menu"%>
 
 <nav class="navbar navbar-default" role="navigation">
 	<div class="container">
 		<div class="navbar-header">
 			<a class="navbar-brand"
-				href="<spring:url value="/" htmlEscape="true" />"><span></span></a>
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target="#main-navbar">
-				<span class="sr-only"><os-p>Toggle navigation</os-p></span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
-			</button>
+				href="<spring:url value='/' htmlEscape='true' />">
+			</a>
 		</div>
 		<div class="navbar-collapse collapse" id="main-navbar">
+
 			<ul class="nav navbar-nav">
 
-				<petclinic:menuItem active="${name eq 'home'}" url="/"
-					title="home page">
-					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+				<petclinic:menuItem active="${name eq 'home'}" url="/" title="Home page">
+					<span class="glyphicon glyphicon-home"></span>
 					<span>Home</span>
 				</petclinic:menuItem>
 
 				<sec:authorize access="hasAnyAuthority('admin')">
 
-				<petclinic:menuItem active="${name eq 'users'}" url="/users/all"
-					title="USUARIOS">
-					<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-					<span>Usuarios</span>
-				</petclinic:menuItem>
+					<petclinic:menuItem active="${name eq 'usersA'}" url="/users/all" title="Users">
+						<span class="glyphicon glyphicon-user"></span>
+						<span>Users</span>
+					</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'users'}" url="/users/find"
-					title="find users">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Find users</span>
-				</petclinic:menuItem>
+					<petclinic:menuItem active="${name eq 'usersF'}" url="/users/find" title="Find users">
+						<span class="glyphicon glyphicon-search"></span>
+						<span>Find users</span>
+					</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'stats'}" url="/stats"
-					title="Estadisticas generales">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Estadisticas generales</span>
-				</petclinic:menuItem>
+					<petclinic:menuItem active="${name eq 'stats'}" url="/stats" title="Stats">
+						<span class="glyphicon glyphicon-stats"></span>
+						<span>Stats</span>
+					</petclinic:menuItem>
 
-				<petclinic:menuItem active="${name eq 'games'}" url="/partidas"
-					title="Partidas">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Partidas</span>
-				</petclinic:menuItem>
+					<petclinic:menuItem active="${name eq 'games'}" url="/partidas" title="Games">
+						<span class="glyphicon glyphicon-tower"></span>
+						<span>Games</span>
+					</petclinic:menuItem>
 
 				</sec:authorize>
 				
-				<petclinic:menuItem active="${name eq 'rules'}" url="/rules"
-					title="REGLAS">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>REGLAS</span>
+				<petclinic:menuItem active="${name eq 'rules'}" url="/rules" title="Rules">
+					<span class="glyphicon glyphicon-list-alt"></span>
+					<span>Rules</span>
 				</petclinic:menuItem>
 
 			</ul>
-
-
-
 
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="!isAuthenticated()">
@@ -119,8 +103,5 @@
 				</sec:authorize>				
 			</ul>
 		</div>
-
-
-
 	</div>
 </nav>

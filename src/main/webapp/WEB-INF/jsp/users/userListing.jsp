@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="users">
+<petclinic:layout pageName="usersA">
     <h2>User Listing</h2>
 
     <table id="usersTable" class="table table-striped">

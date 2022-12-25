@@ -54,6 +54,7 @@ public class UserController {
 	private static final String STATS_LISTING_VIEW = "users/stats";
 	private static final String USER_STATS_LISTING_VIEW = "users/userStats";
 	private static final String VIEW_USER_LISTING = "users/userListing";
+	private static final String VIEW_USER_LISTING_Page = "users/userListingPage";
 	private static final String VIEW_USERNAME_EDITING = "users/userEdit";
     private static final String VIEW_FIND_USER = "users/findUsers";
     private static final String VIEW_USER_DETAILS = "users/userDetails";
@@ -92,7 +93,7 @@ public class UserController {
 		res.addAttribute("prev", page);
 		res.addAttribute("last", totalPage);
 		res.addAttribute("users", users.getContent());
-		return VIEW_USER_LISTING;
+		return VIEW_USER_LISTING_Page;
 	}
 
     @Transactional(readOnly = true)

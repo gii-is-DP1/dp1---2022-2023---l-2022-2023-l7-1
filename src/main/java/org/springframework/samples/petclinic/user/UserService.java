@@ -118,7 +118,7 @@ public class UserService {
 		return userRepository.getFriendsOf(username);
 	}
 
-	public void Deletefriend(String username, String username2){
+	public void deleteFriend(String username, String username2){
 		userRepository.Deletefriend(username, username2);
 		userRepository.Deletefriend(username2, username);
 	}
@@ -129,6 +129,14 @@ public class UserService {
 
 	public List<Tablero> getTableros() {
 		return tableroService.getAll();
+	}
+
+	public void deleteFriends(String username){
+		List<User> friends = userRepository.getFriendsOf(username);
+		for( User friend: friends) {
+			userRepository.Deletefriend(username, friend.getUsername());
+			userRepository.Deletefriend(friend.getUsername(), username);
+		}
 	}
 
 }

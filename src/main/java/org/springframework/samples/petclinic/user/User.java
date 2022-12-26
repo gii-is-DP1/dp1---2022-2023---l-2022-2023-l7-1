@@ -117,14 +117,14 @@ public class User{
         return ((double) gamesWin / ((double) matchesPlayed- (double) gamesWin));
     }
 
-    @ManyToMany(cascade = {CascadeType.PERSIST , CascadeType.REFRESH, CascadeType.REMOVE})
+    @ManyToMany(cascade = {CascadeType.PERSIST , CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})
 	@JoinTable(name="friends",
 			joinColumns= {@JoinColumn(name="friend_id")},
 			inverseJoinColumns = {@JoinColumn(name="aux_friend_id")})
     @NotAudited
 	private Set<User> friends = new HashSet<User>();  //Set de mis amigos de un user
 
-    @ManyToMany(mappedBy="friends", cascade = {CascadeType.PERSIST , CascadeType.REFRESH, CascadeType.REMOVE})
+    @ManyToMany(mappedBy="friends", cascade = {CascadeType.PERSIST , CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})
     @NotAudited
 	private Set<User> auxFriends = new HashSet<User>(); //quienes son amigos de un user
 

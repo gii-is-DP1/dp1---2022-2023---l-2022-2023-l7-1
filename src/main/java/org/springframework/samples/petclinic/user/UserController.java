@@ -125,6 +125,7 @@ public class UserController {
     @Transactional
 	@GetMapping(value = "/users/{username}/delete")
     public String deleteUser(@PathVariable String username){
+		userService.deleteFriends(username);
         userService.deleteUserById(username);        
         return "redirect:/users/all";
     }
@@ -223,11 +224,6 @@ public class UserController {
 			result.rejectValue("username", "notFound", "not found");
 			return VIEW_FIND_USER;
 		}
-		else if (results.size() == 1) {
-			// 1 user found
-			user = results.iterator().next();
-			return "redirect:/users/" + user.getUsername();
-		}
 		else {
 			// multiple users found
 			model.put("users", results);
@@ -248,7 +244,7 @@ public class UserController {
 	@Transactional
 	@GetMapping(value = "/users/{username}/friends/{username2}/delete")
     public String deleteFriend(@PathVariable String username, @PathVariable String username2){
-        userService.Deletefriend(username, username2);        
+        userService.deleteFriend(username, username2);        
         return "redirect:/users/"+username+"/friends";
     }
 

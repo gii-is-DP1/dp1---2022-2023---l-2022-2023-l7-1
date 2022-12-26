@@ -99,7 +99,7 @@ class UserServiceTests {
         User fravilpae = this.userService.getUserById(FRAVILPAE);
         boolean AreFriends = list.contains(jeszamgue) && list2.contains(fravilpae);
         assertThat(AreFriends).isTrue();
-        this.userService.Deletefriend(JESZAMGUE, FRAVILPAE);
+        this.userService.deleteFriend(JESZAMGUE, FRAVILPAE);
         list = this.userService.getFriends(FRAVILPAE);
         list2 = this.userService.getFriends(JESZAMGUE);
         boolean AreNOtFriends = !(list.contains(jeszamgue) && list2.contains(fravilpae));
@@ -107,7 +107,7 @@ class UserServiceTests {
     }
 
     @Test
-    void shoulFindUsers() throws DataAccessException, DuplicatedUsernameException{
+    void shouldFindUsers() throws DataAccessException, DuplicatedUsernameException{
         this.userService.saveUser(user);
 		List<User> user = this.userService.findUsers("diegarlin");
 		assertThat(user.size()==1);
@@ -119,11 +119,20 @@ class UserServiceTests {
     }
 
     @Test
-    void shoulFindTableros() throws DataAccessException, DuplicatedUsernameException{
+    void shouldFindTableros() throws DataAccessException, DuplicatedUsernameException{
         this.userService.saveUser(user);
 		List<Tablero> user = this.userService.getTableroByUser("diegarlin");
 		assertThat(user.size()==0);
         List<Tablero> user2 = this.userService.getTableroByUser("raymon"); //has 1 tablero
         assertThat(user2.size()!=0);
+    }
+
+    @Test
+    void shouldDeleteAllFriends() throws DataAccessException {
+        List<User> list = this.userService.getFriends(JESZAMGUE);
+        assertThat(list.size()!=0);
+        this.userService.deleteFriends(JESZAMGUE);
+        List<User> list2 = this.userService.getFriends(JESZAMGUE);
+        assertThat(list2.size()!=0);
     }
 }

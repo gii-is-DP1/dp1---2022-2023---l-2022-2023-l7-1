@@ -75,7 +75,7 @@
             <nav aria-label="Pagination">
                 <ul class="pagination justify-content-center">
                     <li class="page-item">
-                        <c:if test ="${prev != 0}"><a href="/users/all?page=${prev}">Anterior</a> </c:if>
+                        <c:if test ="${prev != 0}"><a href="/users/all?page=${prev}">Previous</a> </c:if>
                     </li>
                     <li class="page-item">
                     <c:forEach items="${pages}" var="page">
@@ -83,7 +83,7 @@
                     </c:forEach>
                     </li>
                     <li class="page-item">
-                        <c:if test ="${next != last+1}"> <a href="/users/all?page=${next}">Siguiente</a> </c:if>
+                        <c:if test ="${next != last+1}"> <a href="/users/all?page=${next}">Next</a> </c:if>
                     </li>
                 </ul>
             </nav>

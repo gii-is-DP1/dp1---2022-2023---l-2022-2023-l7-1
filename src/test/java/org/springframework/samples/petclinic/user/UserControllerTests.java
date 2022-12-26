@@ -275,8 +275,7 @@ public class UserControllerTests {
 	void testProcessFindFormByUsername() throws Exception {
 		given(this.userService.findUsers(USER_USERNAME)).willReturn(Lists.newArrayList(user));
 
-		mockMvc.perform(get("/users").param("username", USER_USERNAME)).andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/users/" + USER_USERNAME));
+		mockMvc.perform(get("/users").param("username", USER_USERNAME)).andExpect(status().isOk()).andExpect(view().name("users/userListing"));
 	}
 
 	@WithMockUser(value = "spring")

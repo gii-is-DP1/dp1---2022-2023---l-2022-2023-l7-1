@@ -208,8 +208,12 @@ public class UserController {
 		}
 	}
 
+	// -------------------------------------------------------------------------------------------
+	// --- FRIENDS -------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------
+
     @Transactional
-    @GetMapping("/users/{username}/friends")
+    @GetMapping("/friends/{username}")
 	public ModelAndView showFriends(@PathVariable("username") String username) {
 		List<User> friends = userService.getFriends(username);
 		ModelAndView mav = new ModelAndView(VIEW_USER_FRIENDS);
@@ -219,10 +223,10 @@ public class UserController {
 	}
 
 	@Transactional
-	@GetMapping(value = "/users/{username}/friends/{username2}/delete")
-    public String deleteFriend(@PathVariable String username, @PathVariable String username2){
-        userService.deleteFriend(username, username2);        
-        return "redirect:/users/"+username+"/friends";
+	@GetMapping(value = "/friends/{usernameLogged}/{usernameFriend}/delete")
+    public String deleteFriend(@PathVariable String usernameLogged, @PathVariable String usernameFriend){
+        userService.deleteFriend(usernameLogged, usernameFriend);        
+        return "redirect:/friends/"+usernameLogged;
     }
 
 	// -------------------------------------------------------------------------------------------
@@ -235,7 +239,7 @@ public class UserController {
         List<User> users = userService.getAll();
         model.put("users", users);
 
-		ModelAndView res = new ModelAndView("users/stats");
+		ModelAndView res = new ModelAndView("stats/stats");
 		if(principal != null){
 			res.addObject("username", principal.getName());
 		}
@@ -248,7 +252,7 @@ public class UserController {
         User user = userService.getUserById(username);
         model.put("user", user);
 
-		ModelAndView res = new ModelAndView("users/userStats");
+		ModelAndView res = new ModelAndView("stats/userStats");
 		if(principal != null){
 			res.addObject("username", principal.getName());
 		}

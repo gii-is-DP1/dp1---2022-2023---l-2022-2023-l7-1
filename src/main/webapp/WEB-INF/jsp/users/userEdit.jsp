@@ -7,9 +7,9 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="Edit username">
-    <h2>
-        Edit Username
-    </h2>
+    
+    <h1><em><b><u>Edit Profile</u></b></em></h1>
+
     <form:form modelAttribute="user" class="form-horizontal" id="add-user-form">
         <div class="form-group has-feedback">
             <petclinic:inputField label="First Name" name="name"/>

@@ -6,18 +6,23 @@
 
 <petclinic:layout pageName="users">
 
-    <h2>User Information</h2>
+    <h1><em><b><u>User Information</u></b></em></h1>
+
     <table class="table table-striped">
         <tr>
             <th>Name</th>
-            <td><b><c:out value="${user.name} ${user.lastName}"/></b></td>
+            <td><b><c:out value="${user.name}"/></b></td>
+        </tr>
+        <tr>
+            <th>Last Name</th>
+            <td><c:out value="${user.lastName}"/></td>
         </tr>
         <tr>
             <th>User Name</th>
             <td><c:out value="${user.username}"/></td>
         </tr>
         <tr>
-            <th>Birth Date</th>
+            <th>Birthdate</th>
             <td><c:out value="${user.birthDate}"/></td>
         </tr>
         <tr>
@@ -36,13 +41,13 @@
 
     <tr> 
         <td>
-            <a class="btn btn-default" href="/users/${user.username}/friends">friends</a>
+            <a class="btn btn-default" href="/friends/${user.username}">Friends</a>
         </td>  
     </tr>
 
     <tr> 
         <td>
-            <a class="btn btn-default" href="/users/${user.username}/invitations">invitations</a>
+            <a class="btn btn-default" href="/invitations/${user.username}">Invitations</a>
         </td>  
     </tr>
 

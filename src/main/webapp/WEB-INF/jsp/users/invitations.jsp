@@ -5,6 +5,8 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="invitations">
+    <h1><em><b><u>Invitations</u></b></em></h1>
+
     <table id="invitationsTable" class="table table-striped">
         <thead>
         <tr>
@@ -19,8 +21,8 @@
                     <c:out value="${invitation.sender.username}"/>
                 </td> 
                 <td style="text-align:right">
-                    <a class="btn btn-default" href="/users/${invitation.receiver.username}/accept/${invitation.id}">Accept Invitation</a>
-                    <a class="btn btn-default" href="/users/${invitation.receiver.username}/cancelInvite/${invitation.id}">Cancel Invitation</a>
+                    <a class="btn btn-default" href="/invitationAccepted/${invitation.receiver.username}/${invitation.id}">Accept Invitation</a>
+                    <a class="btn btn-default" href="/invitationCancelled/${invitation.receiver.username}/${invitation.id}">Cancel Invitation</a>
                 </td> 
             </tr>
         </c:forEach>
@@ -29,7 +31,7 @@
 
     <tr> 
         <td>
-            <a class="btn btn-default" href="/users/${username}/invite">Create invitation</a>
+            <a class="btn btn-default" href="/invite/${username}">Create invitation</a>
         </td>  
     </tr>
 

@@ -13,33 +13,23 @@
         background-attachment: fixed;
         background-size: 100% 100%;
     }
+    .newGame {
+        margin: auto;
+        display: block;
+    }
 </style>
 
 <petclinic:layout pageName="home">         
-        <div class="row">
-            <sec:authorize access="isAuthenticated()">
-            
+
+        <sec:authorize access="isAuthenticated()">
             <div class="form-group">
-                <spring:url value="users/{username}" htmlEscape="true" var="perfil">
-                    <spring:param name="username" value="${username}" />
-                </spring:url>
-                <div class="col-sm-offset-2 col-sm-10">
-                    <sec:authorize access="hasAnyAuthority('admin','player')">
-                   <a class="btn btn-default" href="${perfil}">MY PROFILE</a>
-                    </sec:authorize>
+
+                <div class="col align-self-center">
+                    <a class="btn btn-default btn-lg" href="/partida/crearPartida"
+                        style="margin-top:11%; margin-bottom:10%; margin-left:22%; margin-right:22%; display:block;"><b>NEW GAME</b></a>
                 </div>
-
-                 <spring:url value="/partida/crearPartida" htmlEscape="true" var="crear">
-
-                 </spring:url>
-                 <div class="col-sm-offset-2 col-sm-10">
-                    <a class="btn btn-default" href="${crear}">NEW GAME</a>
-                 </div>
+                 
             </div>
         </sec:authorize>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-            </div>
-        </div>
+
 </petclinic:layout>

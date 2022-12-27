@@ -33,7 +33,7 @@
 						<span>Find users</span>
 					</petclinic:menuItem>
 
-					<petclinic:menuItem active="${name eq 'userStats'}" url="users/${username}/stats" title="My stats">
+					<petclinic:menuItem active="${name eq 'userStats'}" url="/stats/${username}" title="My stats">
 							<span class="glyphicon glyphicon-stats"></span>
 							<span>My stats</span>
 					</petclinic:menuItem>

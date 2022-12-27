@@ -33,23 +33,31 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
+				// Permisos developers
 				.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
+				// Permisos de pagina de inicio
 				.antMatchers(HttpMethod.GET, "/","/oups").permitAll()
+				// Permisos de users
 				.antMatchers("/users/new").permitAll()
-				.antMatchers("/stats").hasAnyAuthority("admin")
-				.antMatchers("/partidas").hasAnyAuthority("admin", "player")
-				.antMatchers("/partidas/{username}").hasAnyAuthority("admin", "player")
-				.antMatchers("/users/{username}/stats").authenticated()
-				.antMatchers("/session/**").permitAll()
-				.antMatchers("/admin/**").hasAnyAuthority("admin")
-				.antMatchers("/users/all").hasAnyAuthority("admin")
-				.antMatchers("/users/{username}/**").authenticated()
-				.antMatchers("/{username}/crearPartida").hasAnyAuthority("admin", "player")
-				.antMatchers("/{username}/lobby").hasAnyAuthority("admin", "player")
-				.antMatchers("/prueba/**").hasAnyAuthority("admin", "player")
 				.antMatchers("/users/find").authenticated()
 				.antMatchers("/users").authenticated()
 				.antMatchers("/users/{username}").authenticated()
+				.antMatchers("/users/{username}/**").authenticated()
+				.antMatchers("/users/all").hasAnyAuthority("admin")
+				// Permisos de stats
+				.antMatchers("/stats").hasAnyAuthority("admin")
+				.antMatchers("/stats/{username}").authenticated()
+				// Permisos de partidas
+				.antMatchers("/partidas").hasAnyAuthority("admin", "player")
+				.antMatchers("/partidas/{username}").hasAnyAuthority("admin", "player")
+
+				.antMatchers("/session/**").permitAll()
+				.antMatchers("/admin/**").hasAnyAuthority("admin")
+
+				.antMatchers("/{username}/crearPartida").hasAnyAuthority("admin", "player")
+				.antMatchers("/{username}/lobby").hasAnyAuthority("admin", "player")
+				.antMatchers("/prueba/**").hasAnyAuthority("admin", "player")
+
 				.antMatchers("/rules").permitAll()
 				.antMatchers("/partida/**").permitAll()
 				.antMatchers("/p").permitAll()

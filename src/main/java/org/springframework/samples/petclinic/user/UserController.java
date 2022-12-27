@@ -34,8 +34,6 @@ public class UserController {
 	private static final String VIEW_USERNAME_EDITING = "users/userEdit";
     private static final String VIEW_USER_DETAILS = "users/userDetails";
     private static final String VIEW_USER_FRIENDS = "users/friends";
-    private static final String VIEW_USER_Partidas = "users/partida";
-
 
 	private final UserService userService;
 
@@ -157,32 +155,6 @@ public class UserController {
         }
     }
 
-	@Transactional
-    @GetMapping(value = "/stats")
-    public ModelAndView showStats(Map<String, Object> model, Principal principal) {
-        List<User> users = userService.getAll();
-        model.put("users", users);
-
-		ModelAndView res = new ModelAndView("users/stats");
-		if(principal != null){
-			res.addObject("username", principal.getName());
-		}
-        return res;
-    }
-
-	@Transactional
-    @GetMapping(value = "/users/{username}/stats")
-    public ModelAndView showStats(@PathVariable String username, Map<String, Object> model, Principal principal) {
-        User user = userService.getUserById(username);
-        model.put("user", user);
-
-		ModelAndView res = new ModelAndView("users/userStats");
-		if(principal != null){
-			res.addObject("username", principal.getName());
-		}
-        return res;
-    }
-
     @Transactional
     @GetMapping(value = "/users/find")
 	public ModelAndView initFindForm(Map<String, Object> model, Principal principal) {
@@ -251,6 +223,36 @@ public class UserController {
     public String deleteFriend(@PathVariable String username, @PathVariable String username2){
         userService.deleteFriend(username, username2);        
         return "redirect:/users/"+username+"/friends";
+    }
+
+	// -------------------------------------------------------------------------------------------
+	// --- STATS ---------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------
+
+	@Transactional
+    @GetMapping(value = "/stats")
+    public ModelAndView showStats(Map<String, Object> model, Principal principal) {
+        List<User> users = userService.getAll();
+        model.put("users", users);
+
+		ModelAndView res = new ModelAndView("users/stats");
+		if(principal != null){
+			res.addObject("username", principal.getName());
+		}
+        return res;
+    }
+
+	@Transactional
+    @GetMapping(value = "/stats/{username}")
+    public ModelAndView showMyStats(@PathVariable String username, Map<String, Object> model, Principal principal) {
+        User user = userService.getUserById(username);
+        model.put("user", user);
+
+		ModelAndView res = new ModelAndView("users/userStats");
+		if(principal != null){
+			res.addObject("username", principal.getName());
+		}
+        return res;
     }
 
 }

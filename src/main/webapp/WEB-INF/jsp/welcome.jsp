@@ -13,10 +13,6 @@
         background-attachment: fixed;
         background-size: 100% 100%;
     }
-    .newGame {
-        margin: auto;
-        display: block;
-    }
 </style>
 
 <petclinic:layout pageName="home">         

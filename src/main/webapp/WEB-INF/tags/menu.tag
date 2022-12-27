@@ -60,39 +60,36 @@
 
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="!isAuthenticated()">
-					<li><a href="<c:url value="/login" />">Login</a></li>
+					<petclinic:menuItem active="${name eq 'login'}" url="/login" title="Login">
+						<span>Login</span>
+					</petclinic:menuItem>
 
 					<petclinic:menuItem active="${name eq 'register'}" url="/users/new" title="Register">
 						<span>Register</span>
 					</petclinic:menuItem>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>
-							<strong><sec:authentication property="name" /></strong> <span
-							class="glyphicon glyphicon-chevron-down"></span>
-					</a>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<span class="glyphicon glyphicon-user"></span>
+							<strong><sec:authentication property="name" /></strong>
+							<span class="glyphicon glyphicon-chevron-down"></span>
+						</a>
 						<ul class="dropdown-menu">
 							<li>
-								<div class="navbar-login">
-									<div class="row">
-										<div class="col-lg-4">
-											<p class="text-center">
-												<span class="glyphicon glyphicon-user icon-size"></span>
-											</p>
-										</div>
-										<div class="col-lg-8">
-											<p class="text-left">
-												<strong><sec:authentication property="name" /></strong>
-											</p>
-											<p class="text-left" style="text-align:center">
-												<a href="<c:url value="/logout" />" class="btn btn-primary btn-block btn-sm">Logout</a>
-											</p>
-										</div>
-									</div>
-								</div>
+								<p>
+									<a href="/users/${username}" class="btn btn-block"
+										style="background-color:#28B393;color:white;">My Profile</a>
+								</p>
 							</li>
-						</ul></li>
+							<li style="margin-top:2px;">
+								<p class="text-left" style="text-align:center">
+									<a href="<c:url value="/logout" />" class="btn btn-block" 
+										style="background-color:#28B393;color:white;">Logout</a>
+								</p>
+							</li>
+						</ul>
+					</li>
 				</sec:authorize>				
 			</ul>
 		</div>

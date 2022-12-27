@@ -5,31 +5,32 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="users">
-    <h2>Available Users</h2>
+    
+    <h1><em><b><u>Available Users</u></b></em></h1>
 
     <table id="usersTable" class="table table-striped">
         <thead>
         <tr>
-            <th>First Name</th>
-            <th>LastName</th>
-            <th>Username</th>
-            <th>Invite</th>
+            <th style="text-align:center;">First Name</th>
+            <th style="text-align:center;">Last Name</th>
+            <th style="text-align:center;">Username</th>
+            <th style="text-align:center;">Invite</th>
         </tr>
         </thead>
         <tbody>
             <c:forEach items="${availableList}" var="user">
                 <tr>
-                    <td>
+                    <td style="text-align:center;">
                         <c:out value="${user.name}"/>
                     </td>
-                    <td>                    
+                    <td style="text-align:center;">                    
                         <c:out value="${user.lastName} "/>                                        
                     </td>
-                    <td>                    
+                    <td style="text-align:center;">                    
                         <c:out value="${user.username}"/>
                     </td>
-                    <td> 
-                        <a href="/users/${username}/invitate/${user.username}"> 
+                    <td style="text-align:center;"> 
+                        <a href="/invitate/${username}/${user.username}"> 
                             <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>                            
                         </a>       
                     </td>

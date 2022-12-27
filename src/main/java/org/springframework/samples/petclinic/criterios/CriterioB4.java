@@ -26,10 +26,10 @@ public class CriterioB4 implements StrategyInterface{
         }
 
         Integer puntos = 0;
+        Integer contador = 0;
+        List<Territorio> territoriosUsados = new ArrayList<Territorio>();
         for(Accion accion: accionesCastilloSinBorde) {
             List<Casilla> casillasAdyacentes = accion.getCasilla().getAdyacencia();
-            Integer contador = 0;
-            List<Territorio> territoriosUsados = new ArrayList<Territorio>();
             for(Casilla casilla : casillasAdyacentes) {
 
                 for(Accion accion3: acciones) {
@@ -38,12 +38,12 @@ public class CriterioB4 implements StrategyInterface{
                         territoriosUsados.add(accion3.getTurno().getTerritorio());
                     }
                 }
-                if (contador == 6) {
-                    puntos +=12;
-                }
-                contador = 0;
-                territoriosUsados.clear();
             }
+            if (contador == 6) {
+                puntos +=12;
+            }
+            contador = 0;
+            territoriosUsados.clear();
         }
         
         return puntos;

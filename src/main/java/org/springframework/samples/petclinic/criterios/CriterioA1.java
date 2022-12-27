@@ -26,9 +26,9 @@ public class CriterioA1 implements StrategyInterface{
         }
 
         Integer puntos = 0;
+        Integer contador = 0;
         for(Accion accion: accionesCastilloSinBorde) {
             List<Casilla> casillasAdyacentes = accion.getCasilla().getAdyacencia();
-            Integer contador = 0;
             for(Casilla casilla : casillasAdyacentes) {
 
                 for(Accion accion3: acciones) {
@@ -36,11 +36,11 @@ public class CriterioA1 implements StrategyInterface{
                         contador ++;
                     }
                 }
-                if (contador == 6) {
-                    puntos +=2;
-                }
-                contador = 0;
             }
+            if (contador == 6) {
+                puntos +=2;
+            }
+            contador = 0;
         }
         
         return puntos;

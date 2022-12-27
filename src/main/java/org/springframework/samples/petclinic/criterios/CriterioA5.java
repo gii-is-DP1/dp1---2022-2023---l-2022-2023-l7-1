@@ -31,7 +31,7 @@ public class CriterioA5 implements StrategyInterface{
         return casillasDondeEmpiezaCadaGrupo*5;
     }
 
-    private Integer eliminarCasillasAdyacentesPoblado(List<Casilla> casillasPoblado) { // TODO Queremos hacer una recursiva que elimine a las casillas adyacentes dada una, para que solo nos que un poblado por grupo
+    private Integer eliminarCasillasAdyacentesPoblado(List<Casilla> casillasPoblado) { 
         if(casillasPoblado.isEmpty()){
             return 0;
         } else {

@@ -26,37 +26,37 @@ public class CriterioA5 implements StrategyInterface{
             }
         }
 
-        Integer casillasDondeEmpiezaCadaGrupo = eliminarCasillasAdyacentesPoblado(casillasPoblado);
+        Integer numeroDeGruposDistintos = getNumeroDeGruposDistintos(casillasPoblado);
 
-        return casillasDondeEmpiezaCadaGrupo*5;
+        return numeroDeGruposDistintos*5;
     }
 
-    private Integer eliminarCasillasAdyacentesPoblado(List<Casilla> casillasPoblado) { 
+    private Integer getNumeroDeGruposDistintos(List<Casilla> casillasPoblado) { 
         if(casillasPoblado.isEmpty()){
             return 0;
         } else {
             Casilla casilla = casillasPoblado.get(0);
             casillasPoblado.remove(casilla);
-            return eliminarCasillasAdyacentesPoblado_aux(casillasPoblado, 1,casilla);
+            return getNumeroDeGruposDistintos_aux(casillasPoblado, 1,casilla);
         }
     }
 
-    private Integer eliminarCasillasAdyacentesPoblado_aux(List<Casilla> casillasPoblado,
+    private Integer getNumeroDeGruposDistintos_aux(List<Casilla> casillasPoblado,
      Integer casillasFinales, Casilla casilla) {
-        casillasPoblado = eliminarCasillasAdyacentesPoblado_aux2(casillasPoblado, casilla);
+        casillasPoblado = eliminarCasillasAdyacentesPoblado(casillasPoblado, casilla);
         if(!casillasPoblado.isEmpty()){
             Casilla casilla2 = casillasPoblado.get(0);
             casillasPoblado.remove(casilla2);
-            eliminarCasillasAdyacentesPoblado_aux(casillasPoblado, casillasFinales++, casilla2);
+            getNumeroDeGruposDistintos_aux(casillasPoblado, casillasFinales++, casilla2);
         }
         return casillasFinales;
     }
 
-    private List<Casilla> eliminarCasillasAdyacentesPoblado_aux2(List<Casilla> casillasPoblado, Casilla casilla) {
+    private List<Casilla> eliminarCasillasAdyacentesPoblado(List<Casilla> casillasPoblado, Casilla casilla) {
         for (Casilla casillaP: casilla.getAdyacencia()){
             if(casillasPoblado.contains(casillaP)){
                 casillasPoblado.remove(casillaP);
-                eliminarCasillasAdyacentesPoblado_aux2(casillasPoblado, casillaP);
+                eliminarCasillasAdyacentesPoblado(casillasPoblado, casillaP);
             }
         }
         return casillasPoblado;

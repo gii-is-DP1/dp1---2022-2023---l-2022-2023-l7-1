@@ -1,20 +1,6 @@
-/*
- * Copyright 2002-2013 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.springframework.samples.petclinic.user;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -41,22 +27,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-/**
- * @author Juergen Hoeller
- * @author Ken Krebs
- * @author Arjen Poutsma
- * @author Michael Isvy
- */
 @Controller
 public class UserController {
 
 	private static final String VIEWS_USER_CREATE_UPDATE_FORM = "users/createOrUpdateUserForm";
-	private static final String STATS_LISTING_VIEW = "users/stats";
-	private static final String USER_STATS_LISTING_VIEW = "users/userStats";
-	private static final String VIEW_USER_LISTING = "users/userListing";
-	private static final String VIEW_USER_LISTING_Page = "users/userListingPage";
 	private static final String VIEW_USERNAME_EDITING = "users/userEdit";
-    private static final String VIEW_FIND_USER = "users/findUsers";
     private static final String VIEW_USER_DETAILS = "users/userDetails";
     private static final String VIEW_USER_FRIENDS = "users/friends";
     private static final String VIEW_USER_Partidas = "users/partida";
@@ -79,7 +54,7 @@ public class UserController {
 
 	@Transactional
 	@GetMapping(value = "/users/all")
-	public String showUsers(@RequestParam Map<String, Object> params, Model res){ //show users con paginacion
+	public ModelAndView showUsers(@RequestParam Map<String, Object> params, Model res, Principal principal){ //show users con paginacion
         Integer page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) - 1) : 0;
         Pageable pageable = PageRequest.of(page, 3);
         Page<User> users = userService.getAll(pageable);
@@ -93,7 +68,12 @@ public class UserController {
 		res.addAttribute("prev", page);
 		res.addAttribute("last", totalPage);
 		res.addAttribute("users", users.getContent());
-		return VIEW_USER_LISTING_Page;
+
+		ModelAndView result = new ModelAndView("users/userListingPage");
+		if(principal != null){
+			result.addObject("username", principal.getName());
+		}
+		return result;
 	}
 
     @Transactional(readOnly = true)
@@ -179,38 +159,53 @@ public class UserController {
 
 	@Transactional
     @GetMapping(value = "/stats")
-    public String showStats(Map<String, Object> model) {
+    public ModelAndView showStats(Map<String, Object> model, Principal principal) {
         List<User> users = userService.getAll();
         model.put("users", users);
-        return STATS_LISTING_VIEW;
+
+		ModelAndView res = new ModelAndView("users/stats");
+		if(principal != null){
+			res.addObject("username", principal.getName());
+		}
+        return res;
     }
 
 	@Transactional
     @GetMapping(value = "/users/{username}/stats")
-    public String showStats(@PathVariable String username,Map<String, Object> model) {
+    public ModelAndView showStats(@PathVariable String username, Map<String, Object> model, Principal principal) {
         User user = userService.getUserById(username);
         model.put("user", user);
-        return USER_STATS_LISTING_VIEW;
+
+		ModelAndView res = new ModelAndView("users/userStats");
+		if(principal != null){
+			res.addObject("username", principal.getName());
+		}
+        return res;
     }
 
     @Transactional
     @GetMapping(value = "/users/find")
-	public String initFindForm(Map<String, Object> model) {
+	public ModelAndView initFindForm(Map<String, Object> model, Principal principal) {
 		model.put("user", new User());
-		return VIEW_FIND_USER;
+
+		ModelAndView res = new ModelAndView("users/findUsers");
+		if(principal != null){
+			res.addObject("username", principal.getName());
+		}
+		return res;
 	}
 
     @Transactional
     @GetMapping("/users/{username}")
 	public ModelAndView showUser(@PathVariable("username") String username) {
-		ModelAndView mav = new ModelAndView(VIEW_USER_DETAILS);
-		mav.addObject("user", this.userService.getUserById(username));
-		return mav;
+		ModelAndView res = new ModelAndView(VIEW_USER_DETAILS);
+		res.addObject("user", this.userService.getUserById(username));
+		return res;
 	}
 
     @Transactional
     @GetMapping(value = "/users")
-	public String processFindForm(User user, BindingResult result, Map<String, Object> model) {
+	public ModelAndView processFindForm(User user, BindingResult result, Map<String, Object> model, Principal principal) {
         
 		// allow parameterless GET request for /users to return all records
 		if (user.getUsername() == null) {
@@ -222,12 +217,22 @@ public class UserController {
 		if (results.isEmpty()) {
 			// no users found
 			result.rejectValue("username", "notFound", "not found");
-			return VIEW_FIND_USER;
+
+			ModelAndView res = new ModelAndView("users/findUsers");
+			if(principal != null){
+				res.addObject("username", principal.getName());
+			}
+			return res;
 		}
 		else {
 			// multiple users found
 			model.put("users", results);
-			return VIEW_USER_LISTING;
+
+			ModelAndView res = new ModelAndView("users/userListing");
+			if(principal != null){
+				res.addObject("username", principal.getName());
+			}
+			return res;
 		}
 	}
 
@@ -247,24 +252,5 @@ public class UserController {
         userService.deleteFriend(username, username2);        
         return "redirect:/users/"+username+"/friends";
     }
-
-    @Transactional
-    @GetMapping("/users/{username}/partidas")
-	public ModelAndView showPartidasJugador(@PathVariable("username") String username) {
-		List<Tablero> tableros = userService.getTableroByUser(username);
-		ModelAndView mav = new ModelAndView(VIEW_USER_Partidas);
-		mav.addObject("tablero", tableros);
-		return mav;
-	}
-
-    @Transactional
-    @GetMapping("/partidas")
-	public ModelAndView showPartidas() {
-		List<Tablero> tableros = userService.getTableros();
-		ModelAndView mav = new ModelAndView(VIEW_USER_Partidas);
-		mav.addObject("tablero", tableros);
-		return mav;
-	}
-
 
 }

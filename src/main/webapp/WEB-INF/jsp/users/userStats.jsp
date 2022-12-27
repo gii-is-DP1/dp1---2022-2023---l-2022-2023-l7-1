@@ -3,37 +3,38 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 
-<petclinic:layout pageName="User Stats">
-    <h2>User Stats</h2>
-
+<petclinic:layout pageName="userStats">
+    <h1><em><b><u>My Stats</u></b></em></h1>
+    <br>
     <table class="table table-striped">
         <tr>
-            <th>Partidas Jugadas</th>
+            <th>Games Played</th>
             <td><b><c:out value="${user.matchesPlayed}"/></b></td>
         </tr>
         <tr>
-            <th>Partidas Ganadas</th>
+            <th>Games Winned</th>
             <td><b><c:out value="${user.gamesWin}"/></b></td>
         </tr>
         <tr>
-            <th>WinRatio</th>
+            <th>Win Ratio</th>
             <td><b><c:out value="${user.winRatio}"/></b></td>
         </tr>
         <tr>
-            <th>Puntos Totales</th>
+            <th>All Points</th>
             <td><b><c:out value="${user.totalPoints}"/></b></td>
         </tr>
         <tr>
-            <th>Maxima Puntuación</th>
+            <th>Max Score</th>
             <td><b><c:out value="${user.maxPoints}"/></b></td>
         </tr>
         <tr>
-            <th>Veces usadas poder ?</th>
+            <th>Time used <em>?</em> power</th>
             <td><b><c:out value="${user.timesUsedPowerQuestion}"/></b></td>
         </tr>
         <tr>
-            <th>Veces usadas poder +-1</th>
+            <th>Time used <em>+-1</em> power</th>
             <td><b><c:out value="${user.timesUsedPower1}"/></b></td>
         </tr>
        

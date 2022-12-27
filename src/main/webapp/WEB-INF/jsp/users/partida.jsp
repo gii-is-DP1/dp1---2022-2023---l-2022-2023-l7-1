@@ -5,32 +5,34 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="games">
+    <h1><em><b><u>Games</u></b></em></h1>
+
     <table id="usersTable" class="table table-striped">
         <thead>
         <tr>
-            <th>Id de partida</th>
-            <th>partidaEnCurso</th>
-            <th>puntos</th>
-            <th>Username</th>
-            <th>Partida Creada</th>
+            <th style="text-align:center">Identification</th>
+            <th style="text-align:center">Game in process</th>
+            <th style="text-align:center">Points</th>
+            <th style="text-align:center">User name</th>
+            <th style="text-align:center">Game Creator</th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${tablero}" var="tablero">
             <tr>
-                <td>
+                <td style="text-align:center">
                     <c:out value="${tablero.partida.id}"/>
                 </td>
-                <td>                    
+                <td style="text-align:center">                    
                     <c:out value="${tablero.partidaEnCurso} "/>                                        
                 </td>
-                <td>                    
+                <td style="text-align:center">                    
                     <c:out value="${tablero.puntos}"/>
                 </td>
-                <td>                    
+                <td style="text-align:center">                    
                     <c:out value="${tablero.user.username}"/>
                 </td>
-                <td>                    
+                <td style="text-align:center">                    
                     <c:out value="${tablero.partidaCreada}"/>
                 </td>
             </tr>

@@ -10,7 +10,7 @@
 
 <petclinic:layout pageName="usersF">
 
-    <h2>Find Users</h2>
+    <h1><em><b><u>Find Users</u></b></em></h1>
 
     
     <form:form modelAttribute="user" action="/users" method="get" class="form-horizontal"

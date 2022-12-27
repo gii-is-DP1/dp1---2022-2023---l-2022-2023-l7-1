@@ -13,9 +13,10 @@
 }
 </script>
 
+<petclinic:layout pageName="nuevaPartida">
 
-<petclinic:layout pageName="CREAR PARTIDA">
-    <h2>CREACION DE PARTIDAS</h2>
+    <h1><em><b><u>New Game</u></b></em></h1>
+    
     <form:form>
         <h3>SELECCIONA MODO DE JUEGO</h3>
         <div class="col-sm-offset-2 col-sm-10">

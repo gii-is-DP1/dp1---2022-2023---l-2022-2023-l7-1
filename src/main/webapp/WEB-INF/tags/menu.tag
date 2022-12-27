@@ -21,17 +21,25 @@
 				</petclinic:menuItem>
 
 				<sec:authorize access="hasAnyAuthority('admin')">
-
 					<petclinic:menuItem active="${name eq 'usersA'}" url="/users/all" title="Users">
 						<span class="glyphicon glyphicon-user"></span>
 						<span>Users</span>
 					</petclinic:menuItem>
+				</sec:authorize>
 
+				<sec:authorize access="isAuthenticated()">
 					<petclinic:menuItem active="${name eq 'usersF'}" url="/users/find" title="Find users">
 						<span class="glyphicon glyphicon-search"></span>
 						<span>Find users</span>
 					</petclinic:menuItem>
 
+					<petclinic:menuItem active="${name eq 'userStats'}" url="/stats/${username}" title="My stats">
+							<span class="glyphicon glyphicon-stats"></span>
+							<span>My stats</span>
+					</petclinic:menuItem>
+				</sec:authorize>
+
+				<sec:authorize access="hasAnyAuthority('admin')">
 					<petclinic:menuItem active="${name eq 'stats'}" url="/stats" title="Stats">
 						<span class="glyphicon glyphicon-stats"></span>
 						<span>Stats</span>
@@ -41,9 +49,8 @@
 						<span class="glyphicon glyphicon-tower"></span>
 						<span>Games</span>
 					</petclinic:menuItem>
-
 				</sec:authorize>
-				
+
 				<petclinic:menuItem active="${name eq 'rules'}" url="/rules" title="Rules">
 					<span class="glyphicon glyphicon-list-alt"></span>
 					<span>Rules</span>
@@ -54,7 +61,10 @@
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="!isAuthenticated()">
 					<li><a href="<c:url value="/login" />">Login</a></li>
-					<li><a href="<c:url value="/users/new" />">Register</a></li>
+
+					<petclinic:menuItem active="${name eq 'register'}" url="/users/new" title="Register">
+						<span>Register</span>
+					</petclinic:menuItem>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -75,9 +85,8 @@
 											<p class="text-left">
 												<strong><sec:authentication property="name" /></strong>
 											</p>
-											<p class="text-left">
-												<a href="<c:url value="/logout" />"
-													class="btn btn-primary btn-block btn-sm">Logout</a>
+											<p class="text-left" style="text-align:center">
+												<a href="<c:url value="/logout" />" class="btn btn-primary btn-block btn-sm">Logout</a>
 											</p>
 										</div>
 									</div>

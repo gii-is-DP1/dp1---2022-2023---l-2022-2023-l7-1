@@ -28,14 +28,6 @@
                    <a class="btn btn-default" href="${perfil}">MY PROFILE</a>
                     </sec:authorize>
                 </div>
-                <spring:url value="users/{username}/stats" htmlEscape="true" var="stats">
-                    <spring:param name="username" value="${username}" />
-                </spring:url>
-                <div class="col-sm-offset-2 col-sm-10">
-                    <sec:authorize access="hasAnyAuthority('admin','player')">
-                    <a class="btn btn-default" href="${stats}">MY STATS</a>
-                    </sec:authorize>
-                 </div>
 
                  <spring:url value="/partida/crearPartida" htmlEscape="true" var="crear">
 

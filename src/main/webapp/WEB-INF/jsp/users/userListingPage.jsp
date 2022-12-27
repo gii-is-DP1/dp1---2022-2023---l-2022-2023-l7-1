@@ -6,47 +6,47 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <petclinic:layout pageName="usersA">
-    <h2>User Listing</h2>
+    <h1><em><b><u>User Listing</u></b></em></h1>
 
     <table id="usersTable" class="table table-striped">
         <thead>
         <tr>
-            <th>First Name</th>
-            <th>LastName</th>
-            <th>Brith Date</th>
-            <th>Email</th>
-            <th>Telephone</th>
-            <th>Username</th>
-            <th>Password</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th  style="text-align:center">First Name</th>
+            <th  style="text-align:center">LastName</th>
+            <th  style="text-align:center">Brith Date</th>
+            <th  style="text-align:center">Email</th>
+            <th  style="text-align:center">Telephone</th>
+            <th  style="text-align:center">Username</th>
+            <th  style="text-align:center">Password</th>
+            <th  style="text-align:center">Edit</th>
+            <th  style="text-align:center">Delete</th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${users}" var="user">
             <tr>
-                <td>
+                <td style="text-align:center">
                     <c:out value="${user.name}"/>
                 </td>
-                <td>                    
+                <td  style="text-align:center">                    
                     <c:out value="${user.lastName} "/>                                        
                 </td>
-                <td>                    
+                <td  style="text-align:center">                    
                     <c:out value="${user.birthDate}"/>
                 </td>
-                <td>                    
+                <td  style="text-align:center">                    
                     <c:out value="${user.email}"/>
                 </td>
-                <td>                    
+                <td  style="text-align:center">                    
                     <c:out value="${user.phone}"/>
                 </td>
-                <td>                    
+                <td  style="text-align:center">                    
                     <c:out value="${user.username}"/>
                 </td>
-                <td>                    
+                <td  style="text-align:center">                    
                     <c:out value="${user.password}"/>
                 </td>
-                <td> 
+                <td  style="text-align:center"> 
                     <c:forEach items="${user.authorities}" var="uauthorities">
                         <c:if test ="${uauthorities.authority != 'admin'}"> 
                         <a href="/users/${user.username}/edit"> 
@@ -55,7 +55,7 @@
                         </c:if>
                     </c:forEach>
                 </td>
-                <td> 
+                <td  style="text-align:center"> 
                     <c:forEach items="${user.authorities}" var="uauthorities">
                         <c:if test ="${uauthorities.authority != 'admin'}"> 
                             <a href="/users/${user.username}/delete"> 
@@ -72,7 +72,7 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <nav aria-label="Pagination">
+            <nav aria-label="Pagination" style="text-align: center;">
                 <ul class="pagination justify-content-center">
                     <li class="page-item">
                         <c:if test ="${prev != 0}"><a href="/users/all?page=${prev}">Previous</a> </c:if>
@@ -88,7 +88,7 @@
                 </ul>
             </nav>
         </div>
-        <div class="col-md-2"></div>
+        
     </div>
 
 </petclinic:layout>

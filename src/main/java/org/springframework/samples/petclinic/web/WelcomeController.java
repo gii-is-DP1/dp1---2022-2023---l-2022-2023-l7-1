@@ -13,9 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class WelcomeController {
 	
-	
 	  @GetMapping({"/","/welcome"})
-	  public ModelAndView welcome(Map<String, Object> model,  Principal principal) {	    
+	  public ModelAndView welcome(Map<String, Object> model,  Principal principal) {
+
 		List<Person> persons = new ArrayList<Person>();
 		Person diego = new Person();
 		Person julio = new Person();
@@ -23,6 +23,7 @@ public class WelcomeController {
 		Person aitor = new Person();
 		Person raymon = new Person();
 		Person jesus = new Person();
+
 		diego.setFirstName("Diego");
 		diego.setLastName("Linares");
 		julio.setFirstName("Julio");
@@ -35,15 +36,18 @@ public class WelcomeController {
 		raymon.setLastName("Guerrero");
 		jesus.setFirstName("Jesús");
 		jesus.setLastName("Zambrana");
+
 		persons.add(diego);
 		persons.add(julio);
 		persons.add(francis);
 		persons.add(aitor);
 		persons.add(raymon);
 		persons.add(jesus);
+
 		model.put("persons", persons);
 		model.put("title","My project");
-		model.put("group", "Teachers"); 
+		model.put("group", "Teachers");
+
 		ModelAndView res = new ModelAndView("welcome");
 		if(principal != null){
 			res.addObject("username", principal.getName());

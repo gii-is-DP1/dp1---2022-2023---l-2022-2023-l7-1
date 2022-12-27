@@ -59,6 +59,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/invitate/**").authenticated()
 				.antMatchers("/invitationAccepted/**").authenticated()
 				.antMatchers("/invitationCancelled/**").authenticated()
+				// Permisos de las reglas
+				.antMatchers("/rules").permitAll()
 
 				.antMatchers("/session/**").permitAll()
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
@@ -67,7 +69,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/{username}/lobby").hasAnyAuthority("admin", "player")
 				.antMatchers("/prueba/**").hasAnyAuthority("admin", "player")
 
-				.antMatchers("/rules").permitAll()
 				.antMatchers("/partida/**").permitAll()
 				.antMatchers("/p").permitAll()
 				.anyRequest().denyAll()

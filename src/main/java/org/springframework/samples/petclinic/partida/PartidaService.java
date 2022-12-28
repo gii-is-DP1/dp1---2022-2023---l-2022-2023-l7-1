@@ -11,6 +11,8 @@ import java.util.stream.IntStream;
 
 import org.h2.store.RangeInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.accion.Accion;
 import org.springframework.samples.petclinic.accion.AccionService;
 import org.springframework.samples.petclinic.casilla.Casilla;
@@ -48,6 +50,7 @@ public class PartidaService {
    public Partida getPartidaById(Integer id){
       return partidaRepo.findById(id).get();
    }
+
 
    public int[] criterioAleatorio(){
 

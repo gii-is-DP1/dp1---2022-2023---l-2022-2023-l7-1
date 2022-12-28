@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -11,7 +13,11 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.samples.petclinic.accion.Accion;
@@ -27,6 +33,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -58,14 +66,29 @@ public class PartidaController {
 
     @Transactional
     @GetMapping("/partidas")
-	public ModelAndView showPartidas(Principal principal) {
-		List<Tablero> tableros = userService.getTableros();
-		ModelAndView res = new ModelAndView("users/partida");
-		res.addObject("tablero", tableros);
-        if(principal != null){
-			res.addObject("username", principal.getName());
+	public ModelAndView showPartidas(@RequestParam Map<String, Object> params, Model res, Principal principal) {
+        /*
+        Integer page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) - 1) : 0;
+        Pageable pageable = PageRequest.of(page, 1);
+        Page<Tablero> partidas = tableroService.getAll(pageable);
+        Integer totalPage = partidas.getTotalPages();
+        if(totalPage > 0) {
+			List<Integer> pages = IntStream.rangeClosed(1, totalPage).boxed().collect(Collectors.toList());
+			res.addAttribute("pages", pages);
 		}
-		return res;
+		res.addAttribute("current", page + 1);
+		res.addAttribute("next", page + 2);
+		res.addAttribute("prev", page);
+		res.addAttribute("last", totalPage);
+		res.addAttribute("users", partidas.getContent());
+         */ // NO FUNCIONA LA PAGINACIÓN EN ESTE LISTING POR AHORA
+        List<Tablero> tableros = userService.getTableros();
+		ModelAndView result = new ModelAndView("users/partida");
+		result.addObject("tablero", tableros);
+        if(principal != null){
+			result.addObject("username", principal.getName());
+		}
+		return result;
 	}
 
     @Transactional

@@ -191,6 +191,71 @@ public class criteriosTest {
     }
 
     @Test
+    public void puntosCriterioA3(){
+        List<Accion> acciones= new ArrayList<Accion>();
+        List<Turno> turnos = new ArrayList<Turno>();
+        strategy = new CriterioA3();
+        Integer res = strategy.calcularCriterio(acciones, turnos);
+        assertThat(res).isEqualTo(0);
+        turno4.setTerritorio(Territorio.BOSQUE);
+        accion1.setTurno(turno4); accion1.setCasilla(this.casillaService.getCasillaById(7)); 
+        acciones.add(accion1);
+        accion2.setTurno(turno4); accion2.setCasilla(this.casillaService.getCasillaById(6)); 
+        acciones.add(accion2);
+        accion3.setTurno(turno4); accion3.setCasilla(this.casillaService.getCasillaById(1)); 
+        acciones.add(accion3);
+        accion4.setTurno(turno4); accion4.setCasilla(this.casillaService.getCasillaById(2)); 
+        acciones.add(accion4);
+        accion5.setTurno(turno4); accion5.setCasilla(this.casillaService.getCasillaById(3)); 
+        acciones.add(accion5);
+        accion6.setTurno(turno4); accion6.setCasilla(this.casillaService.getCasillaById(4)); 
+        acciones.add(accion6);
+        turnos.add(turno4);
+        turno3.setTerritorio(Territorio.BOSQUE);
+        accion7.setTurno(turno3); accion7.setCasilla(this.casillaService.getCasillaById(14)); 
+        acciones.add(accion7);
+        turnos.add(turno3);
+        turno1.setTerritorio(Territorio.BOSQUE);
+        accion8.setTurno(turno1); accion8.setCasilla(this.casillaService.getCasillaById(5)); 
+        acciones.add(accion8);
+        accion9.setTurno(turno1); accion9.setCasilla(this.casillaService.getCasillaById(12)); 
+        acciones.add(accion9);
+        accion10.setTurno(turno1); accion10.setCasilla(this.casillaService.getCasillaById(9)); 
+        acciones.add(accion10);
+        accion11.setTurno(turno1); accion11.setCasilla(this.casillaService.getCasillaById(13)); 
+        acciones.add(accion11);
+        accion12.setTurno(turno1); accion12.setCasilla(this.casillaService.getCasillaById(8)); 
+        acciones.add(accion12);
+        turnos.add(turno1);
+        res = strategy.calcularCriterio(acciones, turnos);
+        assertThat(res).isEqualTo(0); //1 grupo de 12
+        turno2.setTerritorio(Territorio.BOSQUE);
+        accion13.setTurno(turno2); accion13.setCasilla(this.casillaService.getCasillaById(28)); 
+        acciones.add(accion13);
+        accion20.setTurno(turno2); accion20.setCasilla(this.casillaService.getCasillaById(36)); 
+        acciones.add(accion20);
+        accion21.setTurno(turno2); accion21.setCasilla(this.casillaService.getCasillaById(37)); 
+        acciones.add(accion21);
+        accion14.setTurno(turno2); accion14.setCasilla(this.casillaService.getCasillaById(10)); 
+        acciones.add(accion14);
+        turnos.add(turno2);
+        res = strategy.calcularCriterio(acciones, turnos);
+        assertThat(res).isEqualTo(6);  //1 grupo de 13 y 1 de 3 
+        turno5.setTerritorio(Territorio.POBLADO);
+        accion15.setTurno(turno5); accion15.setCasilla(this.casillaService.getCasillaById(31)); 
+        acciones.add(accion15);
+        turnos.add(turno5);  
+        res = strategy.calcularCriterio(acciones, turnos);
+        assertThat(res).isEqualTo(6); //1 grupo de 13 y 1 de 3
+        turno6.setTerritorio(Territorio.BOSQUE);
+        accion18.setTurno(turno6); accion18.setCasilla(this.casillaService.getCasillaById(61)); 
+        acciones.add(accion18);
+        turnos.add(turno6);
+        res = strategy.calcularCriterio(acciones, turnos);
+        assertThat(res).isEqualTo(2);  //1 grupo de 13, 1 de 1 y 1 de 3
+    }
+
+    @Test
     public void puntosCriterioA5(){
         List<Accion> acciones= new ArrayList<Accion>();
         List<Turno> turnos = new ArrayList<Turno>();
@@ -257,4 +322,180 @@ public class criteriosTest {
         assertThat(res).isEqualTo(20);  //1 grupo de 13, 2 de 1 y 1 de 3
     }
     
+    @Test
+    public void puntosCriterioB1(){
+        List<Accion> acciones= new ArrayList<Accion>();
+        List<Turno> turnos = new ArrayList<Turno>();
+        strategy = new CriterioB1();
+        Integer res = strategy.calcularCriterio(acciones, turnos);
+        assertThat(res).isEqualTo(0);
+        turno6.setTerritorio(Territorio.MONTANA);
+        accion13.setTurno(turno6); accion13.setCasilla(this.casillaService.getCasillaById(28)); 
+        acciones.add(accion13);
+        turnos.add(turno6);
+        res = strategy.calcularCriterio(acciones, turnos);
+        assertThat(res).isEqualTo(0);  //1 grupo de 1
+        turno2.setTerritorio(Territorio.MONTANA);
+        accion20.setTurno(turno2); accion20.setCasilla(this.casillaService.getCasillaById(36)); 
+        acciones.add(accion20);
+        accion21.setTurno(turno2); accion21.setCasilla(this.casillaService.getCasillaById(37)); 
+        acciones.add(accion21);
+        accion14.setTurno(turno2); accion14.setCasilla(this.casillaService.getCasillaById(10)); 
+        acciones.add(accion14);
+        turnos.add(turno2);
+        res = strategy.calcularCriterio(acciones, turnos);
+        assertThat(res).isEqualTo(3);  //1 grupo de 1 y 1 de 3 
+        turno5.setTerritorio(Territorio.POBLADO);
+        accion15.setTurno(turno5); accion15.setCasilla(this.casillaService.getCasillaById(31)); 
+        acciones.add(accion15);
+        turnos.add(turno5);  
+        res = strategy.calcularCriterio(acciones, turnos);
+        assertThat(res).isEqualTo(3); //1 grupo de 1 y 1 de 3
+        turno6.setTerritorio(Territorio.MONTANA);
+        accion18.setTurno(turno6); accion18.setCasilla(this.casillaService.getCasillaById(61)); 
+        acciones.add(accion18);
+        turnos.add(turno6);
+        res = strategy.calcularCriterio(acciones, turnos);
+        assertThat(res).isEqualTo(3);  //1 grupo de 1, 1 de 1 y 1 de 3
+        turno4.setTerritorio(Territorio.MONTANA);
+        accion1.setTurno(turno4); accion1.setCasilla(this.casillaService.getCasillaById(7)); 
+        acciones.add(accion1);
+        accion2.setTurno(turno4); accion2.setCasilla(this.casillaService.getCasillaById(6)); 
+        acciones.add(accion2);
+        accion3.setTurno(turno4); accion3.setCasilla(this.casillaService.getCasillaById(1)); 
+        acciones.add(accion3);
+        accion4.setTurno(turno4); accion4.setCasilla(this.casillaService.getCasillaById(2)); 
+        acciones.add(accion4);
+        accion5.setTurno(turno4); accion5.setCasilla(this.casillaService.getCasillaById(3)); 
+        acciones.add(accion5);
+        accion6.setTurno(turno4); accion6.setCasilla(this.casillaService.getCasillaById(4)); 
+        acciones.add(accion6);
+        turnos.add(turno4);
+        turno3.setTerritorio(Territorio.MONTANA);
+        accion7.setTurno(turno3); accion7.setCasilla(this.casillaService.getCasillaById(14)); 
+        acciones.add(accion7);
+        turnos.add(turno3);
+        turno1.setTerritorio(Territorio.MONTANA);
+        accion8.setTurno(turno1); accion8.setCasilla(this.casillaService.getCasillaById(5)); 
+        acciones.add(accion8);
+        accion9.setTurno(turno1); accion9.setCasilla(this.casillaService.getCasillaById(12)); 
+        acciones.add(accion9);
+        accion10.setTurno(turno1); accion10.setCasilla(this.casillaService.getCasillaById(9)); 
+        acciones.add(accion10);
+        accion11.setTurno(turno1); accion11.setCasilla(this.casillaService.getCasillaById(13)); 
+        acciones.add(accion11);
+        accion12.setTurno(turno1); accion12.setCasilla(this.casillaService.getCasillaById(8)); 
+        acciones.add(accion12);
+        turnos.add(turno1);
+        res = strategy.calcularCriterio(acciones, turnos);
+        assertThat(res).isEqualTo(13); //1 grupo de 13, 1 de 1 y 1 de 3
+    }
+
+    @Test
+    public void puntosCriterioB3(){
+        List<Accion> acciones= new ArrayList<Accion>();
+        List<Turno> turnos = new ArrayList<Turno>();
+        strategy = new CriterioB3();
+        Integer res = strategy.calcularCriterio(acciones, turnos);
+        assertThat(res).isEqualTo(0); //Vacío
+        turno1.setTerritorio(Territorio.BOSQUE);
+        accion1.setTurno(turno1); accion1.setCasilla(this.casillaService.getCasillaById(1)); 
+        acciones.add(accion1);
+        accion2.setTurno(turno1); accion2.setCasilla(this.casillaService.getCasillaById(7)); 
+        acciones.add(accion2);
+        accion3.setTurno(turno1); accion3.setCasilla(this.casillaService.getCasillaById(14)); 
+        acciones.add(accion3);
+        accion4.setTurno(turno1); accion4.setCasilla(this.casillaService.getCasillaById(22)); 
+        acciones.add(accion4);
+        accion5.setTurno(turno1); accion5.setCasilla(this.casillaService.getCasillaById(31)); 
+        acciones.add(accion5);
+        accion6.setTurno(turno1); accion6.setCasilla(this.casillaService.getCasillaById(48)); 
+        acciones.add(accion6);
+        accion7.setTurno(turno1); accion7.setCasilla(this.casillaService.getCasillaById(55)); 
+        acciones.add(accion7);
+        accion8.setTurno(turno1); accion8.setCasilla(this.casillaService.getCasillaById(61)); 
+        acciones.add(accion8);
+        turnos.add(turno1);
+        turno2.setTerritorio(Territorio.RIO);
+        accion9.setTurno(turno2); accion9.setCasilla(this.casillaService.getCasillaById(40));
+        acciones.add(accion9);
+        turnos.add(turno2);
+        res = strategy.calcularCriterio(acciones, turnos);
+        assertThat(res).isEqualTo(0); //Casillas opuestas colocadas, no unidas
+        turno3.setTerritorio(Territorio.BOSQUE);
+        accion10.setTurno(turno3); accion10.setCasilla(this.casillaService.getCasillaById(39));
+        acciones.add(accion10);
+        accion11.setTurno(turno3); accion11.setCasilla(this.casillaService.getCasillaById(47));
+        acciones.add(accion11);
+        turnos.add(turno3);
+        res = strategy.calcularCriterio(acciones, turnos);
+        assertThat(res).isEqualTo(10); //1 par de casillas opuestas colocadas unidas
+        turno4.setTerritorio(Territorio.BOSQUE);
+        accion12.setTurno(turno4); accion12.setCasilla(this.casillaService.getCasillaById(2));
+        acciones.add(accion12);
+        accion13.setTurno(turno4); accion13.setCasilla(this.casillaService.getCasillaById(60));
+        acciones.add(accion13);
+        turnos.add(turno4);
+        res = strategy.calcularCriterio(acciones, turnos);
+        assertThat(res).isEqualTo(20); //2 pares de casillas opuestas colocadas unidas
+    }
+
+    @Test
+    public void puntosCriterioB3Maximo(){
+        List<Accion> acciones= new ArrayList<Accion>();
+        List<Turno> turnos = new ArrayList<Turno>();
+        strategy = new CriterioB3();
+        turno1.setTerritorio(Territorio.BOSQUE);
+        accion1.setTurno(turno1); accion1.setCasilla(this.casillaService.getCasillaById(5)); 
+        acciones.add(accion1);
+        accion2.setTurno(turno1); accion2.setCasilla(this.casillaService.getCasillaById(51)); 
+        acciones.add(accion2);
+        accion3.setTurno(turno1); accion3.setCasilla(this.casillaService.getCasillaById(61)); 
+        acciones.add(accion3);
+        accion4.setTurno(turno1); accion4.setCasilla(this.casillaService.getCasillaById(2)); 
+        acciones.add(accion4);
+        accion5.setTurno(turno1); accion5.setCasilla(this.casillaService.getCasillaById(1)); 
+        acciones.add(accion5);
+        accion6.setTurno(turno1); accion6.setCasilla(this.casillaService.getCasillaById(27)); 
+        acciones.add(accion6);
+        accion7.setTurno(turno1); accion7.setCasilla(this.casillaService.getCasillaById(57)); 
+        acciones.add(accion7);
+        accion8.setTurno(turno1); accion8.setCasilla(this.casillaService.getCasillaById(36)); 
+        acciones.add(accion8);
+        accion9.setTurno(turno1); accion9.setCasilla(this.casillaService.getCasillaById(58)); 
+        acciones.add(accion9);
+        accion10.setTurno(turno1); accion10.setCasilla(this.casillaService.getCasillaById(44)); 
+        acciones.add(accion10);
+        accion11.setTurno(turno1); accion11.setCasilla(this.casillaService.getCasillaById(11)); 
+        acciones.add(accion11);
+        accion12.setTurno(turno1); accion12.setCasilla(this.casillaService.getCasillaById(56)); 
+        acciones.add(accion12);
+        accion13.setTurno(turno1); accion13.setCasilla(this.casillaService.getCasillaById(60)); 
+        acciones.add(accion13);
+        accion14.setTurno(turno1); accion14.setCasilla(this.casillaService.getCasillaById(6)); 
+        acciones.add(accion14);
+        accion15.setTurno(turno1); accion15.setCasilla(this.casillaService.getCasillaById(59)); 
+        acciones.add(accion15);
+        accion16.setTurno(turno1); accion16.setCasilla(this.casillaService.getCasillaById(43)); 
+        acciones.add(accion16);
+        accion17.setTurno(turno1); accion17.setCasilla(this.casillaService.getCasillaById(50)); 
+        acciones.add(accion17);
+        accion18.setTurno(turno1); accion18.setCasilla(this.casillaService.getCasillaById(19)); 
+        acciones.add(accion18);
+        accion19.setTurno(turno1); accion19.setCasilla(this.casillaService.getCasillaById(18)); 
+        acciones.add(accion19);
+        accion20.setTurno(turno1); accion20.setCasilla(this.casillaService.getCasillaById(12)); 
+        acciones.add(accion20);
+        accion21.setTurno(turno1); accion21.setCasilla(this.casillaService.getCasillaById(4)); 
+        acciones.add(accion21);
+        accion22.setTurno(turno1); accion22.setCasilla(this.casillaService.getCasillaById(3)); 
+        acciones.add(accion22);
+        accion23.setTurno(turno1); accion23.setCasilla(this.casillaService.getCasillaById(26)); 
+        acciones.add(accion23);
+        accion24.setTurno(turno1); accion24.setCasilla(this.casillaService.getCasillaById(35)); 
+        acciones.add(accion24);
+        turnos.add(turno1);
+        Integer res = strategy.calcularCriterio(acciones, turnos);
+        assertThat(res).isEqualTo(120); //12 pares de casillas opuestas colocadas unidas
+    }
 }

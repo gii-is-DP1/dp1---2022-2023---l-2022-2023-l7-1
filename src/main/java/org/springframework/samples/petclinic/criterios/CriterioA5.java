@@ -39,7 +39,6 @@ public class CriterioA5 implements StrategyInterface{
             Casilla casilla = casillasPoblado.get(0);
             casillasPoblado.remove(casilla);
             res =  getNumeroDeGruposDistintos_aux(casillasPoblado,res,casilla);
-            System.out.println(res);
             return res;
         }
     }

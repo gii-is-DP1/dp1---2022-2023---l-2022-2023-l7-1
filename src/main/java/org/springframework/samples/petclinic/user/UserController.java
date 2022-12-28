@@ -235,16 +235,27 @@ public class UserController {
 
 	@Transactional
     @GetMapping(value = "/stats")
-    public ModelAndView showStats(Map<String, Object> model, Principal principal) {
-        List<User> users = userService.getAll();
-        model.put("users", users);
-
-		ModelAndView res = new ModelAndView("stats/stats");
-		if(principal != null){
-			res.addObject("username", principal.getName());
+    public ModelAndView showStats(@RequestParam Map<String, Object> params, Model res, Principal principal) {
+	  	Integer page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) - 1) : 0;
+        Pageable pageable = PageRequest.of(page, 3);
+        Page<User> users = userService.getAll(pageable);
+        Integer totalPage = users.getTotalPages();
+        if(totalPage > 0) {
+			List<Integer> pages = IntStream.rangeClosed(1, totalPage).boxed().collect(Collectors.toList());
+			res.addAttribute("pages", pages);
 		}
-        return res;
-    }
+		res.addAttribute("current", page + 1);
+		res.addAttribute("next", page + 2);
+		res.addAttribute("prev", page);
+		res.addAttribute("last", totalPage);
+		res.addAttribute("users", users.getContent());
+
+		ModelAndView result = new ModelAndView("stats/stats");
+		if(principal != null){
+			result.addObject("username", principal.getName());
+		}
+		return result; 
+	}
 
 	@Transactional
     @GetMapping(value = "/stats/{username}")

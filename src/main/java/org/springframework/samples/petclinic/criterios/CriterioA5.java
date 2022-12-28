@@ -27,17 +27,20 @@ public class CriterioA5 implements StrategyInterface{
         }
 
         Integer numeroDeGruposDistintos = getNumeroDeGruposDistintos(casillasPoblado);
-
         return numeroDeGruposDistintos*5;
     }
 
     private Integer getNumeroDeGruposDistintos(List<Casilla> casillasPoblado) { 
+        Integer res=0;
         if(casillasPoblado.isEmpty()){
-            return 0;
+            return res;
         } else {
+            res++;
             Casilla casilla = casillasPoblado.get(0);
             casillasPoblado.remove(casilla);
-            return getNumeroDeGruposDistintos_aux(casillasPoblado, 1,casilla);
+            res =  getNumeroDeGruposDistintos_aux(casillasPoblado,res,casilla);
+            System.out.println(res);
+            return res;
         }
     }
 
@@ -47,7 +50,8 @@ public class CriterioA5 implements StrategyInterface{
         if(!casillasPoblado.isEmpty()){
             Casilla casilla2 = casillasPoblado.get(0);
             casillasPoblado.remove(casilla2);
-            getNumeroDeGruposDistintos_aux(casillasPoblado, casillasFinales++, casilla2);
+            casillasFinales++;
+            casillasFinales = getNumeroDeGruposDistintos_aux(casillasPoblado, casillasFinales, casilla2);
         }
         return casillasFinales;
     }

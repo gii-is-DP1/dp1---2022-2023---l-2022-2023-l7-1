@@ -5473,3 +5473,6 @@ Database is already closed (to disable automatic closing at VM shutdown, add ";D
 2022-12-28 14:22:29,149 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started PetclinicApplication in 1.473 seconds (JVM running for 763.549)
 2022-12-28 14:22:29,150 INFO org.springframework.boot.devtools.autoconfigure.ConditionEvaluationDeltaLoggingListener [restartedMain] Condition evaluation unchanged
 2022-12-28 14:22:29,151 INFO org.springframework.samples.petclinic.PetclinicApplication [restartedMain] Awesomeness ahead!
+2022-12-28 14:22:31,033 INFO org.apache.juli.logging.DirectJDKLog [http-nio-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-12-28 14:22:31,034 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8080-exec-1] Initializing Servlet 'dispatcherServlet'
+2022-12-28 14:22:31,036 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-8080-exec-1] Completed initialization in 2 ms

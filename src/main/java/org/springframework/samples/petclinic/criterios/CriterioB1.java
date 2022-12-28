@@ -64,8 +64,9 @@ public class CriterioB1 implements StrategyInterface{
         
         if(!casillasMontana.isEmpty()){
             Casilla casilla2 = casillasMontana.get(0);
+            grupoDeCasillasMontana.add(casilla2);
             casillasMontana.remove(casilla2);
-            getCantidadDeMontanasEnCadaGrupo_aux(casillasMontana, grupoDeCasillasMontana, res, casilla2);
+            res = getCantidadDeMontanasEnCadaGrupo_aux(casillasMontana, grupoDeCasillasMontana, res, casilla2);
         }
 
         return res;
@@ -85,6 +86,7 @@ public class CriterioB1 implements StrategyInterface{
         for (Casilla casillaM: casilla.getAdyacencia()){
             if(casillasMontana.contains(casillaM)){
                 grupoDeCasillasMontana.add(casillaM);
+                casillasMontana.remove(casillaM);
                 getCasillasAdyacentesMontana(casillasMontana, grupoDeCasillasMontana, casillaM);
             }
         }

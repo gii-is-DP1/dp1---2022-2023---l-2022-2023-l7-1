@@ -236,22 +236,6 @@ public class UserControllerTests {
 
 	@WithMockUser(value = "spring")
 	@Test
-	void testShowPartidaJugador() throws Exception {
-		mockMvc.perform(get("/partidas/{username}", USER_USERNAME)).andExpect(status().isOk())
-		.andExpect(model().attributeExists("tablero"))
-		.andExpect(view().name("users/partida"));
-	}
-
-	@WithMockUser(value = "spring")
-	@Test
-	void testShowPartidas() throws Exception {
-		mockMvc.perform(get("/partidas")).andExpect(status().isOk())
-		.andExpect(model().attributeExists("tablero"))
-		.andExpect(view().name("users/partida"));
-	}
-
-	@WithMockUser(value = "spring")
-	@Test
 	void testDeleteFriend() throws Exception {
 		String usernameLogged ="fravilpae";
 		String usernameFriend = "jeszamgue";

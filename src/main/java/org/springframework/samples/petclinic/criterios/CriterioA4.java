@@ -40,16 +40,13 @@ public class CriterioA4 implements StrategyInterface{
         Boolean rioEnFila = false;
         for(Double fila : filas) {
             for (Accion accion: accionesSePintoPradera) {
-                if(accion.getCasilla().getColumna()==fila) {
+                if(accion.getCasilla().getColumna().equals(fila)) {
                     praderaEnFila = true;
                     break;
                 }
             }
-            if (praderaEnFila = false) {
-                break;
-            }
             for (Accion accion: accionesSePintoRio) {
-                if(accion.getCasilla().getColumna()==fila) {
+                if(accion.getCasilla().getColumna().equals(fila)) {
                     rioEnFila = true;
                     break;
                 }

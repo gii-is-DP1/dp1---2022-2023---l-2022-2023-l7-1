@@ -30,8 +30,9 @@ public class CriterioB6 implements StrategyInterface{
         Boolean hayRio = false;
         Boolean hayBosque = false;
         Boolean hayPoblado = false;
+        List<Casilla> casillasAdyacentes;
         for(Accion accion: accionesPoblado) {
-            List<Casilla> casillasAdyacentes = accion.getCasilla().getAdyacencia();
+            casillasAdyacentes = accion.getCasilla().getAdyacencia();
             for(Casilla casilla : casillasAdyacentes) {
 
                 for(Accion accion3: acciones) {

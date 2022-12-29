@@ -48,8 +48,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/stats").hasAnyAuthority("admin")
 				.antMatchers("/stats/{username}").authenticated()
 				// Permisos de partidas
-				.antMatchers("/partidas").hasAnyAuthority("admin", "player")
-				.antMatchers("/partidas/{username}").hasAnyAuthority("admin", "player")
+				.antMatchers("/partida/**").authenticated()
+				.antMatchers("/partidas").authenticated()
+				.antMatchers("/partidas/{username}").authenticated()
 				// Permisos de amigos
 				.antMatchers("/friends/{username}").authenticated()
 				.antMatchers("/friends/{username}/**").authenticated()
@@ -69,7 +70,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/{username}/lobby").hasAnyAuthority("admin", "player")
 				.antMatchers("/prueba/**").hasAnyAuthority("admin", "player")
 
-				.antMatchers("/partida/**").permitAll()
+				
 				.antMatchers("/p").permitAll()
 				.anyRequest().denyAll()
 				.and()

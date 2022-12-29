@@ -7,16 +7,7 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="CREAR PARTIDA">
-    
-    <head>
-        <style>
-           /* body {
-              background-image: url('resources/images/tablero.png');
-              background-repeat: no-repeat;
-              background-position: center;
-            }*/
-            </style>
-    </head>
+
     <body>
         <h2><c:out value="${now}"/></h2>
         
@@ -26,17 +17,18 @@
             </c:forEach>    
         </petclinic:mapa>
 
-        <h2>ELIGE TERRITORIO 3</h2>
+        <h2>ELIGE TERRITORIO</h2>
         <form:form modelAttribute="turno" class="form-horizontal">
         <div class="form-select">
-            <form:select path = "territorio">
-                <form:options items = "${territorios}" />
-             </form:select>
-             <form:select path = "numTerritoriosJ1">
-                
+            <c:if test="${eligeTerritorio}">
+                <form:select path = "territorio">
+                    <form:options items = "${territorios}" />
+                </form:select>
+            </c:if>
+            <form:select path = "numTerritoriosJ1">
                 <form:options items = "${dados}" />
-             </form:select>
-             <button class="btn btn-default" type="submit">Confirm</button> 
+            </form:select>
+            <button class="btn btn-default" type="submit">Confirm</button> 
         </div>
     </form:form>
 

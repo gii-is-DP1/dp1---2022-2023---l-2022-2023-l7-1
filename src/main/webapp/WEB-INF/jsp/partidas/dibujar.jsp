@@ -7,16 +7,7 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="CREAR PARTIDA">
-    
-    <head>
-        <style>
-           /* body {
-              background-image: url('resources/images/tablero.png');
-              background-repeat: no-repeat;
-              background-position: center;
-            }*/
-            </style>
-    </head>
+
     <body>
         <h2><c:out value="${now}"/></h2>
         

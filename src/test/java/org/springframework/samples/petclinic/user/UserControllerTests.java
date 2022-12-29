@@ -198,17 +198,15 @@ public class UserControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowAllStats() throws Exception {
-		mockMvc.perform(get("/stats")).andExpect(status().isOk())
-		.andExpect(model().attributeExists("users"))
-		.andExpect(view().name("users/stats"));
+		mockMvc.perform(get("/stats")).andExpect(status().isOk());
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowUserStats() throws Exception {
-		mockMvc.perform(get("/users/{username}/stats", USER_USERNAME)).andExpect(status().isOk())
+		mockMvc.perform(get("/stats/{username}", USER_USERNAME)).andExpect(status().isOk())
 		.andExpect(model().attributeExists("user"))
-		.andExpect(view().name("users/userStats"));
+		.andExpect(view().name("stats/userStats"));
 	}
 
 	@WithMockUser(value = "spring")
@@ -230,7 +228,7 @@ public class UserControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowFriends() throws Exception {
-		mockMvc.perform(get("/users/{username}/friends", USER_USERNAME)).andExpect(status().isOk())
+		mockMvc.perform(get("/friends/{username}", USER_USERNAME)).andExpect(status().isOk())
 		.andExpect(model().attributeExists("friends"))
 		.andExpect(model().attributeExists("user"))
 		.andExpect(view().name("users/friends"));
@@ -239,7 +237,7 @@ public class UserControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowPartidaJugador() throws Exception {
-		mockMvc.perform(get("/users/{username}/partidas", USER_USERNAME)).andExpect(status().isOk())
+		mockMvc.perform(get("/partidas/{username}", USER_USERNAME)).andExpect(status().isOk())
 		.andExpect(model().attributeExists("tablero"))
 		.andExpect(view().name("users/partida"));
 	}
@@ -255,11 +253,11 @@ public class UserControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testDeleteFriend() throws Exception {
-		String USERNAME1 ="fravilpae";
-		String USERNAME2 = "jeszamgue";
-		mockMvc.perform(get("/users/{username}/friends/{username2}/delete", USERNAME1, USERNAME2).with(csrf())).andExpect(status().is3xxRedirection())
+		String usernameLogged ="fravilpae";
+		String usernameFriend = "jeszamgue";
+		mockMvc.perform(get("/friends/{usernameLogged}/{usernameFriend}/delete", usernameLogged, usernameFriend).with(csrf())).andExpect(status().is3xxRedirection())
 				.andExpect(model().attributeDoesNotExist("friends"))
-				.andExpect(view().name("redirect:/users/"+USERNAME1+"/friends"));
+				.andExpect(view().name("redirect:/friends/"+usernameLogged));
 	} 
 
 	@WithMockUser(value = "spring")

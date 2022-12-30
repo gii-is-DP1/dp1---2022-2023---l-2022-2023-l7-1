@@ -310,8 +310,8 @@ public class PartidaController {
         accionService.save(accionToBeUpdated);
         Tablero tablero = partidaService.getPartidaById(idPartida).getTableros().get(0);
         turno.setTablero(tablero);
-        // Método coge 2 turnos y un tablero Actualiza el numero de territorios a dibujar
-        //Hay que hacerlo así porque sino cuando elegías el poder en el ultimo dibujo no te dejaba usarlo, de esta manera sí
+
+        //Esta parte actualiza el numero de territorios a dibujar y la cantidad de poderes que te quedan en el tablero
         if(turnoPost.getNumTerritoriosJ1() == null|| turnoPost.getNumTerritoriosJ1() == 0){
             turno.setNumTerritoriosJ1(turno.getNumTerritoriosJ1()-1);
             
@@ -322,11 +322,13 @@ public class PartidaController {
             tablero.setPoder1(tablero.getPoder1()-1);
         }
 
+
+        
         if(accion.getCasilla().getPoder1()) {
             tablero.setPoder1(tablero.getPoder1()+1);
             tableroService.saveTablero(tablero);
         }
-        
+
         if(turno.getNumTerritoriosJ1()>0){
             
             Accion ac = new Accion();

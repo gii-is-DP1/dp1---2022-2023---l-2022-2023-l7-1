@@ -224,6 +224,36 @@ public class PartidaController {
                 turnoToBeUpdated.setTerritorio(listaTerritorios.get(territorio));
                 model.put("turno", turnoToBeUpdated);
             }
+
+            Tablero tablero = partidaService.getPartidaById(idPartida).getTableros().get(0);
+            Integer numTerritorio = listaTerritorios.indexOf(turnoToBeUpdated.getTerritorio());
+            switch(numTerritorio){
+                case 0:
+                tablero.setUsos0(tablero.getUsos0()-1);
+                tableroService.saveTablero(tablero);
+                break;
+                case 1:
+                tablero.setUsos1(tablero.getUsos1()-1);
+                tableroService.saveTablero(tablero);
+                break;
+                case 2:
+                tablero.setUsos2(tablero.getUsos2()-1);
+                tableroService.saveTablero(tablero);
+                break;
+                case 3:
+                tablero.setUsos3(tablero.getUsos3()-1);
+                tableroService.saveTablero(tablero);
+                break;
+                case 4:
+                tablero.setUsos4(tablero.getUsos4()-1);
+                tableroService.saveTablero(tablero);
+                break;
+                case 5:
+                tablero.setUsos5(tablero.getUsos5()-1);
+                tableroService.saveTablero(tablero);
+                break;
+            }
+            
             Accion ac = new Accion();
             turnoToBeUpdated.setTablero(ac.getTablero());
             turnoService.saveTurno(turnoToBeUpdated);

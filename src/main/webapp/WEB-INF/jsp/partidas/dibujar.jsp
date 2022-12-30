@@ -19,21 +19,34 @@
 
         
         <h2>DIBUJAR</h2>
+        <div class = "row">
+
+        
         <form:form   modelAttribute="action">
-            <form:select path = "casilla">
+            <div class="col-sm-4">
+            <p>Casilla:</p>
+            <form:select path = "casilla">    
                 <form:options items = "${casillas}" />
             </form:select>
+        </div>
+        <div class="col-sm-4">
             <c:if test = "${tablero.poder1 > 0}">
                 <form:form   modelAttribute="turno">
+                    <p>Poder +-1:</p>
                     <form:select path = "numTerritoriosJ1">
                         <form:options items = "${poder}" />
                     </form:select>
                     <button class="btn btn-default" type="submit">Confirm</button> 
                 </form:form>                 
              </c:if>
-            <button class="btn btn-default" type="submit">Confirm</button> 
-                
+            </div>
+            <div class="col-sm-4">
+             <c:if test = "${tablero.poder1 == 0}">
+                <button class="btn btn-default" type="submit">Confirm</button> 
+             </c:if>
+            </div>
         </form:form>
+        </div>
 
         <p>Criterio A1: <c:out value="${criterios[0]}"/></p>
         <p>Criterio A2: <c:out value="${criterios[1]}"/></p>

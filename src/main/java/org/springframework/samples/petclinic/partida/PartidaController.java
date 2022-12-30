@@ -174,22 +174,25 @@ public class PartidaController {
         List<Integer> criterios = List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2);
         Tablero tablero = partidaService.getPartidaById(idPartida).getTableros().get(0);
         List<Accion> acciones = accionService.getIdAcciones(idPartida, tablero.getId());
-
+        List<Integer> usos = List.of(tablero.getUsos0(),tablero.getUsos1(),tablero.getUsos2(),tablero.getUsos3(),tablero.getUsos4(),tablero.getUsos5());                                            
         Boolean eligeTerritorio;
         if(numTiradas == 2) {
             turno.setTablero(acciones.get(0).getTablero());
-            session.setAttribute("dados", lanzamiento(numTiradas));
+            int[] dados = lanzamiento(numTiradas);
+            session.setAttribute("dados", dados);
+            res.addObject("dados", dados);
             eligeTerritorio = false;
             
         } else {
             turno.setTablero(tablero);
             res.addObject("territorios", listaTerritorios);
+            res.addObject("dados", lanzamiento(numTiradas));
             eligeTerritorio = true;
         }
         res.addObject("eligeTerritorio", eligeTerritorio);
 
         res.addObject("acciones", acciones);
-        res.addObject("dados", lanzamiento(numTiradas));
+        res.addObject("usos", usos);
         res.addObject("turno", turno);
         res.addObject("criterios", criterios);
         if(principal != null){
@@ -224,6 +227,17 @@ public class PartidaController {
                 turnoToBeUpdated.setTerritorio(listaTerritorios.get(territorio));
                 model.put("turno", turnoToBeUpdated);
             }
+
+            Integer control = partidaService.actualizarUso(idPartida, turnoToBeUpdated, listaTerritorios);
+            if(control <0){
+                //Aquí hay que poner una vista que te lleve a una pantalla con el tablero completo y los puntos conseguidos
+                Tablero tablero = partidaService.getPartidaById(idPartida).getTableros().get(0);
+                tablero.setPartidaEnCurso(false);
+                tableroService.saveTablero(tablero);
+                res.setViewName("welcome");
+                return res;
+            }
+
             Accion ac = new Accion();
             turnoToBeUpdated.setTablero(ac.getTablero());
             turnoService.saveTurno(turnoToBeUpdated);
@@ -247,11 +261,22 @@ public class PartidaController {
     @GetMapping(value = "/partida/dibujar/{idPartida}/{idTurno}/{idAccion}/{numTiradas}")
     public ModelAndView dibujar(Accion accion, @PathVariable("idPartida") Integer idPartida, @PathVariable("idTurno") Integer idTurno,
                                  @PathVariable("idAccion") Integer idAccion, @PathVariable("numTiradas") Integer numTiradas, Principal principal) {
-        ModelAndView res = new ModelAndView("partidas/dibujar");
+        ModelAndView res = new ModelAndView();
         
         Integer idTablero = partidaService.getPartidaById(idPartida).getTableros().get(0).getId();
         List<Accion> acciones =accionService.getIdAcciones(idPartida, idTablero);    
         Set<Integer> casillas = partidaService.casillasPorDibujar(idTablero, idPartida);
+
+        if(casillas.isEmpty()){
+            //Aquí hay que poner una vista que te lleve a una pantalla con el tablero completo y los puntos conseguidos
+            Tablero tablero = partidaService.getPartidaById(idPartida).getTableros().get(0);
+            tablero.setPartidaEnCurso(false);
+            tableroService.saveTablero(tablero);
+            res.setViewName("welcome");
+        }else{
+            res.setViewName("partidas/dibujar");
+        }
+        
         Tablero tablero = partidaService.getPartidaById(idPartida).getTableros().get(0);
         Turno turno = new Turno();
         Partida partida = partidaService.getPartidaById(idPartida);
@@ -286,28 +311,34 @@ public class PartidaController {
         Tablero tablero = partidaService.getPartidaById(idPartida).getTableros().get(0);
         turno.setTablero(tablero);
 
-        if(turno.getNumTerritoriosJ1()>1){
-            if(accion.getCasilla().getPoder1()) {
-                tablero.setPoder1(tablero.getPoder1()+1);
-                tableroService.saveTablero(tablero);
-            }
+        //Esta parte actualiza el numero de territorios a dibujar y la cantidad de poderes que te quedan en el tablero
+        if(turnoPost.getNumTerritoriosJ1() == null|| turnoPost.getNumTerritoriosJ1() == 0){
+            turno.setNumTerritoriosJ1(turno.getNumTerritoriosJ1()-1);
+            
+        }else if(turnoPost.getNumTerritoriosJ1() == -1){
+            turno.setNumTerritoriosJ1(turno.getNumTerritoriosJ1()-2);
+            tablero.setPoder1(tablero.getPoder1()-1);
+        }else if(turnoPost.getNumTerritoriosJ1() == 1){
+            tablero.setPoder1(tablero.getPoder1()-1);
+        }
+
+
+        
+        if(accion.getCasilla().getPoder1()) {
+            tablero.setPoder1(tablero.getPoder1()+1);
+            tableroService.saveTablero(tablero);
+        }
+
+        if(turno.getNumTerritoriosJ1()>0){
+            
             Accion ac = new Accion();
             ac.setTablero(tablero);
             ac.setTurno(turno);
             model.put("action", ac);
             accionService.save(ac); 
-            if(turnoPost.getNumTerritoriosJ1() == null || turnoPost.getNumTerritoriosJ1() == 0){
-                turno.setNumTerritoriosJ1(turno.getNumTerritoriosJ1()-1);
-            } else {
-                if(turnoPost.getNumTerritoriosJ1()==1){
-                    turno.setNumTerritoriosJ1(turno.getNumTerritoriosJ1());
-                } else if(turnoPost.getNumTerritoriosJ1()==-1) {
-                    turno.setNumTerritoriosJ1(turno.getNumTerritoriosJ1()-2);
-                }
-                tablero.setPoder1(tablero.getPoder1()-1);
-                tableroService.saveTablero(tablero);
-            }
+            
             turnoService.saveTurno(turno);
+            tableroService.saveTablero(tablero);
 
             res.setViewName("redirect:/partida/dibujar/"+idPartida+"/"+idTurno+"/"+ac.getId()+"/"+numTiradas);
             return res;

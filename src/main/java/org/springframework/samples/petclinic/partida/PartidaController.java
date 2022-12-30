@@ -174,7 +174,7 @@ public class PartidaController {
         List<Integer> criterios = List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2);
         Tablero tablero = partidaService.getPartidaById(idPartida).getTableros().get(0);
         List<Accion> acciones = accionService.getIdAcciones(idPartida, tablero.getId());
-
+        List<Integer> usos = List.of(tablero.getUsos0(),tablero.getUsos1(),tablero.getUsos2(),tablero.getUsos3(),tablero.getUsos4(),tablero.getUsos5());                                            
         Boolean eligeTerritorio;
         if(numTiradas == 2) {
             turno.setTablero(acciones.get(0).getTablero());
@@ -192,7 +192,7 @@ public class PartidaController {
         res.addObject("eligeTerritorio", eligeTerritorio);
 
         res.addObject("acciones", acciones);
-        
+        res.addObject("usos", usos);
         res.addObject("turno", turno);
         res.addObject("criterios", criterios);
         if(principal != null){

@@ -310,29 +310,33 @@ public class PartidaController {
         accionService.save(accionToBeUpdated);
         Tablero tablero = partidaService.getPartidaById(idPartida).getTableros().get(0);
         turno.setTablero(tablero);
+        // Método coge 2 turnos y un tablero Actualiza el numero de territorios a dibujar
+        //Hay que hacerlo así porque sino cuando elegías el poder en el ultimo dibujo no te dejaba usarlo, de esta manera sí
+        if(turnoPost.getNumTerritoriosJ1() == null|| turnoPost.getNumTerritoriosJ1() == 0){
+            turno.setNumTerritoriosJ1(turno.getNumTerritoriosJ1()-1);
+            
+        }else if(turnoPost.getNumTerritoriosJ1() == -1){
+            turno.setNumTerritoriosJ1(turno.getNumTerritoriosJ1()-2);
+            tablero.setPoder1(tablero.getPoder1()-1);
+        }else if(turnoPost.getNumTerritoriosJ1() == 1){
+            tablero.setPoder1(tablero.getPoder1()-1);
+        }
 
-        if(turno.getNumTerritoriosJ1()>1){
-            if(accion.getCasilla().getPoder1()) {
-                tablero.setPoder1(tablero.getPoder1()+1);
-                tableroService.saveTablero(tablero);
-            }
+        if(accion.getCasilla().getPoder1()) {
+            tablero.setPoder1(tablero.getPoder1()+1);
+            tableroService.saveTablero(tablero);
+        }
+        
+        if(turno.getNumTerritoriosJ1()>0){
+            
             Accion ac = new Accion();
             ac.setTablero(tablero);
             ac.setTurno(turno);
             model.put("action", ac);
             accionService.save(ac); 
-            if(turnoPost.getNumTerritoriosJ1() == null || turnoPost.getNumTerritoriosJ1() == 0){
-                turno.setNumTerritoriosJ1(turno.getNumTerritoriosJ1()-1);
-            } else {
-                if(turnoPost.getNumTerritoriosJ1()==1){
-                    turno.setNumTerritoriosJ1(turno.getNumTerritoriosJ1());
-                } else if(turnoPost.getNumTerritoriosJ1()==-1) {
-                    turno.setNumTerritoriosJ1(turno.getNumTerritoriosJ1()-2);
-                }
-                tablero.setPoder1(tablero.getPoder1()-1);
-                tableroService.saveTablero(tablero);
-            }
+            
             turnoService.saveTurno(turno);
+            tableroService.saveTablero(tablero);
 
             res.setViewName("redirect:/partida/dibujar/"+idPartida+"/"+idTurno+"/"+ac.getId()+"/"+numTiradas);
             return res;

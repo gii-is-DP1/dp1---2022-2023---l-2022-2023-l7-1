@@ -25,9 +25,14 @@ public class Logro extends BaseEntity{
     @NotNull
     private String logo;
 
+    @NotNull
     private Integer reqPuntos;
 
     @ManyToOne
     private User user;
+
+    public String getReqDescripcion(){
+        return descripcion.replace("<puntos>",String.valueOf(reqPuntos));
+    }
 
 }

@@ -30,7 +30,7 @@
                     <c:out value="${logro.titulo}"/>
                 </td>
                 <td style="text-align:center">                    
-                    <c:out value="${logro.descripcion} "/>                                        
+                    <c:out value="${logro.reqDescripcion} "/>                                        
                 </td>
                 <td> 
                     <a href="/logros/${logro.id}/edit"> 

@@ -23,7 +23,10 @@ import org.springframework.samples.petclinic.turnos.Turno;
 import org.springframework.samples.petclinic.turnos.TurnoRepository;
 import org.springframework.samples.petclinic.turnos.TurnoService;
 import org.springframework.samples.petclinic.user.User;
+import org.springframework.samples.petclinic.util.Territorio;
 import org.springframework.stereotype.Service;
+
+
 
 @Service
 public class PartidaService {
@@ -35,6 +38,8 @@ public class PartidaService {
    TurnoService turnoService;
 
    AccionService accionService;
+
+   
    
    
    @Autowired
@@ -69,6 +74,54 @@ public class PartidaService {
       return arreglo;
    }
 
+
+   
+   /** 
+    * @param idPartida
+    * @param turno
+    * @param listaTerritorios
+    *
+    * Este método actualiza los usos del tablero dependiendo del Territorio elegido.
+    *
+    */
+   public Integer actualizarUso(Integer idPartida, Turno turno, List<Territorio> listaTerritorios){
+            Tablero tablero = getPartidaById(idPartida).getTableros().get(0);
+            Integer numTerritorio = listaTerritorios.indexOf(turno.getTerritorio());
+            Integer control = null;
+            switch(numTerritorio){
+                case 0:
+                tablero.setUsos0(tablero.getUsos0()-1);
+                tableroService.saveTablero(tablero);
+                control = tablero.getUsos0();
+                break;
+                case 1:
+                tablero.setUsos1(tablero.getUsos1()-1);
+                tableroService.saveTablero(tablero);
+                control = tablero.getUsos1();
+                break;
+                case 2:
+                tablero.setUsos2(tablero.getUsos2()-1);
+                tableroService.saveTablero(tablero);
+                control = tablero.getUsos2();
+                break;
+                case 3:
+                tablero.setUsos3(tablero.getUsos3()-1);
+                tableroService.saveTablero(tablero);
+                control = tablero.getUsos3();
+                break;
+                case 4:
+                tablero.setUsos4(tablero.getUsos4()-1);
+                tableroService.saveTablero(tablero);
+                control = tablero.getUsos4();
+                break;
+                case 5:
+                tablero.setUsos5(tablero.getUsos5()-1);
+                tableroService.saveTablero(tablero);
+                control = tablero.getUsos5();
+                break;
+            }
+            return control;
+   }
    
    public List<Integer> crearPartidaSolitario(User user){
       int[] criteriosA = criterioAleatorio();
@@ -77,7 +130,6 @@ public class PartidaService {
       Turno turno = new Turno();
 
       Tablero tablero = new Tablero();
-      turno.setTablero(tablero);
 
       Partida p = new Partida();
       
@@ -103,6 +155,7 @@ public class PartidaService {
       tablero.setPartidaEnCurso(true);
       tablero.setPartidaCreada(true);
       tableroService.saveTablero(tablero);
+      turno.setTablero(tablero);
 
       turnoService.saveTurno(turno);
   

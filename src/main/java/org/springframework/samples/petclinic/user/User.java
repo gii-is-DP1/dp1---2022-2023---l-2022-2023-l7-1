@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.user;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Digits;
@@ -25,6 +27,7 @@ import org.hibernate.envers.NotAudited;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.Invitacion.Invitation;
+import org.springframework.samples.petclinic.logros.Logro;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -153,5 +156,9 @@ public class User{
 				return false;
 		return true;
 	}
+
+    @OneToMany
+    @NotAudited
+    private List<Logro> logrosUser;
 
 }

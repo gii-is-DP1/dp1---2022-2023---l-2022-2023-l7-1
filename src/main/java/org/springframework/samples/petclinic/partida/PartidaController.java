@@ -57,22 +57,7 @@ public class PartidaController {
     //-------------------------------------------------------------------------
     @Transactional
     @GetMapping("/partidas")
-	public ModelAndView showPartidas(@RequestParam Map<String, Object> params, Model res, Principal principal) {
-        /*
-        Integer page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) - 1) : 0;
-        Pageable pageable = PageRequest.of(page, 1);
-        Page<Tablero> partidas = tableroService.getAll(pageable);
-        Integer totalPage = partidas.getTotalPages();
-        if(totalPage > 0) {
-			List<Integer> pages = IntStream.rangeClosed(1, totalPage).boxed().collect(Collectors.toList());
-			res.addAttribute("pages", pages);
-		}
-		res.addAttribute("current", page + 1);
-		res.addAttribute("next", page + 2);
-		res.addAttribute("prev", page);
-		res.addAttribute("last", totalPage);
-		res.addAttribute("users", partidas.getContent());
-         */ // NO FUNCIONA LA PAGINACIÓN EN ESTE LISTING POR AHORA
+	public ModelAndView showPartidas(Principal principal) {
         List<Tablero> tableros = userService.getTableros();
 		ModelAndView result = new ModelAndView("users/partida");
 		result.addObject("tablero", tableros);

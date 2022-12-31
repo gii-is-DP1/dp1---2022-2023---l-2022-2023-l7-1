@@ -62,6 +62,12 @@
             <a class="btn btn-default" href="/partidas/${user.username}">Games User</a>
         </td>  
     </tr>
+
+    <tr> 
+        <td>
+            <a class="btn btn-default" href="/users/logros/${user.username}">User Achievements</a>
+        </td>  
+    </tr>
     
 
 </petclinic:layout>

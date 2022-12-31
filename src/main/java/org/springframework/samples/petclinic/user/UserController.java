@@ -33,6 +33,7 @@ public class UserController {
 	private static final String VIEW_USERNAME_EDITING = "users/userEdit";
     private static final String VIEW_USER_DETAILS = "users/userDetails";
     private static final String VIEW_USER_FRIENDS = "users/friends";
+	private static final String VIEW_USER_LOGROS = "users/userLogros";
 
 	private final UserService userService;
 
@@ -268,5 +269,17 @@ public class UserController {
 		}
         return res;
     }
+
+	// -------------------------------------------------------------------------------------------
+	// --- LOGROS ---------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------
+
+	@Transactional(readOnly = true)
+    @GetMapping("/users/logros/{username}")
+	public ModelAndView showLogrosUser(@PathVariable("username") String username) {
+		ModelAndView res = new ModelAndView(VIEW_USER_LOGROS);
+		res.addObject("logrosUser", this.userService.getLogrosByUser(username));
+		return res;
+	}
 
 }

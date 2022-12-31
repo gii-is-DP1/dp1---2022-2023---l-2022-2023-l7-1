@@ -24,6 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.logros.Logro;
+import org.springframework.samples.petclinic.logros.LogroService;
 import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.samples.petclinic.tablero.TableroService;
 import org.springframework.stereotype.Service;
@@ -43,10 +45,13 @@ public class UserService {
 
 	private TableroService tableroService;
 
+	private LogroService logroService;
+
 	@Autowired
-	public UserService(UserRepository userRepository, TableroService tableroService) {
+	public UserService(UserRepository userRepository, TableroService tableroService, LogroService logroService) {
 		this.userRepository = userRepository;
 		this.tableroService = tableroService;
+		this.logroService = logroService;
 	}
 
 	public User getUserById(String id){
@@ -138,5 +143,16 @@ public class UserService {
 			userRepository.Deletefriend(friend.getUsername(), username);
 		}
 	}
+
+	public List<Logro> getLogrosByUser(String username) {
+        User user = userRepository.findById(username).get();
+        List<Logro> logrosUser = new ArrayList<Logro>();
+        for (Logro l : logroService.getLogros()) {
+            if(l.getReqPuntos() <= user.getMaxPoints()) {
+                logrosUser.add(l);
+            }
+        }
+        return logrosUser;
+    }
 
 }

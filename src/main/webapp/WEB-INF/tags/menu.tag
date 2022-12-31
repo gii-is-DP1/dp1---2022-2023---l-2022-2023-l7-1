@@ -45,10 +45,16 @@
 						<span>Stats</span>
 					</petclinic:menuItem>
 
+					<petclinic:menuItem active="${name eq 'logros'}" url="/logros" title="Achievements">
+						<span class="glyphicon glyphicon-flag"></span>
+						<span>Achievements</span>
+					</petclinic:menuItem>
+
 					<petclinic:menuItem active="${name eq 'games'}" url="/partidas" title="Games">
 						<span class="glyphicon glyphicon-tower"></span>
 						<span>Games</span>
 					</petclinic:menuItem>
+
 				</sec:authorize>
 
 				<petclinic:menuItem active="${name eq 'rules'}" url="/rules" title="Rules">

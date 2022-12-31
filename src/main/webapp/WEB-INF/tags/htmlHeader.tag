@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags --%>
 
-    <spring:url value="/resources/images/iconDP.jpg" var="favicon"/>
+    <spring:url value="/resources/images/iconDP2.jpg" var="favicon"/>
     <link rel="shortcut icon" type="image/x-icon" href="${favicon}">
 
     <title>Kingdom Maps</title>

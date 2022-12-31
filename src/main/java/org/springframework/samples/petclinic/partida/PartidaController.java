@@ -189,6 +189,7 @@ public class PartidaController {
             res.addObject("dados", lanzamiento(numTiradas));
             eligeTerritorio = true;
         }
+        turnoService.saveTurno(turno);
         res.addObject("eligeTerritorio", eligeTerritorio);
 
         res.addObject("acciones", acciones);
@@ -239,7 +240,7 @@ public class PartidaController {
             }
 
             Accion ac = new Accion();
-            turnoToBeUpdated.setTablero(ac.getTablero());
+            turnoToBeUpdated.setTablero(partidaService.getPartidaById(idPartida).getTableros().get(0));
             turnoService.saveTurno(turnoToBeUpdated);
             ac.setTablero(partidaService.getPartidaById(idPartida).getTableros().get(0));
             ac.setTurno(turnoToBeUpdated);

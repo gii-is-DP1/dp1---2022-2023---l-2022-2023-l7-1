@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.h2.store.RangeInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -163,26 +164,52 @@ public class PartidaService {
 
    }
 
-   public Set<Integer> casillasPorDibujar(Integer tableroId, Integer partidaId){
-      List<Accion> acciones = accionService.getIdAcciones(partidaId,tableroId);
-      Set<Integer> todos = IntStream.range(1, 62).boxed().collect(Collectors.toSet());
-      Set<Integer> quitar1 = new HashSet();
-      if(acciones.size()==1){
-         return todos;
-      }else{
-         List<Integer> casillasDibujadas = new ArrayList<>();
-         for(Accion a: acciones){
-            if(a.getCasilla() != null){
-               quitar1.addAll(a.getCasilla().getAdyacencia().stream().map(x->x.getId()).collect(Collectors.toList()));
-               casillasDibujadas.add(a.getCasilla().getId());
-            }
+   
+   
+   public Set<Integer> casillasDisponibles(Integer idTurno, Integer idTablero){
+      List<Accion> accionesTurnoX = accionService.getCasillasPorTurno(idTurno, idTablero);
+
+      //Casillas dibujadas en toda la partida
+      List<Integer> casillasDibujadas = accionService.getAccionesByTablero(idTablero).stream().filter(x-> x.getCasilla() != null).map(x-> x.getCasilla().getId())
+      .collect(Collectors.toList());
+
+
+      //Calculamos las adyacentes del turno que queramos
+      HashSet<Integer> adyacentes = new HashSet<>();
+      for(Accion a: accionesTurnoX){
+         if(a.getCasilla() != null){
+            adyacentes.addAll(a.getCasilla().getAdyacencia().stream().map(x->x.getId()).collect(Collectors.toList()));
          }
-         quitar1.removeAll(casillasDibujadas);
-         return quitar1;
       }
-     
       
+      adyacentes.removeAll(casillasDibujadas);
+      
+      return adyacentes;
    }
-   
-   
+
+   public Set<Integer> casillasDisponiblesPrimeraAccion(Integer idTablero){
+      List<Accion> accionesTableroX = accionService.getAccionesByTablero(idTablero);
+      
+      //Controla el primer turno de la partida
+      if(accionesTableroX.size() == 1){
+         Set<Integer> todos = IntStream.range(1, 62).boxed().collect(Collectors.toSet());
+         return todos;
+      }
+
+      
+      List<Integer> casillasDibujadas = accionesTableroX.stream().filter(x-> x.getCasilla() != null).map(x-> x.getCasilla().getId())
+      .collect(Collectors.toList());
+
+      HashSet<Integer> adyacentes = new HashSet<>();
+      for(Accion a: accionesTableroX){
+         if(a.getCasilla() != null){
+            adyacentes.addAll(a.getCasilla().getAdyacencia().stream().map(x->x.getId()).collect(Collectors.toList()));
+         }
+      }
+
+      adyacentes.removeAll(casillasDibujadas);
+      
+      return adyacentes;
+   }
+
 }

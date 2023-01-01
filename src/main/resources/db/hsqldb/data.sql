@@ -531,6 +531,11 @@ INSERT INTO ACCIONES (id, turno_id, casilla_id, tablero_id) VALUES(6,6,56,1);
 INSERT INTO ACCIONES (id, turno_id, casilla_id, tablero_id) VALUES(7,4,60,1);
 INSERT INTO ACCIONES (id, turno_id, casilla_id, tablero_id) VALUES(8,5,33,1);
 INSERT INTO ACCIONES (id, turno_id, casilla_id, tablero_id) VALUES(9,6,47,1);
+
+INSERT INTO logros (id, titulo, descripcion, logo, req_puntos) VALUES (1,'Explorador de Patio', 'Consigue una puntuacion de <puntos> puntos o mas en una partida','logo1.png', 80);
+INSERT INTO logros (id, titulo, descripcion, logo, req_puntos) VALUES (2,'Explorador Normalito', 'Consigue una puntuacion de <puntos> puntos o mas en una partida','logo2.png', 100);
+INSERT INTO logros (id, titulo, descripcion, logo, req_puntos) VALUES (3,'Explorador Profesional', 'Consigue una puntuacion de <puntos> puntos o mas en una partida','logo3.png', 120);
+INSERT INTO logros (id, titulo, descripcion, logo, req_puntos) VALUES (4,'Marco Polo', 'Consigue una puntuacion de <puntos> puntos o mas en una partida','logo4.png', 150);
 /*
 INSERT INTO jugador(id,activo,nombrereino,usosterritorio1,usosterritorio2,
 usosterritorio3,usosterritorio4,usosterritorio5,usosterritorio6,anfitrión,usuario_id,tablero_id)

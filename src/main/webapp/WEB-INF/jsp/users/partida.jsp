@@ -39,26 +39,5 @@
         </c:forEach>
         </tbody>
     </table>
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <nav aria-label="Pagination" style="text-align: center;">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item">
-                        <c:if test ="${prev != 0}"><a href="/partidas?page=${prev}">Previous</a> </c:if>
-                    </li>
-                    <li class="page-item">
-                    <c:forEach items="${pages}" var="page">
-                        <a href="/partidas?page=${page}"> <c:out value="${page}"/></a>
-                    </c:forEach>
-                    </li>
-                    <li class="page-item">
-                        <c:if test ="${next != last+1}"> <a href="/partidas?page=${next}">Next</a> </c:if>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-        
-    </div>
 
 </petclinic:layout>

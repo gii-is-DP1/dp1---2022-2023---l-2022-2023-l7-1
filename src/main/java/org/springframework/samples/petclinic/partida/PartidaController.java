@@ -178,7 +178,7 @@ public class PartidaController {
         }
         turnoService.saveTurno(turno);
         res.addObject("eligeTerritorio", eligeTerritorio);
-
+        res.addObject("poder1", tablero.getPoder1());
         res.addObject("acciones", acciones);
         res.addObject("usos", usos);
         res.addObject("turno", turno);
@@ -286,6 +286,7 @@ public class PartidaController {
         res.addObject("action", accion);
         res.addObject("casillas", casillas);
         res.addObject("tablero", tablero);
+        res.addObject("poder1", tablero.getPoder1());
         res.addObject("poder", poder);
         res.addObject("turno", turno);
         res.addObject("criterios", criterios);

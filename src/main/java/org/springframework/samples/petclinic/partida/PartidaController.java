@@ -376,13 +376,5 @@ public class PartidaController {
         return res;
 	}
 
-    //------------------------------------------------------------------------
-    // VueltaLobby ----------------------------------------------------------
-    //------------------------------------------------------------------------
-	@GetMapping(value = "/partida/{username}/lobby")
-	public ModelAndView mostrarAmigos(@PathVariable("username") String username){
-		ModelAndView res = new ModelAndView("partidas/lobby");
-		res.addObject("username", username);
-		return res;
-	}
+    
 }

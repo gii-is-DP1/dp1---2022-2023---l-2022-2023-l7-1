@@ -17,6 +17,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.accion.Accion;
 import org.springframework.samples.petclinic.accion.AccionService;
 import org.springframework.samples.petclinic.casilla.Casilla;
+import org.springframework.samples.petclinic.criterios.CriterioA1;
+import org.springframework.samples.petclinic.criterios.CriterioA2;
+import org.springframework.samples.petclinic.criterios.CriterioA3;
+import org.springframework.samples.petclinic.criterios.CriterioA4;
+import org.springframework.samples.petclinic.criterios.CriterioA5;
+import org.springframework.samples.petclinic.criterios.CriterioA6;
+import org.springframework.samples.petclinic.criterios.CriterioB1;
+import org.springframework.samples.petclinic.criterios.CriterioB2;
+import org.springframework.samples.petclinic.criterios.CriterioB3;
+import org.springframework.samples.petclinic.criterios.CriterioB4;
+import org.springframework.samples.petclinic.criterios.CriterioB5;
+import org.springframework.samples.petclinic.criterios.CriterioB6;
+import org.springframework.samples.petclinic.criterios.StrategyInterface;
 import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.samples.petclinic.tablero.TableroRepository;
 import org.springframework.samples.petclinic.tablero.TableroService;
@@ -40,7 +53,7 @@ public class PartidaService {
 
    AccionService accionService;
 
-   
+   private static StrategyInterface strategy;
    
    
    @Autowired
@@ -210,6 +223,148 @@ public class PartidaService {
       adyacentes.removeAll(casillasDibujadas);
       
       return adyacentes;
+   }
+
+   public Integer calcularPuntos(List<Accion> acciones, List<Turno> turnos, Partida partida){
+      Integer res = 0;
+
+      // A1
+      switch(partida.getIdCriterioA1()){
+         case(1):{
+            strategy = new CriterioA1();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(2):{
+            strategy = new CriterioA2();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(3):{
+            strategy = new CriterioA3();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(4):{
+            strategy = new CriterioA4();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(5):{
+            strategy = new CriterioA5();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(6):{
+            strategy = new CriterioA6();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+      }
+
+      //A2
+      switch(partida.getIdCriterioA2()){
+         case(1):{
+            strategy = new CriterioA1();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(2):{
+            strategy = new CriterioA2();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(3):{
+            strategy = new CriterioA3();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(4):{
+            strategy = new CriterioA4();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(5):{
+            strategy = new CriterioA5();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(6):{
+            strategy = new CriterioA6();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+      }
+
+      //B1
+      switch(partida.getIdCriterioB1()){
+         case(1):{
+            strategy = new CriterioB1();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(2):{
+            strategy = new CriterioB2();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(3):{
+            strategy = new CriterioB3();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(4):{
+            strategy = new CriterioB4();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(5):{
+            strategy = new CriterioB5();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(6):{
+            strategy = new CriterioB6();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+      }
+
+      //B2
+      switch(partida.getIdCriterioB2()){
+         case(1):{
+            strategy = new CriterioB1();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(2):{
+            strategy = new CriterioB2();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(3):{
+            strategy = new CriterioB3();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(4):{
+            strategy = new CriterioB4();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(5):{
+            strategy = new CriterioB5();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(6):{
+            strategy = new CriterioB6();
+            res = res + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+      }
+
+      return res;
    }
 
 }

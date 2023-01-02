@@ -34,6 +34,7 @@
                 <div class="col-sm-2">
                 <form:form   modelAttribute="turno">
                     <p>Poder +-1:</p>
+                    <p>Usos: <c:out value="${poder1}"/></p>
                     <form:select path = "numTerritoriosJ1">
                         <form:options items = "${poder}" />
                     </form:select>
@@ -45,7 +46,6 @@
                 
              </c:if>
             
-           
              <c:if test = "${tablero.poder1 == 0}">
                 <div class="row">
                         <button class="btn btn-default" type="submit">Confirm</button> 

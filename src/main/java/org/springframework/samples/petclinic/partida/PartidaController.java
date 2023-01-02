@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.partida;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -107,8 +109,8 @@ public class PartidaController {
 
         if (usersActive.contains(usuario)){
             Tablero tablero = tableroService.getTableroByUser(usuario);
-            List<Accion> acciones = accionService.getAccionesByTablero(tablero);
-            List<Turno> turnos = turnoService.getTurnosByTablero(tablero);
+            List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId());
+            List<Turno> turnos = turnoService.getTurnosByTablero(tablero.getId());
             Turno turno = turnos.get(turnos.size()-1);
             if(!acciones.isEmpty()){
                 Accion accion = acciones.get(acciones.size()-1);
@@ -158,7 +160,7 @@ public class PartidaController {
         Partida partida = partidaService.getPartidaById(idPartida);
         List<Integer> criterios = List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2);
         Tablero tablero = partidaService.getPartidaById(idPartida).getTableros().get(0);
-        List<Accion> acciones = accionService.getIdAcciones(idPartida, tablero.getId());
+        List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId());
         List<Integer> usos = List.of(tablero.getUsos0(),tablero.getUsos1(),tablero.getUsos2(),tablero.getUsos3(),tablero.getUsos4(),tablero.getUsos5());                                            
         Boolean eligeTerritorio;
         if(numTiradas == 2) {
@@ -176,7 +178,7 @@ public class PartidaController {
         }
         turnoService.saveTurno(turno);
         res.addObject("eligeTerritorio", eligeTerritorio);
-
+        res.addObject("poder1", tablero.getPoder1());
         res.addObject("acciones", acciones);
         res.addObject("usos", usos);
         res.addObject("turno", turno);
@@ -231,7 +233,7 @@ public class PartidaController {
             ac.setTurno(turnoToBeUpdated);
             accionService.save(ac);
 
-            res.setViewName("redirect:/partida/dibujar/"+idPartida+"/"+idTurno+"/"+ac.getId()+"/"+numTiradas);
+            res.setViewName("redirect:/partida/dibujar/"+idPartida+"/"+idTurno+"/"+ac.getId()+"/"+numTiradas+"/1");
             if(principal != null){
                 res.addObject("username", principal.getName());
             }
@@ -244,15 +246,26 @@ public class PartidaController {
     //-------------------------------------------------------------------------
 
     @Transactional  
-    @GetMapping(value = "/partida/dibujar/{idPartida}/{idTurno}/{idAccion}/{numTiradas}")
+    @GetMapping(value = "/partida/dibujar/{idPartida}/{idTurno}/{idAccion}/{numTiradas}/{primeraAccion}")
     public ModelAndView dibujar(Accion accion, @PathVariable("idPartida") Integer idPartida, @PathVariable("idTurno") Integer idTurno,
-                                 @PathVariable("idAccion") Integer idAccion, @PathVariable("numTiradas") Integer numTiradas, Principal principal) {
+                                 @PathVariable("idAccion") Integer idAccion, @PathVariable("numTiradas") Integer numTiradas,
+                                 @PathVariable("primeraAccion") Integer primeraAccion, Principal principal){
+
         ModelAndView res = new ModelAndView();
         
+        
         Integer idTablero = partidaService.getPartidaById(idPartida).getTableros().get(0).getId();
-        List<Accion> acciones =accionService.getIdAcciones(idPartida, idTablero);    
-        Set<Integer> casillas = partidaService.casillasPorDibujar(idTablero, idPartida);
+        List<Accion> acciones = accionService.getAccionesByTablero(idTablero);
+        Set<Integer> casillas = new HashSet<>();
 
+        if(primeraAccion == 1){
+            casillas = partidaService.casillasDisponiblesPrimeraAccion(idTablero);
+        }else{
+            casillas = partidaService.casillasDisponibles(idTurno, idTablero);
+        }
+        
+
+        //Elegimos la vista
         if(casillas.isEmpty()){
             //Aquí hay que poner una vista que te lleve a una pantalla con el tablero completo y los puntos conseguidos
             Tablero tablero = partidaService.getPartidaById(idPartida).getTableros().get(0);
@@ -263,6 +276,7 @@ public class PartidaController {
             res.setViewName("partidas/dibujar");
         }
         
+        
         Tablero tablero = partidaService.getPartidaById(idPartida).getTableros().get(0);
         Turno turno = new Turno();
         Partida partida = partidaService.getPartidaById(idPartida);
@@ -272,6 +286,7 @@ public class PartidaController {
         res.addObject("action", accion);
         res.addObject("casillas", casillas);
         res.addObject("tablero", tablero);
+        res.addObject("poder1", tablero.getPoder1());
         res.addObject("poder", poder);
         res.addObject("turno", turno);
         res.addObject("criterios", criterios);
@@ -282,10 +297,11 @@ public class PartidaController {
     }
 
     @Transactional
-    @PostMapping(value = "/partida/dibujar/{idPartida}/{idTurno}/{idAccion}/{numTiradas}")
+    @PostMapping(value = "/partida/dibujar/{idPartida}/{idTurno}/{idAccion}/{numTiradas}/{primeraAccion}")
     public ModelAndView dibujarPost(Turno turnoPost, Accion accion, @PathVariable("idPartida") Integer idPartida, Principal principal,
                             @PathVariable("idTurno") Integer idTurno, @PathVariable("idAccion") Integer idAccion,
-                            @PathVariable("numTiradas") Integer numTiradas, Map<String, Object> model){
+                            @PathVariable("numTiradas") Integer numTiradas, @PathVariable("primeraAccion") Integer primeraAccion,
+                            Map<String, Object> model){
         ModelAndView res = new ModelAndView();
         if(principal != null){
             res.addObject("username", principal.getName());
@@ -326,7 +342,7 @@ public class PartidaController {
             turnoService.saveTurno(turno);
             tableroService.saveTablero(tablero);
 
-            res.setViewName("redirect:/partida/dibujar/"+idPartida+"/"+idTurno+"/"+ac.getId()+"/"+numTiradas);
+            res.setViewName("redirect:/partida/dibujar/"+idPartida+"/"+idTurno+"/"+ac.getId()+"/"+numTiradas+"/"+0);
             return res;
         } else{
             Turno t = new Turno();

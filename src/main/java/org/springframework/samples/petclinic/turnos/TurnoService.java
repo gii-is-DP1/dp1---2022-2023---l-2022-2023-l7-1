@@ -23,7 +23,7 @@ public class TurnoService {
         return TurnoRepository.findById(id).get();
     }
 
-    public List<Turno> getTurnosByTablero(Tablero tablero) {
-        return TurnoRepository.getTurnosByTablero(tablero);
+    public List<Turno> getTurnosByTablero(Integer idTablero) {
+        return TurnoRepository.getTurnosByTablero(idTablero);
     }
 }

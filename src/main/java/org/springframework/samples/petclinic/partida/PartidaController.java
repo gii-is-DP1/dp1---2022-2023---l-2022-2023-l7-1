@@ -110,7 +110,7 @@ public class PartidaController {
         if (usersActive.contains(usuario)){
             Tablero tablero = tableroService.getTableroByUser(usuario);
             List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId());
-            List<Turno> turnos = turnoService.getTurnosByTablero(tablero);
+            List<Turno> turnos = turnoService.getTurnosByTablero(tablero.getId());
             Turno turno = turnos.get(turnos.size()-1);
             if(!acciones.isEmpty()){
                 Accion accion = acciones.get(acciones.size()-1);

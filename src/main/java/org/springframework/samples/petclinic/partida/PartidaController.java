@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -218,7 +219,7 @@ public class PartidaController {
 
             Integer control = partidaService.actualizarUso(idPartida, turnoToBeUpdated, listaTerritorios);
             if(control <0){
-                res.setViewName("redirect:/partida/resultads/"+idPartida);
+                res.setViewName("redirect:/partida/resultados/"+idPartida);
                 return res;
             }
 
@@ -263,7 +264,7 @@ public class PartidaController {
 
         //Controla cuando acaba la partida
         if(casillas.isEmpty()){
-            res.setViewName("redirect:/partida/resultads/"+idPartida);
+            res.setViewName("redirect:/partida/resultados/"+idPartida);
             return res;
         }
         
@@ -362,7 +363,7 @@ public class PartidaController {
 
         List<Turno> turnos = turnoService.getTurnosByTablero(tablero.getId());
 
-        List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId());
+        List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId()).stream().filter(x-> x.getCasilla() != null).collect(Collectors.toList());
 
         List<Integer> criterios = List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2);
 

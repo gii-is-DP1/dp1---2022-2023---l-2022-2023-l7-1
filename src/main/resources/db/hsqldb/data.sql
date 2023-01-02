@@ -495,6 +495,12 @@ INSERT INTO authorities(id,username,authority) VALUES (7,'raymon','player');
 
 INSERT INTO Friends(friend_id, aux_friend_id) VALUES('jeszamgue', 'fravilpae');
 INSERT INTO Friends(friend_id, aux_friend_id) VALUES('fravilpae', 'jeszamgue');
+INSERT INTO Friends(friend_id, aux_friend_id) VALUES('aitroddue', 'fravilpae');
+INSERT INTO Friends(friend_id, aux_friend_id) VALUES('fravilpae', 'aitroddue');
+INSERT INTO Friends(friend_id, aux_friend_id) VALUES('jeszamgue', 'aitroddue');
+INSERT INTO Friends(friend_id, aux_friend_id) VALUES('aitroddue', 'jeszamgue');
+INSERT INTO Friends(friend_id, aux_friend_id) VALUES('raymon', 'aitroddue');
+INSERT INTO Friends(friend_id, aux_friend_id) VALUES('aitroddue', 'raymon');
 
 INSERT INTO Invitation(id, receiver_username, sender_username) VALUES(1, 'fravilpae', 'aitroddue');
 

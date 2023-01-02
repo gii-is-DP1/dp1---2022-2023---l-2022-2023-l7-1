@@ -249,7 +249,7 @@ public class UserControllerTests {
 	void testProcessFindFormSuccess() throws Exception {
 		given(this.userService.findUsers("")).willReturn(Lists.newArrayList(user, new User()));
 
-		mockMvc.perform(get("/users")).andExpect(status().isOk()).andExpect(view().name("users/userListing"));
+		mockMvc.perform(get("/users")).andExpect(status().isOk()).andExpect(view().name("users/userListingFound"));
 	}
 
 	@WithMockUser(value = "spring")
@@ -257,7 +257,7 @@ public class UserControllerTests {
 	void testProcessFindFormByUsername() throws Exception {
 		given(this.userService.findUsers(USER_USERNAME)).willReturn(Lists.newArrayList(user));
 
-		mockMvc.perform(get("/users").param("username", USER_USERNAME)).andExpect(status().isOk()).andExpect(view().name("users/userListing"));
+		mockMvc.perform(get("/users").param("username", USER_USERNAME)).andExpect(status().isOk()).andExpect(view().name("users/userListingFound"));
 	}
 
 	@WithMockUser(value = "spring")

@@ -22,9 +22,9 @@ public class AccionService {
     }
 
     @Transactional
-    public List<Accion> getIdAcciones(Integer partida, Integer tablero){
+    public List<Accion> getCasillasPorTurno(Integer turno, Integer tablero){
         List<Accion> list = new ArrayList<>();
-        list = accionRepository.findByTablero(partida,tablero);
+        list = accionRepository.findByTablero(turno, tablero);
         
         
         return list;
@@ -40,8 +40,8 @@ public class AccionService {
         accionRepository.save(accion);
     }
 
-    public List<Accion> getAccionesByTablero( Tablero tablero) {
-        return accionRepository.findByJugadoryTablero(tablero);
+    public List<Accion> getAccionesByTablero( Integer idTablero) {
+        return accionRepository.findByJugadoryTablero(idTablero);
     }
 
     

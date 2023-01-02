@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TurnoRepository extends CrudRepository<Turno, Integer>{
 
-    @Query("SELECT t FROM Turno t WHERE t.tablero = ?1")
-    List<Turno> getTurnosByTablero(Tablero tablero);
+    @Query("SELECT t FROM Turno t WHERE t.tablero.id = ?1")
+    List<Turno> getTurnosByTablero(Integer idTablero);
     
 }

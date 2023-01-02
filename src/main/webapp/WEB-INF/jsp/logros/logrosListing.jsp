@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="vets">
+<petclinic:layout pageName="achievements">
     <h1><em><b><u>Achievements</u></b></em></h1>
 
     <table id="logroTable" class="table table-striped">
@@ -32,12 +32,12 @@
                 <td style="text-align:center">                    
                     <c:out value="${logro.reqDescripcion} "/>                                        
                 </td>
-                <td> 
+                <td style="text-align:center"> 
                     <a href="/logros/${logro.id}/edit"> 
                         <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>                            
                     </a>       
                 </td>
-                <td> 
+                <td style="text-align:center"> 
                     <a href="/logros/${logro.id}/delete"> 
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                     </a>      

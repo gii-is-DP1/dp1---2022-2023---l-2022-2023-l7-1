@@ -45,7 +45,7 @@
 						<span>Stats</span>
 					</petclinic:menuItem>
 
-					<petclinic:menuItem active="${name eq 'logros'}" url="/logros" title="Achievements">
+					<petclinic:menuItem active="${name eq 'achievements'}" url="/logros" title="Achievements">
 						<span class="glyphicon glyphicon-flag"></span>
 						<span>Achievements</span>
 					</petclinic:menuItem>

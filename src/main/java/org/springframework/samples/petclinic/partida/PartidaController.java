@@ -376,5 +376,4 @@ public class PartidaController {
         return res;
 	}
 
-    
 }

@@ -200,7 +200,7 @@ public class UserController {
 			// multiple users found
 			model.put("users", results);
 
-			ModelAndView res = new ModelAndView("users/userListing");
+			ModelAndView res = new ModelAndView("users/userListingFound");
 			if(principal != null){
 				res.addObject("username", principal.getName());
 			}

@@ -5,23 +5,18 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="users">
-    <h1><em><b><u>Friends to Invite</u></b></em></h1>
+    <h1><em><b><u>Friends to Play</u></b></em></h1>
     <table id="usersTable" class="table table-striped">
         <thead>
         <tr>
             <th style="text-align:center;">Username</th>
-            <th style="text-align:center;">Invite to Play</th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${friends}" var="friend">
-            
             <tr>
                 <td style="text-align:center;">                    
                     <c:out value="${friend.username}"/>
-                </td>
-                <td style="text-align:center;"> 
-                    <input type="checkbox" name="invite" value="invite"><br/>   
                 </td>
             </tr>
         </c:forEach>

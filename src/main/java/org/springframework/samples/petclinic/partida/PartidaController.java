@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -218,21 +219,7 @@ public class PartidaController {
 
             Integer control = partidaService.actualizarUso(idPartida, turnoToBeUpdated, listaTerritorios);
             if(control <0){
-                //Aquí hay que poner una vista que te lleve a una pantalla con el tablero completo y los puntos conseguidos
-                Integer idTablero = partidaService.getPartidaById(idPartida).getTableros().get(0).getId();
-                Tablero tablero = partidaService.getPartidaById(idPartida).getTableros().get(0);
-                tablero.setPartidaEnCurso(false);
-                tableroService.saveTablero(tablero);
-                List<Accion> acciones = accionService.getAccionesByTablero(idTablero);
-                Partida partida = partidaService.getPartidaById(idPartida);
-                List<Turno> turnos = turnoService.getTurnosByTablero(idTablero);
-
-                Integer puntosTotales = partidaService.calcularPuntos(acciones,turnos, partida) + tablero.getPoder2();
-            
-                res.setViewName("partidas/resultados");
-                res.addObject("puntos", puntosTotales);
-                res.addObject("acciones", acciones);
-
+                res.setViewName("redirect:/partida/resultados/"+idPartida);
                 return res;
             }
 
@@ -275,22 +262,9 @@ public class PartidaController {
         }
         
 
-        //Elegimos la vista
+        //Controla cuando acaba la partida
         if(casillas.isEmpty()){
-            //Aquí hay que poner una vista que te lleve a una pantalla con el tablero completo y los puntos conseguidos
-            Tablero tablero = partidaService.getPartidaById(idPartida).getTableros().get(0);
-            tablero.setPartidaEnCurso(false);
-            tableroService.saveTablero(tablero);
-
-            Partida partida = partidaService.getPartidaById(idPartida);
-            List<Turno> turnos = turnoService.getTurnosByTablero(idTablero);
-
-            Integer puntosTotales = partidaService.calcularPuntos(acciones,turnos, partida) + tablero.getPoder2();
-        
-            res.setViewName("partidas/resultados");
-            res.addObject("puntos", puntosTotales);
-            res.addObject("acciones", acciones);
-
+            res.setViewName("redirect:/partida/resultados/"+idPartida);
             return res;
         }
         
@@ -377,6 +351,30 @@ public class PartidaController {
             return res;  
         }
     }
+
+    @GetMapping(value = "/partida/resultados/{idPartida}")
+	public ModelAndView resultados(@PathVariable("idPartida") Integer idPartida){
+        ModelAndView res = new ModelAndView("partidas/resultados");
+		Tablero tablero = partidaService.getPartidaById(idPartida).getTableros().get(0);
+        tablero.setPartidaEnCurso(false);
+        tableroService.saveTablero(tablero);
+
+        Partida partida = partidaService.getPartidaById(idPartida);
+
+        List<Turno> turnos = turnoService.getTurnosByTablero(tablero.getId());
+
+        List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId()).stream().filter(x-> x.getCasilla() != null).collect(Collectors.toList());
+
+        List<Integer> criterios = List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2);
+
+        Integer puntosTotales = partidaService.calcularPuntos(acciones,turnos, partida) + tablero.getPoder2();
+        
+       
+        res.addObject("puntos", puntosTotales);
+        res.addObject("acciones", acciones);
+        res.addObject("criterios", criterios);
+        return res;
+	}
 
     //------------------------------------------------------------------------
     // VueltaLobby ----------------------------------------------------------

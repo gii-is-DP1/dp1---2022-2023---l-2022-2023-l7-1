@@ -2,9 +2,10 @@ package org.springframework.samples.petclinic.logros;
 
 import java.util.Map;
 
+import java.security.Principal;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.trace.http.HttpTrace.Principal;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -30,17 +31,20 @@ public class LogroController {
 
     @Transactional(readOnly = true)
     @GetMapping("/logros")
-    public ModelAndView showLogros(){
+    public ModelAndView showLogros(Principal principal){
         ModelAndView result=new ModelAndView(LOGROS_LISTING_VIEW);
         result.addObject("logros", service.getLogros());
+        if(principal != null){
+            result.addObject("username", principal.getName());
+        }
         return result;
     }
 
     @Transactional
     @GetMapping("/logros/{id}/delete")
-    public ModelAndView deleteLogro(@PathVariable Integer id){
+    public String deleteLogro(@PathVariable Integer id){
         service.deleteLogroById(id);        
-        return showLogros();
+        return LOGROS_LISTING_VIEW;
     }
 
     @Transactional(readOnly = true)
@@ -54,11 +58,11 @@ public class LogroController {
 
     @Transactional
     @PostMapping("/logros/{id}/edit")
-    public ModelAndView saveLogro(@PathVariable Integer id,Logro logro){
+    public String saveLogro(@PathVariable Integer id,Logro logro){
         Logro logroEdited=service.getById(id);
         BeanUtils.copyProperties(logro,logroEdited,"id");
         service.save(logroEdited);
-        return showLogros();
+        return LOGROS_LISTING_VIEW;
     }
 
     @Transactional(readOnly = true)
@@ -74,7 +78,7 @@ public class LogroController {
     @PostMapping("/logros/new")
     public ModelAndView saveNewAchievement(Logro logro, BindingResult br){
         service.save(logro);
-        ModelAndView result=showLogros();
+        ModelAndView result=new ModelAndView(LOGROS_LISTING_VIEW);
         result.addObject("message", "The achievement was created successfully ;)");
         return result;
     }

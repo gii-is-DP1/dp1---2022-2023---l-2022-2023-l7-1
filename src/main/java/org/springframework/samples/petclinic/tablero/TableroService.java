@@ -41,5 +41,9 @@ public class TableroService {
     public List<Tablero> getTablerosByUser(User usuario){
         return tableroRepository.getTablerosByUser(usuario);
     }
+
+    public void delete(Tablero tablero) {
+        tableroRepository.deleteById(tablero.getId());
+    }
     
 }

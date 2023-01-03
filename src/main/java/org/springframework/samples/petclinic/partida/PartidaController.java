@@ -187,7 +187,8 @@ public class PartidaController {
                                         @PathVariable("idTurno") Integer idTurno, @PathVariable("numTiradas") Integer numTiradas,
                                         HttpSession session) {
         ModelAndView res = new ModelAndView(VIEW_ELIGE_TERRITORIO);
-
+        
+        
         Turno turno = turnoService.getTurnoById(idTurno);
         Partida partida = partidaService.getPartidaById(idPartida);
         List<Integer> criterios = List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2);
@@ -237,9 +238,11 @@ public class PartidaController {
             res.setViewName(VIEW_ELIGE_TERRITORIO);
 			return res;
 		} else {
+            //Actualiza las propiedades del turno para numTiradas == 3
             Turno turnoToBeUpdated = turnoService.getTurnoById(idTurno);
             BeanUtils.copyProperties(turno, turnoToBeUpdated, "id","numTerritoriosJ2","numTerritoriosJ3","numTerritoriosJ4");
 
+            //Actualiza las propiedades del turno para numTiradas == 2
             if (numTiradas == 2) {
                 int[] dados = (int[]) session.getAttribute("dados");
                 Integer territorio = dados[0]-1;
@@ -251,13 +254,14 @@ public class PartidaController {
                 model.put("turno", turnoToBeUpdated);
             }
 
-            //Acaba la partida
+            //Acaba la partida dependiendo de los usos de los territorios
             Integer control = partidaService.actualizarUso(idPartida, turnoToBeUpdated, listaTerritorios);
             if(control <0){
                 res.setViewName("redirect:/partida/resultados/"+idPartida);
                 return res;
             }
 
+            //Dirige a la vista dibujar
             Accion ac = new Accion();
             turnoToBeUpdated.setTablero(partidaService.getPartidaById(idPartida).getTableros().get(0));
             turnoService.saveTurno(turnoToBeUpdated);
@@ -290,19 +294,20 @@ public class PartidaController {
         List<Accion> acciones = accionService.getAccionesByTablero(idTablero);
         Set<Integer> casillas = new HashSet<>();
 
+        //Calcula las casillas disponibles a dibujar dependiendo de si es la primera accion del turno o no
         if(primeraAccion == 1){
             casillas = partidaService.casillasDisponiblesPrimeraAccion(idTablero);
         }else{
             casillas = partidaService.casillasDisponibles(idTurno, idTablero);
         }
         
-
-        //Controla cuando acaba la partida
+        //Controla si acaba la partida
         if(casillas.isEmpty()){
             res.setViewName("redirect:/partida/resultados/"+idPartida);
             return res;
         }
         
+        //Define la vista y añade los atributos necesarios 
         res.setViewName("partidas/dibujar");
         
         
@@ -338,6 +343,7 @@ public class PartidaController {
             res.addObject("username", principal.getName());
         }
 
+        //Actualiza la acción y la guarda en la BBDD
         Turno turno = turnoService.getTurnoById(idTurno);
         Accion accionToBeUpdated = accionService.getAccionById(idAccion);
         BeanUtils.copyProperties(accion, accionToBeUpdated, "id","tablero","turno");
@@ -357,7 +363,7 @@ public class PartidaController {
         }
 
 
-        
+        //Controlamos si hemos dibujado una casilla de poder y dependiendo del poder actuamos de una manera u otra
         if(accion.getCasilla().getPoder1()) {
             tablero.setPoder1(tablero.getPoder1()+1);
             tableroService.saveTablero(tablero);
@@ -374,6 +380,7 @@ public class PartidaController {
             tableroService.saveTablero(tablero);
         }
 
+        //Si quedan territorios por dibujar nos dirige al Get de dibujar, en caso contrario nos lleva a elegirTerritorio
         if(turno.getNumTerritoriosJ1()>0){
             
             Accion ac = new Accion();
@@ -400,6 +407,7 @@ public class PartidaController {
         }
     }
 
+    //Nos lleva a la vista tras acabar la partida y guarda todas las propiedades necesarias
     @GetMapping(value = "/partida/resultados/{idPartida}")
 	public ModelAndView resultados(@PathVariable("idPartida") Integer idPartida){
         ModelAndView res = new ModelAndView("partidas/resultados");

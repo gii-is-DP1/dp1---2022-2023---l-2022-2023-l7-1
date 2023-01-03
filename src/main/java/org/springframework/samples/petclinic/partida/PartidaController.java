@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.partida;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +14,6 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.samples.petclinic.accion.Accion;
@@ -30,7 +28,6 @@ import org.springframework.samples.petclinic.util.Territorio;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class PartidaController {
@@ -91,12 +88,72 @@ public class PartidaController {
     @Transactional
 	@GetMapping(value = "/partida/crearPartida")
 	public ModelAndView creacionPartida(Principal principal){
-		ModelAndView res = new ModelAndView("partidas/crearPartida");
+        User usuario = userService.getUserById(principal.getName());
+        List<User> usersActive = tableroService.getActivePlayers();
+        ModelAndView res;
+        if (usersActive.contains(usuario)){
+            res = new ModelAndView("partidas/continuarCancelarPartida");
+        } else{
+            res = new ModelAndView("partidas/crearPartida");
+        }
         if(principal != null){
             res.addObject("username", principal.getName());
         }
 		return res;
 	}
+
+    //-------------------------------------------------------------------------
+    // ContinuarPartidaEnCurso ------------------------------------------------
+    //-------------------------------------------------------------------------
+    @Transactional
+	@GetMapping(value = "/partida/continuarPartida")
+	public String continuarPartida(Principal principal){
+        User usuario = userService.getUserById(principal.getName());
+        Tablero tablero = tableroService.getTableroByUser(usuario);
+        List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId());
+        List<Turno> turnos = turnoService.getTurnosByTablero(tablero.getId());
+        Turno turno = turnos.get(turnos.size()-1);
+        if(!acciones.isEmpty()){
+            Accion accion = acciones.get(acciones.size()-1);
+            if(turno.getId()!=accion.getTurno().getId()){
+                if ((turno.getId()-turnos.get(0).getId())%2==0){
+                    return "redirect:/partida/eligeTerritorio/"+tablero.getPartida().getId()+"/"+turno.getId()+"/3";
+                } else {
+                    return "redirect:/partida/eligeTerritorio/"+tablero.getPartida().getId()+"/"+turno.getId()+"/2";
+                }
+            } else{
+                Integer primeraAccion= partidaService.getPrimeraAccion(acciones, turno);
+                if ((turno.getId()-turnos.get(0).getId())%2==0){
+                    return "redirect:/partida/dibujar/"+tablero.getPartida().getId()+"/"+turno.getId()+"/"+accion.getId()+"/3/"+ primeraAccion;
+                } else {
+                    return "redirect:/partida/dibujar/"+tablero.getPartida().getId()+"/"+turno.getId()+"/"+accion.getId()+"/2/" + primeraAccion;
+                }
+            }
+        }
+        return "redirect:/partida/eligeTerritorio/"+tablero.getPartida().getId()+"/"+turno.getId()+"/3";
+    }
+
+    //-------------------------------------------------------------------------
+    // CancelarPartidaEnCurso -------------------------------------------------
+    //-------------------------------------------------------------------------
+    @Transactional
+	@GetMapping(value = "/partida/cancelarPartida")
+	public String cancelarPartida(Principal principal){
+        User usuario = userService.getUserById(principal.getName());
+        Tablero tablero = tableroService.getTableroByUser(usuario);
+        Partida partida = partidaService.getPartidaById(tablero.getPartida().getId());
+        List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId());
+        List<Turno> turnos = turnoService.getTurnosByTablero(tablero.getId());
+        tableroService.delete(tablero);
+        for(Accion a: acciones){
+            accionService.delete(a);
+        }
+        for(Turno t: turnos){
+            turnoService.delete(t);
+        }
+        partidaService.delete(partida);
+        return "redirect:/";
+    }
 
     //-------------------------------------------------------------------------
     //PartidaSolitaria---------------------------------------------------------
@@ -106,33 +163,7 @@ public class PartidaController {
     @GetMapping(value = "/partida/crearPartidaSolitaria")
 	public String getPartidaSolitaria(Principal principal){
         User usuario = userService.getUserById(principal.getName());
-        List<User> usersActive = tableroService.getActivePlayers();
-
-        if (usersActive.contains(usuario)){
-            Tablero tablero = tableroService.getTableroByUser(usuario);
-            List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId());
-            List<Turno> turnos = turnoService.getTurnosByTablero(tablero.getId());
-            Turno turno = turnos.get(turnos.size()-1);
-            if(!acciones.isEmpty()){
-                Accion accion = acciones.get(acciones.size()-1);
-                if(turno.getId()!=accion.getTurno().getId()){
-                    if ((turno.getId()-turnos.get(0).getId())%2==0){
-                        return "redirect:/partida/eligeTerritorio/"+tablero.getPartida().getId()+"/"+turno.getId()+"/3";
-                    } else {
-                        return "redirect:/partida/eligeTerritorio/"+tablero.getPartida().getId()+"/"+turno.getId()+"/2";
-                    }
-                } else{
-                    if ((turno.getId()-turnos.get(0).getId())%2==0){
-                        return "redirect:/partida/dibujar/"+tablero.getPartida().getId()+"/"+turno.getId()+"/"+accion.getId()+"/3";
-                    } else {
-                        return "redirect:/partida/dibujar/"+tablero.getPartida().getId()+"/"+turno.getId()+"/"+accion.getId()+"/2";
-                    }
-                }
-            }
-            return "redirect:/partida/eligeTerritorio/"+tablero.getPartida().getId()+"/"+turno.getId()+"/3";
-        }
 		List<Integer> x = this.partidaService.crearPartidaSolitario(usuario);
-
 		return "redirect:/partida/eligeTerritorio/"+x.get(0)+"/"+x.get(1)+"/3";
 	}
 

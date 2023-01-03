@@ -370,4 +370,22 @@ public class PartidaService {
       return res1+res2+res3+res4;
    }
 
+   public void delete(Partida partida) {
+      partidaRepo.deleteById(partida.getId());
+   }
+
+   public Integer getPrimeraAccion(List<Accion> acciones, Turno turno) {
+      Integer contador=0;
+      for(Accion a: acciones){
+         if(a.getTurno().getId()==turno.getId()){
+               contador++;
+         }
+      }
+      if(contador>1){
+         return 0;
+      }else {
+         return 1;
+      }
+   }
+
 }

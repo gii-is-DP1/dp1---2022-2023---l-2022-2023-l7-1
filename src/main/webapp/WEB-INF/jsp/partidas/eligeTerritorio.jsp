@@ -109,6 +109,11 @@
                     </tbody>
                 </table>
             </div>
+            <%-- Para poder2 --%>
+            <c:if test = "${tablero.poder2 > 0}">
+                               
+            <c:out value="${tablero.poder2}"/>
+             </c:if>
         </div>    
     </body>
     

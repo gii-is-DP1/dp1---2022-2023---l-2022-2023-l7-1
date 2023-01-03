@@ -62,6 +62,11 @@
         <p>Criterio B2: <c:out value="${criterios[3]}"/></p>
         </div>
     </div>
+    <%-- Para poder2 --%>
+         <c:if test = "${tablero.poder2 > 0}">
+                               
+            <c:out value="${tablero.poder2}"/>
+            </c:if>
     </body>
     
 </petclinic:layout>

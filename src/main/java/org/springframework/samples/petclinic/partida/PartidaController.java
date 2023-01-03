@@ -195,6 +195,7 @@ public class PartidaController {
         List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId());
         List<Integer> usos = List.of(tablero.getUsos0(),tablero.getUsos1(),tablero.getUsos2(),tablero.getUsos3(),tablero.getUsos4(),tablero.getUsos5());                                            
         Boolean eligeTerritorio;
+
         if(numTiradas == 2) {
             turno.setTablero(acciones.get(0).getTablero());
             int[] dados = lanzamiento(numTiradas);
@@ -208,6 +209,7 @@ public class PartidaController {
             res.addObject("dados", lanzamiento(numTiradas));
             eligeTerritorio = true;
         }
+
         turnoService.saveTurno(turno);
         res.addObject("eligeTerritorio", eligeTerritorio);
         res.addObject("poder1", tablero.getPoder1());
@@ -215,6 +217,7 @@ public class PartidaController {
         res.addObject("usos", usos);
         res.addObject("turno", turno);
         res.addObject("criterios", criterios);
+
         if(principal != null){
             res.addObject("username", principal.getName());
         }
@@ -248,6 +251,7 @@ public class PartidaController {
                 model.put("turno", turnoToBeUpdated);
             }
 
+            //Acaba la partida
             Integer control = partidaService.actualizarUso(idPartida, turnoToBeUpdated, listaTerritorios);
             if(control <0){
                 res.setViewName("redirect:/partida/resultados/"+idPartida);
@@ -329,9 +333,11 @@ public class PartidaController {
                             Map<String, Object> model){
 
         ModelAndView res = new ModelAndView();
+
         if(principal != null){
             res.addObject("username", principal.getName());
         }
+
         Turno turno = turnoService.getTurnoById(idTurno);
         Accion accionToBeUpdated = accionService.getAccionById(idAccion);
         BeanUtils.copyProperties(accion, accionToBeUpdated, "id","tablero","turno");
@@ -354,6 +360,17 @@ public class PartidaController {
         
         if(accion.getCasilla().getPoder1()) {
             tablero.setPoder1(tablero.getPoder1()+1);
+            tableroService.saveTablero(tablero);
+        }
+
+        if(accion.getCasilla().getPoder2()){
+            Partida partida = partidaService.getPartidaById(idPartida);
+
+            List<Turno> turnos = turnoService.getTurnosByTablero(tablero.getId());
+
+            List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId()).stream().filter(x-> x.getCasilla() != null).collect(Collectors.toList());
+            Integer puntosPoder2 = partidaService.calcularPuntosPoder2(acciones, turnos, partida);
+            tablero.setPoder2(puntosPoder2);
             tableroService.saveTablero(tablero);
         }
 
@@ -398,8 +415,10 @@ public class PartidaController {
 
         List<Integer> criterios = List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2);
 
-        Integer puntosTotales = partidaService.calcularPuntos(acciones,turnos, partida) + tablero.getPoder2();
+        Integer puntosTotales = partidaService.calcularPuntosTablero(acciones,turnos, partida) + tablero.getPoder2();
         
+        tablero.setPuntos(puntosTotales);
+        tableroService.saveTablero(tablero);
        
         res.addObject("puntos", puntosTotales);
         res.addObject("acciones", acciones);

@@ -178,7 +178,7 @@ public class PartidaService {
       tablero.setPartidaEnCurso(true);
       tablero.setPartidaCreada(true);
       tableroService.saveTablero(tablero);
-      turno.setTablero(tablero);
+      turno.setPartida(p);
 
       turnoService.saveTurno(turno);
   

@@ -111,7 +111,7 @@ public class PartidaController {
         User usuario = userService.getUserById(principal.getName());
         Tablero tablero = tableroService.getTableroByUser(usuario);
         List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId());
-        List<Turno> turnos = turnoService.getTurnosByTablero(tablero.getId());
+        List<Turno> turnos = turnoService.getTurnosByPartida(tablero.getPartida().getId());
         Turno turno = turnos.get(turnos.size()-1);
         if(!acciones.isEmpty()){
             Accion accion = acciones.get(acciones.size()-1);
@@ -143,7 +143,7 @@ public class PartidaController {
         Tablero tablero = tableroService.getTableroByUser(usuario);
         Partida partida = partidaService.getPartidaById(tablero.getPartida().getId());
         List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId());
-        List<Turno> turnos = turnoService.getTurnosByTablero(tablero.getId());
+        List<Turno> turnos = turnoService.getTurnosByPartida(partida.getId());
         tableroService.delete(tablero);
         for(Accion a: acciones){
             accionService.delete(a);
@@ -198,14 +198,14 @@ public class PartidaController {
         Boolean eligeTerritorio;
 
         if(numTiradas == 2) {
-            turno.setTablero(acciones.get(0).getTablero());
+            turno.setPartida(partida);
             int[] dados = lanzamiento(numTiradas);
             session.setAttribute("dados", dados);
             res.addObject("dados", dados);
             eligeTerritorio = false;
             
         } else {
-            turno.setTablero(tablero);
+            turno.setPartida(partida);
             res.addObject("territorios", listaTerritorios);
             res.addObject("dados", lanzamiento(numTiradas));
             eligeTerritorio = true;
@@ -263,7 +263,7 @@ public class PartidaController {
 
             //Dirige a la vista dibujar
             Accion ac = new Accion();
-            turnoToBeUpdated.setTablero(partidaService.getPartidaById(idPartida).getTableros().get(0));
+            turnoToBeUpdated.setPartida(partidaService.getPartidaById(idPartida));
             turnoService.saveTurno(turnoToBeUpdated);
             ac.setTablero(partidaService.getPartidaById(idPartida).getTableros().get(0));
             ac.setTurno(turnoToBeUpdated);
@@ -349,7 +349,7 @@ public class PartidaController {
         BeanUtils.copyProperties(accion, accionToBeUpdated, "id","tablero","turno");
         accionService.save(accionToBeUpdated);
         Tablero tablero = partidaService.getPartidaById(idPartida).getTableros().get(0);
-        turno.setTablero(tablero);
+        turno.setPartida(partidaService.getPartidaById(idPartida));
 
         //Esta parte actualiza el numero de territorios a dibujar y la cantidad de poderes que te quedan en el tablero PODER1
         if(turnoPost.getNumTerritoriosJ1() == null|| turnoPost.getNumTerritoriosJ1() == 0){
@@ -372,7 +372,7 @@ public class PartidaController {
         if(accion.getCasilla().getPoder2()){
             Partida partida = partidaService.getPartidaById(idPartida);
 
-            List<Turno> turnos = turnoService.getTurnosByTablero(tablero.getId());
+            List<Turno> turnos = turnoService.getTurnosByPartida(idPartida);
 
             List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId()).stream().filter(x-> x.getCasilla() != null).collect(Collectors.toList());
             Integer puntosPoder2 = partidaService.calcularPuntosPoder2(acciones, turnos, partida);
@@ -417,7 +417,7 @@ public class PartidaController {
 
         Partida partida = partidaService.getPartidaById(idPartida);
 
-        List<Turno> turnos = turnoService.getTurnosByTablero(tablero.getId());
+        List<Turno> turnos = turnoService.getTurnosByPartida(idPartida);
 
         List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId()).stream().filter(x-> x.getCasilla() != null).collect(Collectors.toList());
 

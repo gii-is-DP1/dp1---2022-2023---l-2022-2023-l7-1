@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import javax.validation.constraints.Max;
+
 import org.h2.store.RangeInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -65,6 +67,13 @@ public class PartidaService {
     this.turnoService = turnoService;
     this.accionService = accionService;
    }
+
+   public Integer getMaximo(int a, int b, int c, int d) {
+      Integer max = Math.max(a, b);
+      max = Math.max(c, max);
+      max = Math.max(d, max);
+      return max;
+  }
 
    public Partida getPartidaById(Integer id){
       return partidaRepo.findById(id).get();
@@ -225,7 +234,7 @@ public class PartidaService {
       return adyacentes;
    }
 
-   public Integer calcularPuntos(List<Accion> acciones, List<Turno> turnos, Partida partida){
+   public Integer calcularPuntosTablero(List<Accion> acciones, List<Turno> turnos, Partida partida){
       Integer res1 = 0;
 
       // A1
@@ -368,6 +377,151 @@ public class PartidaService {
       }
 
       return res1+res2+res3+res4;
+   }
+
+   public Integer calcularPuntosPoder2(List<Accion> acciones, List<Turno> turnos, Partida partida){
+      Integer res1 = 0;
+
+      // A1
+      switch(partida.getIdCriterioA1()){
+         case(1):{
+            strategy = new CriterioA1();
+            res1 = res1 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(2):{
+            strategy = new CriterioA2();
+            res1 = res1 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(3):{
+            strategy = new CriterioA3();
+            res1 = res1 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(4):{
+            strategy = new CriterioA4();
+            res1 = res1 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(5):{
+            strategy = new CriterioA5();
+            res1 = res1 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(6):{
+            strategy = new CriterioA6();
+            res1 = res1 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+      }
+
+      Integer res2 = 0;
+      //A2
+      switch(partida.getIdCriterioA2()){
+         case(1):{
+            strategy = new CriterioA1();
+            res2 = res2 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(2):{
+            strategy = new CriterioA2();
+            res2 = res2 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(3):{
+            strategy = new CriterioA3();
+            res2 = res2 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(4):{
+            strategy = new CriterioA4();
+            res2 = res2 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(5):{
+            strategy = new CriterioA5();
+            res2 = res2 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(6):{
+            strategy = new CriterioA6();
+            res2 = res2 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+      }
+
+      Integer res3 = 0;
+      //B1
+      switch(partida.getIdCriterioB1()){
+         case(1):{
+            strategy = new CriterioB1();
+            res3 = res3 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(2):{
+            strategy = new CriterioB2();
+            res3 = res3 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(3):{
+            strategy = new CriterioB3();
+            res3 = res3 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(4):{
+            strategy = new CriterioB4();
+            res3 = res3 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(5):{
+            strategy = new CriterioB5();
+            res3 = res3 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(6):{
+            strategy = new CriterioB6();
+            res3 = res3 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+      }
+
+      Integer res4 =0;
+      //B2
+      switch(partida.getIdCriterioB2()){
+         case(1):{
+            strategy = new CriterioB1();
+            res4 = res4 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(2):{
+            strategy = new CriterioB2();
+            res4 = res4 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(3):{
+            strategy = new CriterioB3();
+            res4 = res4 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(4):{
+            strategy = new CriterioB4();
+            res4 = res4 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(5):{
+            strategy = new CriterioB5();
+            res4 = res4 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+         case(6):{
+            strategy = new CriterioB6();
+            res4 = res4 + strategy.calcularCriterio(acciones, turnos);
+            break;
+         }
+      }
+
+      return getMaximo(res1, res2, res3, res4);
    }
 
    public void delete(Partida partida) {

@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.partida;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,17 +7,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
-import javax.validation.constraints.Max;
-
-import org.h2.store.RangeInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.accion.Accion;
 import org.springframework.samples.petclinic.accion.AccionService;
-import org.springframework.samples.petclinic.casilla.Casilla;
 import org.springframework.samples.petclinic.criterios.CriterioA1;
 import org.springframework.samples.petclinic.criterios.CriterioA2;
 import org.springframework.samples.petclinic.criterios.CriterioA3;
@@ -33,12 +24,11 @@ import org.springframework.samples.petclinic.criterios.CriterioB5;
 import org.springframework.samples.petclinic.criterios.CriterioB6;
 import org.springframework.samples.petclinic.criterios.StrategyInterface;
 import org.springframework.samples.petclinic.tablero.Tablero;
-import org.springframework.samples.petclinic.tablero.TableroRepository;
 import org.springframework.samples.petclinic.tablero.TableroService;
 import org.springframework.samples.petclinic.turnos.Turno;
-import org.springframework.samples.petclinic.turnos.TurnoRepository;
 import org.springframework.samples.petclinic.turnos.TurnoService;
 import org.springframework.samples.petclinic.user.User;
+import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.samples.petclinic.util.Territorio;
 import org.springframework.stereotype.Service;
 
@@ -55,17 +45,20 @@ public class PartidaService {
 
    AccionService accionService;
 
+   UserService userService;
+
    private static StrategyInterface strategy;
    
    
    @Autowired
-   public PartidaService(PartidaRepository partidaRepo, TableroService tableroService, TurnoService turnoService, AccionService accionService) {
+   public PartidaService(PartidaRepository partidaRepo, TableroService tableroService, TurnoService turnoService, AccionService accionService, UserService userService) {
     this.partidaRepo = partidaRepo;
 
     this.tableroService = tableroService;
 
     this.turnoService = turnoService;
     this.accionService = accionService;
+    this.userService = userService;
    }
 
    public Integer getMaximo(int a, int b, int c, int d) {
@@ -410,6 +403,106 @@ public class PartidaService {
       }else {
          return 1;
       }
+   }
+
+   public List<Integer> crearPartidaMultijugador(List<User> jugadores) {
+      int[] criteriosA = criterioAleatorio();
+      int[] criteriosB = criterioAleatorio();
+
+      Turno turno = new Turno();
+      List<Tablero> tableros = new ArrayList<Tablero>();
+      Tablero tablero1 = new Tablero();
+      Tablero tablero2 = new Tablero();
+      Tablero tablero3 = new Tablero();
+      Tablero tablero4 = new Tablero();
+
+      if(jugadores.size()>1){
+         tableros.add(tablero1);
+         tableros.add(tablero2);
+         if(jugadores.size()>2){        
+            tableros.add(tablero3);
+            if(jugadores.size()>3){
+               tableros.add(tablero4);
+            }
+         }
+      }
+      
+      Partida p = new Partida();
+      
+      p.setDateTime(LocalDateTime.now());
+      
+      p.setIdCriterioA1(criteriosA[0]);
+      p.setIdCriterioA2(criteriosA[1]);
+
+      p.setIdCriterioB1(criteriosB[0]);
+      p.setIdCriterioB2(criteriosB[1]);
+      p.setTableros(tableros);
+      partidaRepo.save(p);
+
+      User anfitrion = jugadores.get(0);
+      anfitrion.setEstado(true);
+      userService.save(anfitrion);
+
+      if(jugadores.size()>1){
+         tablero1.setPartida(p);
+         tablero1.setUser(jugadores.get(0));
+         tablero1.setPuntos(0);
+         tablero1.setUsos0(tableros.size()+1);
+         tablero1.setUsos1(tableros.size()+1);
+         tablero1.setUsos2(tableros.size()+1);
+         tablero1.setUsos3(tableros.size()+1);
+         tablero1.setUsos4(tableros.size()+1);
+         tablero1.setUsos5(tableros.size()+1); 
+         tablero1.setPartidaEnCurso(true);
+         tablero1.setPartidaCreada(true);
+         tableroService.saveTablero(tablero1);
+         
+         tablero2.setPartida(p);
+         tablero2.setUser(jugadores.get(1));
+         tablero2.setPuntos(0);
+         tablero2.setUsos0(tableros.size()+1);
+         tablero2.setUsos1(tableros.size()+1);
+         tablero2.setUsos2(tableros.size()+1);
+         tablero2.setUsos3(tableros.size()+1);
+         tablero2.setUsos4(tableros.size()+1);
+         tablero2.setUsos5(tableros.size()+1); 
+         tablero2.setPartidaEnCurso(true);
+         tablero2.setPartidaCreada(false);
+         tableroService.saveTablero(tablero2);
+
+         if(jugadores.size()>2){        
+            tablero3.setPartida(p);
+            tablero3.setUser(jugadores.get(2));
+            tablero3.setPuntos(0);
+            tablero3.setUsos0(tableros.size()+1);
+            tablero3.setUsos1(tableros.size()+1);
+            tablero3.setUsos2(tableros.size()+1);
+            tablero3.setUsos3(tableros.size()+1);
+            tablero3.setUsos4(tableros.size()+1);
+            tablero3.setUsos5(tableros.size()+1); 
+            tablero3.setPartidaEnCurso(true);
+            tablero3.setPartidaCreada(false);
+            tableroService.saveTablero(tablero3);
+
+            if(jugadores.size()>3){
+               tablero4.setPartida(p);
+               tablero4.setUser(jugadores.get(3));
+               tablero4.setPuntos(0);
+               tablero4.setUsos0(tableros.size()+1);
+               tablero4.setUsos1(tableros.size()+1);
+               tablero4.setUsos2(tableros.size()+1);
+               tablero4.setUsos3(tableros.size()+1);
+               tablero4.setUsos4(tableros.size()+1);
+               tablero4.setUsos5(tableros.size()+1); 
+               tablero4.setPartidaEnCurso(true);
+               tablero4.setPartidaCreada(false);
+               tableroService.saveTablero(tablero4);
+            }
+         }
+      }
+      turno.setPartida(p);
+      turnoService.saveTurno(turno);
+      return List.of(p.getId(),turno.getId());
    }
 
 }

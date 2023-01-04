@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.partida;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -109,7 +110,7 @@ public class PartidaController {
 	@GetMapping(value = "/partida/continuarPartida")
 	public String continuarPartida(Principal principal){
         User usuario = userService.getUserById(principal.getName());
-        Tablero tablero = tableroService.getTableroByUser(usuario);
+        Tablero tablero = tableroService.getTableroActiveByUser(usuario);
         List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId());
         List<Turno> turnos = turnoService.getTurnosByPartida(tablero.getPartida().getId());
         Turno turno = turnos.get(turnos.size()-1);
@@ -140,11 +141,15 @@ public class PartidaController {
 	@GetMapping(value = "/partida/cancelarPartida")
 	public String cancelarPartida(Principal principal){
         User usuario = userService.getUserById(principal.getName());
-        Tablero tablero = tableroService.getTableroByUser(usuario);
+        Tablero tablero = tableroService.getTableroActiveByUser(usuario);
         Partida partida = partidaService.getPartidaById(tablero.getPartida().getId());
-        List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId());
+        List<Tablero> tableros = tableroService.getTablerosByPartida(partida);
+        List<Accion> acciones = new ArrayList<>();
         List<Turno> turnos = turnoService.getTurnosByPartida(partida.getId());
-        tableroService.delete(tablero);
+        for(Tablero t: tableros){
+            acciones.addAll(accionService.getAccionesByTablero(t.getId()));
+            tableroService.delete(t);
+        }
         for(Accion a: acciones){
             accionService.delete(a);
         }

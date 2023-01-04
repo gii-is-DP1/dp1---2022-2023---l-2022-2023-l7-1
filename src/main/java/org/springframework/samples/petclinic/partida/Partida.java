@@ -45,16 +45,6 @@ public class Partida {
         inverseJoinColumns = @JoinColumn(name = "TABLERO_ID", referencedColumnName = "id"))
     List<Tablero> tableros;
     
-    @Column(name = "IdTablero2")
-    Integer idTablero2;
-
-    @Column(name = "IdTablero3")
-    Integer idTablero3;
-
-    @Column(name = "IdTablero4")
-    Integer idTablero4;
-
-    
     @Column(name = "IdCriterioA1")
     @NotNull
     Integer idCriterioA1;

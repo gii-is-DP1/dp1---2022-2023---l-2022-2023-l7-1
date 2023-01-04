@@ -6,14 +6,14 @@
 
 <petclinic:layout pageName="users">
 
-    <h1><em><b><u>Friends</u></b></em></h1>
+    <h1><em><b><u>Amigos</u></b></em></h1>
 
     <table id="usersTable" class="table table-striped">
         <thead>
         <tr>
-            <th style="text-align:center;">First Name</th>
-            <th style="text-align:center;">Last Name</th>
-            <th style="text-align:center;">Username</th>
+            <th style="text-align:center;">Nombre</th>
+            <th style="text-align:center;">Apellidos</th>
+            <th style="text-align:center;">Usuario</th>
             <th style="text-align:center;"></th>
         </tr>
         </thead>

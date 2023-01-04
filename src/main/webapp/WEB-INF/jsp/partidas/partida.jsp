@@ -15,7 +15,7 @@
 <petclinic:layout pageName="CREAR PARTIDA">
     
     <form method = "post">
-        <button class="btn btn-default" href="/partida1" type = "submit">Upvote</button>
+        <button class="btn btn-default" href="/partida1" type = "submit">Votar a favor</button>
     <form>
    
    

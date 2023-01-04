@@ -31,11 +31,11 @@
         <div class = "row">
             <div class="col-sm-3">
         <c:if test="${eligeTerritorio == true}">
-            <h3>Choose territory and number of territories:</h3>
+            <h3>Elegir terriorio y número de territorios a dibujar:</h3>
          </c:if>
          <c:if test="${eligeTerritorio == false}">
-            <h3>Choose number of territories:</h3>
-            <small>The number you choose is the number of territories to draw, the one you don't choose is the territory you will draw</small>
+            <h3>Elegir número de territorios:</h3>
+            <small>El número que eliges es el número de territorios a dibujar, el que no eliges es el territorio que dibujarás</small>
          </c:if>
         </div>
             <div class="col-sm-3">
@@ -50,7 +50,7 @@
                         <form:options items = "${dados}" />
                     </form:select>
                     <div class = "row">
-                        <button class="btn btn-default" type="submit">Confirm</button> 
+                        <button class="btn btn-default" type="submit">Confirmar</button> 
                     </div>
                 </div>
                 </form:form>
@@ -59,7 +59,7 @@
                 <table id="criterios" class="table table-condensed table-bordered">
                    <thead>
                         <tr>
-                            <th style="text-align:center">Criterion</th>
+                            <th style="text-align:center">Criterios</th>
                         </tr>
                    </thead>
                    <tbody>
@@ -82,40 +82,40 @@
                 <table id="territorios" class="table table-condensed table-bordered">
                     <thead>
                         <tr style="background-color:gainsboro">
-                            <th style="text-align:center">Dice number</th>
-                            <th>Territory</th>
-                            <th style="text-align:center">Uses</th>
+                            <th style="text-align:center">Número del dado</th>
+                            <th>Territorio</th>
+                            <th style="text-align:center">Usos</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr style="background-color:gainsboro">
                             <td style="text-align:center">- 1 -</td>
-                            <td>Forest</td>
+                            <td>Bosque</td>
                             <td style="text-align:center"><b><c:out value="${usos[0]}"/></b></td>
                         </tr>
                         <tr style="background-color:gainsboro">
                             <td style="text-align:center">- 2 -</td>
-                            <td>Castle</td>
+                            <td>Castillo</td>
                             <td style="text-align:center"><b><c:out value="${usos[1]}"/></b></td>
                         </tr>
                         <tr style="background-color:gainsboro">
                             <td style="text-align:center">- 3 -</td>
-                            <td>Mountain</td>
+                            <td>Montaña</td>
                             <td style="text-align:center"><b><c:out value="${usos[2]}"/></b></td>
                         </tr>
                         <tr style="background-color:gainsboro">
                             <td style="text-align:center">- 4 -</td>
-                            <td>Village</td>
+                            <td>Poblado</td>
                             <td style="text-align:center"><b><c:out value="${usos[3]}"/></b></td>
                         </tr>
                         <tr style="background-color:gainsboro">
                             <td style="text-align:center">- 5 -</td>
-                            <td>Meadow</td>
+                            <td>Pradera</td>
                             <td style="text-align:center"><b><c:out value="${usos[4]}"/></b></td>
                         </tr>
                         <tr style="background-color:gainsboro">
                             <td style="text-align:center">- 6 -</td>
-                            <td>River</td>
+                            <td>Río</td>
                             <td style="text-align:center"><b><c:out value="${usos[5]}"/></b></td>
                         </tr>
                     </tbody>

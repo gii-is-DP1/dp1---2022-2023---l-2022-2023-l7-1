@@ -4,22 +4,23 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 
 <petclinic:layout pageName="usersA">
-    <h1><em><b><u>User Listing</u></b></em></h1>
+    <h1><em><b><u>Listado de usuarios</u></b></em></h1>
 
     <table id="usersTable" class="table table-striped">
         <thead>
         <tr>
-            <th  style="text-align:center">First Name</th>
-            <th  style="text-align:center">LastName</th>
-            <th  style="text-align:center">Brith Date</th>
-            <th  style="text-align:center">Email</th>
-            <th  style="text-align:center">Telephone</th>
-            <th  style="text-align:center">Username</th>
-            <th  style="text-align:center">Password</th>
-            <th  style="text-align:center">Edit</th>
-            <th  style="text-align:center">Delete</th>
+            <th  style="text-align:center">Nombre</th>
+            <th  style="text-align:center">Apellidos</th>
+            <th  style="text-align:center">Cumpleaños</th>
+            <th  style="text-align:center">Correo</th>
+            <th  style="text-align:center">Teléfono</th>
+            <th  style="text-align:center">Usuario</th>
+            <th  style="text-align:center">Contraseña</th>
+            <th  style="text-align:center">Editar</th>
+            <th  style="text-align:center">Borrar</th>
         </tr>
         </thead>
         <tbody>
@@ -75,7 +76,7 @@
             <nav aria-label="Pagination" style="text-align: center;">
                 <ul class="pagination justify-content-center">
                     <li class="page-item">
-                        <c:if test ="${prev != 0}"><a href="/users/all?page=${prev}">Previous</a> </c:if>
+                        <c:if test ="${prev != 0}"><a href="/users/all?page=${prev}">Anterior</a> </c:if>
                     </li>
                     <li class="page-item">
                     <c:forEach items="${pages}" var="page">
@@ -83,7 +84,7 @@
                     </c:forEach>
                     </li>
                     <li class="page-item">
-                        <c:if test ="${next != last+1}"> <a href="/users/all?page=${next}">Next</a> </c:if>
+                        <c:if test ="${next != last+1}"> <a href="/users/all?page=${next}">Siguiente</a> </c:if>
                     </li>
                 </ul>
             </nav>

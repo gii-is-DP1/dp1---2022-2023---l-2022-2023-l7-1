@@ -4,7 +4,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
 <petclinic:layout pageName="rules">
-    <h1><em><b><u>Rules</u></b></em></h1>
+    <h1><em><b><u>Reglas</u></b></em></h1>
 
     <h2><strong><br>Preparación:</strong></h2>
     <ul style="font-size: large;">

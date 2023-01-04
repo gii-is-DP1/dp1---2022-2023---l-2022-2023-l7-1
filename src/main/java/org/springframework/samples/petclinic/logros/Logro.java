@@ -22,7 +22,6 @@ public class Logro extends BaseEntity{
     @NotNull
     private String descripcion;
 
-    @NotNull
     private String logo;
 
     @NotNull

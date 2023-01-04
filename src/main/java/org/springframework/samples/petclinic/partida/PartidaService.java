@@ -234,10 +234,10 @@ public class PartidaService {
       return adyacentes;
    }
 
-   public Integer calcularPuntosTablero(List<Accion> acciones, List<Turno> turnos, Partida partida){
-      Integer res1 = 0;
+   
 
-      // A1
+   public Integer calcularPuntosCriterioA1(List<Accion> acciones, List<Turno> turnos, Partida partida){
+      Integer res1 = 0;
       switch(partida.getIdCriterioA1()){
          case(1):{
             strategy = new CriterioA1();
@@ -270,152 +270,10 @@ public class PartidaService {
             break;
          }
       }
-
-      Integer res2 = 0;
-      //A2
-      switch(partida.getIdCriterioA2()){
-         case(1):{
-            strategy = new CriterioA1();
-            res2 = res2 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-         case(2):{
-            strategy = new CriterioA2();
-            res2 = res2 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-         case(3):{
-            strategy = new CriterioA3();
-            res2 = res2 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-         case(4):{
-            strategy = new CriterioA4();
-            res2 = res2 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-         case(5):{
-            strategy = new CriterioA5();
-            res2 = res2 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-         case(6):{
-            strategy = new CriterioA6();
-            res2 = res2 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-      }
-
-      Integer res3 = 0;
-      //B1
-      switch(partida.getIdCriterioB1()){
-         case(1):{
-            strategy = new CriterioB1();
-            res3 = res3 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-         case(2):{
-            strategy = new CriterioB2();
-            res3 = res3 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-         case(3):{
-            strategy = new CriterioB3();
-            res3 = res3 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-         case(4):{
-            strategy = new CriterioB4();
-            res3 = res3 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-         case(5):{
-            strategy = new CriterioB5();
-            res3 = res3 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-         case(6):{
-            strategy = new CriterioB6();
-            res3 = res3 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-      }
-
-      Integer res4 =0;
-      //B2
-      switch(partida.getIdCriterioB2()){
-         case(1):{
-            strategy = new CriterioB1();
-            res4 = res4 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-         case(2):{
-            strategy = new CriterioB2();
-            res4 = res4 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-         case(3):{
-            strategy = new CriterioB3();
-            res4 = res4 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-         case(4):{
-            strategy = new CriterioB4();
-            res4 = res4 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-         case(5):{
-            strategy = new CriterioB5();
-            res4 = res4 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-         case(6):{
-            strategy = new CriterioB6();
-            res4 = res4 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-      }
-
-      return res1+res2+res3+res4;
+      return res1;
    }
 
-   public Integer calcularPuntosPoder2(List<Accion> acciones, List<Turno> turnos, Partida partida){
-      Integer res1 = 0;
-
-      // A1
-      switch(partida.getIdCriterioA1()){
-         case(1):{
-            strategy = new CriterioA1();
-            res1 = res1 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-         case(2):{
-            strategy = new CriterioA2();
-            res1 = res1 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-         case(3):{
-            strategy = new CriterioA3();
-            res1 = res1 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-         case(4):{
-            strategy = new CriterioA4();
-            res1 = res1 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-         case(5):{
-            strategy = new CriterioA5();
-            res1 = res1 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-         case(6):{
-            strategy = new CriterioA6();
-            res1 = res1 + strategy.calcularCriterio(acciones, turnos);
-            break;
-         }
-      }
-
+   public Integer calcularPuntosCriterioA2(List<Accion> acciones, List<Turno> turnos, Partida partida){
       Integer res2 = 0;
       //A2
       switch(partida.getIdCriterioA2()){
@@ -450,7 +308,9 @@ public class PartidaService {
             break;
          }
       }
-
+      return res2;
+   }
+   public Integer calcularPuntosCriterioB1(List<Accion> acciones, List<Turno> turnos, Partida partida){
       Integer res3 = 0;
       //B1
       switch(partida.getIdCriterioB1()){
@@ -485,7 +345,9 @@ public class PartidaService {
             break;
          }
       }
-
+      return res3;
+   }
+   public Integer calcularPuntosCriterioB2(List<Accion> acciones, List<Turno> turnos, Partida partida){
       Integer res4 =0;
       //B2
       switch(partida.getIdCriterioB2()){
@@ -520,8 +382,16 @@ public class PartidaService {
             break;
          }
       }
-
-      return getMaximo(res1, res2, res3, res4);
+      return res4;
+   }
+   
+   public Integer calcularPoder2(List<Accion> acciones, List<Turno> turnos, Partida partida){
+      Integer criterioA1 = calcularPuntosCriterioA1(acciones, turnos, partida);
+      Integer criterioA2 = calcularPuntosCriterioA2(acciones, turnos, partida);
+      Integer criterioB1 = calcularPuntosCriterioB1(acciones, turnos, partida);
+      Integer criterioB2 = calcularPuntosCriterioB2(acciones, turnos, partida);
+      Integer max = getMaximo(criterioA1, criterioA2, criterioB1, criterioB2);
+      return max;
    }
 
    public void delete(Partida partida) {

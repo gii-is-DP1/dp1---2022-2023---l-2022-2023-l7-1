@@ -375,7 +375,7 @@ public class PartidaController {
             List<Turno> turnos = turnoService.getTurnosByTablero(tablero.getId());
 
             List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId()).stream().filter(x-> x.getCasilla() != null).collect(Collectors.toList());
-            Integer puntosPoder2 = partidaService.calcularPuntosPoder2(acciones, turnos, partida);
+            Integer puntosPoder2 = partidaService.calcularPoder2(acciones, turnos, partida);
             tablero.setPoder2(puntosPoder2);
             tableroService.saveTablero(tablero);
         }
@@ -423,12 +423,21 @@ public class PartidaController {
 
         List<Integer> criterios = List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2);
 
-        Integer puntosTotales = partidaService.calcularPuntosTablero(acciones,turnos, partida) + tablero.getPoder2();
+        Integer criterioA1 = partidaService.calcularPuntosCriterioA1(acciones, turnos, partida);
+        Integer criterioA2 = partidaService.calcularPuntosCriterioA2(acciones, turnos, partida);
+        Integer criterioB1 = partidaService.calcularPuntosCriterioB1(acciones, turnos, partida);
+        Integer criterioB2 = partidaService.calcularPuntosCriterioB2(acciones, turnos, partida);
+
+        Integer puntosTotales = criterioA1 + criterioA2 + criterioB1 + criterioB2+ tablero.getPoder2();
         
         tablero.setPuntos(puntosTotales);
         tableroService.saveTablero(tablero);
-       
-        res.addObject("puntos", puntosTotales);
+        res.addObject("criterioA1", criterioA1);
+        res.addObject("criterioA2", criterioA2);
+        res.addObject("criterioB1", criterioB1);
+        res.addObject("criterioB2", criterioB2);
+        res.addObject("poder2", tablero.getPoder2());
+        res.addObject("puntosTotales", puntosTotales);
         res.addObject("acciones", acciones);
         res.addObject("criterios", criterios);
         return res;

@@ -3,21 +3,22 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 
 <petclinic:layout pageName="stats">
-    <h1><em><b><u>Stats</u></b></em></h1>
+    <h1><em><b><u>Estadísticas</u></b></em></h1>
 
     <table id="usersTable" class="table table-striped">
         <thead>
         <tr>
-            <th style="text-align:center">Username</th>
-            <th style="text-align:center">Games Played</th>
-            <th style="text-align:center">Games Winned</th>
-            <th style="text-align:center">Win Ratio</th>
-            <th style="text-align:center">All Points</th>
-            <th style="text-align:center">Max Score</th>
-            <th style="text-align:center">Time used <em>?</em> power</th>
-            <th style="text-align:center">Time used <em>+-1</em> power</th>
+            <th style="text-align:center">Usuario</th>
+            <th style="text-align:center">Partidas jugadas</th>
+            <th style="text-align:center">Partidas ganadas</th>
+            <th style="text-align:center">Porcentaje de victoria</th>
+            <th style="text-align:center">Puntos totales</th>
+            <th style="text-align:center">Puntuaje máximo</th>
+            <th style="text-align:center">Veces usado el poder <em>?</em> </th>
+            <th style="text-align:center">Veces usado el poder <em>+-1</em> </th>
         </tr>
         </thead>
         <tbody>
@@ -59,7 +60,7 @@
             <nav aria-label="Pagination" style="text-align: center;">
                 <ul class="pagination justify-content-center">
                     <li class="page-item">
-                        <c:if test ="${prev != 0}"><a href="/stats?page=${prev}">Previous</a> </c:if>
+                        <c:if test ="${prev != 0}"><a href="/stats?page=${prev}">Anterior</a> </c:if>
                     </li>
                     <li class="page-item">
                     <c:forEach items="${pages}" var="page">
@@ -67,7 +68,7 @@
                     </c:forEach>
                     </li>
                     <li class="page-item">
-                        <c:if test ="${next != last+1}"> <a href="/stats?page=${next}">Next</a> </c:if>
+                        <c:if test ="${next != last+1}"> <a href="/stats?page=${next}">Siguiente</a> </c:if>
                     </li>
                 </ul>
             </nav>

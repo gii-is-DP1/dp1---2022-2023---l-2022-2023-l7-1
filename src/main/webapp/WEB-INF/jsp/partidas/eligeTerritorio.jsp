@@ -18,10 +18,17 @@
             </c:forEach>    
         </petclinic:mapa>
 
-        <h2>Choose territory:</h2>
-
         <div class = "row">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
+        <c:if test="${eligeTerritorio == true}">
+            <h3>Choose territory and number of territories:</h3>
+         </c:if>
+         <c:if test="${eligeTerritorio == false}">
+            <h3>Choose number of territories:</h3>
+            <small>The number you choose is the number of territories to draw, the one you don't choose is the territory you will draw</small>
+         </c:if>
+        </div>
+            <div class="col-sm-3">
                 <form:form modelAttribute="turno" class="form-horizontal">
                 <div class="form-select">
                     <c:if test="${eligeTerritorio}">
@@ -66,7 +73,7 @@
                    </tbody>
                 </table>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <table id="territorios" class="table table-striped table-condensed">
                     <thead>
                         <tr>

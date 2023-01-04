@@ -515,17 +515,17 @@ INSERT INTO poderes(id, tablero_id, poder1,poder2) VALUES(1,1,1,1);
 
 INSERT INTO poderes(id, tablero_id, poder1,poder2) VALUES(2,2,1,1);
 
-INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, tablero_id)
+INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, partida_id)
  VALUES(1,0,0,0,0,0,1);
-INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, tablero_id)
+INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, partida_id)
  VALUES(2,0,0,0,0,1,1);
- INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, tablero_id)
+ INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, partida_id)
  VALUES(3,0,0,0,0,2,1);
- INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, tablero_id)
+ INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, partida_id)
  VALUES(4,0,0,0,0,3,1);
- INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, tablero_id)
+ INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, partida_id)
  VALUES(5,0,0,0,0,4,1);
- INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, tablero_id)
+ INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, partida_id)
  VALUES(6,0,0,0,0,5,1);
 
 INSERT INTO ACCIONES (id, turno_id, casilla_id, tablero_id) VALUES(1,1,7,1);

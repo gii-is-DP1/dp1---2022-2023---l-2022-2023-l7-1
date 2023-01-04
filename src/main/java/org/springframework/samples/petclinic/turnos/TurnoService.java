@@ -22,8 +22,8 @@ public class TurnoService {
         return TurnoRepository.findById(id).get();
     }
 
-    public List<Turno> getTurnosByTablero(Integer idTablero) {
-        return TurnoRepository.getTurnosByTablero(idTablero);
+    public List<Turno> getTurnosByPartida(Integer idpartida) {
+        return TurnoRepository.getTurnosByPartida(idpartida);
     }
 
     public void delete(Turno t) {

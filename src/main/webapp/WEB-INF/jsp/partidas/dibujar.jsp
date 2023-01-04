@@ -7,7 +7,7 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="CREAR PARTIDA">
-
+    
     <body>
         <h2><c:out value="${now}"/></h2>
         
@@ -16,7 +16,7 @@
                 <petclinic:territorio accion="${accion}"/>
             </c:forEach>    
         </petclinic:mapa>
-
+        
         
         <h2>DIBUJAR</h2>
         <div class = "row">

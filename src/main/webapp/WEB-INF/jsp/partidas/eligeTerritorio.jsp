@@ -7,6 +7,16 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
+
+<style>
+    body {
+        background-image: url("/resources/images/FondoPartida.png");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100% 100%;
+    }
+</style>
+
 <petclinic:layout pageName="CREAR PARTIDA">
 
     <body>

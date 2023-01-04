@@ -6,6 +6,16 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
+
+<style>
+    body {
+        background-image: url("/resources/images/FondoPartida.png");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100% 100%;
+    }
+</style>
+
 <petclinic:layout pageName="CREAR PARTIDA">
     
     <body>

@@ -372,17 +372,17 @@ public class PartidaController {
         //Esta parte actualiza el numero de territorios a dibujar y la cantidad de poderes que te quedan en el tablero PODER1
         if(turnoPost.getNumTerritoriosJ1() == null|| turnoPost.getNumTerritoriosJ1() == 0){
             turno.setNumTerritoriosJ1(turno.getNumTerritoriosJ1()-1);
-            
+        }else if(turnoPost.getNumTerritoriosJ1() == -1 && turno.getNumTerritoriosJ1()==1){
+            accionService.delete(accionToBeUpdated);
+            tablero.setPoder1(tablero.getPoder1()-1);
+            turno.setNumTerritoriosJ1(0);
         }else if(turnoPost.getNumTerritoriosJ1() == -1){
             turno.setNumTerritoriosJ1(turno.getNumTerritoriosJ1()-2);
             tablero.setPoder1(tablero.getPoder1()-1);
-            if(turno.getNumTerritoriosJ1() ==-1){
-                turno.setNumTerritoriosJ1(0);
-                accionService.delete(accionToBeUpdated);
-            }
         }else if(turnoPost.getNumTerritoriosJ1() == 1){
             tablero.setPoder1(tablero.getPoder1()-1);
         }
+
 
 
         

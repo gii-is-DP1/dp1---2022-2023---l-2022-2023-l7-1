@@ -8,18 +8,18 @@
 
 <petclinic:layout pageName="Edit logro">
     
-    <h1><em><b><u>Edit Achievement</u></b></em></h1>
+    <h1><em><b><u>Editar Logro</u></b></em></h1>
 
     <form:form modelAttribute="logro" class="form-horizontal" id="add-user-form">
         <div class="form-group has-feedback">
-            <petclinic:inputField label="Title" name="titulo"/>
-            <petclinic:inputField label="Description" name="descripcion"/>
+            <petclinic:inputField label="Titulo" name="titulo"/>
+            <petclinic:inputField label="Descripcion" name="descripcion"/>
             <petclinic:inputField label="Logo" name="logo"/>
-            <petclinic:inputField label="Requieremnt Points" name="reqPuntos"/>
+            <petclinic:inputField label="Puntos Requeridos" name="reqPuntos"/>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button class="btn btn-default" type="submit">Confirm</button>
+                <button class="btn btn-default" type="submit">Confirmar</button>
             </div>
         </div>
     </form:form>

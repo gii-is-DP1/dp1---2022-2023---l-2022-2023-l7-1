@@ -72,7 +72,7 @@
         
 
         <div class="col-sm-4">
-            <table id="criterios" class="table table-striped table-condensed">
+            <table id="criterios" class="table table-condensed table-bordered">
                <thead>
                     <tr>
                         <th style="text-align:center">Criterion</th>
@@ -80,19 +80,19 @@
                     </tr>
                </thead>
                <tbody>
-                    <tr>
+                    <tr style="background-color:gainsboro">
                         <td style="text-align:center">A1</td>
                         <td style="text-align:center"><c:out value="${criterios[0]}"/></td>
                     </tr>
-                    <tr>
+                    <tr style="background-color: gainsboro;">
                         <td style="text-align:center">A2</td>
                         <td style="text-align:center"><c:out value="${criterios[1]}"/></td>
                     </tr>
-                    <tr>
+                    <tr style="background-color: gainsboro;">
                         <td style="text-align:center">B1</td>
                         <td style="text-align:center"><c:out value="${criterios[2]}"/></td>
                     </tr>
-                    <tr>
+                    <tr style="background-color: gainsboro;">
                         <td style="text-align:center">B2</td>
                         <td style="text-align:center"><c:out value="${criterios[3]}"/></td>
                     </tr>

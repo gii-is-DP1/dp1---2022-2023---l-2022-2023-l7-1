@@ -315,7 +315,8 @@ public class PartidaController {
         Turno turno = new Turno();
         Partida partida = partidaService.getPartidaById(idPartida);
         List<Integer> criterios = List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2);
-
+        Integer porDibujar = turnoService.getTurnoById(idTurno).getNumTerritoriosJ1();
+        res.addObject("porDibujar", porDibujar);
         res.addObject("acciones", acciones);
         res.addObject("action", accion);
         res.addObject("casillas", casillas);

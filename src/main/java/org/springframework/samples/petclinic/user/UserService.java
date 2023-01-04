@@ -83,6 +83,8 @@ public class UserService {
 				if (user.getTimesUsedPower1()==null) {user.setTimesUsedPower1(0);}
 				if (user.getTimesUsedPowerQuestion()==null) {user.setTimesUsedPowerQuestion(0);}
 				if (user.getTotalPoints()==null) {user.setTotalPoints(0);}
+				if (user.getEstado()==null) {user.setEstado(false);}
+				
 				userRepository.save(user);
 			}
 	}
@@ -153,6 +155,10 @@ public class UserService {
             }
         }
         return logrosUser;
+    }
+
+    public void save(User anfitrion) {
+		userRepository.save(anfitrion);
     }
 
 }

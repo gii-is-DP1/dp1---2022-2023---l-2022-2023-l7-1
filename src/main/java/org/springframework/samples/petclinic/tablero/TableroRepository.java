@@ -25,5 +25,8 @@ public interface TableroRepository extends CrudRepository<Tablero, Integer>{
 
     @Query("SELECT user FROM User user")
     Page<Tablero> getAll(Pageable pageable);
+
+    @Query("SELECT t FROM Tablero t WHERE t.partida.id = ?1")
+    List<Tablero> getTablerosByPartida(Integer id);
     
 }

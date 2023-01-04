@@ -465,32 +465,32 @@ INSERT INTO CASILLAS_ADYACENCIA(casilla_id, adyacencia_id) VALUES(61, 60);
 
 
 -- One admin user, named admin1 with passwor 4dm1n and authority admin
-INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled) 
-VALUES ('ad', 'min', 'admin1', '4dm1n', '2010-09-07', 'admin@gmail.com', '954734895', 5, 3, 550, 130, 5, 7, true);
+INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled, estado) 
+VALUES ('ad', 'min', 'admin1', '4dm1n', '2010-09-07', 'admin@gmail.com', '954734895', 5, 3, 550, 130, 5, 7, true ,false);
 INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 -- One owner user, named owner1 with passwor 0wn3r
-INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled) 
-VALUES ('ow', 'ner', 'owner1', '0wn3r', '2010-09-07', 'owner@gmail.com', '954734895', 5, 3, 550, 130, 5, 7, true);
+INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled, estado) 
+VALUES ('ow', 'ner', 'owner1', '0wn3r', '2010-09-07', 'owner@gmail.com', '954734895', 5, 3, 550, 130, 5, 7, true ,false);
 INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','player');
 -- One vet user, named vet1 with passwor v3t
-INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled) 
-VALUES ('vete', 'rinary', 'vet1', 'v3t02', '2010-09-07', 'vet@gmail.com', '954734895', 5, 3, 550, 130, 5, 7, true);
+INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled, estado) 
+VALUES ('vete', 'rinary', 'vet1', 'v3t02', '2010-09-07', 'vet@gmail.com', '954734895', 5, 3, 550, 130, 5, 7, true ,false);
 INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','player');
 -- Owner user
-INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled) 
-VALUES ('Francis', 'Villalobos', 'fravilpae', 'password', '2010-09-07', 'fravilpae@alum.us.es', '954734895', 5, 3, 550, 130, 5, 7, true);
+INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled, estado) 
+VALUES ('Francis', 'Villalobos', 'fravilpae', 'password', '2010-09-07', 'fravilpae@alum.us.es', '954734895', 5, 3, 550, 130, 5, 7, true ,false);
 INSERT INTO authorities(id,username,authority) VALUES (4,'fravilpae','player');
 
-INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled) 
-VALUES ('Jesus', 'Zambrana', 'jeszamgue', 'password', '2010-09-07', 'jeszamgue@alum.us.es', '954734895', 5, 3, 550, 130, 5, 7, true);
+INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled, estado) 
+VALUES ('Jesus', 'Zambrana', 'jeszamgue', 'password', '2010-09-07', 'jeszamgue@alum.us.es', '954734895', 5, 3, 550, 130, 5, 7, true ,false);
 INSERT INTO authorities(id,username,authority) VALUES (5,'jeszamgue','player');
 
-INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled)
-VALUES ('Aitor', 'Rodriguez', 'aitroddue', 'password', '2010-09-07', 'aitroddue@alum.us.es', '954734895', 5, 3, 550, 130, 5, 7, true);
+INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled, estado)
+VALUES ('Aitor', 'Rodriguez', 'aitroddue', 'password', '2010-09-07', 'aitroddue@alum.us.es', '954734895', 5, 3, 550, 130, 5, 7, true ,false);
 INSERT INTO authorities(id,username,authority) VALUES (6,'aitroddue','player');
 
-INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled)
-VALUES ('Ramonr', 'Guerrero', 'raymon', 'password', '2002-08-07', 'ramonguerom@alum.us.es', '954734895', 5, 3, 550, 130, 5, 7, true);
+INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled, estado)
+VALUES ('Ramonr', 'Guerrero', 'raymon', 'password', '2002-08-07', 'ramonguerom@alum.us.es', '954734895', 5, 3, 550, 130, 5, 7, true ,false);
 INSERT INTO authorities(id,username,authority) VALUES (7,'raymon','player');
 
 INSERT INTO Friends(friend_id, aux_friend_id) VALUES('jeszamgue', 'fravilpae');
@@ -504,8 +504,8 @@ INSERT INTO Friends(friend_id, aux_friend_id) VALUES('aitroddue', 'raymon');
 
 INSERT INTO Invitation(id, receiver_username, sender_username) VALUES(1, 'fravilpae', 'aitroddue');
 
-INSERT INTO PARTIDAS(id_tablero2,id_tablero3, id_tablero4, id_criterioa1, id_criterioa2, id_criteriob1, id_criteriob2, fecha)
- VALUES(1,1,1,1,1,1,1, '2022-12-01');
+INSERT INTO PARTIDAS( id_criterioa1, id_criterioa2, id_criteriob1, id_criteriob2, fecha)
+ VALUES(1,1,1,1, '2022-12-01');
 
 INSERT INTO tablero(id, partida_id, puntos,en_curso, user_username, creada) VALUES(1,1,0,false, 'aitroddue',true);
 
@@ -514,6 +514,10 @@ INSERT INTO tablero(id, partida_id, puntos,en_curso, user_username, creada) VALU
 INSERT INTO poderes(id, tablero_id, poder1,poder2) VALUES(1,1,1,1);
 
 INSERT INTO poderes(id, tablero_id, poder1,poder2) VALUES(2,2,1,1);
+
+INSERT INTO PARTIDAS_TABLEROS(partida_id, tablero_id) VALUES(1,1);
+
+INSERT INTO PARTIDAS_TABLEROS(partida_id, tablero_id) VALUES(1,2);
 
 INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, partida_id)
  VALUES(1,0,0,0,0,0,1);

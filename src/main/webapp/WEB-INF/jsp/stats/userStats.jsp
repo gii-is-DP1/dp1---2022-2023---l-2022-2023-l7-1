@@ -6,37 +6,54 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
 <petclinic:layout pageName="userStats">
-    <h1><em><b><u>My Stats</u></b></em></h1>
+    <h1><em><b><u>Mis estadísticas</u></b></em></h1>
     <br>
     <table class="table table-striped">
         <tr>
-            <th>Games Played</th>
+            <th>Partidas jugadas</th>
             <td><b><c:out value="${user.matchesPlayed}"/></b></td>
         </tr>
         <tr>
-            <th>Games Winned</th>
+            <th>Partidas ganadas</th>
             <td><b><c:out value="${user.gamesWin}"/></b></td>
         </tr>
         <tr>
-            <th>Win Ratio</th>
+            <th>Porcentaje victoria</th>
             <td><b><c:out value="${user.winRatio}"/></b></td>
         </tr>
         <tr>
-            <th>All Points</th>
+            <th>Puntos totales</th>
             <td><b><c:out value="${user.totalPoints}"/></b></td>
         </tr>
         <tr>
-            <th>Max Score</th>
+            <th>Puntuaje máximo</th>
             <td><b><c:out value="${user.maxPoints}"/></b></td>
         </tr>
         <tr>
-            <th>Time used <em>?</em> power</th>
-            <td><b><c:out value="${user.timesUsedPowerQuestion}"/></b></td>
+
+            <th>Veces usado Bosque</th>
+            <td><b><c:out value="${user.timesUsedTerritory1}"/></b></td>
         </tr>
         <tr>
-            <th>Time used <em>+-1</em> power</th>
-            <td><b><c:out value="${user.timesUsedPower1}"/></b></td>
+            <th>Veces usado Castillo</th>
+            <td><b><c:out value="${user.timesUsedTerritory2}"/></b></td>
         </tr>
-       
+        <tr>
+            <th>Veces usado Montana</th>
+            <td><b><c:out value="${user.timesUsedTerritory3}"/></b></td>
+        </tr>
+        <tr>
+            <th>Veces usado Poblado</th>
+            <td><b><c:out value="${user.timesUsedTerritory4}"/></b></td>
+        </tr>
+        <tr>
+            <th>Veces usado Pradera</th>
+            <td><b><c:out value="${user.timesUsedTerritory5}"/></b></td>
+        </tr>
+        <tr>
+            <th>Veces usado Rio</th>
+            <td><b><c:out value="${user.timesUsedTerritory6}"/></b></td>
+
+        </tr>
     </table>    
 </petclinic:layout>

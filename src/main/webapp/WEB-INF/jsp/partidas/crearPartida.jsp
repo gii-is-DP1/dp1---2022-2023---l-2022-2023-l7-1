@@ -15,7 +15,7 @@
 
 <petclinic:layout pageName="nuevaPartida">
 
-    <h1><em><b><u>New Game</u></b></em></h1>
+    <h1><em><b><u>Nuevo juego</u></b></em></h1>
     
     <form:form>
         <h3>SELECCIONA MODO DE JUEGO</h3>

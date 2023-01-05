@@ -15,8 +15,8 @@ function drawBoard(){
     var ctx = canvas.getContext("2d");
     var image = document.getElementById('source');
     var criterios = document.getElementById('criterios');
-    ctx.drawImage(image, 0, 0, 1170, 1004);
-    ctx.drawImage(criterios,846,233,597,502);
+    ctx.drawImage(image, -150, -135, 1170, 1004);
+    ctx.drawImage(criterios,696,98,597,502);
     <jsp:doBody/>
 }
 window.onload =drawBoard();

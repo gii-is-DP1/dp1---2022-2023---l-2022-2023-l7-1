@@ -244,6 +244,9 @@ public class UserController {
 			List<Integer> pages = IntStream.rangeClosed(1, totalPage).boxed().collect(Collectors.toList());
 			res.addAttribute("pages", pages);
 		}
+		for(User user: users){
+			userService.calculaEstadisticas(user);
+		}
 		res.addAttribute("current", page + 1);
 		res.addAttribute("next", page + 2);
 		res.addAttribute("prev", page);
@@ -261,6 +264,7 @@ public class UserController {
     @GetMapping(value = "/stats/{username}")
     public ModelAndView showMyStats(@PathVariable String username, Map<String, Object> model, Principal principal) {
         User user = userService.getUserById(username);
+		userService.calculaEstadisticas(user);
         model.put("user", user);
 
 		ModelAndView res = new ModelAndView("stats/userStats");

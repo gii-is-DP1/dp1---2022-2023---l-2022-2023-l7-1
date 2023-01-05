@@ -5,6 +5,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.user.User;
+import org.springframework.samples.petclinic.util.Territorio;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -44,5 +46,9 @@ public class AccionService {
         accionRepository.deleteById(a.getId());
     }
 
+    public Integer getNumTerritorios(User user, Territorio territorio){
+        
+        return accionRepository.findNumeroTerritoriosX(user, territorio);
+    }
     
 }

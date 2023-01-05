@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 
 <petclinic:layout pageName="Edit logro">
     
@@ -12,8 +13,8 @@
 
     <form:form modelAttribute="logro" class="form-horizontal" id="add-user-form">
         <div class="form-group has-feedback">
-            <petclinic:inputField label="Titulo" name="titulo"/>
-            <petclinic:inputField label="Descripcion" name="descripcion"/>
+            <petclinic:inputField label="Título" name="titulo"/>
+            <petclinic:inputField label="Descripción" name="descripcion"/>
             <petclinic:inputField label="Logo" name="logo"/>
             <petclinic:inputField label="Puntos Requeridos" name="reqPuntos"/>
         </div>

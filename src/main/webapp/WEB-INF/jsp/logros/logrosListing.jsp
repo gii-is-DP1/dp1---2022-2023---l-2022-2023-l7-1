@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 
 <petclinic:layout pageName="achievements">
     <h1><em><b><u>Logros</u></b></em></h1>
@@ -11,8 +12,8 @@
         <thead>
         <tr>
             <th  style="text-align:center">Logo</th>
-            <th  style="text-align:center">Titulo</th>
-            <th  style="text-align:center">Descripcion</th>
+            <th  style="text-align:center">Título</th>
+            <th  style="text-align:center">Descripción</th>
             <th  style="text-align:center">Editar</th>
             <th  style="text-align:center">Borrar</th>
         </tr>
@@ -21,8 +22,8 @@
         <c:forEach items="${logros}" var="logro">
             <tr>
                 <td style="text-align:center">                    
-                    <c:if test="${logro.logo == ''}">sin imagen :(</c:if>
-                    <c:if test="${logro.logo != ''}">
+                    <c:if test="${empty logro.logo}">Sin imagen :(</c:if>
+                    <c:if test="${not empty logro.logo}">
                         <img src="resources/images/${logro.logo}" width="80px"  /> 
                     </c:if>
                 </td>

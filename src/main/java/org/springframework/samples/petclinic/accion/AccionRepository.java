@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.samples.petclinic.tablero.Tablero;
+import org.springframework.samples.petclinic.user.User;
+import org.springframework.samples.petclinic.util.Territorio;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -18,4 +20,6 @@ public interface AccionRepository extends CrudRepository<Accion, Integer>{
     @Query("SELECT a FROM Accion a WHERE a.tablero.id = ?1")
     public List<Accion> findByJugadoryTablero(Integer idTablero);
     
+    @Query("SELECT COUNT(a) FROM Accion a, Turno t, Tablero tab WHERE (a.turno.id = t.id AND tab.user = ?1 AND t.territorio = ?2)")
+    public Integer findNumeroTerritoriosX(User user, Territorio territorio);
 }

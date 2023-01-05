@@ -57,7 +57,7 @@
                                             <form:options items = "${dados}" style="background-color:gainsboro;color:black;text-align:left;"/>
                                         </form:select>
                                     </td>
-                                    <td style="text-align:center;padding: 50px 0;">
+                                    <td style="text-align:center;padding: 80px 0;">
                                         <div class = "row">
                                             <button class="btn btn-default" type="submit">Confirmar</button> 
                                         </div>

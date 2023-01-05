@@ -76,32 +76,28 @@ public class User{
 	private Set<Authorities> authorities;
 
     //************************************************//
-    //ESTADÍSTICAS Número de partidas global y por usuario, número de jugadores por partida, 
+    //ESTADÍSTICAS 
     //************************************************//
-    @Column(name = "games_played")
     @Value("0")
     @NotAudited
     @Transient
     Integer matchesPlayed;
 
-    @Column(name = "games_win")
     @Value("0")
     @NotAudited
     @Transient
     Integer gamesWin;
 
+    @Value("0")
     @Transient
-    @Digits(fraction = 2, integer = 4)
     @NotAudited
     Integer winRatio;
 
-    @Column(name = "total_points")
     @Value("0")
     @NotAudited
     @Transient
     Integer totalPoints;
 
-    @Column(name = "max_points")
     @Value("0")
     @NotAudited
     @Transient

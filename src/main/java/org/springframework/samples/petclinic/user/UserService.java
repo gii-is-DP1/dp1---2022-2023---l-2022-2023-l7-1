@@ -27,6 +27,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.accion.AccionService;
 import org.springframework.samples.petclinic.logros.Logro;
 import org.springframework.samples.petclinic.logros.LogroService;
+import org.springframework.samples.petclinic.partida.PartidaService;
 import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.samples.petclinic.tablero.TableroService;
 import org.springframework.samples.petclinic.util.Territorio;
@@ -51,6 +52,7 @@ public class UserService {
 
 	private AccionService accionService;
 
+	
 	@Autowired
 	public UserService(UserRepository userRepository, TableroService tableroService, LogroService logroService, AccionService accionService) {
 		this.userRepository = userRepository;
@@ -166,12 +168,12 @@ public class UserService {
     }
 
 
-public void calculaEstadisticas(User user){
+	public void calculaEstadisticas(User user){
 		user.setMatchesPlayed(tableroService.getNumPartidasJugadas(user));
 		user.setGamesWin(tableroService.getNumPartidasGanadas(user));
 		user.setWinRatio(user.getWinRatio());
 		
-		user.setTotalPoints(tableroService.getPuntosTotales(user));
+		user.setTotalPoints(tableroService.getPuntosTotalesPorUsuario(user));
 		user.setMaxPoints(tableroService.getPuntosMax(user));
 		
 		user.setTimesUsedTerritory1(accionService.getNumTerritorios(user, Territorio.BOSQUE));
@@ -180,5 +182,17 @@ public void calculaEstadisticas(User user){
 		user.setTimesUsedTerritory4(accionService.getNumTerritorios(user, Territorio.POBLADO));
 		user.setTimesUsedTerritory5(accionService.getNumTerritorios(user, Territorio.PRADERA));
 		user.setTimesUsedTerritory6(accionService.getNumTerritorios(user, Territorio.RIO));
+	}
+
+	public List<Integer> calculaEstadisticasGlobales(){
+		Integer numPartidas = tableroService.getNumPartidasTotales();
+		Integer puntosTotales = tableroService.getPuntosTotales();
+		Integer vecesUsadoBosque = accionService.getNumTerritoriosTotales(Territorio.BOSQUE);
+		Integer vecesUsadoCastillo = accionService.getNumTerritoriosTotales(Territorio.CASTILLO); 
+		Integer vecesUsadoMontana = accionService.getNumTerritoriosTotales(Territorio.MONTANA); 
+		Integer vecesUsadoPoblado = accionService.getNumTerritoriosTotales(Territorio.POBLADO); 
+		Integer vecesUsadoPradera = accionService.getNumTerritoriosTotales(Territorio.PRADERA); 
+		Integer vecesUsadoRio = accionService.getNumTerritoriosTotales(Territorio.RIO); 
+		return List.of(numPartidas,puntosTotales,vecesUsadoBosque,vecesUsadoCastillo,vecesUsadoMontana,vecesUsadoPoblado,vecesUsadoPradera,vecesUsadoRio);
 	}
 }

@@ -247,11 +247,13 @@ public class UserController {
 		for(User user: users){
 			userService.calculaEstadisticas(user);
 		}
+		List<Integer> statsTotales = userService.calculaEstadisticasGlobales();
 		res.addAttribute("current", page + 1);
 		res.addAttribute("next", page + 2);
 		res.addAttribute("prev", page);
 		res.addAttribute("last", totalPage);
 		res.addAttribute("users", users.getContent());
+		res.addAttribute("statsTotales", statsTotales);
 
 		ModelAndView result = new ModelAndView("stats/stats");
 		if(principal != null){

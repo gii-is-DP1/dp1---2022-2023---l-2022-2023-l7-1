@@ -20,6 +20,9 @@ public interface AccionRepository extends CrudRepository<Accion, Integer>{
     @Query("SELECT a FROM Accion a WHERE a.tablero.id = ?1")
     public List<Accion> findByJugadoryTablero(Integer idTablero);
     
-    @Query("SELECT COUNT(a) FROM Accion a, Turno t, Tablero tab WHERE (a.turno.id = t.id AND tab.user = ?1 AND t.territorio = ?2)")
+    @Query("SELECT COUNT(a) FROM Accion a, Turno t, Tablero tab WHERE (a.turno.id = t.id AND a.tablero.id = tab.id AND tab.user = ?1 AND t.territorio = ?2)")
     public Integer findNumeroTerritoriosX(User user, Territorio territorio);
+
+    @Query("SELECT COUNT(a) FROM Accion a, Turno t WHERE (a.turno.id = t.id AND t.territorio = ?1)")
+    public Integer findNumeroTerritoriosTotales(Territorio territorio);
 }

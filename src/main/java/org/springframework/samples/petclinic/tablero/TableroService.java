@@ -69,11 +69,19 @@ public class TableroService {
         return numPartidasGanadas;
     }
 
-    public Integer getPuntosTotales(User user){
+    public Integer getPuntosTotalesPorUsuario(User user){
         return tableroRepository.getPuntosTotales(user);
     }
 
     public Integer getPuntosMax(User user){
         return tableroRepository.getPuntosMax(user);
+    }
+
+    public Integer getPuntosTotales(){
+        return tableroRepository.findPuntosTotales();
+    }
+
+    public Integer getNumPartidasTotales(){
+        return tableroRepository.findPartidasTotales();
     }
 }

@@ -15,6 +15,9 @@
         background-attachment: fixed;
         background-size: 100% 100%;
     }
+    .row{
+        margin-top: -20%;
+    }
 </style>
 
 <petclinic:layout pageName="CREAR PARTIDA">

@@ -261,6 +261,7 @@ public class UserController {
     @GetMapping(value = "/stats/{username}")
     public ModelAndView showMyStats(@PathVariable String username, Map<String, Object> model, Principal principal) {
         User user = userService.getUserById(username);
+		userService.calculaEstadisticas(user);
         model.put("user", user);
 
 		ModelAndView res = new ModelAndView("stats/userStats");

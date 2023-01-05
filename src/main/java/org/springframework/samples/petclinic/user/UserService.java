@@ -24,10 +24,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.accion.AccionService;
 import org.springframework.samples.petclinic.logros.Logro;
 import org.springframework.samples.petclinic.logros.LogroService;
 import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.samples.petclinic.tablero.TableroService;
+import org.springframework.samples.petclinic.util.Territorio;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -47,11 +49,14 @@ public class UserService {
 
 	private LogroService logroService;
 
+	private AccionService accionService;
+
 	@Autowired
-	public UserService(UserRepository userRepository, TableroService tableroService, LogroService logroService) {
+	public UserService(UserRepository userRepository, TableroService tableroService, LogroService logroService, AccionService accionService) {
 		this.userRepository = userRepository;
 		this.tableroService = tableroService;
 		this.logroService = logroService;
+		this.accionService = accionService;
 	}
 
 	public User getUserById(String id){
@@ -80,8 +85,6 @@ public class UserService {
 				if (user.getMatchesPlayed()==null) {user.setMatchesPlayed(0);}
 				if (user.getGamesWin()==null) {user.setGamesWin(0);}
 				if (user.getMaxPoints()==null) {user.setMaxPoints(0);}
-				if (user.getTimesUsedPower1()==null) {user.setTimesUsedPower1(0);}
-				if (user.getTimesUsedPowerQuestion()==null) {user.setTimesUsedPowerQuestion(0);}
 				if (user.getTotalPoints()==null) {user.setTotalPoints(0);}
 				if (user.getEstado()==null) {user.setEstado(false);}
 				
@@ -157,8 +160,25 @@ public class UserService {
         return logrosUser;
     }
 
+
     public void save(User anfitrion) {
 		userRepository.save(anfitrion);
     }
 
+
+public void calculaEstadisticas(User user){
+		user.setMatchesPlayed(tableroService.getNumPartidasJugadas(user));
+		user.setGamesWin(tableroService.getNumPartidasGanadas(user));
+		user.setWinRatio(user.getWinRatio());
+		
+		user.setTotalPoints(tableroService.getPuntosTotales(user));
+		user.setMaxPoints(tableroService.getPuntosMax(user));
+		
+		user.setTimesUsedTerritory1(accionService.getNumTerritorios(user, Territorio.BOSQUE));
+		user.setTimesUsedTerritory2(accionService.getNumTerritorios(user, Territorio.CASTILLO));
+		user.setTimesUsedTerritory3(accionService.getNumTerritorios(user, Territorio.MONTANA));
+		user.setTimesUsedTerritory4(accionService.getNumTerritorios(user, Territorio.POBLADO));
+		user.setTimesUsedTerritory5(accionService.getNumTerritorios(user, Territorio.PRADERA));
+		user.setTimesUsedTerritory6(accionService.getNumTerritorios(user, Territorio.RIO));
+	}
 }

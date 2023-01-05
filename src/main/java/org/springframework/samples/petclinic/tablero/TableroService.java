@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.tablero;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,4 +52,28 @@ public class TableroService {
         return tableroRepository.getTablerosByPartida(partida.getId());
     }
     
+    public Integer getNumPartidasJugadas(User user){
+        return tableroRepository.getNumPartidas(user);
+    }
+
+    public Integer getNumPartidasGanadas(User user){
+        List<Tablero> tableros = tableroRepository.getTablerosByUser(user);
+        Integer numPartidasGanadas = 0;
+        for(Tablero tablero: tableros){
+            List<Tablero> tablerosPartida = tableroRepository.getTablerosByPartida(tablero.getPartida());
+            Integer maxPuntos = tablerosPartida.stream().max(Comparator.comparing(Tablero::getPuntos)).get().getPuntos();
+            if(maxPuntos == tablero.getPuntos()){
+                numPartidasGanadas +=1;
+            }
+        }
+        return numPartidasGanadas;
+    }
+
+    public Integer getPuntosTotales(User user){
+        return tableroRepository.getPuntosTotales(user);
+    }
+
+    public Integer getPuntosMax(User user){
+        return tableroRepository.getPuntosMax(user);
+    }
 }

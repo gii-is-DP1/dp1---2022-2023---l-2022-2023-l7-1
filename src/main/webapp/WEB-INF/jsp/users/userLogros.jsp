@@ -20,9 +20,11 @@
         <c:forEach items="${logrosUser}" var="logro">
             <tr>
                 <td style="text-align:center">                    
-                    <c:if test="${empty logro.logo}">Sin imagen :(</c:if>
-                    <c:if test="${not empty logro.logo}">
-                        <img src="resources/images/${logro.logo}" width="80px"  /> 
+
+                    <c:if test="${logro.logo == ''}">none</c:if>
+                    <c:if test="${logro.logo != ''}">
+                        <img src="../../../../resources/images/${logro.logo}" width="50px"  /> 
+
                     </c:if>
                 </td>
                 <td style="text-align:center">

@@ -153,7 +153,7 @@ public class UserService {
         User user = userRepository.findById(username).get();
         List<Logro> logrosUser = new ArrayList<Logro>();
         for (Logro l : logroService.getLogros()) {
-            if(l.getReqPuntos() <= user.getMaxPoints()) {
+            if(l.getReqPuntos() <= tableroService.getPuntosMax(user)) {
                 logrosUser.add(l);
             }
         }

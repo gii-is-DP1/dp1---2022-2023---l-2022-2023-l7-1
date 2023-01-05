@@ -449,12 +449,14 @@ public class PartidaService {
          tablero1.setPuntos(0);
          tablero1.setPartidaEnCurso(true);
          tablero1.setPartidaCreada(true);
+         tablero1.setPartidaEnEspera(false);
          
          tablero2.setPartida(p);
          tablero2.setUser(jugadores.get(1));
          tablero2.setPuntos(0);
          tablero2.setPartidaEnCurso(true);
          tablero2.setPartidaCreada(false);
+         tablero2.setPartidaEnEspera(false);
 
          if(jugadores.size()>2){        
             tablero3.setPartida(p);
@@ -462,6 +464,7 @@ public class PartidaService {
             tablero3.setPuntos(0); 
             tablero3.setPartidaEnCurso(true);
             tablero3.setPartidaCreada(false);
+            tablero3.setPartidaEnEspera(false);
 
             if(jugadores.size()>3){
 
@@ -501,6 +504,7 @@ public class PartidaService {
                tablero4.setUsos5(1); 
                tablero4.setPartidaEnCurso(true);
                tablero4.setPartidaCreada(false);
+               tablero4.setPartidaEnEspera(false);
                tableroService.saveTablero(tablero4);
             } else{
 

@@ -49,7 +49,7 @@ public class TableroService {
     }
 
     public List<Tablero> getTablerosByPartida(Partida partida) {
-        return tableroRepository.getTablerosByPartida(partida.getId());
+        return tableroRepository.getTablerosByPartida(partida);
     }
     
     public Integer getNumPartidasJugadas(User user){

@@ -23,7 +23,7 @@
 <petclinic:layout pageName="CREAR PARTIDA">
 
     <head> 
-        <meta http-equiv="refresh" content="1"> <!-- Recarga la pagina cada 1 segundo -->
+        <meta http-equiv="refresh" content="3"> <!-- Recarga la pagina cada 3 segundos -->
     </head>
 
     <body>
@@ -37,6 +37,39 @@
 
 
         <div class = "row">
+            <form:form modelAttribute="turno" class="form-horizontal">
+                <div class="form-select">
+                    <tr>
+                        <td style="text-align:center;padding: 50px 0;">
+                            <c:if test = "${numJugador ==1}">               
+                                <form:select path = "numTerritoriosJ1" class="btn btn-default">
+                                    <form:options items = "${dados}" style="background-color:gainsboro;color:black;text-align:left;"/>
+                                </form:select>
+                            </c:if>
+                            <c:if test = "${numJugador ==2}">               
+                                <form:select path = "numTerritoriosJ2" class="btn btn-default">
+                                    <form:options items = "${dados}" style="background-color:gainsboro;color:black;text-align:left;"/>
+                                </form:select>
+                            </c:if>
+                            <c:if test = "${numJugador ==3}">               
+                                <form:select path = "numTerritoriosJ3" class="btn btn-default">
+                                    <form:options items = "${dados}" style="background-color:gainsboro;color:black;text-align:left;"/>
+                                </form:select>
+                            </c:if>
+                            <c:if test = "${numJugador ==4}">               
+                                <form:select path = "numTerritoriosJ4" class="btn btn-default">
+                                    <form:options items = "${dados}" style="background-color:gainsboro;color:black;text-align:left;"/>
+                                </form:select>
+                            </c:if>
+                        </td>
+                        <td style="text-align:center;padding: 50px 0;">
+                            <div class = "row">
+                                <button class="btn btn-default" type="submit">Confirmar</button> 
+                            </div>
+                        </td>
+                    </tr>  
+                </div>
+            </form:form>
             <div class="col-sm-3">
                 <table id="territorios" class="table table-condensed table-bordered">
                     <thead>

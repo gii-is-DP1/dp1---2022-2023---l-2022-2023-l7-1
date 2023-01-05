@@ -21,7 +21,7 @@
                 <td style="text-align:center">                    
                     <c:if test="${logro.logo == ''}">none</c:if>
                     <c:if test="${logro.logo != ''}">
-                        <img src="resources/images/${logro.logo}" width="30px"  /> 
+                        <img src="../../../../resources/images/${logro.logo}" width="50px"  /> 
                     </c:if>
                 </td>
                 <td style="text-align:center">

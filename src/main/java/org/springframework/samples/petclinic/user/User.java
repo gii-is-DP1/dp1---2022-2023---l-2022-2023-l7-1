@@ -76,48 +76,81 @@ public class User{
     @NotAudited
 	private Set<Authorities> authorities;
 
+    //************************************************//
+    //ESTADÍSTICAS Número de partidas global y por usuario, número de jugadores por partida, 
+    //************************************************//
     @Column(name = "games_played")
     @Value("0")
     @NotAudited
+    @Transient
     Integer matchesPlayed;
 
     @Column(name = "games_win")
     @Value("0")
     @NotAudited
+    @Transient
     Integer gamesWin;
 
     @Transient
     @Digits(fraction = 2, integer = 4)
     @NotAudited
-    Double winRatio;
+    Integer winRatio;
 
     @Column(name = "total_points")
     @Value("0")
     @NotAudited
+    @Transient
     Integer totalPoints;
 
     @Column(name = "max_points")
     @Value("0")
     @NotAudited
+    @Transient
     Integer maxPoints;
 
-    @Column(name = "times_used_power_question")
     @Value("0")
+    @Transient
     @NotAudited
-    Integer timesUsedPowerQuestion;
+    Integer timesUsedTerritory1;
 
-    @Column(name = "times_used_power_one")
+    @Transient
     @Value("0")
     @NotAudited
-    Integer timesUsedPower1;
+    Integer timesUsedTerritory2;
+
+    @Transient
+    @Value("0")
+    @NotAudited
+    Integer timesUsedTerritory3;
+
+    @Transient
+    @Value("0")
+    @NotAudited
+    Integer timesUsedTerritory4;
+
+    @Transient
+    @Value("0")
+    @NotAudited
+    Integer timesUsedTerritory5;
+
+    @Transient
+    @Value("0")
+    @NotAudited
+    Integer timesUsedTerritory6;
+
+    @Transient
+    @Value("0")
+    @NotAudited
+    Integer maxTime;
+
 
     @Column(name = "enabled")
     @NotAudited
     Boolean enabled;
  
     @Transient
-    public Double getWinRatio() {
-        return ((double) gamesWin / ((double) matchesPlayed- (double) gamesWin));
+    public Integer getWinRatio() {
+        return (int)  ((double) gamesWin / (double) matchesPlayed) * 100;
     }
 
     @ManyToMany(cascade = {CascadeType.PERSIST , CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})

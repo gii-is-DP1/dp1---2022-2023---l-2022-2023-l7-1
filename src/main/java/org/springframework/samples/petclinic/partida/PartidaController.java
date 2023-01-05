@@ -258,9 +258,9 @@ public class PartidaController {
                 turnoToBeUpdated.setTerritorio(listaTerritorios.get(territorio));
                 model.put("turno", turnoToBeUpdated);
             }
-
+            Tablero tablero = partidaService.getPartidaById(idPartida).getTableros().get(0);
             //Acaba la partida dependiendo de los usos de los territorios
-            Integer control = partidaService.actualizarUso(idPartida, turnoToBeUpdated, listaTerritorios);
+            Integer control = partidaService.actualizarUso(idPartida, turnoToBeUpdated, listaTerritorios, tablero);
             if(control <0){
                 res.setViewName("redirect:/partida/resultados/"+idPartida);
                 return res;

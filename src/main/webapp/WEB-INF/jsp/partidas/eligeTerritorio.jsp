@@ -29,32 +29,43 @@
         </petclinic:mapa>
 
         <div class = "row">
-            <div class="col-sm-3">
-        <c:if test="${eligeTerritorio == true}">
-            <h3>Elegir terriorio y número de territorios a dibujar:</h3>
-         </c:if>
-         <c:if test="${eligeTerritorio == false}">
-            <h3>Elegir número de territorios:</h3>
-            <small>El número que eliges es el número de territorios a dibujar, el que no eliges es el territorio que dibujarás</small>
-         </c:if>
-        </div>
-            <div class="col-sm-3">
-                <form:form modelAttribute="turno" class="form-horizontal">
-                <div class="form-select">
-                    <c:if test="${eligeTerritorio}">
-                        <form:select path = "territorio">
-                            <form:options items = "${territorios}" />
-                        </form:select>
-                    </c:if>
-                    <form:select path = "numTerritoriosJ1">
-                        <form:options items = "${dados}" />
-                    </form:select>
-                    <div class = "row">
-                        <button class="btn btn-default" type="submit">Confirmar</button> 
-                    </div>
-                </div>
-                </form:form>
+            <div class="col-sm-6">
+                <c:if test="${eligeTerritorio == true}">
+                    <h2><b>Elegir terriorio y número de territorios a dibujar:</b></h2>
+                </c:if>
+                <c:if test="${eligeTerritorio == false}">
+                    <h2><b>Elegir número de territorios:</b></h2>
+                    <small>(Selecciona el número de territorios a dibujar. El otro es el territorio que dibujarás)</small>
+                </c:if>
+                <table id="territorioDado" class="table table-condensed">
+                    <tbody>
+                        <form:form modelAttribute="turno" class="form-horizontal">
+                            <div class="form-select">
+                                <tr>
+                                    <td style="text-align:center;padding: 50px 0;">
+                                        <c:if test="${eligeTerritorio}">
+                                            <form:select path = "territorio" class="btn btn-default">
+                                                <form:options items = "${territorios}" style="background-color:gainsboro;color:black;text-align:left;"/>
+                                            </form:select>
+                                        </c:if>
+                                    </td>
+                                    <td style="text-align:center;padding: 50px 0;">
+                                        <form:select path = "numTerritoriosJ1" class="btn btn-default">
+                                            <form:options items = "${dados}" style="background-color:gainsboro;color:black;text-align:left;"/>
+                                        </form:select>
+                                    </td>
+                                    <td style="text-align:center;padding: 50px 0;">
+                                        <div class = "row">
+                                            <button class="btn btn-default" type="submit">Confirmar</button> 
+                                        </div>
+                                    </td>
+                                </tr>  
+                            </div>
+                        </form:form>
+                    </tbody>
+                </table>  
             </div>
+            <div class="col-sm-1"></div>
             <div class="col-sm-2">
                 <table id="criterios" class="table table-condensed table-bordered">
                    <thead>
@@ -82,7 +93,7 @@
                 <table id="territorios" class="table table-condensed table-bordered">
                     <thead>
                         <tr style="background-color:gainsboro">
-                            <th style="text-align:center">Número del dado</th>
+                            <th style="text-align:center">Nº dado</th>
                             <th>Territorio</th>
                             <th style="text-align:center">Usos</th>
                         </tr>
@@ -121,12 +132,11 @@
                     </tbody>
                 </table>
             </div>
-            <%-- Para poder2 --%>
-            <c:if test = "${tablero.poder2 > 0}">
-                               
-            <c:out value="${tablero.poder2}"/>
-             </c:if>
-        </div>    
+            <!-- Para poder2 -->
+            <c:if test = "${tablero.poder2 > 0}">               
+                <c:out value="${tablero.poder2}"/>
+            </c:if>
+        </div>
     </body>
     
 </petclinic:layout>

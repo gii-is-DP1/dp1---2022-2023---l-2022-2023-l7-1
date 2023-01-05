@@ -24,6 +24,20 @@
             <th style="text-align:center">Veces usado Prader</th>
             <th style="text-align:center">Veces usado Rio</th>
         </tr>
+        <tr>
+            <th style="text-align:center">GENERALES</th>
+            <th style="text-align:center">Partidas jugadas: <c:out value="${statsTotales[0]}"/></th>
+            <th style="text-align:center"></th>
+            <th style="text-align:center"></th>
+            <th style="text-align:center">Puntos totales:<c:out value="${statsTotales[1]}"/></th>
+            <th style="text-align:center"></th>
+            <th style="text-align:center">Veces usado Bosque:<c:out value="${statsTotales[2]}"/></th>
+            <th style="text-align:center">Veces usado Castillo:<c:out value="${statsTotales[3]}"/></th>
+            <th style="text-align:center">Veces usado Montana:<c:out value="${statsTotales[4]}"/></th>
+            <th style="text-align:center">Veces usado Poblado:<c:out value="${statsTotales[5]}"/></th>
+            <th style="text-align:center">Veces usado Pradera:<c:out value="${statsTotales[6]}"/></th>
+            <th style="text-align:center">Veces usado Rio:<c:out value="${statsTotales[7]}"/></th>
+        </tr>
         </thead>
         <tbody>
         <c:forEach items="${users}" var="user">

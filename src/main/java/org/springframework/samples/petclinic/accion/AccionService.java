@@ -50,5 +50,9 @@ public class AccionService {
         
         return accionRepository.findNumeroTerritoriosX(user, territorio);
     }
+
+    public Integer getNumTerritoriosTotales(Territorio territorio){
+        return accionRepository.findNumeroTerritoriosTotales(territorio);
+    }
     
 }

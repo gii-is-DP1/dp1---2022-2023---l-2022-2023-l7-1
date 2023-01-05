@@ -50,7 +50,7 @@
                                             </form:select>
                                         </td>
                                         <c:if test = "${tablero.poder1 == 0}">
-                                            <td style="text-align:center;padding: 25px 0;">
+                                            <td style="text-align:center;padding: 47px 0;">
                                                 <div class = "row">
                                                     <button class="btn btn-default" type="submit">Confirmar</button> 
                                                 </div>

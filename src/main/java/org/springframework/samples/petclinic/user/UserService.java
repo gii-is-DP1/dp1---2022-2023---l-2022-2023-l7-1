@@ -86,6 +86,8 @@ public class UserService {
 				if (user.getGamesWin()==null) {user.setGamesWin(0);}
 				if (user.getMaxPoints()==null) {user.setMaxPoints(0);}
 				if (user.getTotalPoints()==null) {user.setTotalPoints(0);}
+				if (user.getEstado()==null) {user.setEstado(false);}
+				
 				userRepository.save(user);
 			}
 	}
@@ -158,7 +160,13 @@ public class UserService {
         return logrosUser;
     }
 
-	public void calculaEstadisticas(User user){
+
+    public void save(User anfitrion) {
+		userRepository.save(anfitrion);
+    }
+
+
+public void calculaEstadisticas(User user){
 		user.setMatchesPlayed(tableroService.getNumPartidasJugadas(user));
 		user.setGamesWin(tableroService.getNumPartidasGanadas(user));
 		user.setWinRatio(user.getWinRatio());

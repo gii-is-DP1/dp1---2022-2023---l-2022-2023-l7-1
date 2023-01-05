@@ -44,7 +44,7 @@ public class LogroController {
     @GetMapping("/logros/{id}/delete")
     public String deleteLogro(@PathVariable Integer id){
         service.deleteLogroById(id);        
-        return LOGROS_LISTING_VIEW;
+        return "redirect:/logros";
     }
 
     @Transactional(readOnly = true)
@@ -62,7 +62,7 @@ public class LogroController {
         Logro logroEdited=service.getById(id);
         BeanUtils.copyProperties(logro,logroEdited,"id");
         service.save(logroEdited);
-        return LOGROS_LISTING_VIEW;
+        return "redirect:/logros";
     }
 
     @Transactional(readOnly = true)
@@ -76,12 +76,11 @@ public class LogroController {
 
     @Transactional
     @PostMapping("/logros/new")
-    public ModelAndView saveNewAchievement(Logro logro, BindingResult br){
+    public String saveNewAchievement(Logro logro, BindingResult br){
         service.save(logro);
         ModelAndView result=new ModelAndView(LOGROS_LISTING_VIEW);
         result.addObject("message", "The achievement was created successfully ;)");
-        return result;
+        return "redirect:/logros";
     }
-
    
 }

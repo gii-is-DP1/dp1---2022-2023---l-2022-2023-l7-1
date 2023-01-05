@@ -6,16 +6,16 @@
 
 <petclinic:layout pageName="continuarCancelarPartida">
 
-    <h1><em><b><u>Game in progress</u></b></em></h1>
+    <h1><em><b><u>Juego en proceso</u></b></em></h1>
     
     <form:form>
         <div class="col-sm-offset-2 col-sm-10">
-            <a class="btn btn-default" href="/partida/continuarPartida"  formmethod=" post">Continue</a>
+            <a class="btn btn-default" href="/partida/continuarPartida"  formmethod=" post">Continuar</a>
         </div>
     </form:form>
     <form:form>
         <div class="col-sm-offset-2 col-sm-10">
-            <a class="btn btn-default" href="/partida/cancelarPartida"  formmethod=" post">Cancel</a>
+            <a class="btn btn-default" href="/partida/cancelarPartida"  formmethod=" post">Cancelar</a>
         </div>
     </form:form>
 

@@ -13,7 +13,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Digits;
@@ -193,5 +192,9 @@ public class User{
     @OneToMany
     @NotAudited
     private List<Logro> logrosUser;
+
+    @Column(name = "estado")
+    @NotAudited
+    private Boolean estado;
 
 }

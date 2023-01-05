@@ -3,6 +3,8 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ attribute name="name" required="true" rtexprvalue="true" description="Name of the active menu"%>
+<%@ tag pageEncoding="UTF-8" %>
+
 
 <nav class="navbar navbar-default" role="navigation">
 	<div class="container">
@@ -17,49 +19,49 @@
 
 				<petclinic:menuItem active="${name eq 'home'}" url="/" title="Home page">
 					<span class="glyphicon glyphicon-home"></span>
-					<span>Home</span>
+					<span>Inicio</span>
 				</petclinic:menuItem>
 
 				<sec:authorize access="hasAnyAuthority('admin')">
 					<petclinic:menuItem active="${name eq 'usersA'}" url="/users/all" title="Users">
 						<span class="glyphicon glyphicon-user"></span>
-						<span>Users</span>
+						<span>Usuarios</span>
 					</petclinic:menuItem>
 				</sec:authorize>
 
 				<sec:authorize access="isAuthenticated()">
 					<petclinic:menuItem active="${name eq 'usersF'}" url="/users/find" title="Find users">
 						<span class="glyphicon glyphicon-search"></span>
-						<span>Find users</span>
+						<span>Buscar usuarios</span>
 					</petclinic:menuItem>
 
 					<petclinic:menuItem active="${name eq 'userStats'}" url="/stats/${username}" title="My stats">
 							<span class="glyphicon glyphicon-stats"></span>
-							<span>My stats</span>
+							<span>Mis estadísticas</span>
 					</petclinic:menuItem>
 				</sec:authorize>
 
 				<sec:authorize access="hasAnyAuthority('admin')">
 					<petclinic:menuItem active="${name eq 'stats'}" url="/stats" title="Stats">
 						<span class="glyphicon glyphicon-stats"></span>
-						<span>Stats</span>
+						<span>Estadísticas</span>
 					</petclinic:menuItem>
 
 					<petclinic:menuItem active="${name eq 'achievements'}" url="/logros" title="Achievements">
 						<span class="glyphicon glyphicon-flag"></span>
-						<span>Achievements</span>
+						<span>Logros</span>
 					</petclinic:menuItem>
 
 					<petclinic:menuItem active="${name eq 'games'}" url="/partidas" title="Games">
 						<span class="glyphicon glyphicon-tower"></span>
-						<span>Games</span>
+						<span>Juegos</span>
 					</petclinic:menuItem>
 
 				</sec:authorize>
 
 				<petclinic:menuItem active="${name eq 'rules'}" url="/rules" title="Rules">
 					<span class="glyphicon glyphicon-list-alt"></span>
-					<span>Rules</span>
+					<span>Reglas</span>
 				</petclinic:menuItem>
 
 			</ul>
@@ -67,11 +69,11 @@
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="!isAuthenticated()">
 					<petclinic:menuItem active="${name eq 'login'}" url="/login" title="Login">
-						<span>Login</span>
+						<span>Acceder</span>
 					</petclinic:menuItem>
 
 					<petclinic:menuItem active="${name eq 'register'}" url="/users/new" title="Register">
-						<span>Register</span>
+						<span>Registrarse</span>
 					</petclinic:menuItem>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
@@ -85,13 +87,13 @@
 							<li>
 								<p>
 									<a href="/users/${username}" class="btn btn-block"
-										style="background-color:#28B393;color:white;">My Profile</a>
+										style="background-color:#28B393;color:white;">Mi Perfil</a>
 								</p>
 							</li>
 							<li style="margin-top:2px;">
 								<p class="text-left" style="text-align:center">
 									<a href="<c:url value="/logout" />" class="btn btn-block" 
-										style="background-color:#28B393;color:white;">Logout</a>
+										style="background-color:#28B393;color:white;">Salir</a>
 								</p>
 							</li>
 						</ul>

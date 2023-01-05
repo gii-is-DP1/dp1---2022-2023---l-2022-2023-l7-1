@@ -3,14 +3,15 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 
 <petclinic:layout pageName="users">
-    <h1><em><b><u>Friends to Invite</u></b></em></h1>
+    <h1><em><b><u>Invitación a amigos</u></b></em></h1>
     <table id="usersTable" class="table table-striped">
         <thead>
         <tr>
-            <th style="text-align:center;">Username</th>
-            <th style="text-align:center;">Invite to Play</th>
+            <th style="text-align:center;">Usuario</th>
+            <th style="text-align:center;">Invitar a jugar</th>
         </tr>
         </thead>
         <tbody>
@@ -29,7 +30,7 @@
     </table>
     <div class="col align-self-center">
         <a class="btn btn-default btn-lg" href="/partida/crearPartidaMulti"
-            style="margin-top:11%; margin-bottom:10%; margin-left:22%; margin-right:22%; display:block;"><b>CONFIRM INVITATIONS</b></a>
+            style="margin-top:11%; margin-bottom:10%; margin-left:22%; margin-right:22%; display:block;"><b>Confirmar invitación</b></a>
     </div>
 
 </petclinic:layout>

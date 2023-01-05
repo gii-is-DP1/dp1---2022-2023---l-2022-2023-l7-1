@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.partida.Partida;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,7 @@ public class TableroService {
         return tableroRepository.findAll();
     }
 
-    public Tablero getTableroByUser(User usuario) {
+    public Tablero getTableroActiveByUser(User usuario) {
         return tableroRepository.getTableroActiveByUser(usuario);
     }
 
@@ -45,6 +46,10 @@ public class TableroService {
 
     public void delete(Tablero tablero) {
         tableroRepository.deleteById(tablero.getId());
+    }
+
+    public List<Tablero> getTablerosByPartida(Partida partida) {
+        return tableroRepository.getTablerosByPartida(partida.getId());
     }
     
     public Integer getNumPartidasJugadas(User user){

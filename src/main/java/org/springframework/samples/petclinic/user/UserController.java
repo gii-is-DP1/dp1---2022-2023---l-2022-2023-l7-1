@@ -126,7 +126,7 @@ public class UserController {
             user.setUsername(username);
             User userToBeUpdated=userService.getUserById(username);
             BeanUtils.copyProperties(user,userToBeUpdated,
-        "winRatio", "matchesPlayed", "gamesWin", "totalPoints", "maxPoints", "timesUsedPowerQuestion", "timesUsedPower1", "friends");
+        "winRatio", "matchesPlayed", "gamesWin", "totalPoints", "maxPoints", "timesUsedPowerQuestion", "timesUsedPower1", "friends", "estado");
             userService.saveUser(userToBeUpdated);
         return "redirect:/users/all";
         }
@@ -149,7 +149,7 @@ public class UserController {
         } else {
         User usernameToBeUpdated=userService.getUserById(username);
         BeanUtils.copyProperties(user,usernameToBeUpdated, 
-         "winRatio", "matchesPlayed", "gamesWin", "totalPoints", "maxPoints", "timesUsedPowerQuestion", "timesUsedPower1", "friends");
+         "winRatio", "matchesPlayed", "gamesWin", "totalPoints", "maxPoints", "timesUsedPowerQuestion", "timesUsedPower1", "friends", "estado");
         userService.saveUser(usernameToBeUpdated);
         return "redirect:/";
         }

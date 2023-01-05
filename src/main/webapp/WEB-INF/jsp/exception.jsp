@@ -7,7 +7,7 @@
     <spring:url value="/resources/images/dragonDP.png" var="dragonDP"/>
     <img src="${dragonDP}"/>
 
-    <h2>Something happened...</h2>
+    <h2>Algo ha ocurrido...</h2>
 
     <p>${exception.message}</p>
 

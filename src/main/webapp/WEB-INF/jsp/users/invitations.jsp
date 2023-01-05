@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 
 <petclinic:layout pageName="invitations">
     <h1><em><b><u>Invitations</u></b></em></h1>
@@ -10,7 +11,7 @@
     <table id="invitationsTable" class="table table-striped">
         <thead>
         <tr>
-            <th>Sender</th>
+            <th>Enviada</th>
             <th></th>
         </tr>
         </thead>
@@ -21,8 +22,8 @@
                     <c:out value="${invitation.sender.username}"/>
                 </td> 
                 <td style="text-align:right">
-                    <a class="btn btn-default" href="/invitationAccepted/${invitation.receiver.username}/${invitation.id}">Accept Invitation</a>
-                    <a class="btn btn-default" href="/invitationCancelled/${invitation.receiver.username}/${invitation.id}">Cancel Invitation</a>
+                    <a class="btn btn-default" href="/invitationAccepted/${invitation.receiver.username}/${invitation.id}">Aceptar invitación</a>
+                    <a class="btn btn-default" href="/invitationCancelled/${invitation.receiver.username}/${invitation.id}">Cancelar invitación</a>
                 </td> 
             </tr>
         </c:forEach>
@@ -31,7 +32,7 @@
 
     <tr> 
         <td>
-            <a class="btn btn-default" href="/invite/${username}">Create invitation</a>
+            <a class="btn btn-default" href="/invite/${username}">Crear invitación</a>
         </td>  
     </tr>
 

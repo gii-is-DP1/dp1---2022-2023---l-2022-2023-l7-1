@@ -61,7 +61,7 @@
 							<li class="divider"></li>
 							<li>
 								<p>
-									<a href="/stats/${username}" class="btn btn-block" style="color:white;">Mis estadísticas</a>
+									<a href="/stat" class="btn btn-block" style="color:white;">Mis estadísticas</a>
 								</p>
 							</li>
 						</ul>
@@ -116,7 +116,7 @@
 						<span>Buscar usuarios</span>
 					</petclinic:menuItem>
 
-					<petclinic:menuItem active="${name eq 'userStats'}" url="/stats/${username}" title="My stats">
+					<petclinic:menuItem active="${name eq 'userStats'}" url="/stat" title="My stats">
 							<span class="glyphicon glyphicon-stats"></span>
 							<span>Mis estadísticas</span>
 					</petclinic:menuItem>

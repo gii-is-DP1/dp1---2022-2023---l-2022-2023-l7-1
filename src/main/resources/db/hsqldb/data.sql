@@ -509,7 +509,14 @@ INSERT INTO Invitation(id, receiver_username, sender_username) VALUES(1, 'fravil
 INSERT INTO PARTIDAS( id_criterioa1, id_criterioa2, id_criteriob1, id_criteriob2, fecha)
  VALUES(1,1,1,1, '2022-12-01');
 
-INSERT INTO tablero(id, partida_id, puntos,en_curso, user_username, creada) VALUES(1,1,10,false, 'aitroddue',true);
+INSERT INTO tablero(id, partida_id, puntos,en_curso, user_username, creada, espera) VALUES(1,1,10,false, 'aitroddue',true, false);
+
+INSERT INTO tablero(id, partida_id, puntos,en_curso, user_username, creada, espera) VALUES(2,1,0,false, 'raymon', false, false);
+
+INSERT INTO poderes(id, tablero_id, poder1,poder2) VALUES(1,1,1,1);
+
+INSERT INTO poderes(id, tablero_id, poder1,poder2) VALUES(2,2,1,1);
+
 
 INSERT INTO PARTIDAS_TABLEROS(partida_id, tablero_id) VALUES(1,1);
 

@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.accion.Accion;
 import org.springframework.samples.petclinic.accion.AccionService;
@@ -96,12 +99,12 @@ public class PartidaService {
     * @param idPartida
     * @param turno
     * @param listaTerritorios
+    * @param Tablero
     *
     * Este método actualiza los usos del tablero dependiendo del Territorio elegido.
     *
     */
-   public Integer actualizarUso(Integer idPartida, Turno turno, List<Territorio> listaTerritorios){
-            Tablero tablero = getPartidaById(idPartida).getTableros().get(0);
+   public Integer actualizarUso(Integer idPartida, Turno turno, List<Territorio> listaTerritorios, Tablero tablero){
             Integer numTerritorio = listaTerritorios.indexOf(turno.getTerritorio());
             Integer control = null;
             switch(numTerritorio){
@@ -170,6 +173,7 @@ public class PartidaService {
       tablero.setUsos5(3); 
       tablero.setPartidaEnCurso(true);
       tablero.setPartidaCreada(true);
+      tablero.setPartidaEnEspera(false);
       tableroService.saveTablero(tablero);
       turno.setPartida(p);
 
@@ -447,62 +451,164 @@ public class PartidaService {
          tablero1.setPartida(p);
          tablero1.setUser(jugadores.get(0));
          tablero1.setPuntos(0);
-         tablero1.setUsos0(tableros.size()+1);
-         tablero1.setUsos1(tableros.size()+1);
-         tablero1.setUsos2(tableros.size()+1);
-         tablero1.setUsos3(tableros.size()+1);
-         tablero1.setUsos4(tableros.size()+1);
-         tablero1.setUsos5(tableros.size()+1); 
          tablero1.setPartidaEnCurso(true);
          tablero1.setPartidaCreada(true);
-         tableroService.saveTablero(tablero1);
+         tablero1.setPartidaEnEspera(false);
          
          tablero2.setPartida(p);
          tablero2.setUser(jugadores.get(1));
          tablero2.setPuntos(0);
-         tablero2.setUsos0(tableros.size()+1);
-         tablero2.setUsos1(tableros.size()+1);
-         tablero2.setUsos2(tableros.size()+1);
-         tablero2.setUsos3(tableros.size()+1);
-         tablero2.setUsos4(tableros.size()+1);
-         tablero2.setUsos5(tableros.size()+1); 
          tablero2.setPartidaEnCurso(true);
          tablero2.setPartidaCreada(false);
-         tableroService.saveTablero(tablero2);
+         tablero2.setPartidaEnEspera(false);
 
          if(jugadores.size()>2){        
             tablero3.setPartida(p);
             tablero3.setUser(jugadores.get(2));
-            tablero3.setPuntos(0);
-            tablero3.setUsos0(tableros.size()+1);
-            tablero3.setUsos1(tableros.size()+1);
-            tablero3.setUsos2(tableros.size()+1);
-            tablero3.setUsos3(tableros.size()+1);
-            tablero3.setUsos4(tableros.size()+1);
-            tablero3.setUsos5(tableros.size()+1); 
+            tablero3.setPuntos(0); 
             tablero3.setPartidaEnCurso(true);
             tablero3.setPartidaCreada(false);
-            tableroService.saveTablero(tablero3);
+            tablero3.setPartidaEnEspera(false);
 
             if(jugadores.size()>3){
+
+               //4 tableros 1 uso por territorio
+               tablero1.setUsos0(1);
+               tablero1.setUsos1(1);
+               tablero1.setUsos2(1);
+               tablero1.setUsos3(1);
+               tablero1.setUsos4(1);
+               tablero1.setUsos5(1); 
+               tableroService.saveTablero(tablero1);
+
+               tablero2.setUsos0(1);
+               tablero2.setUsos1(1);
+               tablero2.setUsos2(1);
+               tablero2.setUsos3(1);
+               tablero2.setUsos4(1);
+               tablero2.setUsos5(1); 
+               tableroService.saveTablero(tablero2);
+
+               tablero3.setUsos0(1);
+               tablero3.setUsos1(1);
+               tablero3.setUsos2(1);
+               tablero3.setUsos3(1);
+               tablero3.setUsos4(1);
+               tablero3.setUsos5(1); 
+               tableroService.saveTablero(tablero3);
+
                tablero4.setPartida(p);
                tablero4.setUser(jugadores.get(3));
                tablero4.setPuntos(0);
-               tablero4.setUsos0(tableros.size()+1);
-               tablero4.setUsos1(tableros.size()+1);
-               tablero4.setUsos2(tableros.size()+1);
-               tablero4.setUsos3(tableros.size()+1);
-               tablero4.setUsos4(tableros.size()+1);
-               tablero4.setUsos5(tableros.size()+1); 
+               tablero4.setUsos0(1);
+               tablero4.setUsos1(1);
+               tablero4.setUsos2(1);
+               tablero4.setUsos3(1);
+               tablero4.setUsos4(1);
+               tablero4.setUsos5(1); 
                tablero4.setPartidaEnCurso(true);
                tablero4.setPartidaCreada(false);
+               tablero4.setPartidaEnEspera(false);
                tableroService.saveTablero(tablero4);
+            } else{
+
+               //3 tableros 2 usos por territorio
+               tablero1.setUsos0(2);
+               tablero1.setUsos1(2);
+               tablero1.setUsos2(2);
+               tablero1.setUsos3(2);
+               tablero1.setUsos4(2);
+               tablero1.setUsos5(2); 
+               tableroService.saveTablero(tablero1);
+
+               tablero2.setUsos0(2);
+               tablero2.setUsos1(2);
+               tablero2.setUsos2(2);
+               tablero2.setUsos3(2);
+               tablero2.setUsos4(2);
+               tablero2.setUsos5(2); 
+               tableroService.saveTablero(tablero2);
+
+               tablero3.setUsos0(2);
+               tablero3.setUsos1(2);
+               tablero3.setUsos2(2);
+               tablero3.setUsos3(2);
+               tablero3.setUsos4(2);
+               tablero3.setUsos5(2); 
+               tableroService.saveTablero(tablero3);
+
             }
+         } else{
+
+               //2 tableros 3 usos por territorio
+               tablero1.setUsos0(3);
+               tablero1.setUsos1(3);
+               tablero1.setUsos2(3);
+               tablero1.setUsos3(3);
+               tablero1.setUsos4(3);
+               tablero1.setUsos5(3); 
+               tableroService.saveTablero(tablero1);
+
+               tablero2.setUsos0(3);
+               tablero2.setUsos1(3);
+               tablero2.setUsos2(3);
+               tablero2.setUsos3(3);
+               tablero2.setUsos4(3);
+               tablero2.setUsos5(3); 
+               tableroService.saveTablero(tablero2);
          }
       }
       turno.setPartida(p);
       turnoService.saveTurno(turno);
       return List.of(p.getId(),turno.getId());
+   }
+
+   public Integer getNumJugador(Tablero tablero, List<Tablero> tableros) {
+      Integer res=0;
+      for(Integer i=0; i<tableros.size();i++){
+         if(tableros.get(i)==tablero){
+             res = i+1;
+             break;
+         }
+     }
+     return res;
+
+   }
+
+   public List<Integer> quitarUsoDado(Integer x, List<Integer> dadosFijos, @Valid Turno turno) {
+      if(x==1){
+         for(Integer i=0; i<dadosFijos.size();i++){
+             if(dadosFijos.get(i)==turno.getNumTerritoriosJ1()){
+                 dadosFijos.remove(dadosFijos.get(i));
+                 break;
+             }
+         }
+     }
+     if(x==2){
+         for(Integer i=0; i<dadosFijos.size();i++){
+             if(dadosFijos.get(i)==turno.getNumTerritoriosJ2()){
+                 dadosFijos.remove(dadosFijos.get(i));
+                 break;
+             }
+         }
+     }
+     if(x==3){
+         for(Integer i=0; i<dadosFijos.size();i++){
+             if(dadosFijos.get(i)==turno.getNumTerritoriosJ3()){
+                 dadosFijos.remove(dadosFijos.get(i));
+                 break;
+             }
+         }
+     }
+     if(x==4){
+         for(Integer i=0; i<dadosFijos.size();i++){
+             if(dadosFijos.get(i)==turno.getNumTerritoriosJ4()){
+                 dadosFijos.remove(dadosFijos.get(i));
+                 break;
+             }
+         }
+     }
+   return dadosFijos;
    }
 
 }

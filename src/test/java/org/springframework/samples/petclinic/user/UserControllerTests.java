@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
+import org.springframework.samples.petclinic.tablero.TableroService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,6 +37,9 @@ public class UserControllerTests {
 
 	@MockBean
 	private AuthoritiesService authoritiesService;
+
+	@MockBean
+    private TableroService tableroService;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -204,8 +208,8 @@ public class UserControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowUserStats() throws Exception {
-		mockMvc.perform(get("/stats/{username}", USER_USERNAME)).andExpect(status().isOk())
-		.andExpect(model().attributeExists("user"))
+		mockMvc.perform(get("/stat")).andExpect(status().isOk())
+		.andExpect(model().attributeExists("username"))
 		.andExpect(view().name("stats/userStats"));
 	}
 

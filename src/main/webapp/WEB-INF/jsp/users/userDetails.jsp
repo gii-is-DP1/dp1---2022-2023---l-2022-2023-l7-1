@@ -56,14 +56,6 @@
         <td>
             <a class="btn btn-default" href="/users/${user.username}/userEdit">Editar perfil</a>
         </td>  
-    </tr>
-
-    <!--esto sobra -->
-    <tr> 
-        <td>
-            <a class="btn btn-default" href="/logros/${user.username}">Mis logros</a>
-        </td>  
-    </tr>
-    
+    </tr>    
 
 </petclinic:layout>

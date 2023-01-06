@@ -2,10 +2,13 @@ package org.springframework.samples.petclinic.logros;
 
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import java.security.Principal;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.user.DuplicatedUsernameException;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -50,38 +53,63 @@ public class LogroController {
 
     @Transactional(readOnly = true)
     @GetMapping("/logros/{id}/edit")
-    public ModelAndView editLogro(@PathVariable Integer id){
+    public ModelAndView editLogro(@PathVariable Integer id,Principal principal){
         Logro logro=service.getById(id);        
         ModelAndView result=new ModelAndView(LOGROS_FORM);
         result.addObject("logro", logro);
+        if(principal != null){
+            result.addObject("username", principal.getName());
+        }
         return result;
     }
 
     @Transactional
     @PostMapping("/logros/{id}/edit")
-    public String saveLogro(@PathVariable Integer id,Logro logro){
-        Logro logroEdited=service.getById(id);
-        BeanUtils.copyProperties(logro,logroEdited,"id");
-        service.save(logroEdited);
-        return "redirect:/logros";
+    public ModelAndView saveLogro(@PathVariable Integer id,@Valid Logro logro, BindingResult br,Principal principal){
+        if (br.hasErrors()){
+            ModelAndView result = new ModelAndView(LOGROS_FORM);
+            if(principal != null){
+                result.addObject("username", principal.getName());
+            }
+            return result;
+        }else {
+            Logro logroEdited=service.getById(id);
+            BeanUtils.copyProperties(logro,logroEdited,"id");
+            service.save(logroEdited);
+            ModelAndView result=new ModelAndView("redirect:/logros");
+            result.addObject("message", "El logro se ha editado correctamente ;)");
+            return result;
+        }        
     }
 
     @Transactional(readOnly = true)
     @GetMapping("/logros/new")
-    public ModelAndView createLogro(){
+    public ModelAndView createLogro(Map<String, Object> model, Principal principal){
         Logro logro=new Logro();
-        ModelAndView result=new ModelAndView(LOGROS_NEW_FORM);
-        result.addObject("logro", logro);
+        model.put("logro", logro);
+
+        ModelAndView result = new ModelAndView(LOGROS_NEW_FORM);
+        if(principal != null){
+			result.addObject("username", principal.getName());
+		}
         return result;
     }
 
     @Transactional
     @PostMapping("/logros/new")
-    public String saveNewAchievement(Logro logro, BindingResult br){
-        service.save(logro);
-        ModelAndView result=new ModelAndView(LOGROS_LISTING_VIEW);
-        result.addObject("message", "The achievement was created successfully ;)");
-        return "redirect:/logros";
+    public ModelAndView saveNewAchievement(@Valid Logro logro, BindingResult br,Principal principal){
+        if (br.hasErrors()){
+            ModelAndView result = new ModelAndView(LOGROS_NEW_FORM);
+            if(principal != null){
+                result.addObject("username", principal.getName());
+            }
+            return result;
+        }else {
+            service.save(logro);
+            ModelAndView result=new ModelAndView("redirect:/logros");
+            result.addObject("message", "El logro se ha creado correctamente ;)");
+            return result;
+        }   
     }
    
 }

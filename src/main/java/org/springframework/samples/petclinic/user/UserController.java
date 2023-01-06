@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.user;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -14,6 +15,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.tablero.Tablero;
+import org.springframework.samples.petclinic.tablero.TableroService;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -33,6 +36,7 @@ public class UserController {
 	private static final String VIEW_USERNAME_EDITING = "users/userEdit";
     private static final String VIEW_USER_DETAILS = "users/userDetails";
     private static final String VIEW_USER_FRIENDS = "users/friends";
+	private static final String VIEW_USER_FRIENDS_PARTIDAS = "users/friendsPartida";
 	private static final String VIEW_USER_LOGROS = "users/userLogros";
 
 	private final UserService userService;
@@ -41,8 +45,12 @@ public class UserController {
     private AuthoritiesService authoritiesService;
 
 	@Autowired
-	public UserController(UserService userService) {
+    private TableroService tableroService;
+
+	@Autowired
+	public UserController(UserService userService, TableroService tableroService) {
 		this.userService = userService;
+		this.tableroService = tableroService;
 	}
 
 	@InitBinder
@@ -229,6 +237,20 @@ public class UserController {
         return "redirect:/friends/"+usernameLogged;
     }
 
+	@Transactional
+    @GetMapping("/friends/partidas")
+	public ModelAndView showPartidasAmigo(Principal principal) {
+		List<User> friends = userService.getFriends(principal.getName());
+		ModelAndView mav = new ModelAndView(VIEW_USER_FRIENDS_PARTIDAS);
+		List<Tablero> tableros = new ArrayList<>();
+		for(User user: friends){
+			tableros.addAll(tableroService.getTablerosByUser(user));
+		}
+		mav.addObject("tableros", tableros);
+		mav.addObject("user", this.userService.getUserById(principal.getName()));
+		return mav;
+	}
+
 	// -------------------------------------------------------------------------------------------
 	// --- STATS ---------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------------------
@@ -261,9 +283,9 @@ public class UserController {
 	}
 
 	@Transactional
-    @GetMapping(value = "/stats/{username}")
-    public ModelAndView showMyStats(@PathVariable String username, Map<String, Object> model, Principal principal) {
-        User user = userService.getUserById(username);
+    @GetMapping(value = "/stat")
+    public ModelAndView showMyStats(Map<String, Object> model, Principal principal) {
+        User user = userService.getUserById(principal.getName());
 		userService.calculaEstadisticas(user);
         model.put("user", user);
 

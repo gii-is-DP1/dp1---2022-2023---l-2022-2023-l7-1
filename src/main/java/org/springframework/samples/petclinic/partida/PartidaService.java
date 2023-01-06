@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.accion.Accion;
 import org.springframework.samples.petclinic.accion.AccionService;
@@ -170,6 +173,7 @@ public class PartidaService {
       tablero.setUsos5(3); 
       tablero.setPartidaEnCurso(true);
       tablero.setPartidaCreada(true);
+      tablero.setPartidaEnEspera(false);
       tableroService.saveTablero(tablero);
       turno.setPartida(p);
 
@@ -557,6 +561,54 @@ public class PartidaService {
       turno.setPartida(p);
       turnoService.saveTurno(turno);
       return List.of(p.getId(),turno.getId());
+   }
+
+   public Integer getNumJugador(Tablero tablero, List<Tablero> tableros) {
+      Integer res=0;
+      for(Integer i=0; i<tableros.size();i++){
+         if(tableros.get(i)==tablero){
+             res = i+1;
+             break;
+         }
+     }
+     return res;
+
+   }
+
+   public List<Integer> quitarUsoDado(Integer x, List<Integer> dadosFijos, @Valid Turno turno) {
+      if(x==1){
+         for(Integer i=0; i<dadosFijos.size();i++){
+             if(dadosFijos.get(i)==turno.getNumTerritoriosJ1()){
+                 dadosFijos.remove(dadosFijos.get(i));
+                 break;
+             }
+         }
+     }
+     if(x==2){
+         for(Integer i=0; i<dadosFijos.size();i++){
+             if(dadosFijos.get(i)==turno.getNumTerritoriosJ2()){
+                 dadosFijos.remove(dadosFijos.get(i));
+                 break;
+             }
+         }
+     }
+     if(x==3){
+         for(Integer i=0; i<dadosFijos.size();i++){
+             if(dadosFijos.get(i)==turno.getNumTerritoriosJ3()){
+                 dadosFijos.remove(dadosFijos.get(i));
+                 break;
+             }
+         }
+     }
+     if(x==4){
+         for(Integer i=0; i<dadosFijos.size();i++){
+             if(dadosFijos.get(i)==turno.getNumTerritoriosJ4()){
+                 dadosFijos.remove(dadosFijos.get(i));
+                 break;
+             }
+         }
+     }
+   return dadosFijos;
    }
 
 }

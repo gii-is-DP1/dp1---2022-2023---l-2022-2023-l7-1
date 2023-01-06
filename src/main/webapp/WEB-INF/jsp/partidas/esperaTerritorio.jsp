@@ -23,7 +23,7 @@
 <petclinic:layout pageName="CREAR PARTIDA">
 
     <head> 
-        <meta http-equiv="refresh" content="1"> <!-- Recarga la pagina cada 1 segundo -->
+        <meta http-equiv="refresh" content="3"> <!-- Recarga la pagina cada 3 segundo -->
     </head>
 
     <body>

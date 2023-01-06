@@ -46,7 +46,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/users/all").hasAnyAuthority("admin")
 				// Permisos de stats
 				.antMatchers("/stats").hasAnyAuthority("admin")
-				.antMatchers("/stats/{username}").authenticated()
+				.antMatchers("/stat").authenticated()
 				// Permisos de logros
 				.antMatchers("/logros/**").hasAnyAuthority("admin")
 				.antMatchers("/logros/{username}").authenticated()
@@ -54,6 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/partida/**").authenticated()
 				.antMatchers("/partidas").authenticated()
 				.antMatchers("/partidas/{username}").authenticated()
+				.antMatchers("/partidas/partidaEnCurso/{username}").authenticated()
 				// Permisos de amigos
 				.antMatchers("/friends/{username}").authenticated()
 				.antMatchers("/friends/{username}/**").authenticated()

@@ -76,4 +76,8 @@ public class TableroService {
     public Integer getPuntosMax(User user){
         return tableroRepository.getPuntosMax(user);
     }
+
+    public Tablero getTableroById(Integer idTablero) {
+        return tableroRepository.findById(idTablero).get();
+    }
 }

@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.samples.petclinic.tablero.TableroService;
+import org.springframework.samples.petclinic.logros.Logro;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -37,7 +38,6 @@ public class UserController {
     private static final String VIEW_USER_DETAILS = "users/userDetails";
     private static final String VIEW_USER_FRIENDS = "users/friends";
 	private static final String VIEW_USER_FRIENDS_PARTIDAS = "users/friendsPartida";
-	private static final String VIEW_USER_LOGROS = "users/userLogros";
 
 	private final UserService userService;
 
@@ -269,11 +269,13 @@ public class UserController {
 		for(User user: users){
 			userService.calculaEstadisticas(user);
 		}
+		List<Integer> statsTotales = userService.calculaEstadisticasGlobales();
 		res.addAttribute("current", page + 1);
 		res.addAttribute("next", page + 2);
 		res.addAttribute("prev", page);
 		res.addAttribute("last", totalPage);
 		res.addAttribute("users", users.getContent());
+		res.addAttribute("statsTotales", statsTotales);
 
 		ModelAndView result = new ModelAndView("stats/stats");
 		if(principal != null){
@@ -300,11 +302,16 @@ public class UserController {
 	// --- LOGROS ---------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------------------
 
-	@Transactional(readOnly = true)
-    @GetMapping("/users/logros/{username}")
-	public ModelAndView showLogrosUser(@PathVariable("username") String username) {
-		ModelAndView res = new ModelAndView(VIEW_USER_LOGROS);
-		res.addObject("logrosUser", this.userService.getLogrosByUser(username));
+	@Transactional
+    @GetMapping("/logros/{username}")
+	public ModelAndView showLogrosUser(@PathVariable("username") String username, Map<String, Object> model, Principal principal) {
+		// User user = userService.getUserById(username);
+		List<Logro> logros = new ArrayList<>(); //userService.getLogrosByUser(user);
+		model.put("logrosUser", logros);
+		ModelAndView res = new ModelAndView("logros/userLogros");
+		if (principal != null) {
+			res.addObject("username", principal.getName());
+		}
 		return res;
 	}
 

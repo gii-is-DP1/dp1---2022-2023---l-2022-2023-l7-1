@@ -38,4 +38,10 @@ public interface TableroRepository extends CrudRepository<Tablero, Integer>{
 
     @Query("SELECT MAX(tablero.puntos) FROM Tablero tablero WHERE tablero.user = ?1")
     Integer getPuntosMax(User user);
+
+    @Query("SELECT SUM(tablero.puntos) FROM Tablero tablero")
+    Integer findPuntosTotales();
+
+    @Query("SELECT MAX(tablero.partida.id) FROM Tablero tablero")
+    Integer findPartidasTotales();
 }

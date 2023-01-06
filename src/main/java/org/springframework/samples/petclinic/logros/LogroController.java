@@ -39,6 +39,7 @@ public class LogroController {
         }
         return result;
     }
+    
 
     @Transactional
     @GetMapping("/logros/{id}/delete")

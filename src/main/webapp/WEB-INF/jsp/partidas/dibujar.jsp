@@ -57,7 +57,7 @@
                                             </td>
                                         </c:if>
                                         <c:if test = "${tablero.poder1 > 0}">
-                                            <td style="text-align:center;padding: 65px 0;" rowspan="2">
+                                            <td style="text-align:center;padding: 90px 0;" rowspan="2">
                                                 <div class = "row">
                                                     <button class="btn btn-default" type="submit">Confirmar</button> 
                                                 </div>
@@ -87,8 +87,8 @@
             <div class="col-sm-4"></div>
 
             <div class="col-sm-3">
-                <h2>Poder2:</h2>
-                <small>Puntos conseguidos al usar el poder2: <b><c:out value="${tablero.poder2}"/></b></small>
+                <h2>Poder ?:</h2>
+                <small>Puntos conseguidos al usar ?: <b><c:out value="${tablero.poder2}"/></b></small>
             </div>
 
             <div class="col-sm-2">

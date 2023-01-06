@@ -132,7 +132,7 @@
                         <tr style="background-color:gainsboro">
                             <td style="text-align:center">B<c:out value="${criterios[3]}"/></td>
                         </tr>
-                   </tbody>
+                    </tbody>
                 </table>
             </div>
             

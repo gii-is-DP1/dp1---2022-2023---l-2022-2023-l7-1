@@ -66,6 +66,48 @@
 							</li>
 						</ul>
 					</li>
+
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<span class="glyphicon glyphicon-flag"></span>
+							<span>Logros</span>
+							<span class="glyphicon glyphicon-chevron-down"></span>
+						</a>
+						<ul class="dropdown-menu" style="background-color:#28B393;">
+							<li>
+								<p>
+									<a href="/logros" class="btn btn-block" style="color:white;">Generales</a>
+								</p>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<p>
+									<a href="/logros/${username}" class="btn btn-block" style="color:white;">Mis logros</a>
+								</p>
+							</li>
+						</ul>
+					</li>
+
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<span class="glyphicon glyphicon-tower"></span>
+							<span>Juegos</span>
+							<span class="glyphicon glyphicon-chevron-down"></span>
+						</a>
+						<ul class="dropdown-menu" style="background-color:#28B393;">
+							<li>
+								<p>
+									<a href="/partidas" class="btn btn-block" style="color:white;">Generales</a>
+								</p>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<p>
+									<a href="/partidas/${username}" class="btn btn-block" style="color:white;">Mis juegos</a>
+								</p>
+							</li>
+						</ul>
+					</li>
 				</sec:authorize>
 
 				<sec:authorize access="hasAnyAuthority('player')">
@@ -78,19 +120,16 @@
 							<span class="glyphicon glyphicon-stats"></span>
 							<span>Mis estadísticas</span>
 					</petclinic:menuItem>
-				</sec:authorize>
 
-				<sec:authorize access="hasAnyAuthority('admin')">
-					<petclinic:menuItem active="${name eq 'achievements'}" url="/logros" title="Achievements">
-						<span class="glyphicon glyphicon-flag"></span>
-						<span>Logros</span>
+					<petclinic:menuItem active="${name eq 'logrosListing'}" url="/logros/${username}" title="My stats">
+							<span class="glyphicon glyphicon-flag"></span>
+							<span>Mis logros</span>
 					</petclinic:menuItem>
 
-					<petclinic:menuItem active="${name eq 'games'}" url="/partidas" title="Games">
-						<span class="glyphicon glyphicon-tower"></span>
-						<span>Juegos</span>
+					<petclinic:menuItem active="${name eq 'games'}" url="/partidas/${username}" title="My stats">
+							<span class="glyphicon glyphicon-tower"></span>
+							<span>Mis juegos</span>
 					</petclinic:menuItem>
-
 				</sec:authorize>
 
 				<petclinic:menuItem active="${name eq 'rules'}" url="/rules" title="Rules">

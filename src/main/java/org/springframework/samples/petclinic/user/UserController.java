@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.user;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -14,6 +15,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.logros.Logro;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -33,7 +35,6 @@ public class UserController {
 	private static final String VIEW_USERNAME_EDITING = "users/userEdit";
     private static final String VIEW_USER_DETAILS = "users/userDetails";
     private static final String VIEW_USER_FRIENDS = "users/friends";
-	private static final String VIEW_USER_LOGROS = "users/userLogros";
 
 	private final UserService userService;
 
@@ -264,7 +265,7 @@ public class UserController {
 
 	@Transactional
     @GetMapping(value = "/stats/{username}")
-    public ModelAndView showMyStats(@PathVariable String username, Map<String, Object> model, Principal principal) {
+    public ModelAndView showMyStats(@PathVariable("username") String username, Map<String, Object> model, Principal principal) {
         User user = userService.getUserById(username);
 		userService.calculaEstadisticas(user);
         model.put("user", user);
@@ -280,11 +281,16 @@ public class UserController {
 	// --- LOGROS ---------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------------------
 
-	@Transactional(readOnly = true)
-    @GetMapping("/users/logros/{username}")
-	public ModelAndView showLogrosUser(@PathVariable("username") String username) {
-		ModelAndView res = new ModelAndView(VIEW_USER_LOGROS);
-		res.addObject("logrosUser", this.userService.getLogrosByUser(username));
+	@Transactional
+    @GetMapping("/logros/{username}")
+	public ModelAndView showLogrosUser(@PathVariable("username") String username, Map<String, Object> model, Principal principal) {
+		// User user = userService.getUserById(username);
+		List<Logro> logros = new ArrayList<>(); //userService.getLogrosByUser(user);
+		model.put("logrosUser", logros);
+		ModelAndView res = new ModelAndView("logros/userLogros");
+		if (principal != null) {
+			res.addObject("username", principal.getName());
+		}
 		return res;
 	}
 

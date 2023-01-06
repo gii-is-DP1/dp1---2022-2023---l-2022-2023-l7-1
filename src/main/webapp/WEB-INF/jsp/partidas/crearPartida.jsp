@@ -24,14 +24,15 @@
         </div>
         <div class="col-sm-offset-2 col-sm-10">
             <input type=button class="btn btn-default" onclick="mostrarForm()" value="MODO MULTIJUGADOR"/>
-	                <div id="Invitation" style="display: none;" class="modal-content">
-                <form name="Invitation" >
-                    <spring:url value="/${username}/lobby" htmlEscape="true" var="invite">
-                     </spring:url>
-                     <div class="col-sm-offset-2 col-sm-10">
-                        <a class="btn btn-default" href="${invite}">INVITAR</a>
-                     </div>
-		        </form>
+	            <div id="Invitation" style="display: none;" class="modal-content">
+                    <form name="Invitation" >
+                        <spring:url value="/${username}/lobby" htmlEscape="true" var="invite">
+                        </spring:url>
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <a class="btn btn-default" href="${invite}">INVITAR</a>
+                        </div>
+                    </form>
+                </div>
         </div>
     </form:form>
 

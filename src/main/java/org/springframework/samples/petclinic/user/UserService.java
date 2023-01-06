@@ -151,8 +151,7 @@ public class UserService {
 		}
 	}
 
-	public List<Logro> getLogrosByUser(String username) {
-        User user = userRepository.findById(username).get();
+	public List<Logro> getLogrosByUser(User user) {
         List<Logro> logrosUser = new ArrayList<Logro>();
         for (Logro l : logroService.getLogros()) {
             if(l.getReqPuntos() <= tableroService.getPuntosMax(user)) {

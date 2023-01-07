@@ -3,10 +3,12 @@ package org.springframework.samples.petclinic.Invitacion;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserRepository;
+import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,9 @@ public class InvitationService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private UserService userService;
 
 	public Optional<Invitation> geInvitationByID(Integer id){
 		return invitationRepository.findById(id);	
@@ -70,29 +75,29 @@ public class InvitationService {
 
 	//---------------------------------------------------------------------------------------------------------------
 	//__MULTI__
-	/* 
+	
+	public List<InvitationGame> getInvitationsGameOf(String username) {
+		return invitationGameRepository.getInvitationsGameOf(username);
+	}
+
+	@Transactional
+	public void sendInvitationToGame(String username, String jugador) {
+		User anfitrion = userRepository.findById(username).get();
+		User posibleJugador = userRepository.findById(jugador).get();
+		invitationGameRepository.save(new InvitationGame(anfitrion, posibleJugador));
+	}
 
 	public InvitationGame geInvitationGameByID(Integer id){
 		return invitationGameRepository.findById(id).get();	
 	}
 
-	public List<InvitationGame> getInvitationsGameOf(String username) {
-		return invitationGameRepository.getInvitationsGameOf(username);
-	}
-	
-	@Transactional
-	public void sendInvitationGame(String username, List<String> jugadores) {
-		User anfitrion = userRepository.findById(username).get();
-		for (String s: jugadores){
-			User posibleJugador = userRepository.findById(s).get();
-			invitationGameRepository.save(new InvitationGame(anfitrion, posibleJugador));
-		}
-	}
-
 	@Transactional
 	public void acceptInvitationGame(String username, Integer invitation_id) {
 		InvitationGame invitationG = invitationGameRepository.findById(invitation_id).get();
-		
+		User anfitrion = invitationG.getAnfitrion();
+		if(!anfitrion.getJugadoresAceptados().contains(anfitrion)){
+			anfitrion.getJugadoresAceptados().add(anfitrion);
+		}
 		if(invitationG != null && invitationG.getPosibleJugador().getUsername().equals(username)) {
 			invitationG.aceptGame();
 			invitationGameRepository.deleteById(invitation_id);
@@ -102,5 +107,18 @@ public class InvitationService {
 	@Transactional
 	public void deleteInvitationGame(Integer id){
         invitationGameRepository.deleteById(id);
-    }*/
+    }
+
+	@Transactional
+    public List<User> getAmigosDisponiblesParaJugar(String username) {
+		User anfitrion = userRepository.findById(username).get();
+        List<User> friends = userService.getFriends(username);
+        List<User> result = new ArrayList<User>();
+        for (User posibleJugador : friends) {
+            if (anfitrion.canInviteToGame(posibleJugador.getUsername())) {
+                result.add(posibleJugador);
+            }
+        }
+        return result;
+    }
 }

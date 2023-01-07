@@ -36,10 +36,12 @@ public class PartidaMultijugadorController {
 
     private static final String VIEW_ESPERA_NUM_TERRITORIOS = "partidas/esperaTerritorio";
 
+    private static final String VIEW_ELIGE_DADO = "partidas/elegirDado";
+
     private static final List<Territorio> listaTerritorios = List.of(Territorio.BOSQUE, Territorio.CASTILLO, Territorio.MONTANA, Territorio.POBLADO, Territorio.PRADERA, Territorio.RIO);
     private static final List<Integer> poder = List.of(0,1,-1);
     
-    private static List<Integer> dadosFijos = new ArrayList<Integer>();
+    private static final List<Integer> dadosFijos = new ArrayList<Integer>();
     private PartidaService partidaService;
     private UserService userService;
     private TurnoService turnoService;
@@ -57,9 +59,9 @@ public class PartidaMultijugadorController {
 
     @Transactional
     @GetMapping(value = "/partida/crearPartidaMultijugador")
-	public String getPartidaMultijugador(List<User> jugadores, Principal principal){
+	public String getPartidaMultijugador(Principal principal){
         User usuario = userService.getUserById(principal.getName());
-		List<Integer> x = this.partidaService.crearPartidaMultijugador(jugadores); //x.get(0)=idPartida, x.get(1)=idturno
+		List<Integer> x = this.partidaService.crearPartidaMultijugador(usuario.getJugadoresAceptados()); //x.get(0)=idPartida, x.get(1)=idturno
         if(usuario.getEstado()){
             return "redirect:/partida/Multijugador/eligeTerritorio/"+x.get(0)+"/"+x.get(1);
         }
@@ -99,6 +101,9 @@ public class PartidaMultijugadorController {
         res.addObject("dados", dadosx);
         session.setAttribute("dados", dadosx);
         turnoService.saveTurno(turno);
+        res.addObject("territorios", listaTerritorios);
+        Boolean eligeTerritorio = true;
+        res.addObject("eligeTerritorio", eligeTerritorio);
         res.addObject("poder1", tablero.getPoder1());
         res.addObject("acciones", acciones);
         res.addObject("usos", usos);
@@ -116,7 +121,7 @@ public class PartidaMultijugadorController {
     @PostMapping(value = "/partida/Multijugador/eligeTerritorio/{idPartida}/{idTurno}")
     public ModelAndView eligeTerritorioPost(@Valid Turno turno, BindingResult result, Principal principal, Map<String, Object> model,
                                         @PathVariable("idPartida") Integer idPartida, @PathVariable("idTurno") Integer idTurno, 
-                                        @PathVariable("numTiradas") Integer numTiradas, HttpSession session) {
+                                         HttpSession session) {
         ModelAndView res = new ModelAndView();
         if (result.hasErrors()) {
             if(principal != null){
@@ -129,14 +134,19 @@ public class PartidaMultijugadorController {
             User user = userService.getUserById(principal.getName());
             Tablero tablero = tableroService.getTableroActiveByUser(user);
             Turno turnoToBeUpdated = turnoService.getTurnoById(idTurno);
+            BeanUtils.copyProperties(turno, turnoToBeUpdated, "id");
             List<Tablero> tableros = tableroService.getTablerosByPartida(partidaService.getPartidaById(idPartida));
             Integer x= partidaService.getNumJugador(tablero,tableros);
             List<Integer> dadosx = new ArrayList<>();
             if(!(session.getAttribute("dados")==null)){
                 dadosx = (List<Integer>) session.getAttribute("dados");
             } 
-            dadosFijos = partidaService.quitarUsoDado(x,dadosx,turno);
+            dadosx = partidaService.quitarUsoDado(x,dadosx,turno);
+            if(dadosFijos.isEmpty()) dadosFijos.addAll(dadosx);
+            dadosx.clear();
+            session.setAttribute("dados", dadosx);
             //Acaba la partida dependiendo de los usos de los territorios, cambiar 
+            System.out.println(turnoToBeUpdated);
             Integer control = partidaService.actualizarUso(idPartida, turnoToBeUpdated, listaTerritorios, tablero);
             if(control <0){
                 tablero.setPartidaEnEspera(true);
@@ -154,7 +164,7 @@ public class PartidaMultijugadorController {
             accionService.save(ac);
             user.setEstado(false);
             userService.save(user);
-            res.setViewName("redirect:/partida/Multijugador/espera/dibujar/"+idPartida+"/"+idTurno+"/"+ac.getId()+"/"+numTiradas+"/1"); 
+            res.setViewName("redirect:/partida/Multijugador/espera/dibujar/"+idPartida+"/"+idTurno+"/"+ac.getId()); 
             if(principal != null){
                 res.addObject("username", principal.getName());
             }
@@ -174,7 +184,7 @@ public class PartidaMultijugadorController {
         Integer contador = tableros.size();
         Integer contador_aux =0;
         for(Tablero t: tableros){
-            if(t.getUser().getEstado()==false){
+            if(t.getUser().getEstado()!=null && t.getUser().getEstado()==false){
                 contador_aux++;
             }
         }
@@ -199,7 +209,7 @@ public class PartidaMultijugadorController {
                                         @PathVariable("idTurno") Integer idTurno) {
         ModelAndView res = new ModelAndView();                                    
         Partida partida = partidaService.getPartidaById(idPartida);
-        res.setViewName(VIEW_ESPERA_NUM_TERRITORIOS);     
+        res.setViewName(VIEW_ELIGE_DADO);     
         Turno turno = turnoService.getTurnoById(idTurno);
         List<Integer> criterios = List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2);
         User user = userService.getUserById(principal.getName());
@@ -226,8 +236,7 @@ public class PartidaMultijugadorController {
     @Transactional
     @PostMapping(value = "/partida/Multijugador/dado/{idPartida}/{idTurno}")
     public ModelAndView ElegirNumTerritoriosPost(@Valid Turno turno, BindingResult result, Principal principal, Map<String, Object> model,
-                                        @PathVariable("idPartida") Integer idPartida, @PathVariable("idTurno") Integer idTurno, 
-                                        @PathVariable("numTiradas") Integer numTiradas) {
+                                        @PathVariable("idPartida") Integer idPartida, @PathVariable("idTurno") Integer idTurno) {
         ModelAndView res = new ModelAndView();
         if (result.hasErrors()) {
             if(principal != null){
@@ -238,17 +247,30 @@ public class PartidaMultijugadorController {
 		} else {
             //Actualiza las propiedades del turno 
             User user = userService.getUserById(principal.getName());
-            Turno turnoToBeUpdated = turnoService.getTurnoById(idTurno);
+            Tablero tablero = tableroService.getTableroActiveByUser(user);
             List<Tablero> tableros = tableroService.getTablerosByPartida(partidaService.getPartidaById(idPartida));
+            Integer numJugador= partidaService.getNumJugador(tablero,tableros);
+            Turno turnoToBeUpdated = turnoService.getTurnoById(idTurno);
+            if(numJugador==1){
+                BeanUtils.copyProperties(turno, turnoToBeUpdated, "id","numTerritoriosJ2","numTerritoriosJ3","numTerritoriosJ4", "territorio");
+            } else if(numJugador==2){
+                BeanUtils.copyProperties(turno, turnoToBeUpdated, "id","numTerritoriosJ1","numTerritoriosJ3","numTerritoriosJ4", "territorio");
+            } else if(numJugador==3){
+                BeanUtils.copyProperties(turno, turnoToBeUpdated, "id","numTerritoriosJ2","numTerritoriosJ1","numTerritoriosJ4", "territorio");
+            } else if(numJugador==4){
+                BeanUtils.copyProperties(turno, turnoToBeUpdated, "id","numTerritoriosJ2","numTerritoriosJ3","numTerritoriosJ1", "territorio");
+            }
             Integer x=0;
             for(Integer i=0; i<tableros.size();i++){
-                if(tableros.get(i).getUsos0()<0 || tableros.get(i).getUsos1()<0 || tableros.get(i).getUsos2()<0 
-                || tableros.get(i).getUsos3()<0 || tableros.get(i).getUsos4()<0 || tableros.get(i).getUsos5()<0){
+                if(tableros.get(i)!=null){
+                    if(tableros.get(i).getUsos0()<0 || tableros.get(i).getUsos1()<0 || tableros.get(i).getUsos2()<0 
+                    || tableros.get(i).getUsos3()<0 || tableros.get(i).getUsos4()<0 || tableros.get(i).getUsos5()<0){
                     x++;
+                    }
                 }
             }
             if(x>0){
-                Tablero tablero = tableroService.getTableroActiveByUser(user);
+                tablero = tableroService.getTableroActiveByUser(user);
                 tablero.setPartidaEnEspera(true);
                 tableroService.saveTablero(tablero);
                 res.setViewName("redirect:/partida/Multijugador/espera/resultados/"+idPartida);
@@ -280,19 +302,29 @@ public class PartidaMultijugadorController {
         Turno turno = turnoService.getTurnoById(idTurno);
         Partida partida = partidaService.getPartidaById(idPartida);
         List<Tablero> tableros = tableroService.getTablerosByPartida(partida);
-        if((tableros.size()==2 && turno.getNumTerritoriosJ1()>0 && turno.getNumTerritoriosJ2()>0) ||
-        (tableros.size()==3 && turno.getNumTerritoriosJ1()>0 && turno.getNumTerritoriosJ2()>0  && turno.getNumTerritoriosJ3()>0) ||
-        (tableros.size()==4 && turno.getNumTerritoriosJ1()>0 && turno.getNumTerritoriosJ2()>0  && turno.getNumTerritoriosJ3()>0
-         && turno.getNumTerritoriosJ4()>0) ){
-            res.setViewName("redirect:/partida/Multijugador/dibujar/"+idPartida+"/"+idTurno+"/"+idAccion +"/1");
-            return res;
-        }
+        if(turno.getNumTerritoriosJ1()!=null && turno.getNumTerritoriosJ2()!=null && tableros.size()==2){
+            if(turno.getNumTerritoriosJ1()>0 && turno.getNumTerritoriosJ2()>0){
+                res.setViewName("redirect:/partida/Multijugador/dibujar/"+idPartida+"/"+idTurno+"/"+idAccion +"/1");
+                return res;
+            }
+        }else if(turno.getNumTerritoriosJ1()!=null && turno.getNumTerritoriosJ2()!=null && turno.getNumTerritoriosJ3()!=null && tableros.size()==3){
+            if(turno.getNumTerritoriosJ1()>0 && turno.getNumTerritoriosJ2()>0  && turno.getNumTerritoriosJ3()>0){
+                res.setViewName("redirect:/partida/Multijugador/dibujar/"+idPartida+"/"+idTurno+"/"+idAccion +"/1");
+                return res;
+            }
+        } else if(turno.getNumTerritoriosJ1()!=null && turno.getNumTerritoriosJ2()!=null && turno.getNumTerritoriosJ3()!=null &&
+                  turno.getNumTerritoriosJ4()!=null && tableros.size()==4){
+            if(turno.getNumTerritoriosJ1()>0 && turno.getNumTerritoriosJ2()>0  && turno.getNumTerritoriosJ3()>0 && turno.getNumTerritoriosJ4()>0){
+                res.setViewName("redirect:/partida/Multijugador/dibujar/"+idPartida+"/"+idTurno+"/"+idAccion +"/1");
+                return res;
+            }
+        } 
         res.setViewName(VIEW_ESPERA_NUM_TERRITORIOS);   
         User user = userService.getUserById(principal.getName());
         Tablero tablero = tableroService.getTableroActiveByUser(user);  
         List<Integer> criterios = List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2);   
         List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId());
-        List<Integer> usos = List.of(tablero.getUsos0(),tablero.getUsos1(),tablero.getUsos2(),tablero.getUsos3(),tablero.getUsos4(),tablero.getUsos5());                                            
+        List<Integer> usos = List.of(tablero.getUsos0(),tablero.getUsos1(),tablero.getUsos2(),tablero.getUsos3(),tablero.getUsos4(),tablero.getUsos5());                                          
         res.addObject("acciones", acciones);
         res.addObject("poder1", tablero.getPoder1());
         res.addObject("usos", usos);
@@ -386,12 +418,13 @@ public class PartidaMultijugadorController {
             turnoService.saveTurno(turno);
             tableroService.saveTablero(tablero);
 
-            res.setViewName("redirect:/partida/dibujar/"+idPartida+"/"+idTurno+"/"+ac.getId()+"/"+numTiradas+"/"+0);
+            //res.setViewName("redirect:/partida/dibujar/"+idPartida+"/"+idTurno+"/"+ac.getId()+"/"+numTiradas+"/"+0);
             return res;
         } else{
             Turno t = new Turno();
             turnoService.saveTurno(t);
             model.put("turno", t);
+            Integer numTiradas=0;
             if (numTiradas == 2) {
                 res.setViewName("redirect:/partida/eligeTerritorio/"+idPartida+"/"+t.getId()+"/3");
             } else {

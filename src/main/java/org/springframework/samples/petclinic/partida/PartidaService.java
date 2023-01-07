@@ -457,6 +457,9 @@ public class PartidaService {
          
          tablero2.setPartida(p);
          tablero2.setUser(jugadores.get(1));
+         User user2 = userService.getUserById(jugadores.get(1).getUsername());
+         user2.setEstado(false);
+         userService.save(user2);
          tablero2.setPuntos(0);
          tablero2.setPartidaEnCurso(true);
          tablero2.setPartidaCreada(false);
@@ -465,6 +468,9 @@ public class PartidaService {
          if(jugadores.size()>2){        
             tablero3.setPartida(p);
             tablero3.setUser(jugadores.get(2));
+            User user3 = userService.getUserById(jugadores.get(2).getUsername());
+            user3.setEstado(false);
+            userService.save(user3);
             tablero3.setPuntos(0); 
             tablero3.setPartidaEnCurso(true);
             tablero3.setPartidaCreada(false);
@@ -499,6 +505,9 @@ public class PartidaService {
 
                tablero4.setPartida(p);
                tablero4.setUser(jugadores.get(3));
+               User user4 = userService.getUserById(jugadores.get(3).getUsername());
+               user4.setEstado(false);
+               userService.save(user4);
                tablero4.setPuntos(0);
                tablero4.setUsos0(1);
                tablero4.setUsos1(1);

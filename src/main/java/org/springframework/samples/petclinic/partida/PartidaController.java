@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.samples.petclinic.Invitacion.InvitationGame;
 import org.springframework.samples.petclinic.accion.Accion;
 import org.springframework.samples.petclinic.accion.AccionService;
 import org.springframework.samples.petclinic.tablero.Tablero;
@@ -174,12 +175,19 @@ public class PartidaController {
 	@GetMapping(value = "/partida/cancelarPartida")
 	public String cancelarPartida(Principal principal){
         User usuario = userService.getUserById(principal.getName());
+        userService.save(usuario);
         Tablero tablero = tableroService.getTableroActiveByUser(usuario);
         Partida partida = partidaService.getPartidaById(tablero.getPartida().getId());
         List<Tablero> tableros = tableroService.getTablerosByPartida(partida);
         List<Accion> acciones = new ArrayList<>();
         List<Turno> turnos = turnoService.getTurnosByPartida(partida.getId());
         for(Tablero t: tableros){
+            usuario =t.getUser();
+            usuario.setJugadoresAceptados(new ArrayList<>());
+            usuario.setReceivedInvitationsToGame(new HashSet<InvitationGame>());
+            usuario.setAnfitrionDelJugador(new ArrayList<>());
+            usuario.setSendedInvitationsToGame(new HashSet<InvitationGame>());
+            userService.save(usuario);
             acciones.addAll(accionService.getAccionesByTablero(t.getId()));
             tableroService.delete(t);
         }

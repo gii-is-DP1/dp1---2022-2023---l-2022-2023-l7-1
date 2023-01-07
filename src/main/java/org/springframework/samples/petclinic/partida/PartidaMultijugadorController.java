@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +70,7 @@ public class PartidaMultijugadorController {
     @Transactional
     @GetMapping(value = "/partida/Multijugador/eligeTerritorio/{idPartida}/{idTurno}")
     public ModelAndView eligeTerritorio(Principal principal, @PathVariable("idPartida") Integer idPartida, 
-                                        @PathVariable("idTurno") Integer idTurno) {
+                                        @PathVariable("idTurno") Integer idTurno, HttpSession session) {
         //comprobar finalizacion partida aqui
         ModelAndView res = new ModelAndView(VIEW_ELIGE_TERRITORIO);     
         Turno turno = turnoService.getTurnoById(idTurno);
@@ -79,14 +81,16 @@ public class PartidaMultijugadorController {
         List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId());
         List<Integer> usos = List.of(tablero.getUsos0(),tablero.getUsos1(),tablero.getUsos2(),tablero.getUsos3(),tablero.getUsos4(),tablero.getUsos5());                                            
         turno.setPartida(partida);
-        if(dadosFijos.isEmpty()) {
-            List<Tablero> tableros = tableroService.getTablerosByPartida(partida);
+        List<Integer> dadosx = (List<Integer>) session.getAttribute("dados");
+        if(dadosx.isEmpty()) {
+            List<Tablero> tableros = partida.getTableros();
             int[] dados = PartidaController.lanzamiento(tableros.size()+1);
             for(int dado: dados) {
-                dadosFijos.add(dado);
+                dadosx.add(dado);
             }
         }
-        res.addObject("dados", dadosFijos);
+        res.addObject("dados", dadosx);
+        session.setAttribute("dados", dadosx);
         turnoService.saveTurno(turno);
         res.addObject("poder1", tablero.getPoder1());
         res.addObject("acciones", acciones);

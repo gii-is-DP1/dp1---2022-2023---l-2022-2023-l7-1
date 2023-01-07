@@ -70,10 +70,16 @@ public class TableroService {
     }
 
     public Integer getPuntosTotalesPorUsuario(User user){
+        if(tableroRepository.getPuntosTotales(user) == null){
+            return 0;
+        }
         return tableroRepository.getPuntosTotales(user);
     }
 
     public Integer getPuntosMax(User user){
+        if(tableroRepository.getPuntosMax(user)== null){
+            return 0;
+        }
         return tableroRepository.getPuntosMax(user);
     }
 

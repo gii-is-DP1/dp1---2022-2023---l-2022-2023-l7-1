@@ -302,17 +302,6 @@ public class UserController {
 	// --- LOGROS ---------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------------------
 
-	@Transactional
-    @GetMapping("/logros/{username}")
-	public ModelAndView showLogrosUser(@PathVariable("username") String username, Map<String, Object> model, Principal principal) {
-		// User user = userService.getUserById(username);
-		List<Logro> logros = new ArrayList<>(); //userService.getLogrosByUser(user);
-		model.put("logrosUser", logros);
-		ModelAndView res = new ModelAndView("logros/userLogros");
-		if (principal != null) {
-			res.addObject("username", principal.getName());
-		}
-		return res;
-	}
+	
 
 }

@@ -303,10 +303,10 @@ public class UserController {
 	// -------------------------------------------------------------------------------------------
 
 	@Transactional
-    @GetMapping("/logros/{username}")
-	public ModelAndView showLogrosUser(@PathVariable("username") String username, Map<String, Object> model, Principal principal) {
-		// User user = userService.getUserById(username);
-		List<Logro> logros = new ArrayList<>(); //userService.getLogrosByUser(user);
+    @GetMapping("/logrosUsuario")
+	public ModelAndView showLogrosUser(Map<String, Object> model, Principal principal) {
+		User user = userService.getUserById(principal.getName());
+		List<Logro> logros = userService.getLogrosByUser(user);
 		model.put("logrosUser", logros);
 		ModelAndView res = new ModelAndView("logros/userLogros");
 		if (principal != null) {

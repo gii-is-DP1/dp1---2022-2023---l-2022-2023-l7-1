@@ -2,6 +2,8 @@ package org.springframework.samples.petclinic.logros;
 
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import java.security.Principal;
 
 import org.springframework.beans.BeanUtils;
@@ -76,11 +78,16 @@ public class LogroController {
 
     @Transactional
     @PostMapping("/logros/new")
-    public String saveNewAchievement(Logro logro, BindingResult br){
-        service.save(logro);
-        ModelAndView result=new ModelAndView(LOGROS_LISTING_VIEW);
-        result.addObject("message", "The achievement was created successfully ;)");
-        return "redirect:/logros";
+    public String saveNewAchievement(@Valid Logro logro, BindingResult br){
+        if (br.hasErrors()) {
+			return LOGROS_NEW_FORM;
+		}
+		else {
+            service.save(logro);
+            ModelAndView result=new ModelAndView(LOGROS_LISTING_VIEW);
+            result.addObject("message", "The achievement was created successfully ;)");
+            return "redirect:/logros";
+        }
     }
    
 }

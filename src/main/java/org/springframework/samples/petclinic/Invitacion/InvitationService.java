@@ -17,6 +17,9 @@ public class InvitationService {
 	private InvitationRepository invitationRepository;
 	
 	@Autowired
+	private InvitationGameRepository invitationGameRepository;
+
+	@Autowired
 	private UserRepository userRepository;
 
 	public Optional<Invitation> geInvitationByID(Integer id){
@@ -65,4 +68,39 @@ public class InvitationService {
         return result;
     }
 
+	//---------------------------------------------------------------------------------------------------------------
+	//__MULTI__
+	/* 
+
+	public InvitationGame geInvitationGameByID(Integer id){
+		return invitationGameRepository.findById(id).get();	
+	}
+
+	public List<InvitationGame> getInvitationsGameOf(String username) {
+		return invitationGameRepository.getInvitationsGameOf(username);
+	}
+	
+	@Transactional
+	public void sendInvitationGame(String username, List<String> jugadores) {
+		User anfitrion = userRepository.findById(username).get();
+		for (String s: jugadores){
+			User posibleJugador = userRepository.findById(s).get();
+			invitationGameRepository.save(new InvitationGame(anfitrion, posibleJugador));
+		}
+	}
+
+	@Transactional
+	public void acceptInvitationGame(String username, Integer invitation_id) {
+		InvitationGame invitationG = invitationGameRepository.findById(invitation_id).get();
+		
+		if(invitationG != null && invitationG.getPosibleJugador().getUsername().equals(username)) {
+			invitationG.aceptGame();
+			invitationGameRepository.deleteById(invitation_id);
+		}
+	}
+
+	@Transactional
+	public void deleteInvitationGame(Integer id){
+        invitationGameRepository.deleteById(id);
+    }*/
 }

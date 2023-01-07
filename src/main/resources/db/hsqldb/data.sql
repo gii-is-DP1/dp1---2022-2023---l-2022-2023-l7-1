@@ -486,7 +486,7 @@ VALUES ('Jesus', 'Zambrana', 'jeszamgue', 'password', '2010-09-07', 'jeszamgue@a
 INSERT INTO authorities(id,username,authority) VALUES (5,'jeszamgue','player');
 
 INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled, estado)
-VALUES ('Aitor', 'Rodriguez', 'aitroddue', 'password', '2010-09-07', 'aitroddue@alum.us.es', '954734895', 5, 3, 550, 130, 5, 7, true ,false);
+VALUES ('Aitor', 'Rodriguez', 'aitroddue', 'password', '2010-09-07', 'aitroddue@alum.us.es', '954734895', 5, 3, 550, 80, 5, 7, true ,false);
 INSERT INTO authorities(id,username,authority) VALUES (6,'aitroddue','player');
 
 INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled, estado)

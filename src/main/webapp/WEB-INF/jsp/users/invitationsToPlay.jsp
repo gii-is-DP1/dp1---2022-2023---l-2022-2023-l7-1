@@ -6,26 +6,27 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
 <petclinic:layout pageName="invitations">
-    <h1><em><b><u>Invitacion a Partida</u></b></em></h1>
+    <h1><em><b><u>Invitaciones a Partida</u></b></em></h1>
 
     <table id="invitationsTable" class="table table-striped">
         <thead>
         <tr>
-            <th>Enviada</th>
+            <th>Recibidas</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${jugadoresInvitados}" var="invitation">
+        <c:forEach items="${invitationToPlay}" var="invitationGame">
             <tr>
                 <td>
                     <c:out value="${invitationGame.anfitrion.username}"/>
                 </td> 
                 <td style="text-align:right">
-                    <a class="btn btn-default" href="/invitationGameAccept/${invitationGame.posibleJugador.username}/${invitationGame.id}">Unirme a partida</a>
-                    <a class="btn btn-default" href="/invitationGameCancel/${invitationGame.posibleJugador.username}/${invitationGame.id}">Cancelar invitación</a>
+                    <a class="btn btn-default" href="/invitationToGameAccepted/${invitationGame.posibleJugador.username}/${invitationGame.id}">Unirme a partida</a>
+                    <a class="btn btn-default" href="/invitationToGameCancelled/${invitationGame.posibleJugador.username}/${invitationGame.id}">Cancelar invitación</a>
                 </td> 
             </tr>
         </c:forEach>
         </tbody>
     </table>
+</petclinic:layout>

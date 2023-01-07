@@ -7,9 +7,15 @@
 <script>
     function mostrarForm(){ 
     var formulario = document.getElementById('Invitation');
-    formulario.style.display = "block";  
-    formulario.style.height = "50px";
-    formulario.style.width = "300px";
+    formulario.style.display = "block"; 
+    formulario.style.marginBottom = "0px"; 
+    formulario.style.marginTop = "0px"; 
+    formulario.style.marginLeft = "400px"; 
+    formulario.style.marginRight = "300px"; 
+    formulario.style.width = "80px";
+    formulario.style.height = "37px";
+    formulario.style.backgroundColor = "transparent";
+
 }
 </script>
 
@@ -20,10 +26,12 @@
     <form:form>
         <h3>SELECCIONA MODO DE JUEGO</h3>
         <div class="col-sm-offset-2 col-sm-10">
-            <a class="btn btn-default" href="crearPartidaSolitaria"  formmethod=" post">MODO SOLITARIO</a>
+            <a class="btn btn-default btn-lg" href="crearPartidaSolitaria" formmethod=" post"
+            style="margin-top:5%; margin-bottom:1%; margin-left:5%; margin-right:5%; display:block;">MODO SOLITARIO</a>
         </div>
         <div class="col-sm-offset-2 col-sm-10">
-            <input type=button class="btn btn-default" onclick="mostrarForm()" value="MODO MULTIJUGADOR"/>
+            <a type=button class="btn btn-default btn-lg" onclick="mostrarForm()"
+            style="margin-top:5%; margin-bottom:1%; margin-left:5%; margin-right:5%; display:block;">MODO MULTIJUGADOR</a>
 	            <div id="Invitation" style="display: none;" class="modal-content">
                     <form name="Invitation" >
                         <spring:url value="/${username}/lobby" htmlEscape="true" var="invite">

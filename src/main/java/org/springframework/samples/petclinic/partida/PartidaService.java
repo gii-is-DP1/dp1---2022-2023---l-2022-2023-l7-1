@@ -611,4 +611,82 @@ public class PartidaService {
    return dadosFijos;
    }
 
+   public void actualizarPoderes(Accion accion, Tablero tablero, Integer idPartida) {
+      if(accion.getCasilla().getPoder1()) {
+         tablero.setPoder1(tablero.getPoder1()+1);
+         tableroService.saveTablero(tablero);
+      }
+
+      if(accion.getCasilla().getPoder2()){
+         Partida partida = getPartidaById(idPartida);
+
+         List<Turno> turnos = turnoService.getTurnosByPartida(idPartida);
+
+         List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId()).stream().filter(x-> x.getCasilla() != null).collect(Collectors.toList());
+         Integer puntosPoder2 = calcularPoder2(acciones, turnos, partida);
+         tablero.setPoder2(puntosPoder2);
+         tableroService.saveTablero(tablero);
+      }
+   }
+
+   public void actualizarUso1(Turno turnoPost, Turno turno, Tablero tablero, Integer numJugador, Accion accionToBeUpdated) {
+      if(numJugador==1){
+         if(turnoPost.getNumTerritoriosJ1() == null|| turnoPost.getNumTerritoriosJ1() == 0){
+             turno.setNumTerritoriosJ1(turno.getNumTerritoriosJ1()-1);
+         }else if(turnoPost.getNumTerritoriosJ1() == -1 && turno.getNumTerritoriosJ1()==1){
+             accionService.delete(accionToBeUpdated);
+             tablero.setPoder1(tablero.getPoder1()-1);
+             turno.setNumTerritoriosJ1(0);
+         }else if(turnoPost.getNumTerritoriosJ1() == -1){
+             turno.setNumTerritoriosJ1(turno.getNumTerritoriosJ1()-2);
+             tablero.setPoder1(tablero.getPoder1()-1);
+         }else if(turnoPost.getNumTerritoriosJ1() == 1){
+             tablero.setPoder1(tablero.getPoder1()-1);
+         }
+     }
+     if(numJugador==2){
+         if(turnoPost.getNumTerritoriosJ2() == null|| turnoPost.getNumTerritoriosJ2() == 0){
+             turno.setNumTerritoriosJ2(turno.getNumTerritoriosJ2()-1);
+         }else if(turnoPost.getNumTerritoriosJ2() == -1 && turno.getNumTerritoriosJ2()==1){
+             accionService.delete(accionToBeUpdated);
+             tablero.setPoder1(tablero.getPoder1()-1);
+             turno.setNumTerritoriosJ2(0);
+         }else if(turnoPost.getNumTerritoriosJ2() == -1){
+             turno.setNumTerritoriosJ2(turno.getNumTerritoriosJ2()-2);
+             tablero.setPoder1(tablero.getPoder1()-1);
+         }else if(turnoPost.getNumTerritoriosJ2() == 1){
+             tablero.setPoder1(tablero.getPoder1()-1);
+         }
+     }
+     if(numJugador==3){
+         if(turnoPost.getNumTerritoriosJ3() == null|| turnoPost.getNumTerritoriosJ3() == 0){
+             turno.setNumTerritoriosJ3(turno.getNumTerritoriosJ3()-1);
+         }else if(turnoPost.getNumTerritoriosJ3() == -1 && turno.getNumTerritoriosJ3()==1){
+             accionService.delete(accionToBeUpdated);
+             tablero.setPoder1(tablero.getPoder1()-1);
+             turno.setNumTerritoriosJ3(0);
+         }else if(turnoPost.getNumTerritoriosJ3() == -1){
+             turno.setNumTerritoriosJ3(turno.getNumTerritoriosJ3()-2);
+             tablero.setPoder1(tablero.getPoder1()-1);
+         }else if(turnoPost.getNumTerritoriosJ3() == 1){
+             tablero.setPoder1(tablero.getPoder1()-1);
+         }
+     }
+     if(numJugador==4){
+         if(turnoPost.getNumTerritoriosJ4() == null|| turnoPost.getNumTerritoriosJ4() == 0){
+             turno.setNumTerritoriosJ4(turno.getNumTerritoriosJ4()-1);
+         }else if(turnoPost.getNumTerritoriosJ4() == -1 && turno.getNumTerritoriosJ4()==1){
+             accionService.delete(accionToBeUpdated);
+             tablero.setPoder1(tablero.getPoder1()-1);
+             turno.setNumTerritoriosJ4(0);
+         }else if(turnoPost.getNumTerritoriosJ4() == -1){
+             turno.setNumTerritoriosJ4(turno.getNumTerritoriosJ4()-2);
+             tablero.setPoder1(tablero.getPoder1()-1);
+         }else if(turnoPost.getNumTerritoriosJ4() == 1){
+             tablero.setPoder1(tablero.getPoder1()-1);
+         }
+     }
+   }
+
+
 }

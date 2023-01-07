@@ -397,40 +397,9 @@ public class PartidaController {
         turno.setPartida(partidaService.getPartidaById(idPartida));
 
         //Controlamos si hemos dibujado una casilla de poder y dependiendo del poder actuamos de una manera u otra
-        if(accion.getCasilla().getPoder1()) {
-            tablero.setPoder1(tablero.getPoder1()+1);
-            tableroService.saveTablero(tablero);
-        }
-
-        if(accion.getCasilla().getPoder2()){
-            Partida partida = partidaService.getPartidaById(idPartida);
-
-            List<Turno> turnos = turnoService.getTurnosByPartida(idPartida);
-
-            List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId()).stream().filter(x-> x.getCasilla() != null).collect(Collectors.toList());
-            Integer puntosPoder2 = partidaService.calcularPoder2(acciones, turnos, partida);
-            tablero.setPoder2(puntosPoder2);
-            tableroService.saveTablero(tablero);
-        }
-
+        partidaService.actualizarPoderes(accion, tablero, idPartida);
         //Esta parte actualiza el numero de territorios a dibujar y la cantidad de poderes que te quedan en el tablero PODER1
-        if(turnoPost.getNumTerritoriosJ1() == null|| turnoPost.getNumTerritoriosJ1() == 0){
-            turno.setNumTerritoriosJ1(turno.getNumTerritoriosJ1()-1);
-        }else if(turnoPost.getNumTerritoriosJ1() == -1 && turno.getNumTerritoriosJ1()==1){
-            accionService.delete(accionToBeUpdated);
-            tablero.setPoder1(tablero.getPoder1()-1);
-            turno.setNumTerritoriosJ1(0);
-        }else if(turnoPost.getNumTerritoriosJ1() == -1){
-            turno.setNumTerritoriosJ1(turno.getNumTerritoriosJ1()-2);
-            tablero.setPoder1(tablero.getPoder1()-1);
-        }else if(turnoPost.getNumTerritoriosJ1() == 1){
-            tablero.setPoder1(tablero.getPoder1()-1);
-        }
-
-
-
-        
-
+        partidaService.actualizarUso1(turnoPost, turno, tablero, 1,accionToBeUpdated);  
         //Si quedan territorios por dibujar nos dirige al Get de dibujar, en caso contrario nos lleva a elegirTerritorio
        
         if(turno.getNumTerritoriosJ1()>0){

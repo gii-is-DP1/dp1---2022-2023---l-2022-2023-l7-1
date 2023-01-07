@@ -6,7 +6,7 @@
 
 <petclinic:layout pageName="users">
 
-    <h1><em><b><u>Amigos</u></b></em></h1>
+    <h1><em><b><u>Partida Amigos</u></b></em></h1>
 
     <table id="usersTable" class="table table-striped">
         <thead>
@@ -14,30 +14,33 @@
             <th style="text-align:center;">Nombre</th>
             <th style="text-align:center;">Apellidos</th>
             <th style="text-align:center;">Usuario</th>
-            <th style="text-align:center;"></th>
+            <th style="text-align:center;">Partida En Curso</th>
+            <th style="text-align:center;">Ver Partida</th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${friends}" var="friend">
+        <c:forEach items="${tableros}" var="tablero">
             <tr>
                 <td style="text-align:center;">
-                    <c:out value="${friend.name}"/>
+                    <c:out value="${tablero.user.name}"/>
                 </td>
                 <td style="text-align:center;">                    
-                    <c:out value="${friend.lastName} "/>                                        
+                    <c:out value="${tablero.user.lastName} "/>                                        
                 </td>
                 <td style="text-align:center;">                    
-                    <c:out value="${friend.username}"/>
+                    <c:out value="${tablero.user.username}"/>
+                </td>
+                <td style="text-align:center;">                    
+                    <c:out value="${tablero.partidaEnCurso}"/>
                 </td>
                 <td style="text-align:center;"> 
-                    <a href="/friends/${user.username}/${friend.username}/delete"> 
-                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    <a href="/partidas/partidaEnCurso/${tablero.user.username}"> 
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
                     </a>      
                 </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
-    <b><a style="position: absolute; margin-left: 1075px; " href="/friends/partidas" class="btn btn-default">Ver partidas</a></b>
 
 </petclinic:layout>

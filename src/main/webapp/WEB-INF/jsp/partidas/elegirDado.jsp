@@ -22,6 +22,10 @@
 
 <petclinic:layout pageName="CREAR PARTIDA">
 
+    <head> 
+        <meta http-equiv="refresh" content="3"> <!-- Recarga la pagina cada 3 segundos -->
+    </head>
+
     <body>
         <h2><c:out value="${now}"/></h2>
         
@@ -31,81 +35,71 @@
             </c:forEach>    
         </petclinic:mapa>
 
+
         <div class = "row">
-            <div class="col-sm-6">
-                <c:if test="${eligeTerritorio == true}">
-                    <h2><b>Elegir terriorio y número de territorios a dibujar:</b></h2>
-                </c:if>
-                <c:if test="${eligeTerritorio == false}">
-                    <h2><b>Elegir número de territorios:</b></h2>
-                    <small>(Selecciona el número de territorios a dibujar. El otro es el territorio que dibujarás)</small>
-                </c:if>
-                <table id="territorioDado" class="table table-condensed">
-                    <tbody>
-                        <form:form modelAttribute="turno" class="form-horizontal">
-                            <div class="form-select">
-                                <tr>
-                                    <td style="text-align:center;padding: 50px 0;">
-                                        <c:if test="${eligeTerritorio}">
-                                            <form:select path = "territorio" class="btn btn-default">
-                                                <form:options items = "${territorios}" style="background-color:gainsboro;color:black;text-align:left;"/>
-                                            </form:select>
-                                        </c:if>
-                                    </td>
-                                    <td style="text-align:center;padding: 50px 0;">
-                                        <form:select path = "numTerritoriosJ1" class="btn btn-default">
-                                            <form:options items = "${dados}" style="background-color:gainsboro;color:black;text-align:left;"/>
-                                        </form:select>
-                                    </td>
-                                    <td style="text-align:center;padding: 80px 0;">
-                                        <div class = "row">
-                                            <button class="btn btn-default" type="submit">Confirmar</button> 
-                                        </div>
-                                    </td>
-                                </tr>  
+            <form:form modelAttribute="turno" class="form-horizontal">
+                <div class="form-select">
+                    <tr>
+                        <td style="text-align:center;padding: 50px 0;">
+                            <c:if test = "${numJugador ==1}">               
+                                <form:select path = "numTerritoriosJ1" class="btn btn-default">
+                                    <form:options items = "${dados}" style="background-color:gainsboro;color:black;text-align:left;"/>
+                                </form:select>
+                            </c:if>
+                            <c:if test = "${numJugador ==2}">               
+                                <form:select path = "numTerritoriosJ2" class="btn btn-default">
+                                    <form:options items = "${dados}" style="background-color:gainsboro;color:black;text-align:left;"/>
+                                </form:select>
+                            </c:if>
+                            <c:if test = "${numJugador ==3}">               
+                                <form:select path = "numTerritoriosJ3" class="btn btn-default">
+                                    <form:options items = "${dados}" style="background-color:gainsboro;color:black;text-align:left;"/>
+                                </form:select>
+                            </c:if>
+                            <c:if test = "${numJugador ==4}">               
+                                <form:select path = "numTerritoriosJ4" class="btn btn-default">
+                                    <form:options items = "${dados}" style="background-color:gainsboro;color:black;text-align:left;"/>
+                                </form:select>
+                            </c:if>
+                        </td>
+                        <td style="text-align:center;padding: 50px 0;">
+                            <div class = "row">
+                                <button class="btn btn-default" type="submit">Confirmar</button> 
                             </div>
-                        </form:form>
-                    </tbody>
-                </table>  
-            </div>
-            <div class="col-sm-1"></div>
+                        </td>
+                    </tr>  
+                </div>
+            </form:form>
             <div class="col-sm-3">
                 <table id="territorios" class="table table-condensed table-bordered">
                     <thead>
                         <tr style="background-color:gainsboro">
-                            <th style="text-align:center">Nº dado</th>
                             <th>Territorio</th>
                             <th style="text-align:center">Usos</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr style="background-color:gainsboro">
-                            <td style="text-align:center">- 1 -</td>
                             <td>Bosque</td>
                             <td style="text-align:center"><b><c:out value="${usos[0]}"/></b></td>
                         </tr>
                         <tr style="background-color:gainsboro">
-                            <td style="text-align:center">- 2 -</td>
                             <td>Castillo</td>
                             <td style="text-align:center"><b><c:out value="${usos[1]}"/></b></td>
                         </tr>
                         <tr style="background-color:gainsboro">
-                            <td style="text-align:center">- 3 -</td>
                             <td>Montaña</td>
                             <td style="text-align:center"><b><c:out value="${usos[2]}"/></b></td>
                         </tr>
                         <tr style="background-color:gainsboro">
-                            <td style="text-align:center">- 4 -</td>
                             <td>Poblado</td>
                             <td style="text-align:center"><b><c:out value="${usos[3]}"/></b></td>
                         </tr>
                         <tr style="background-color:gainsboro">
-                            <td style="text-align:center">- 5 -</td>
                             <td>Pradera</td>
                             <td style="text-align:center"><b><c:out value="${usos[4]}"/></b></td>
                         </tr>
                         <tr style="background-color:gainsboro">
-                            <td style="text-align:center">- 6 -</td>
                             <td>Río</td>
                             <td style="text-align:center"><b><c:out value="${usos[5]}"/></b></td>
                         </tr>
@@ -132,7 +126,7 @@
                         <tr style="background-color:gainsboro">
                             <td style="text-align:center">B<c:out value="${criterios[3]}"/></td>
                         </tr>
-                    </tbody>
+                   </tbody>
                 </table>
             </div>
             

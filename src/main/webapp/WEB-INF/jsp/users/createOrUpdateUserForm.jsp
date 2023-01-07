@@ -20,6 +20,7 @@
             <hr>
             <petclinic:inputField label="Usuario" name="username"/>
             <petclinic:passwordField label="Contraseña" name="password"/>
+            
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

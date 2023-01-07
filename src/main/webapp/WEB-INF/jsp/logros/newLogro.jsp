@@ -11,7 +11,7 @@
     
     <h1><em><b><u>Nuevo Logro</u></b></em></h1>
 
-    <form:form modelAttribute="logro" class="form-horizontal" id="add-user-form">
+    <form:form modelAttribute="logro" class="form-horizontal" id="add-logro-form">
         <div class="form-group has-feedback">
             <petclinic:inputField label="Título" name="titulo"/>
             <petclinic:inputField label="Descripción" name="descripcion"/>

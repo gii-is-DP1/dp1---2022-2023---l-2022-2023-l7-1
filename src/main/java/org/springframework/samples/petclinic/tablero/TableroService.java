@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.tablero;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,43 @@ public class TableroService {
     }
 
     public List<Tablero> getTablerosByPartida(Partida partida) {
-        return tableroRepository.getTablerosByPartida(partida.getId());
+        return tableroRepository.getTablerosByPartida(partida);
     }
     
+    public Integer getNumPartidasJugadas(User user){
+        return tableroRepository.getNumPartidas(user);
+    }
+
+    public Integer getNumPartidasGanadas(User user){
+        List<Tablero> tableros = tableroRepository.getTablerosByUser(user);
+        Integer numPartidasGanadas = 0;
+        for(Tablero tablero: tableros){
+            List<Tablero> tablerosPartida = tableroRepository.getTablerosByPartida(tablero.getPartida());
+            Integer maxPuntos = tablerosPartida.stream().max(Comparator.comparing(Tablero::getPuntos)).get().getPuntos();
+            if(maxPuntos == tablero.getPuntos()){
+                numPartidasGanadas +=1;
+            }
+        }
+        return numPartidasGanadas;
+    }
+
+    public Integer getPuntosTotalesPorUsuario(User user){
+        return tableroRepository.getPuntosTotales(user);
+    }
+
+    public Integer getPuntosMax(User user){
+        return tableroRepository.getPuntosMax(user);
+    }
+
+    public Integer getPuntosTotales(){
+        return tableroRepository.findPuntosTotales();
+    }
+
+    public Integer getNumPartidasTotales(){
+        return tableroRepository.findPartidasTotales();
+    }
+
+    public Tablero getTableroById(Integer idTablero) {
+        return tableroRepository.findById(idTablero).get();
+    }
 }

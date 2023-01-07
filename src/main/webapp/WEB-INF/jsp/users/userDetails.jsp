@@ -54,21 +54,8 @@
 
     <tr> 
         <td>
-            <a class="btn btn-default" href="/users/${user.username}/userEdit">Editar usuario</a>
+            <a class="btn btn-default" href="/users/${user.username}/userEdit">Editar perfil</a>
         </td>  
-    </tr>
-
-    <tr> 
-        <td>
-            <a class="btn btn-default" href="/partidas/${user.username}">Juegos</a>
-        </td>  
-    </tr>
-
-    <tr> 
-        <td>
-            <a class="btn btn-default" href="/users/logros/${user.username}">Mis logros</a>
-        </td>  
-    </tr>
-    
+    </tr>    
 
 </petclinic:layout>

@@ -30,13 +30,30 @@
             <td><b><c:out value="${user.maxPoints}"/></b></td>
         </tr>
         <tr>
-            <th>Veces usado el poder <em>?</em> </th>
-            <td><b><c:out value="${user.timesUsedPowerQuestion}"/></b></td>
+
+            <th>Veces usado Bosque</th>
+            <td><b><c:out value="${user.timesUsedTerritory1}"/></b></td>
         </tr>
         <tr>
-            <th>Veces usado el poder <em>+-1</em> </th>
-            <td><b><c:out value="${user.timesUsedPower1}"/></b></td>
+            <th>Veces usado Castillo</th>
+            <td><b><c:out value="${user.timesUsedTerritory2}"/></b></td>
         </tr>
-       
+        <tr>
+            <th>Veces usado Montana</th>
+            <td><b><c:out value="${user.timesUsedTerritory3}"/></b></td>
+        </tr>
+        <tr>
+            <th>Veces usado Poblado</th>
+            <td><b><c:out value="${user.timesUsedTerritory4}"/></b></td>
+        </tr>
+        <tr>
+            <th>Veces usado Pradera</th>
+            <td><b><c:out value="${user.timesUsedTerritory5}"/></b></td>
+        </tr>
+        <tr>
+            <th>Veces usado Rio</th>
+            <td><b><c:out value="${user.timesUsedTerritory6}"/></b></td>
+
+        </tr>
     </table>    
 </petclinic:layout>

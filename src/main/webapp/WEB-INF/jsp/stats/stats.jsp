@@ -8,7 +8,7 @@
 <petclinic:layout pageName="stats">
     <h1><em><b><u>Estadísticas</u></b></em></h1>
 
-    <table id="usersTable" class="table table-striped">
+    <table id="usersTable" class="table table-striped" style="width: 100%;">
         <thead>
         <tr>
             <th style="text-align:center">Usuario</th>
@@ -17,36 +17,66 @@
             <th style="text-align:center">Porcentaje de victoria</th>
             <th style="text-align:center">Puntos totales</th>
             <th style="text-align:center">Puntuaje máximo</th>
-            <th style="text-align:center">Veces usado el poder <em>?</em> </th>
-            <th style="text-align:center">Veces usado el poder <em>+-1</em> </th>
+            <th style="text-align:center">Veces usado Bosque</th>
+            <th style="text-align:center">Veces usado Castillo</th>
+            <th style="text-align:center">Veces usado Montana</th>
+            <th style="text-align:center">Veces usado Poblado</th>
+            <th style="text-align:center">Veces usado Prader</th>
+            <th style="text-align:center">Veces usado Rio</th>
+        </tr>
+        <tr>
+            <th style="text-align:center">GENERALES</th>
+            <th style="text-align:center">Partidas jugadas: <c:out value="${statsTotales[0]}"/></th>
+            <th style="text-align:center"></th>
+            <th style="text-align:center"></th>
+            <th style="text-align:center">Puntos totales:<c:out value="${statsTotales[1]}"/></th>
+            <th style="text-align:center"></th>
+            <th style="text-align:center">Veces usado Bosque:<c:out value="${statsTotales[2]}"/></th>
+            <th style="text-align:center">Veces usado Castillo:<c:out value="${statsTotales[3]}"/></th>
+            <th style="text-align:center">Veces usado Montana:<c:out value="${statsTotales[4]}"/></th>
+            <th style="text-align:center">Veces usado Poblado:<c:out value="${statsTotales[5]}"/></th>
+            <th style="text-align:center">Veces usado Pradera:<c:out value="${statsTotales[6]}"/></th>
+            <th style="text-align:center">Veces usado Rio:<c:out value="${statsTotales[7]}"/></th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${users}" var="user">
             <tr>
-                <td  style="text-align:center">
+                <td style="text-align:center; width: 200px;">
                     <c:out value="${user.username}"/>
                 </td>
-                <td  style="text-align:center">
+                <td style="text-align:center; width: 200px;">
                     <c:out value="${user.matchesPlayed}"/>
                 </td>
-                <td  style="text-align:center">
+                <td style="text-align:center; width: 200px;">
                     <c:out value="${user.gamesWin}"/>
                 </td>
-                <td  style="text-align:center">
+                <td style="text-align:center; width: 200px;">
                     <c:out value="${user.winRatio}"/>
                 </td>
-                <td  style="text-align:center">
+                <td style="text-align:center; width: 200px;">
                     <c:out value="${user.totalPoints}"/>
                 </td>
-                <td  style="text-align:center">
+                <td style="text-align:center; width: 200px;">
                     <c:out value="${user.maxPoints}"/>
                 </td>
-                <td  style="text-align:center">
-                    <c:out value="${user.timesUsedPowerQuestion}"/>
+                <td style="text-align:center; width: 200px;">
+                    <c:out value="${user.timesUsedTerritory1}"/>
                 </td>
-                <td  style="text-align:center">
-                    <c:out value="${user.timesUsedPower1}"/>
+                <td style="text-align:center; width: 200px;">
+                    <c:out value="${user.timesUsedTerritory2}"/>
+                </td>
+                <td style="text-align:center; width: 200px;">
+                    <c:out value="${user.timesUsedTerritory3}"/>
+                </td>
+                <td style="text-align:center; width: 200px;">
+                    <c:out value="${user.timesUsedTerritory4}"/>
+                </td>
+                <td style="text-align:center; width: 200px;">
+                    <c:out value="${user.timesUsedTerritory5}"/>
+                </td>
+                <td style="text-align:center; width: 200px;">
+                    <c:out value="${user.timesUsedTerritory6}"/>
                 </td>
 
 

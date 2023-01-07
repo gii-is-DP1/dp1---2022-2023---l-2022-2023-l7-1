@@ -13,6 +13,9 @@
         background-attachment: fixed;
         background-size: 100% 100%;
     }
+    table{
+        margin-top: -20%;
+    }
    
 </style>
 

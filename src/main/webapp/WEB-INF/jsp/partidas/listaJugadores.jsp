@@ -14,18 +14,14 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${friends}" var="friend">
+        <c:forEach items="${jugadoresAceptados}" var="player">
             <tr>
                 <td style="text-align:center;">                    
-                    <c:out value="${friend.username}"/>
+                    <c:out value="${player.username}"/>
                 </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
-    <div class="col align-self-center">
-        <a class="btn btn-default btn-lg" href="/partida/crearPartidaMulti"
-            style="margin-top:11%; margin-bottom:10%; margin-left:22%; margin-right:22%; display:block;"><b>CONFIRMAR INVITACIÓN</b></a>
-    </div>
 
 </petclinic:layout>

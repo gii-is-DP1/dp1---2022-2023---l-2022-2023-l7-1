@@ -1,16 +1,7 @@
 package org.springframework.samples.petclinic.Invitacion;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.user.User;
@@ -27,15 +18,25 @@ public class InvitationGame extends BaseEntity{
 	@ManyToOne
 	private User posibleJugador;
 
+	public InvitationGame(){
 
-    public InvitationGame(User anfitrion, User posibleJugador) {
-        this.anfitrion = anfitrion;
+	}
+	
+	public InvitationGame(User anfitrion, User posibleJugador) {
+		this.anfitrion = anfitrion;
 		this.posibleJugador = posibleJugador;
+		
+		anfitrion.getSendedInvitationsToGame().add(this);
+		posibleJugador.getReceivedInvitationsToGame().add(this);		
+	}
 
-    }
+    public void aceptGame() {
+		anfitrion.getJugadoresAceptados().add(posibleJugador);
+		posibleJugador.getAnfitrionDelJugador().add(anfitrion);
+	}
 
-	public InvitationGame(User anfitrion) {
-        this.anfitrion = anfitrion;
+	public boolean esDelUsuarioG(String username) {
+		return anfitrion.getUsername().equals(username) || posibleJugador.getUsername().equals(username);
+	}
 
-    }
 }

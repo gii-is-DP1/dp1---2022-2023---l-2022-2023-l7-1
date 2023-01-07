@@ -298,21 +298,5 @@ public class UserController {
         return res;
     }
 
-	// -------------------------------------------------------------------------------------------
-	// --- LOGROS ---------------------------------------------------------------------------------
-	// -------------------------------------------------------------------------------------------
-
-	@Transactional
-    @GetMapping("/logrosUsuario")
-	public ModelAndView showLogrosUser(Map<String, Object> model, Principal principal) {
-		User user = userService.getUserById(principal.getName());
-		List<Logro> logros = userService.getLogrosByUser(user);
-		model.put("logrosUser", logros);
-		ModelAndView res = new ModelAndView("logros/userLogros");
-		if (principal != null) {
-			res.addObject("username", principal.getName());
-		}
-		return res;
-	}
 
 }

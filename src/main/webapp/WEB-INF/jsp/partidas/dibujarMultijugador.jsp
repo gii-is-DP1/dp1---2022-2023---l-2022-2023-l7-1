@@ -94,9 +94,10 @@
                                                 </c:if>
                                             </form:form>
                                         </td>
-                                    </tr>
                                     </c:if>
-                                </div>
+                                    </td>
+                                </tr>  
+                            </div>
                         </form:form>
                     </tbody>
                 </table>

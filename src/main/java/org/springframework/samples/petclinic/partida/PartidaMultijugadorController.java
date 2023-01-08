@@ -88,6 +88,7 @@ public class PartidaMultijugadorController {
         }    
         res.addObject("dados", dadosx);
         session.setAttribute("dados", dadosx);
+        turno.setPartida(partida);
         partidaService.saveTurno(turno);
         res.addObject("territorios", listaTerritorios);
         Boolean eligeTerritorio = true;
@@ -145,7 +146,8 @@ public class PartidaMultijugadorController {
             Accion ac = new Accion();
             turnoToBeUpdated.setPartida(partidaService.getPartidaById(idPartida));
             partidaService.saveTurno(turnoToBeUpdated);
-            ac.setTablero(partidaService.getPartidaById(idPartida).getTableros().get(0));
+            Integer numJugador= partidaService.getNumJugador(tablero,tableros);
+            ac.setTablero(partidaService.getPartidaById(idPartida).getTableros().get(numJugador-1));
             ac.setTurno(turnoToBeUpdated);
             partidaService.saveAccion(ac);
             partidaService.saveUserEstadoFalse(user);
@@ -245,6 +247,7 @@ public class PartidaMultijugadorController {
             }            
             //Dirige a la vista espera dibujar
             Accion ac = new Accion();
+            turnoToBeUpdated.setPartida(partidaService.getPartidaById(idPartida));
             partidaService.saveTableroTurnoAccion(tablero,turnoToBeUpdated,ac);       
             partidaService.saveUserEstadoFalse(user);
             res.setViewName("redirect:/partida/Multijugador/espera/dibujar/"+idPartida+"/"+idTurno+"/"+ac.getId()); 
@@ -376,22 +379,22 @@ public class PartidaMultijugadorController {
             if(ultimoJuadorActivo+1==numJugador){
                 dadosFijos.clear();
                 Turno t = new Turno();
+                t.setPartida(partidaService.getPartidaById(idPartida));
                 partidaService.saveTurno(t);
                 model.put("turno", t);
-                partidaService.saveJugadorActivo(principal);
-                res.setViewName("redirect:/partida/Multijugador/eligeTerritorio/"+idPartida+"/"+ t.getId());
+                res.setViewName("redirect:/partida/Multijugador/espera/eligeTerritorio/"+ t.getId());      
                 return res; 
             }
-            res.setViewName("redirect:/partida/Multijugador/espera/eligeTerritorio/"+idPartida);
+            res.setViewName("redirect:/partida/Multijugador/espera/espera/dado/"+idPartida);
             return res;  
         }
     }
 
     @Transactional
-    @GetMapping(value = "/partida/Multijugador/espera/eligeTerritorio/{idPartida}")
-    public ModelAndView esperaElegirTerritorio(@PathVariable("idPartida") Integer idPartida, Principal principal) {
+    @GetMapping(value = "/partida/Multijugador/espera/espera/dado/{idPartida}")
+    public ModelAndView esperaEsperaDado(@PathVariable("idPartida") Integer idPartida, Principal principal) {
         ModelAndView res = new ModelAndView();                                    
-        //Comprobar si todos han elegido dado
+        //Comprobar que haya jugador activo
         Partida partida = partidaService.getPartidaById(idPartida);
         List<Tablero> tableros = partidaService.getTablerosByPartidaId(partida.getId());
         for(Tablero t:tableros){
@@ -405,6 +408,34 @@ public class PartidaMultijugadorController {
         Tablero tablero = partidaService.getTableroActiveByUser(principal);  
         List<Integer> criterios = List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2);   
         List<Accion> acciones = partidaService.getAccionesByTablero(tablero.getId());
+        List<Integer> usos = List.of(tablero.getUsos0(),tablero.getUsos1(),tablero.getUsos2(),tablero.getUsos3(),tablero.getUsos4(),tablero.getUsos5());                                          
+        res.addObject("acciones", acciones);
+        res.addObject("poder1", tablero.getPoder1());
+        res.addObject("usos", usos);
+        res.addObject("criterios", criterios);
+        return res;
+    }
+
+    @Transactional
+    @GetMapping(value = "/partida/Multijugador/espera/eligeTerritorio/{idTurno}")
+    public ModelAndView esperaElegirTerritorio(@PathVariable("idTurno") Integer idTurno, Principal principal) {
+        ModelAndView res = new ModelAndView();                                    
+        //Comprobar que haya todos hayan acabado de dibujar
+        Turno turno = partidaService.getTurnoById(idTurno);
+        Partida partida = turno.getPartida();
+        List<Tablero> tableros = partidaService.getTablerosByPartidaId(partida.getId());
+        Tablero tablero = partidaService.getTableroActiveByUser(principal);  
+        List<Accion> acciones = partidaService.getAccionesByTablero(tablero.getId());
+        Turno turnoAnterior = acciones.get(acciones.size()-1).getTurno();
+        if(turnoAnterior.getNumTerritoriosJ1()==0 && turnoAnterior.getNumTerritoriosJ2()==0 &&
+          (tableros.size()<3 || turnoAnterior.getNumTerritoriosJ3()==0 ) &&
+          (tableros.size()<4 || turnoAnterior.getNumTerritoriosJ4()==0 )){
+                partidaService.saveJugadorActivo(principal);
+                res.setViewName("redirect:/partida/Multijugador/eligeTerritorio/"+partida.getId()+"/"+ idTurno);
+                return res;
+        }
+        res.setViewName(VIEW_ESPERA_NUM_TERRITORIOS);   
+        List<Integer> criterios = List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2);
         List<Integer> usos = List.of(tablero.getUsos0(),tablero.getUsos1(),tablero.getUsos2(),tablero.getUsos3(),tablero.getUsos4(),tablero.getUsos5());                                          
         res.addObject("acciones", acciones);
         res.addObject("poder1", tablero.getPoder1());

@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.partida;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -697,5 +698,122 @@ public class PartidaService {
      }
    }
 
+   public void saveTableroTurnoAccion(Tablero tablero, Turno turno, Accion accion) {
+      accion.setTablero(tablero);
+      accion.setTurno(turno);
+      accionService.save(accion);  
+      turnoService.saveTurno(turno);
+      tableroService.saveTablero(tablero);
+   }
+
+   public void saveTurno(Turno t) {
+      turnoService.saveTurno(t);
+   }
+
+   public Accion getAccionById(Integer idAccion) {
+      return accionService.getAccionById(idAccion);
+   }
+
+   public Turno getTurnoById(Integer idTurno) {
+      return turnoService.getTurnoById(idTurno);
+   }
+
+   public Tablero getTableroActiveByUser(Principal principal) {
+      return tableroService.getTableroActiveByUser(userService.getUserById(principal.getName()));
+   }
+
+   public List<Tablero> getTablerosByPartidaId(Integer idPartida) {
+      return tableroService.getTablerosByPartida(getPartidaById(idPartida));
+   }
+
+   public void saveAccion(Accion accionToBeUpdated) {
+      accionService.save(accionToBeUpdated);
+   }
+
+   public Integer getAccionesPorDibujar(Turno turno, Integer numJugador) {
+      Integer res=0;
+      if(numJugador==1){
+         res = turno.getNumTerritoriosJ1();
+      } else if(numJugador==2){
+         res = turno.getNumTerritoriosJ2();
+      } else if(numJugador==3){
+         res = turno.getNumTerritoriosJ3();
+      } else if(numJugador==4){
+         res = turno.getNumTerritoriosJ4();
+      }
+      return res;
+   }
+
+   public void saveUserEstadoFalse(User user) {
+      user.setEstado(false);
+      userService.save(user);
+   }
+
+   public void saveTableroEnEspera(Tablero tablero) {
+      tablero.setPartidaEnEspera(true);
+      tableroService.saveTablero(tablero);
+   }
+
+   public Integer getNumTablerosEnEsperaDado(List<Tablero> tableros) {
+      Integer contador=0;
+      for(Tablero t: tableros){
+         if(t.getUser().getEstado()!=null && t.getUser().getEstado()==false){
+            contador++;
+         }
+      }
+      return contador;
+   }
+
+   public Boolean getPartidaEnEspera(List<Tablero> tableros) {
+      for(Tablero t: tableros){
+         if(t.getPartidaEnEspera()){
+            return true;
+         }
+      }
+      return false;
+   }
+
+   public User getUserById(Principal principal) {
+      return userService.getUserById(principal.getName());
+   }
+
+   public List<Accion> getAccionesByTablero(Integer idTablero) {
+      return accionService.getAccionesByTablero(idTablero);
+   }
+
+   public Integer getUltimoJugadorActivo(List<Tablero> tableros, Turno turno) {
+      Integer res=tableros.size();
+      Integer x=0;
+      Integer sum=0;
+      for(Integer i=0; i<tableros.size();i++){
+         if(i!=tableros.size()-1){
+            x=i+1;
+         } else{
+            x=0;
+         }
+         sum = tableros.get(i).getUsos0()+ tableros.get(i).getUsos1()+ tableros.get(i).getUsos2() +
+         tableros.get(i).getUsos3()+ tableros.get(i).getUsos4()+ tableros.get(i).getUsos5() - (
+         tableros.get(x).getUsos0()+ tableros.get(x).getUsos1()+ tableros.get(x).getUsos2() +
+         tableros.get(x).getUsos3()+ tableros.get(x).getUsos4()+ tableros.get(x).getUsos5()); //usos jugador i - el siguiente
+         if(sum<0){
+            res=x;
+         }
+      }
+      if(res==tableros.size()){
+         res=0;
+      }
+      return res;
+   }
+
+   public void saveJugadorActivo(Principal principal) {
+      User user = userService.getUserById(principal.getName());
+      user.setEstado(true);
+      userService.save(user);
+   }
+
+   public Turno getUltimoTurno(Partida partida) {
+      List<Turno> turnos= turnoService.getTurnosByPartida(partida.getId());
+      return turnos.get(turnos.size()-1);
+  }
 
 }

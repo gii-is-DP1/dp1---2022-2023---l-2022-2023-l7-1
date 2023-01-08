@@ -402,7 +402,6 @@ public class PartidaController {
         BeanUtils.copyProperties(accion, accionToBeUpdated, "id","tablero","turno");
         accionService.save(accionToBeUpdated);
         Tablero tablero = partidaService.getPartidaById(idPartida).getTableros().get(0);
-        turno.setPartida(partidaService.getPartidaById(idPartida));
 
         //Controlamos si hemos dibujado una casilla de poder y dependiendo del poder actuamos de una manera u otra
         partidaService.actualizarPoderes(accion, tablero, idPartida);

@@ -1,10 +1,10 @@
 package org.springframework.samples.petclinic.Invitacion;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.trace.http.HttpTrace.Principal;
 import org.springframework.samples.petclinic.partida.PartidaService;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
@@ -81,8 +81,9 @@ public class InvitationController {
     //------------------------------------------------------------------------
    
 	@Transactional
-    @GetMapping(value = "/{username}/lobby")
-	public ModelAndView showFriendsForLobby(@PathVariable("username") String username) {
+    @GetMapping(value = "/lobby")
+	public ModelAndView showFriendsForLobby(Principal principal) {
+        String username = principal.getName();
 		List<User> friends = invitationService.getAmigosDisponiblesParaJugar(username);
 		ModelAndView mav = new ModelAndView(VIEW_USER_FRIENDS);
 		mav.addObject("friendsToPlay", friends);
@@ -92,8 +93,9 @@ public class InvitationController {
     
 
     @Transactional
-    @GetMapping("/invitationsGame/{username}")
-	public String getInvitationsToGame(@PathVariable("username") String username, Model model) {
+    @GetMapping("/invitationsGame")
+	public String getInvitationsToGame( Model model, Principal principal) {
+        String username = principal.getName();
 		List<InvitationGame> invitations = invitationService.getInvitationsGameOf(username);
 		model.addAttribute("invitationToPlay", invitations);
         model.addAttribute("username", username);
@@ -102,36 +104,51 @@ public class InvitationController {
 	}
 
     @Transactional
-    @GetMapping(value = "/invitateToPlay/{anfitrion}/{posibleJugador}")
-	public String invitateUserToPlay(@PathVariable("anfitrion") String anfitrion, @PathVariable("posibleJugador") String posibleJugador ) {
+    @GetMapping(value = "/invitateToPlay/{posibleJugador}")
+	public String invitateUserToPlay( @PathVariable("posibleJugador") String posibleJugador, Principal principal ) {
+        String anfitrion = principal.getName();
 		invitationService.sendInvitationToGame(anfitrion, posibleJugador);	
-		return "redirect:/"+anfitrion+"/lobby";
+		return "redirect:/lobby";
 	}
 
     @Transactional
-    @GetMapping(value = "/invitationToGameAccepted/{posibleJugador}/{id}")
-	public String acceptInvitationToGame(@PathVariable("posibleJugador") String posibleJugador, @PathVariable Integer id ) {
+    @GetMapping(value = "/invitationToGameAccepted/{id}")
+	public String acceptInvitationToGame(@PathVariable Integer id,  Principal principal) {
+        String posibleJugador = principal.getName();
 		invitationService.acceptInvitationGame(posibleJugador, id);
-        User Jugador = userService.getUserById(posibleJugador);
-        String anfitrion = Jugador.getAnfitrionDelJugador().get(0).getUsername();
-		return "redirect:/"+anfitrion+"/salaDeEspera";
+		return "redirect:/salaDeEsperaJugadores";
 	}
 
     @Transactional
-	@GetMapping(value = "/invitationToGameCancelled/{posibleJugador}/{id}")
-    public String cancelInvitationToGame(@PathVariable("posibleJugador") String posibleJugador, @PathVariable("id") Integer id){
+	@GetMapping(value = "/invitationToGameCancelled/{id}")
+    public String cancelInvitationToGame(@PathVariable("id") Integer id){
         invitationService.deleteInvitationGame(id);        
         return "redirect:/";
     }
 
     @Transactional
-    @GetMapping(value = "{username}/salaDeEspera")
-    public ModelAndView showSalaDeEspera(@PathVariable("username") String username){
+    @GetMapping(value = "/salaDeEspera")
+    public ModelAndView showSalaDeEspera(Principal principal){
         ModelAndView mav = new ModelAndView("partidas/salaDeEspera");
+        String username = principal.getName();
         User anfitrion = userService.getUserById(username);
+        invitationService.checkAnfitrionEnJugadoresAceptados(anfitrion);
         mav.addObject("jugadoresAceptados", anfitrion.getJugadoresAceptados());
-        mav.addObject("username");
+        mav.addObject("username", username);
         return mav;
     }
+
+    @Transactional
+    @GetMapping(value = "/salaDeEsperaJugadores")
+    public ModelAndView showSalaDeEsperaJugadores(Principal principal){
+        ModelAndView mav = new ModelAndView("partidas/esperaDeJugadores");
+        String username = principal.getName();
+        User anfitrion = userService.getUserById(username);
+        invitationService.checkAnfitrionEnJugadoresAceptados(anfitrion);
+        mav.addObject("jugadoresAceptados", anfitrion.getJugadoresAceptados());
+        mav.addObject("username", username);
+        return mav;
+    }
+
 
 }

@@ -22,8 +22,8 @@
                     <c:out value="${invitationGame.anfitrion.username}"/>
                 </td> 
                 <td style="text-align:right">
-                    <a class="btn btn-default" href="/invitationToGameAccepted/${invitationGame.posibleJugador.username}/${invitationGame.id}">Unirme a partida</a>
-                    <a class="btn btn-default" href="/invitationToGameCancelled/${invitationGame.posibleJugador.username}/${invitationGame.id}">Cancelar invitación</a>
+                    <a class="btn btn-default" href="/invitationToGameAccepted/${invitationGame.id}">Unirme a partida</a>
+                    <a class="btn btn-default" href="/invitationToGameCancelled/${invitationGame.id}">Cancelar invitación</a>
                 </td> 
             </tr>
         </c:forEach>

@@ -91,13 +91,20 @@ public class InvitationService {
 		return invitationGameRepository.findById(id).get();	
 	}
 
+	public void checkAnfitrionEnJugadoresAceptados(User anfitrion){
+		if(anfitrion.getJugadoresAceptados().isEmpty()){
+			anfitrion.getJugadoresAceptados().add(anfitrion);
+		}
+		else if(!anfitrion.getJugadoresAceptados().contains(anfitrion)){
+			anfitrion.getJugadoresAceptados().set(0,anfitrion);
+		}
+	}
+
 	@Transactional
 	public void acceptInvitationGame(String username, Integer invitation_id) {
 		InvitationGame invitationG = invitationGameRepository.findById(invitation_id).get();
 		User anfitrion = invitationG.getAnfitrion();
-		if(!anfitrion.getJugadoresAceptados().contains(anfitrion)){
-			anfitrion.getJugadoresAceptados().add(anfitrion);
-		}
+		checkAnfitrionEnJugadoresAceptados(anfitrion);
 		if(invitationG != null && invitationG.getPosibleJugador().getUsername().equals(username)) {
 			invitationG.aceptGame();
 			invitationGameRepository.deleteById(invitation_id);

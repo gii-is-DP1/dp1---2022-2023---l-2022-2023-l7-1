@@ -22,7 +22,7 @@
                     <c:out value="${friend.username}"/>
                 </td>
                 <td style="text-align:center;"> 
-                    <a href="/invitateToPlay/${username}/${friend.username}"> 
+                    <a href="/invitateToPlay/${friend.username}"> 
                         <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>                            
                     </a>       
                 </td>
@@ -31,7 +31,7 @@
         </tbody>
     </table>
     <div class="col align-self-center">
-        <a class="btn btn-default btn-lg" href="/${username}/salaDeEspera"
+        <a class="btn btn-default btn-lg" href="/salaDeEspera"
             style="margin-top:11%; margin-bottom:10%; margin-left:22%; margin-right:22%; display:block;"><b>Confirmar invitación</b></a>
     </div>
 

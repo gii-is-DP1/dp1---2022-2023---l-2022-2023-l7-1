@@ -297,7 +297,7 @@ public class PartidaMultijugadorController {
 
     @Transactional  
     @GetMapping(value = "/partida/Multijugador/dibujar/{idPartida}/{idTurno}/{idAccion}/{primeraAccion}")
-    public ModelAndView dibujar(Accion accion, @PathVariable("idPartida") Integer idPartida, @PathVariable("idTurno") Integer idTurno,
+    public ModelAndView dibujar(@Valid Accion accion, @PathVariable("idPartida") Integer idPartida, @PathVariable("idTurno") Integer idTurno,
                                  @PathVariable("idAccion") Integer idAccion, @PathVariable("primeraAccion") Integer primeraAccion, Principal principal){
         ModelAndView res = new ModelAndView();     
         Integer idTablero = partidaService.getTableroActiveByUser(principal).getId();
@@ -343,7 +343,7 @@ public class PartidaMultijugadorController {
 
     @Transactional
     @PostMapping(value = "/partida/Multijugador/dibujar/{idPartida}/{idTurno}/{idAccion}/{primeraAccion}")
-    public ModelAndView dibujarPost(Turno turnoPost, Accion accion, @PathVariable("idPartida") Integer idPartida, Principal principal,
+    public ModelAndView dibujarPost(@Valid Turno turnoPost, @Valid Accion accion, @PathVariable("idPartida") Integer idPartida, Principal principal,
                             @PathVariable("idTurno") Integer idTurno, @PathVariable("idAccion") Integer idAccion,
                             @PathVariable("primeraAccion") Integer primeraAccion, Map<String, Object> model){
 

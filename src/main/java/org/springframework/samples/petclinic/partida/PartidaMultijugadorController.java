@@ -12,10 +12,8 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.accion.Accion;
-import org.springframework.samples.petclinic.accion.AccionService;
 import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.samples.petclinic.turnos.Turno;
-import org.springframework.samples.petclinic.turnos.TurnoService;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.util.Territorio;
 import org.springframework.stereotype.Controller;
@@ -40,14 +38,10 @@ public class PartidaMultijugadorController {
     
     private static final List<Integer> dadosFijos = new ArrayList<>();
     private PartidaService partidaService;
-    private TurnoService turnoService;
-    private AccionService accionService;
     
     @Autowired
-    public PartidaMultijugadorController(PartidaService service,TurnoService turnoService, AccionService accionService) {
+    public PartidaMultijugadorController(PartidaService service) {
         this.partidaService=service;
-        this.turnoService = turnoService;
-        this.accionService = accionService;
     }
 
     @Transactional
@@ -375,8 +369,8 @@ public class PartidaMultijugadorController {
         Integer porDibujar= partidaService.getAccionesPorDibujar(turno, numJugador);
         if(porDibujar>0){
             Accion ac = new Accion();
-            accionService.save(ac); 
-            turnoService.saveTurno(turno);
+            partidaService.saveAccion(ac); 
+            partidaService.saveTurno(turno);
             partidaService.saveTablero(tablero);
             model.put("action", ac);
             res.setViewName("redirect:/partida/Multijugador/dibujar/"+idPartida+"/"+idTurno+"/"+ac.getId()+"/"+0);
@@ -387,7 +381,7 @@ public class PartidaMultijugadorController {
                 dadosFijos.clear();
                 Turno t = new Turno();
                 t.setPartida(partidaService.getPartidaById(idPartida));
-                turnoService.saveTurno(turno);
+                partidaService.saveTurno(turno);
                 model.put("turno", t);
                 res.setViewName("redirect:/partida/Multijugador/espera/eligeTerritorio/"+ t.getId());      
                 return res; 

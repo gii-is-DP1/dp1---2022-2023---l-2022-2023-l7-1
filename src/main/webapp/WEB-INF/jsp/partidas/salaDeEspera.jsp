@@ -28,7 +28,7 @@
     </tbody>
 </table>
 <div class="col align-self-center">
-    <a class="btn btn-default btn-lg" href="../espera/dado"
+    <a class="btn btn-default btn-lg" href="../partida/crearPartidaMultijugador"
         style="margin-top:11%; margin-bottom:5%; margin-left:22%; margin-right:22%; display:block;"><b>COMENZAR PARTIDA</b></a>
 </div>
 </petclinic:layout>

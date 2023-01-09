@@ -34,7 +34,7 @@
             style="margin-top:5%; margin-bottom:1%; margin-left:5%; margin-right:5%; display:block;">MODO MULTIJUGADOR</a>
 	            <div id="Invitation" style="display: none;" class="modal-content">
                     <form name="Invitation" >
-                        <spring:url value="/${username}/lobby" htmlEscape="true" var="invite">
+                        <spring:url value="/lobby" htmlEscape="true" var="invite">
                         </spring:url>
                         <div class="col-sm-offset-2 col-sm-10">
                             <a class="btn btn-default" href="${invite}">INVITAR</a>

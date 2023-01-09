@@ -10,7 +10,7 @@
         <meta http-equiv="refresh" content="3"> 
     </head>
 
-    <h1 style="text-align: center;"><em><b>LISTADO DE JUGADORES EN ESPERA</b></em></h1>
+    <h1 style="text-align: center;"><em><b><u>LISTADO DE JUGADORES EN ESPERA</u></b></em></h1>
 <table id="usersTable" class="table table-striped">
     <thead>
     <tr>
@@ -27,8 +27,7 @@
             </c:forEach>
     </tbody>
 </table>
-<div class="col align-self-center">
-    <a class="btn btn-default btn-lg" href="../espera/dado"
-        style="margin-top:11%; margin-bottom:5%; margin-left:22%; margin-right:22%; display:block;"><b>COMENZAR PARTIDA</b></a>
-</div>
+<h2 style="text-align: center;"><b>Esperando al anfitrion</b></h2>
+<h2 style="text-align: center;"><b>La partida comenzará en breve...</b></h2>
+
 </petclinic:layout>

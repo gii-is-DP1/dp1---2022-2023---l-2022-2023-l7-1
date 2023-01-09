@@ -343,10 +343,9 @@ public class PartidaMultijugadorController {
 
     @Transactional
     @PostMapping(value = "/partida/Multijugador/dibujar/{idPartida}/{idTurno}/{idAccion}/{primeraAccion}")
-    public ModelAndView dibujarPost(Turno turnoPost,Accion accion, @PathVariable("idPartida") Integer idPartida, Principal principal,
+    public ModelAndView dibujarPost(Turno turnoPost, Accion accion, @PathVariable("idPartida") Integer idPartida, Principal principal,
                             @PathVariable("idTurno") Integer idTurno, @PathVariable("idAccion") Integer idAccion,
                             @PathVariable("primeraAccion") Integer primeraAccion, Map<String, Object> model){
-
         ModelAndView res = new ModelAndView();
         if(principal != null){
             res.addObject("username", principal.getName());
@@ -364,14 +363,11 @@ public class PartidaMultijugadorController {
         List<Tablero> tableros = partidaService.getTablerosByPartidaId(idPartida);
         Integer numJugador= partidaService.getNumJugador(tablero,tableros);
         partidaService.actualizarUso1(turnoPost, turno, tablero, numJugador,accionToBeUpdated);  
-
         //Si quedan territorios por dibujar nos dirige al Get de dibujar, en caso contrario nos lleva a elegirTerritorio
         Integer porDibujar= partidaService.getAccionesPorDibujar(turno, numJugador);
         if(porDibujar>0){
             Accion ac = new Accion();
-            partidaService.saveAccion(ac); 
-            partidaService.saveTurno(turno);
-            partidaService.saveTablero(tablero);
+            partidaService.saveTableroTurnoAccion(tablero,turno,ac);
             model.put("action", ac);
             res.setViewName("redirect:/partida/Multijugador/dibujar/"+idPartida+"/"+idTurno+"/"+ac.getId()+"/"+0);
             return res;
@@ -381,7 +377,7 @@ public class PartidaMultijugadorController {
                 dadosFijos.clear();
                 Turno t = new Turno();
                 t.setPartida(partidaService.getPartidaById(idPartida));
-                partidaService.saveTurno(turno);
+                partidaService.saveTurno(t);
                 model.put("turno", t);
                 res.setViewName("redirect:/partida/Multijugador/espera/eligeTerritorio/"+ t.getId());      
                 return res; 

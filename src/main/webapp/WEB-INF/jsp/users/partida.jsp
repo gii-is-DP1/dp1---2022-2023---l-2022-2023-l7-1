@@ -3,18 +3,19 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 
 <petclinic:layout pageName="games">
-    <h1><em><b><u>Games</u></b></em></h1>
+    <h1><em><b><u>Juegos</u></b></em></h1>
 
     <table id="usersTable" class="table table-striped">
         <thead>
         <tr>
-            <th style="text-align:center">Identification</th>
-            <th style="text-align:center">Game in process</th>
-            <th style="text-align:center">Points</th>
-            <th style="text-align:center">User name</th>
-            <th style="text-align:center">Game Creator</th>
+            <th style="text-align:center">Identificación</th>
+            <th style="text-align:center">Juego en proceso</th>
+            <th style="text-align:center">Puntos</th>
+            <th style="text-align:center">Nombre de usuario</th>
+            <th style="text-align:center">Creador del juego</th>
         </tr>
         </thead>
         <tbody>

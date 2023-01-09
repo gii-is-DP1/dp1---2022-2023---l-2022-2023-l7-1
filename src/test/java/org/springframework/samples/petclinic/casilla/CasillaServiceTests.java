@@ -19,8 +19,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+
 import java.util.ArrayList;
 import java.util.Collection;
+
+
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -32,8 +35,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.accion.Accion;
 import org.springframework.samples.petclinic.accion.AccionService;
 import org.springframework.samples.petclinic.user.User;
+
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Integration test of the Service and the Repository layer.
@@ -99,5 +102,6 @@ class CasillaServiceTests {
     void negativeFindById(){
         assertThrows(NoSuchElementException.class, () -> this.casillaService.getCasillaById(62));
     }
+
 
 }

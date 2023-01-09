@@ -22,7 +22,11 @@
 
                 <div class="col align-self-center">
                     <a class="btn btn-default btn-lg" href="/partida/crearPartida"
-                        style="margin-top:11%; margin-bottom:10%; margin-left:22%; margin-right:22%; display:block;"><b>NEW GAME</b></a>
+                        style="margin-top:11%; margin-bottom:5%; margin-left:22%; margin-right:22%; display:block;"><b>NUEVA PARTIDA</b></a>
+                </div>
+                <div class="col align-self-center">
+                    <a class="btn btn-default btn-lg" href="/invitationsGame/${username}"
+                        style="margin-top:5%; margin-bottom:10%; margin-left:22%; margin-right:22%; display:block;"><b>INVITACIONES A PARTIDA</b></a>
                 </div>
                  
             </div>

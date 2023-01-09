@@ -33,4 +33,5 @@ public interface UserRepository extends  CrudRepository<User, String>{
     @Query("SELECT user FROM User user")
     Page<User> getAll(Pageable pageable);
 	
+    
 }

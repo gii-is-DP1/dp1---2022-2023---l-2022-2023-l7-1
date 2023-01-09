@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.partida;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.samples.petclinic.Invitacion.InvitationGame;
 import org.springframework.samples.petclinic.accion.Accion;
 import org.springframework.samples.petclinic.accion.AccionService;
 import org.springframework.samples.petclinic.tablero.Tablero;
@@ -68,6 +70,39 @@ public class PartidaController {
 	}
 
     //-------------------------------------------------------------------------
+    // Ver Partida Amigo ------------------------------------------------------
+    //-------------------------------------------------------------------------
+    @Transactional
+    @GetMapping("/partidas/partidaEnCurso/{username}")
+	public ModelAndView VerPartidaAmigo(Principal principal, @PathVariable("username") String username ){
+        ModelAndView result = new ModelAndView();
+        if(userService.getFriends(principal.getName()).contains(userService.getUserById(username))){
+            Tablero tablero = tableroService.getTableroActiveByUser(userService.getUserById(username));
+            if(tablero==null){
+                List<Tablero> tableros = tableroService.getTablerosByUser(userService.getUserById(username));
+                if(!tableros.isEmpty()){
+                    result.setViewName("redirect:/partida/resultados/"+tableros.get(tableros.size()-1).getId()); //resultado ultima partida
+                } else{
+                    result.setViewName("redirect:/");
+                }
+            } else{
+                Partida partida = tablero.getPartida();
+                List<Integer> criterios = List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2);  
+                List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId());
+                List<Integer> usos = List.of(tablero.getUsos0(),tablero.getUsos1(),tablero.getUsos2(),tablero.getUsos3(),tablero.getUsos4(),tablero.getUsos5());  
+                result.setViewName("partidas/esperaTerritorio");
+                result.addObject("acciones", acciones);
+                result.addObject("poder1", tablero.getPoder1());
+                result.addObject("usos", usos);
+                result.addObject("criterios", criterios);
+            }
+        } else{
+            result.setViewName("redirect:/");
+        }
+		return result;
+	}
+
+    //-------------------------------------------------------------------------
     // PartidaAsociadaJugador -------------------------------------------------
     //-------------------------------------------------------------------------
     @Transactional
@@ -109,7 +144,7 @@ public class PartidaController {
 	@GetMapping(value = "/partida/continuarPartida")
 	public String continuarPartida(Principal principal){
         User usuario = userService.getUserById(principal.getName());
-        Tablero tablero = tableroService.getTableroByUser(usuario);
+        Tablero tablero = tableroService.getTableroActiveByUser(usuario);
         List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId());
         List<Turno> turnos = turnoService.getTurnosByPartida(tablero.getPartida().getId());
         Turno turno = turnos.get(turnos.size()-1);
@@ -140,11 +175,22 @@ public class PartidaController {
 	@GetMapping(value = "/partida/cancelarPartida")
 	public String cancelarPartida(Principal principal){
         User usuario = userService.getUserById(principal.getName());
-        Tablero tablero = tableroService.getTableroByUser(usuario);
+        userService.save(usuario);
+        Tablero tablero = tableroService.getTableroActiveByUser(usuario);
         Partida partida = partidaService.getPartidaById(tablero.getPartida().getId());
-        List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId());
+        List<Tablero> tableros = tableroService.getTablerosByPartida(partida);
+        List<Accion> acciones = new ArrayList<>();
         List<Turno> turnos = turnoService.getTurnosByPartida(partida.getId());
-        tableroService.delete(tablero);
+        for(Tablero t: tableros){
+            usuario =t.getUser();
+            usuario.setJugadoresAceptados(new ArrayList<>());
+            usuario.setReceivedInvitationsToGame(new HashSet<InvitationGame>());
+            usuario.setAnfitrionDelJugador(new ArrayList<>());
+            usuario.setSendedInvitationsToGame(new HashSet<InvitationGame>());
+            userService.save(usuario);
+            acciones.addAll(accionService.getAccionesByTablero(t.getId()));
+            tableroService.delete(t);
+        }
         for(Accion a: acciones){
             accionService.delete(a);
         }
@@ -182,13 +228,11 @@ public class PartidaController {
     //-------------------------------------------------------------------------
 
     @Transactional
+    @SuppressWarnings("unchecked") // para que no salga aviso en el cast
     @GetMapping(value = "/partida/eligeTerritorio/{idPartida}/{idTurno}/{numTiradas}")
     public ModelAndView eligeTerritorio(Principal principal, @PathVariable("idPartida") Integer idPartida, 
-                                        @PathVariable("idTurno") Integer idTurno, @PathVariable("numTiradas") Integer numTiradas,
-                                        HttpSession session) {
-        ModelAndView res = new ModelAndView(VIEW_ELIGE_TERRITORIO);
-        
-        
+                                        @PathVariable("idTurno") Integer idTurno, @PathVariable("numTiradas") Integer numTiradas, HttpSession session) {
+        ModelAndView res = new ModelAndView(VIEW_ELIGE_TERRITORIO);    
         Turno turno = turnoService.getTurnoById(idTurno);
         Partida partida = partidaService.getPartidaById(idPartida);
         List<Integer> criterios = List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2);
@@ -196,21 +240,26 @@ public class PartidaController {
         List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId());
         List<Integer> usos = List.of(tablero.getUsos0(),tablero.getUsos1(),tablero.getUsos2(),tablero.getUsos3(),tablero.getUsos4(),tablero.getUsos5());                                            
         Boolean eligeTerritorio;
-
-        if(numTiradas == 2) {
-            turno.setPartida(partida);
+        List<Integer> dadosx = new ArrayList<>();
+        if(!(session.getAttribute("dados")==null)){
+            dadosx = (List<Integer>) session.getAttribute("dados");
+        } 
+        if(dadosx.isEmpty()) {
             int[] dados = lanzamiento(numTiradas);
-            session.setAttribute("dados", dados);
-            res.addObject("dados", dados);
+            for(int dado: dados) {
+                dadosx.add(dado);
+            }
+        }
+        if(numTiradas == 2) {
             eligeTerritorio = false;
             
         } else {
-            turno.setPartida(partida);
             res.addObject("territorios", listaTerritorios);
-            res.addObject("dados", lanzamiento(numTiradas));
             eligeTerritorio = true;
         }
-
+        turno.setPartida(partida);
+        res.addObject("dados", dadosx);
+        session.setAttribute("dados", dadosx);
         turnoService.saveTurno(turno);
         res.addObject("eligeTerritorio", eligeTerritorio);
         res.addObject("poder1", tablero.getPoder1());
@@ -226,10 +275,11 @@ public class PartidaController {
     }
 
     @Transactional
+    @SuppressWarnings("unchecked") // para que no salga aviso en el cast
     @PostMapping(value = "/partida/eligeTerritorio/{idPartida}/{idTurno}/{numTiradas}")
     public ModelAndView eligeTerritorioPost(@Valid Turno turno, BindingResult result, Principal principal, Map<String, Object> model,
                                         @PathVariable("idPartida") Integer idPartida, @PathVariable("idTurno") Integer idTurno, 
-                                        @PathVariable("numTiradas") Integer numTiradas, HttpSession session) {
+                                        @PathVariable("numTiradas") Integer numTiradas, HttpSession session ) {
         ModelAndView res = new ModelAndView();
         if (result.hasErrors()) {
             if(principal != null){
@@ -241,23 +291,25 @@ public class PartidaController {
             //Actualiza las propiedades del turno para numTiradas == 3
             Turno turnoToBeUpdated = turnoService.getTurnoById(idTurno);
             BeanUtils.copyProperties(turno, turnoToBeUpdated, "id","numTerritoriosJ2","numTerritoriosJ3","numTerritoriosJ4");
-
+            List<Integer> dadosx = new ArrayList<>(); 
             //Actualiza las propiedades del turno para numTiradas == 2
-            if (numTiradas == 2) {
-                int[] dados = (int[]) session.getAttribute("dados");
-                Integer territorio = dados[0]-1;
+            if (numTiradas == 2) {  
+                dadosx = (List<Integer>) session.getAttribute("dados");
+                Integer territorio = dadosx.get(0)-1;
 
-                if(dados[0] == turno.getNumTerritoriosJ1()){
-                    territorio = dados[1]-1;
+                if(dadosx.get(0) == turno.getNumTerritoriosJ1()){
+                    territorio = dadosx.get(1)-1;
                 }
                 turnoToBeUpdated.setTerritorio(listaTerritorios.get(territorio));
                 model.put("turno", turnoToBeUpdated);
             }
-
+            Tablero tablero = partidaService.getPartidaById(idPartida).getTableros().get(0);
+            dadosx.clear();
+            session.setAttribute("dados", dadosx);
             //Acaba la partida dependiendo de los usos de los territorios
-            Integer control = partidaService.actualizarUso(idPartida, turnoToBeUpdated, listaTerritorios);
+            Integer control = partidaService.actualizarUso(idPartida, turnoToBeUpdated, listaTerritorios, tablero);
             if(control <0){
-                res.setViewName("redirect:/partida/resultados/"+idPartida);
+                res.setViewName("redirect:/partida/resultados/"+tablero.getId());
                 return res;
             }
 
@@ -303,7 +355,7 @@ public class PartidaController {
         
         //Controla si acaba la partida
         if(casillas.isEmpty()){
-            res.setViewName("redirect:/partida/resultados/"+idPartida);
+            res.setViewName("redirect:/partida/resultados/"+idTablero);
             return res;
         }
         
@@ -350,38 +402,13 @@ public class PartidaController {
         BeanUtils.copyProperties(accion, accionToBeUpdated, "id","tablero","turno");
         accionService.save(accionToBeUpdated);
         Tablero tablero = partidaService.getPartidaById(idPartida).getTableros().get(0);
-        turno.setPartida(partidaService.getPartidaById(idPartida));
-
-        //Esta parte actualiza el numero de territorios a dibujar y la cantidad de poderes que te quedan en el tablero PODER1
-        if(turnoPost.getNumTerritoriosJ1() == null|| turnoPost.getNumTerritoriosJ1() == 0){
-            turno.setNumTerritoriosJ1(turno.getNumTerritoriosJ1()-1);
-            
-        }else if(turnoPost.getNumTerritoriosJ1() == -1){
-            turno.setNumTerritoriosJ1(turno.getNumTerritoriosJ1()-2);
-            tablero.setPoder1(tablero.getPoder1()-1);
-        }else if(turnoPost.getNumTerritoriosJ1() == 1){
-            tablero.setPoder1(tablero.getPoder1()-1);
-        }
-
 
         //Controlamos si hemos dibujado una casilla de poder y dependiendo del poder actuamos de una manera u otra
-        if(accion.getCasilla().getPoder1()) {
-            tablero.setPoder1(tablero.getPoder1()+1);
-            tableroService.saveTablero(tablero);
-        }
-
-        if(accion.getCasilla().getPoder2()){
-            Partida partida = partidaService.getPartidaById(idPartida);
-
-            List<Turno> turnos = turnoService.getTurnosByPartida(idPartida);
-
-            List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId()).stream().filter(x-> x.getCasilla() != null).collect(Collectors.toList());
-            Integer puntosPoder2 = partidaService.calcularPoder2(acciones, turnos, partida);
-            tablero.setPoder2(puntosPoder2);
-            tableroService.saveTablero(tablero);
-        }
-
+        partidaService.actualizarPoderes(accion, tablero, idPartida);
+        //Esta parte actualiza el numero de territorios a dibujar y la cantidad de poderes que te quedan en el tablero PODER1
+        partidaService.actualizarUso1(turnoPost, turno, tablero, 1,accionToBeUpdated);  
         //Si quedan territorios por dibujar nos dirige al Get de dibujar, en caso contrario nos lleva a elegirTerritorio
+       
         if(turno.getNumTerritoriosJ1()>0){
             
             Accion ac = new Accion();
@@ -409,16 +436,16 @@ public class PartidaController {
     }
 
     //Nos lleva a la vista tras acabar la partida y guarda todas las propiedades necesarias
-    @GetMapping(value = "/partida/resultados/{idPartida}")
-	public ModelAndView resultados(@PathVariable("idPartida") Integer idPartida){
+    @GetMapping(value = "/partida/resultados/{idTablero}")
+	public ModelAndView resultados(@PathVariable("idTablero") Integer idTablero){
         ModelAndView res = new ModelAndView("partidas/resultados");
-		Tablero tablero = partidaService.getPartidaById(idPartida).getTableros().get(0);
+		Tablero tablero = tableroService.getTableroById(idTablero);
         tablero.setPartidaEnCurso(false);
         tableroService.saveTablero(tablero);
 
-        Partida partida = partidaService.getPartidaById(idPartida);
+        Partida partida = tablero.getPartida();
 
-        List<Turno> turnos = turnoService.getTurnosByPartida(idPartida);
+        List<Turno> turnos = turnoService.getTurnosByPartida(partida.getId());
 
         List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId()).stream().filter(x-> x.getCasilla() != null).collect(Collectors.toList());
 

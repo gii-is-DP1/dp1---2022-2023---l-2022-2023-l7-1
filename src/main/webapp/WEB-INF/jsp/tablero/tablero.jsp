@@ -7,7 +7,6 @@
 
 
 <petclinic:layout pageName="CREAR PARTIDA">
-
     <body>
         <h2><c:out value="${now}"/></h2>
         
@@ -16,9 +15,6 @@
                 <petclinic:territorio accion="${accion}"/>
             </c:forEach>    
         </petclinic:mapa>
-
-        
-        
     </body>
 </petclinic:layout>
 

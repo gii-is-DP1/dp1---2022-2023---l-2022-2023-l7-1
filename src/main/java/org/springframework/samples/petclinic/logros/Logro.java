@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.logros;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.samples.petclinic.model.BaseEntity;
@@ -16,13 +17,15 @@ import lombok.Setter;
 @Entity
 @Table(name = "logros")
 public class Logro extends BaseEntity{
-    @NotNull
+
+    
+    @NotEmpty
     private String titulo;
 
-    @NotNull
+    @NotEmpty
     private String descripcion;
 
-    @NotNull
+    @NotEmpty
     private String logo;
 
     @NotNull

@@ -46,23 +46,28 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/users/all").hasAnyAuthority("admin")
 				// Permisos de stats
 				.antMatchers("/stats").hasAnyAuthority("admin")
-				.antMatchers("/stats/{username}").authenticated()
+				.antMatchers("/stat").authenticated()
 				// Permisos de logros
+				.antMatchers("/logrosUsuario").authenticated()
 				.antMatchers("/logros/**").hasAnyAuthority("admin")
-				.antMatchers("/logros/{username}").authenticated()
 				// Permisos de partidas
 				.antMatchers("/partida/**").authenticated()
 				.antMatchers("/partidas").authenticated()
 				.antMatchers("/partidas/{username}").authenticated()
+				.antMatchers("/partidas/partidaEnCurso/{username}").authenticated()
 				// Permisos de amigos
 				.antMatchers("/friends/{username}").authenticated()
 				.antMatchers("/friends/{username}/**").authenticated()
 				// Permisos de invitacion
 				.antMatchers("/invitations/{username}").authenticated()
+				.antMatchers("/invitationsGame/{username}").authenticated()
 				.antMatchers("/invite/{username}").authenticated()
 				.antMatchers("/invitate/**").authenticated()
+				.antMatchers("/invitateToPlay/**").authenticated()
 				.antMatchers("/invitationAccepted/**").authenticated()
+				.antMatchers("/invitationToGameAccepted/**").authenticated()
 				.antMatchers("/invitationCancelled/**").authenticated()
+				.antMatchers("/invitationToGameCancelled/**").authenticated()
 				// Permisos de las reglas
 				.antMatchers("/rules").permitAll()
 
@@ -71,6 +76,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 				.antMatchers("/{username}/crearPartida").hasAnyAuthority("admin", "player")
 				.antMatchers("/{username}/lobby").hasAnyAuthority("admin", "player")
+				.antMatchers("/{username}/salaDeEspera").hasAnyAuthority("admin", "player")
 				.antMatchers("/prueba/**").hasAnyAuthority("admin", "player")
 
 				

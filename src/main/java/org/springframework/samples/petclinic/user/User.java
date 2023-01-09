@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.user;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
@@ -13,7 +14,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Digits;
@@ -27,6 +27,7 @@ import org.hibernate.envers.NotAudited;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.Invitacion.Invitation;
+import org.springframework.samples.petclinic.Invitacion.InvitationGame;
 import org.springframework.samples.petclinic.logros.Logro;
 
 import lombok.Getter;
@@ -76,48 +77,77 @@ public class User{
     @NotAudited
 	private Set<Authorities> authorities;
 
-    @Column(name = "games_played")
+    //************************************************//
+    //ESTADÍSTICAS 
+    //************************************************//
     @Value("0")
     @NotAudited
+    @Transient
     Integer matchesPlayed;
 
-    @Column(name = "games_win")
     @Value("0")
     @NotAudited
+    @Transient
     Integer gamesWin;
 
+    @Value("0")
     @Transient
-    @Digits(fraction = 2, integer = 4)
     @NotAudited
-    Double winRatio;
+    Integer winRatio;
 
-    @Column(name = "total_points")
     @Value("0")
     @NotAudited
+    @Transient
     Integer totalPoints;
 
-    @Column(name = "max_points")
     @Value("0")
     @NotAudited
+    @Transient
     Integer maxPoints;
 
-    @Column(name = "times_used_power_question")
     @Value("0")
+    @Transient
     @NotAudited
-    Integer timesUsedPowerQuestion;
+    Integer timesUsedTerritory1;
 
-    @Column(name = "times_used_power_one")
+    @Transient
     @Value("0")
     @NotAudited
-    Integer timesUsedPower1;
+    Integer timesUsedTerritory2;
+
+    @Transient
+    @Value("0")
+    @NotAudited
+    Integer timesUsedTerritory3;
+
+    @Transient
+    @Value("0")
+    @NotAudited
+    Integer timesUsedTerritory4;
+
+    @Transient
+    @Value("0")
+    @NotAudited
+    Integer timesUsedTerritory5;
+
+    @Transient
+    @Value("0")
+    @NotAudited
+    Integer timesUsedTerritory6;
+
+    @Transient
+    @Value("0")
+    @NotAudited
+    Integer maxTime;
+
 
     @Column(name = "enabled")
     @NotAudited
     Boolean enabled;
  
     @Transient
-    public Double getWinRatio() {
-        return ((double) gamesWin / ((double) matchesPlayed- (double) gamesWin));
+    public Integer getWinRatio() {
+        return (int)  ((double) gamesWin / (double) matchesPlayed) * 100;
     }
 
     @ManyToMany(cascade = {CascadeType.PERSIST , CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})
@@ -160,5 +190,46 @@ public class User{
     @OneToMany
     @NotAudited
     private List<Logro> logrosUser;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST , CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})
+	@JoinTable(name="jugadoresAceptados",
+			joinColumns= {@JoinColumn(name="jugador_aceptado_id")},
+            inverseJoinColumns = {@JoinColumn(name="anfitrion_id")})
+    @NotAudited
+    private List<User> jugadoresAceptados = new ArrayList<User>();
+
+    @ManyToMany(mappedBy="jugadoresAceptados", cascade = {CascadeType.PERSIST , CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})
+    @NotAudited
+	private List<User> anfitrionDelJugador = new ArrayList<User>();
+
+	@OneToMany(mappedBy = "posibleJugador", cascade = CascadeType.ALL)
+    @NotAudited
+	private Set<InvitationGame> receivedInvitationsToGame = new HashSet<InvitationGame>();
+    
+	@OneToMany(mappedBy = "anfitrion", cascade = CascadeType.ALL)
+    @NotAudited
+	private Set<InvitationGame> sendedInvitationsToGame = new HashSet<InvitationGame>();
+
+    public boolean canInviteToGame(String username) {
+		if(getUsername().equals(username))
+			return false;
+		for(User j : jugadoresAceptados) 
+			if(j.getUsername().equals(username))
+				return false;
+		for(User j : anfitrionDelJugador) 
+			if(j.getUsername().equals(username))
+				return false;
+		for(InvitationGame anfitrion : sendedInvitationsToGame) 
+			if(anfitrion.esDelUsuarioG(username))
+				return false;
+		for(InvitationGame posibleJugador : receivedInvitationsToGame) 
+			if(posibleJugador.esDelUsuarioG(username))
+				return false;
+		return true;
+	}
+
+    @Column(name = "estado")
+    @NotAudited
+    private Boolean estado;
 
 }

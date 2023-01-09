@@ -6,17 +6,17 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <petclinic:layout pageName="usersA">
-    <h1><em><b><u>User Listing</u></b></em></h1>
+    <h1><em><b><u>Listado de usuarios</u></b></em></h1>
 
     <table id="usersTable" class="table table-striped">
         <thead>
         <tr>
-            <th  style="text-align:center">First Name</th>
-            <th  style="text-align:center">LastName</th>
-            <th  style="text-align:center">Brith Date</th>
-            <th  style="text-align:center">Email</th>
-            <th  style="text-align:center">Telephone</th>
-            <th  style="text-align:center">Username</th>
+            <th  style="text-align:center">Nombre</th>
+            <th  style="text-align:center">Apellidos</th>
+            <th  style="text-align:center">Cumpleaños</th>
+            <th  style="text-align:center">Correo</th>
+            <th  style="text-align:center">Teléfono</th>
+            <th  style="text-align:center">Usuasio</th>
         </tr>
         </thead>
         <tbody>

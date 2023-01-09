@@ -73,9 +73,10 @@ class CasillaServiceTests {
 		assertThat(casillasAdyacentes.get(2).getId()).isEqualTo(7);
 	}
 
-	/*@Test ESTE TEST NO DEBERÍA ESTAR AQUÍ. BORRAR
+	@Test //ESTE TEST NO DEBERÍA ESTAR AQUÍ. BORRAR
 	void shouldFindTurno(){
-		Accion ac = this.accionService.getAccionById(1);
-		assertThat(ac.getTurno()).isEqualTo("");
-	}*/
+		// Accion ac = this.accionService.getAccionById(1);
+		// assertThat(ac.getTurno()).isEqualTo("");
+	}
+
 }

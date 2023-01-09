@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.partida;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -446,6 +447,7 @@ public class PartidaService {
 
       User anfitrion = jugadores.get(0);
       anfitrion.setEstado(true);
+      anfitrion.setJugadoresAceptados(new ArrayList<>());
       userService.save(anfitrion);
 
       if(jugadores.size()>1){
@@ -459,6 +461,7 @@ public class PartidaService {
 
          tablero2.setUser(jugadores.get(1));
          User user2 = userService.getUserById(jugadores.get(1).getUsername());
+         user2.setAnfitrionDelJugador(new ArrayList<>());
          user2.setEstado(false);
          userService.save(user2);
          tablero2.setPuntos(0);
@@ -471,6 +474,7 @@ public class PartidaService {
             tablero3.setUser(jugadores.get(2));
             User user3 = userService.getUserById(jugadores.get(2).getUsername());
             user3.setEstado(false);
+            user3.setAnfitrionDelJugador(new ArrayList<>());
             userService.save(user3);
             tablero3.setPuntos(0); 
             tablero3.setPartidaEnCurso(true);
@@ -481,6 +485,7 @@ public class PartidaService {
                tablero4.setUser(jugadores.get(3));
                User user4 = userService.getUserById(jugadores.get(3).getUsername());
                user4.setEstado(false);
+               user4.setAnfitrionDelJugador(new ArrayList<>());
                userService.save(user4);
                tablero4.setPartidaEnCurso(true);
                tablero4.setPartidaCreada(false);
@@ -569,9 +574,10 @@ public class PartidaService {
 
       if(accion.getCasilla().getPoder2()){
          Partida partida = getPartidaById(idPartida);
-
          List<Turno> turnos = turnoService.getTurnosByPartida(idPartida);
-
+         if(turnos.get(turnos.size()-1).getTerritorio()==null){
+            turnos.remove(turnos.size()-1);
+         }
          List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId()).stream().filter(x-> x.getCasilla() != null).collect(Collectors.toList());
          Integer puntosPoder2 = calcularPoder2(acciones, turnos, partida);
          tablero.setPoder2(puntosPoder2);
@@ -758,6 +764,33 @@ public class PartidaService {
 
    public void saveTablero(Tablero tablero) {
       tableroService.saveTablero(tablero);
+   }
+
+   public Boolean getPartidaFinalizada(List<Tablero> tableros) {
+      Integer contador=0;
+      for(Tablero t: tableros){
+         if(t.getPartidaEnEspera()){
+            contador++;
+         }
+      }
+      if(contador==tableros.size()){
+         return true;
+      }
+      return false;
+   }
+
+   public List<Turno> getTurnosByPartida(Integer id) {
+      return turnoService.getTurnosByPartida(id);
+   }
+
+   public Integer getPosicionPartida(List<Tablero> tableros, Tablero tablero) {
+      tableros.sort(Comparator.comparing(Tablero::getPuntos));
+      for(Integer i=0;i<tableros.size();i++){
+         if(tableros.get(i).equals(tablero)){
+            return i+1;
+         }
+      }
+      return 0;
    }
 
 }

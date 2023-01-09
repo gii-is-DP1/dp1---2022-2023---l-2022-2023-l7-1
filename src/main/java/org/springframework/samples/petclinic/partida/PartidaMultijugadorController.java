@@ -2,10 +2,10 @@ package org.springframework.samples.petclinic.partida;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -37,7 +37,7 @@ public class PartidaMultijugadorController {
     private static final List<Territorio> listaTerritorios = List.of(Territorio.BOSQUE, Territorio.CASTILLO, Territorio.MONTANA, Territorio.POBLADO, Territorio.PRADERA, Territorio.RIO);
     private static final List<Integer> poder = List.of(0,1,-1);
     
-    private static final List<Integer> dadosFijos = new ArrayList<Integer>();
+    private static final List<Integer> dadosFijos = new ArrayList<>();
     private PartidaService partidaService;
     
     @Autowired
@@ -50,10 +50,7 @@ public class PartidaMultijugadorController {
 	public String getPartidaMultijugador(Principal principal){
         User usuario = partidaService.getUserById(principal);
 		List<Integer> x = this.partidaService.crearPartidaMultijugador(usuario.getJugadoresAceptados()); //x.get(0)=idPartida, x.get(1)=idturno
-        if(usuario.getEstado()){
-            return "redirect:/partida/Multijugador/eligeTerritorio/"+x.get(0)+"/"+x.get(1);
-        }
-		return "redirect:/partida/Multijugador/espera/dado/"+x.get(1);
+        return "redirect:/partida/Multijugador/eligeTerritorio/"+x.get(0)+"/"+x.get(1);
 	}
 
     //-------------------------------------------------------------------------
@@ -76,7 +73,7 @@ public class PartidaMultijugadorController {
         List<Integer> usos = List.of(tablero.getUsos0(),tablero.getUsos1(),tablero.getUsos2(),tablero.getUsos3(),tablero.getUsos4(),tablero.getUsos5());                                            
         turno.setPartida(partida);
         List<Integer> dadosx = new ArrayList<>();
-        if(!(session.getAttribute("dados")==null)){
+        if(session.getAttribute("dados")!=null){
             dadosx = (List<Integer>) session.getAttribute("dados");
         } 
         if(dadosx.isEmpty()) {
@@ -127,7 +124,7 @@ public class PartidaMultijugadorController {
             List<Tablero> tableros = partidaService.getTablerosByPartidaId(idPartida);
             Integer x= partidaService.getNumJugador(tablero,tableros);
             List<Integer> dadosx = new ArrayList<>();
-            if(!(session.getAttribute("dados")==null)){
+            if(session.getAttribute("dados")!=null){
                 dadosx = (List<Integer>) session.getAttribute("dados");
             } 
             dadosx = partidaService.quitarUsoDado(x,dadosx,turno);
@@ -169,7 +166,7 @@ public class PartidaMultijugadorController {
         List<Tablero> tableros = partidaService.getTablerosByPartidaId(partida.getId());
         Integer contador = partidaService.getNumTablerosEnEsperaDado(tableros);
         Boolean partidaEnEspera = partidaService.getPartidaEnEspera(tableros);
-        if(partidaEnEspera){
+        if (Boolean.TRUE.equals(partidaEnEspera)) {
             partidaService.saveTableroEnEspera(tablero);
             res.setViewName("redirect:/partida/Multijugador/espera/resultados/"+partida.getId());
             return res;
@@ -303,7 +300,7 @@ public class PartidaMultijugadorController {
         ModelAndView res = new ModelAndView();     
         Integer idTablero = partidaService.getTableroActiveByUser(principal).getId();
         List<Accion> acciones = partidaService.getAccionesByTablero(idTablero);
-        Set<Integer> casillas = new HashSet<>();
+        Set<Integer> casillas;
 
         //Calcula las casillas disponibles a dibujar dependiendo de si es la primera accion del turno o no
         if(primeraAccion == 1){
@@ -313,6 +310,7 @@ public class PartidaMultijugadorController {
         } 
         //Controla si acaba la partida
         if(casillas.isEmpty()){
+            partidaService.saveTableroEnEspera(partidaService.getTableroActiveByUser(principal));
             res.setViewName("redirect:/partida/Multijugador/espera/resultados/"+idPartida);
             return res;
         }
@@ -347,7 +345,6 @@ public class PartidaMultijugadorController {
     public ModelAndView dibujarPost(Turno turnoPost, Accion accion, @PathVariable("idPartida") Integer idPartida, Principal principal,
                             @PathVariable("idTurno") Integer idTurno, @PathVariable("idAccion") Integer idAccion,
                             @PathVariable("primeraAccion") Integer primeraAccion, Map<String, Object> model){
-
         ModelAndView res = new ModelAndView();
         if(principal != null){
             res.addObject("username", principal.getName());
@@ -365,7 +362,6 @@ public class PartidaMultijugadorController {
         List<Tablero> tableros = partidaService.getTablerosByPartidaId(idPartida);
         Integer numJugador= partidaService.getNumJugador(tablero,tableros);
         partidaService.actualizarUso1(turnoPost, turno, tablero, numJugador,accionToBeUpdated);  
-
         //Si quedan territorios por dibujar nos dirige al Get de dibujar, en caso contrario nos lleva a elegirTerritorio
         Integer porDibujar= partidaService.getAccionesPorDibujar(turno, numJugador);
         if(porDibujar>0){
@@ -375,6 +371,12 @@ public class PartidaMultijugadorController {
             res.setViewName("redirect:/partida/Multijugador/dibujar/"+idPartida+"/"+idTurno+"/"+ac.getId()+"/"+0);
             return res;
         } else{
+            Boolean partidaEnEspera = partidaService.getPartidaEnEspera(tableros);
+            if (Boolean.TRUE.equals(partidaEnEspera)) {
+                partidaService.saveTableroEnEspera(tablero);
+                res.setViewName("redirect:/partida/Multijugador/espera/resultados/"+idPartida);
+                return res;
+            }
             Integer ultimoJuadorActivo = partidaService.getUltimoJugadorActivo(tableros,turno); 
             if(ultimoJuadorActivo+1==numJugador){
                 dadosFijos.clear();
@@ -441,6 +443,67 @@ public class PartidaMultijugadorController {
         res.addObject("poder1", tablero.getPoder1());
         res.addObject("usos", usos);
         res.addObject("criterios", criterios);
+        return res;
+    }
+
+    @Transactional
+    @GetMapping(value = "/partida/Multijugador/espera/resultados/{idPartida}")
+    public ModelAndView esperaResultados(@PathVariable("idPartida") Integer idPartida, Principal principal) {
+        ModelAndView res = new ModelAndView();                                    
+        //Comprobar que todos esten esperando para finalizar la partida
+        Partida partida = partidaService.getPartidaById(idPartida);
+        List<Tablero> tableros = partidaService.getTablerosByPartidaId(partida.getId());
+        Boolean aux = partidaService.getPartidaFinalizada(tableros);
+        if (Boolean.TRUE.equals(aux)) {
+            res.setViewName("redirect:/partida/Multijugador/resultados/"+idPartida);
+            return res;
+        }
+        Tablero tablero = partidaService.getTableroActiveByUser(principal);  
+        List<Accion> acciones = partidaService.getAccionesByTablero(tablero.getId());
+        res.setViewName(VIEW_ESPERA_NUM_TERRITORIOS);   
+        List<Integer> criterios = List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2);
+        List<Integer> usos = List.of(tablero.getUsos0(),tablero.getUsos1(),tablero.getUsos2(),tablero.getUsos3(),tablero.getUsos4(),tablero.getUsos5());                                          
+        res.addObject("acciones", acciones);
+        res.addObject("poder1", tablero.getPoder1());
+        res.addObject("usos", usos);
+        res.addObject("criterios", criterios);
+        return res;
+    }
+
+    @Transactional
+    @GetMapping(value = "/partida/Multijugador/resultados/{idPartida}")
+    public ModelAndView Resultados(@PathVariable("idPartida") Integer idPartida, Principal principal) {
+        ModelAndView res = new ModelAndView("partidas/resultados");
+		Tablero tablero = partidaService.getTableroActiveByUser(principal);
+        tablero.setPartidaEnCurso(false);
+
+        Partida partida = partidaService.getPartidaById(idPartida);
+
+        List<Turno> turnos = partidaService.getTurnosByPartida(partida.getId());
+
+        List<Accion> acciones = partidaService.getAccionesByTablero(tablero.getId()).stream().filter(x-> x.getCasilla() != null).collect(Collectors.toList());
+
+        List<Integer> criterios = List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2);
+
+        Integer criterioA1 = partidaService.calcularPuntosCriterioA1(acciones, turnos, partida);
+        Integer criterioA2 = partidaService.calcularPuntosCriterioA2(acciones, turnos, partida);
+        Integer criterioB1 = partidaService.calcularPuntosCriterioB1(acciones, turnos, partida);
+        Integer criterioB2 = partidaService.calcularPuntosCriterioB2(acciones, turnos, partida);
+
+        Integer puntosTotales = criterioA1 + criterioA2 + criterioB1 + criterioB2+ tablero.getPoder2();
+        tablero.setPuntos(puntosTotales);
+        partidaService.saveTablero(tablero);
+        List<Tablero> tableros = partidaService.getTablerosByPartidaId(idPartida);
+        Integer posicion = partidaService.getPosicionPartida(tableros,tablero);
+        res.addObject("criterioA1", criterioA1);
+        res.addObject("criterioA2", criterioA2);
+        res.addObject("criterioB1", criterioB1);
+        res.addObject("criterioB2", criterioB2);
+        res.addObject("poder2", tablero.getPoder2());
+        res.addObject("puntosTotales", puntosTotales);
+        res.addObject("acciones", acciones);
+        res.addObject("criterios", criterios);
+        res.addObject("posicion", posicion);
         return res;
     }
    

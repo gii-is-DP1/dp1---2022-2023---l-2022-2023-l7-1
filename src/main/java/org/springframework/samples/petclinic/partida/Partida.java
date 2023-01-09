@@ -57,5 +57,11 @@ public class Partida {
     @Column(name = "IdCriterioB2")
     @NotNull
     Integer idCriterioB2;
+
+    @Override
+    public String toString() {
+        return "Partida [id=" + id + ", tableros=" + tableros + ", idCriterioA1=" + idCriterioA1 + ", idCriterioA2="
+                + idCriterioA2 + ", idCriterioB1=" + idCriterioB1 + ", idCriterioB2=" + idCriterioB2 + "]";
+    }
     
 }

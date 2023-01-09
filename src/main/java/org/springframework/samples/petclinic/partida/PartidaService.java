@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.partida;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -35,6 +36,7 @@ import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.samples.petclinic.util.Territorio;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 
@@ -76,6 +78,10 @@ public class PartidaService {
       return partidaRepo.findById(id).get();
    }
 
+   @Transactional
+   public void savePartida(Partida p){
+      partidaRepo.save(p);
+   }
 
    public int[] criterioAleatorio(){
 
@@ -399,7 +405,7 @@ public class PartidaService {
    public Integer getPrimeraAccion(List<Accion> acciones, Turno turno) {
       Integer contador=0;
       for(Accion a: acciones){
-         if(a.getTurno().getId()==turno.getId()){
+         if(a.getTurno().getId().equals(turno.getId())){
                contador++;
          }
       }
@@ -446,6 +452,7 @@ public class PartidaService {
 
       User anfitrion = jugadores.get(0);
       anfitrion.setEstado(true);
+      anfitrion.setJugadoresAceptados(new ArrayList<>());
       userService.save(anfitrion);
 
       if(jugadores.size()>1){
@@ -455,10 +462,11 @@ public class PartidaService {
          tablero1.setPartidaEnCurso(true);
          tablero1.setPartidaCreada(true);
          tablero1.setPartidaEnEspera(false);
-         
          tablero2.setPartida(p);
+
          tablero2.setUser(jugadores.get(1));
          User user2 = userService.getUserById(jugadores.get(1).getUsername());
+         user2.setAnfitrionDelJugador(new ArrayList<>());
          user2.setEstado(false);
          userService.save(user2);
          tablero2.setPuntos(0);
@@ -471,106 +479,48 @@ public class PartidaService {
             tablero3.setUser(jugadores.get(2));
             User user3 = userService.getUserById(jugadores.get(2).getUsername());
             user3.setEstado(false);
+            user3.setAnfitrionDelJugador(new ArrayList<>());
             userService.save(user3);
             tablero3.setPuntos(0); 
             tablero3.setPartidaEnCurso(true);
             tablero3.setPartidaCreada(false);
             tablero3.setPartidaEnEspera(false);
-
             if(jugadores.size()>3){
-
-               //4 tableros 1 uso por territorio
-               tablero1.setUsos0(1);
-               tablero1.setUsos1(1);
-               tablero1.setUsos2(1);
-               tablero1.setUsos3(1);
-               tablero1.setUsos4(1);
-               tablero1.setUsos5(1); 
-               tableroService.saveTablero(tablero1);
-
-               tablero2.setUsos0(1);
-               tablero2.setUsos1(1);
-               tablero2.setUsos2(1);
-               tablero2.setUsos3(1);
-               tablero2.setUsos4(1);
-               tablero2.setUsos5(1); 
-               tableroService.saveTablero(tablero2);
-
-               tablero3.setUsos0(1);
-               tablero3.setUsos1(1);
-               tablero3.setUsos2(1);
-               tablero3.setUsos3(1);
-               tablero3.setUsos4(1);
-               tablero3.setUsos5(1); 
-               tableroService.saveTablero(tablero3);
-
                tablero4.setPartida(p);
                tablero4.setUser(jugadores.get(3));
                User user4 = userService.getUserById(jugadores.get(3).getUsername());
                user4.setEstado(false);
+               user4.setAnfitrionDelJugador(new ArrayList<>());
                userService.save(user4);
-               tablero4.setPuntos(0);
-               tablero4.setUsos0(1);
-               tablero4.setUsos1(1);
-               tablero4.setUsos2(1);
-               tablero4.setUsos3(1);
-               tablero4.setUsos4(1);
-               tablero4.setUsos5(1); 
                tablero4.setPartidaEnCurso(true);
                tablero4.setPartidaCreada(false);
                tablero4.setPartidaEnEspera(false);
-               tableroService.saveTablero(tablero4);
-            } else{
-
+               //4 tableros 1 uso por territorio
+               actualizarTableros(tableros,1);
+            } else{            
                //3 tableros 2 usos por territorio
-               tablero1.setUsos0(2);
-               tablero1.setUsos1(2);
-               tablero1.setUsos2(2);
-               tablero1.setUsos3(2);
-               tablero1.setUsos4(2);
-               tablero1.setUsos5(2); 
-               tableroService.saveTablero(tablero1);
-
-               tablero2.setUsos0(2);
-               tablero2.setUsos1(2);
-               tablero2.setUsos2(2);
-               tablero2.setUsos3(2);
-               tablero2.setUsos4(2);
-               tablero2.setUsos5(2); 
-               tableroService.saveTablero(tablero2);
-
-               tablero3.setUsos0(2);
-               tablero3.setUsos1(2);
-               tablero3.setUsos2(2);
-               tablero3.setUsos3(2);
-               tablero3.setUsos4(2);
-               tablero3.setUsos5(2); 
-               tableroService.saveTablero(tablero3);
-
+               actualizarTableros(tableros,2);
             }
          } else{
-
                //2 tableros 3 usos por territorio
-               tablero1.setUsos0(3);
-               tablero1.setUsos1(3);
-               tablero1.setUsos2(3);
-               tablero1.setUsos3(3);
-               tablero1.setUsos4(3);
-               tablero1.setUsos5(3); 
-               tableroService.saveTablero(tablero1);
-
-               tablero2.setUsos0(3);
-               tablero2.setUsos1(3);
-               tablero2.setUsos2(3);
-               tablero2.setUsos3(3);
-               tablero2.setUsos4(3);
-               tablero2.setUsos5(3); 
-               tableroService.saveTablero(tablero2);
+               actualizarTableros(tableros,3);
          }
       }
       turno.setPartida(p);
       turnoService.saveTurno(turno);
       return List.of(p.getId(),turno.getId());
+   }
+
+   private void actualizarTableros(List<Tablero> tableros, int i) {
+      for(Tablero tablero:tableros){
+         tablero.setUsos0(i);
+         tablero.setUsos1(i);
+         tablero.setUsos2(i);
+         tablero.setUsos3(i);
+         tablero.setUsos4(i);
+         tablero.setUsos5(i); 
+         tableroService.saveTablero(tablero);
+      }
    }
 
    public Integer getNumJugador(Tablero tablero, List<Tablero> tableros) {
@@ -588,7 +538,7 @@ public class PartidaService {
    public List<Integer> quitarUsoDado(Integer x, List<Integer> dadosFijos, @Valid Turno turno) {
       if(x==1){
          for(Integer i=0; i<dadosFijos.size();i++){
-             if(dadosFijos.get(i)==turno.getNumTerritoriosJ1()){
+             if(dadosFijos.get(i).equals(turno.getNumTerritoriosJ1())){
                  dadosFijos.remove(dadosFijos.get(i));
                  break;
              }
@@ -596,7 +546,7 @@ public class PartidaService {
      }
      if(x==2){
          for(Integer i=0; i<dadosFijos.size();i++){
-             if(dadosFijos.get(i)==turno.getNumTerritoriosJ2()){
+             if(dadosFijos.get(i).equals(turno.getNumTerritoriosJ2())){
                  dadosFijos.remove(dadosFijos.get(i));
                  break;
              }
@@ -604,7 +554,7 @@ public class PartidaService {
      }
      if(x==3){
          for(Integer i=0; i<dadosFijos.size();i++){
-             if(dadosFijos.get(i)==turno.getNumTerritoriosJ3()){
+             if(dadosFijos.get(i).equals(turno.getNumTerritoriosJ3())){
                  dadosFijos.remove(dadosFijos.get(i));
                  break;
              }
@@ -612,7 +562,7 @@ public class PartidaService {
      }
      if(x==4){
          for(Integer i=0; i<dadosFijos.size();i++){
-             if(dadosFijos.get(i)==turno.getNumTerritoriosJ4()){
+             if(dadosFijos.get(i).equals(turno.getNumTerritoriosJ4())){
                  dadosFijos.remove(dadosFijos.get(i));
                  break;
              }
@@ -629,9 +579,10 @@ public class PartidaService {
 
       if(accion.getCasilla().getPoder2()){
          Partida partida = getPartidaById(idPartida);
-
          List<Turno> turnos = turnoService.getTurnosByPartida(idPartida);
-
+         if(turnos.get(turnos.size()-1).getTerritorio()==null){
+            turnos.remove(turnos.size()-1);
+         }
          List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId()).stream().filter(x-> x.getCasilla() != null).collect(Collectors.toList());
          Integer puntosPoder2 = calcularPoder2(acciones, turnos, partida);
          tablero.setPoder2(puntosPoder2);
@@ -815,5 +766,36 @@ public class PartidaService {
       List<Turno> turnos= turnoService.getTurnosByPartida(partida.getId());
       return turnos.get(turnos.size()-1);
   }
+
+   public void saveTablero(Tablero tablero) {
+      tableroService.saveTablero(tablero);
+   }
+
+   public Boolean getPartidaFinalizada(List<Tablero> tableros) {
+      Integer contador=0;
+      for(Tablero t: tableros){
+         if(t.getPartidaEnEspera()){
+            contador++;
+         }
+      }
+      if(contador==tableros.size()){
+         return true;
+      }
+      return false;
+   }
+
+   public List<Turno> getTurnosByPartida(Integer id) {
+      return turnoService.getTurnosByPartida(id);
+   }
+
+   public Integer getPosicionPartida(List<Tablero> tableros, Tablero tablero) {
+      tableros.sort(Comparator.comparing(Tablero::getPuntos));
+      for(Integer i=0;i<tableros.size();i++){
+         if(tableros.get(i).equals(tablero)){
+            return i+1;
+         }
+      }
+      return 0;
+   }
 
 }

@@ -30,6 +30,11 @@
         <jacoco.version>0.8.5</jacoco.version>
         <spring-format.version>0.0.19</spring-format.version>
 
+        <!-- SonarCloud Properties -->
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.organization>gii-is-dp1</sonar.organization>
+        <sonar.projectKey>gii-is-DP1_dp1---2022-2023---l-2022-2023-l7-1</sonar.projectKey>
+
     </properties>
 
 <developers>
@@ -314,6 +319,19 @@
                         <version>${mockito.version}</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.3.0.603</version>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sonar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

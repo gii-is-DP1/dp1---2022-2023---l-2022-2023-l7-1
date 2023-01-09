@@ -441,13 +441,12 @@ public class PartidaController {
         ModelAndView res = new ModelAndView("partidas/resultados");
 		Tablero tablero = tableroService.getTableroById(idTablero);
         tablero.setPartidaEnCurso(false);
-        tableroService.saveTablero(tablero);
 
         Partida partida = tablero.getPartida();
 
-        List<Turno> turnos = turnoService.getTurnosByPartida(partida.getId());
+        List<Turno> turnos = partidaService.getTurnosByPartida(partida.getId());
 
-        List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId()).stream().filter(x-> x.getCasilla() != null).collect(Collectors.toList());
+        List<Accion> acciones = partidaService.getAccionesByTablero(tablero.getId()).stream().filter(x-> x.getCasilla() != null).collect(Collectors.toList());
 
         List<Integer> criterios = List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2);
 
@@ -460,6 +459,8 @@ public class PartidaController {
         
         tablero.setPuntos(puntosTotales);
         tableroService.saveTablero(tablero);
+        List<Tablero> tableros = partidaService.getTablerosByPartidaId(partida.getId());
+        Integer posicion = partidaService.getPosicionPartida(tableros, tablero);
         res.addObject("criterioA1", criterioA1);
         res.addObject("criterioA2", criterioA2);
         res.addObject("criterioB1", criterioB1);
@@ -468,6 +469,7 @@ public class PartidaController {
         res.addObject("puntosTotales", puntosTotales);
         res.addObject("acciones", acciones);
         res.addObject("criterios", criterios);
+        res.addObject("posicion", posicion);
         return res;
 	}
 

@@ -157,12 +157,12 @@ public class PartidaMultijugadorController {
     }
 
     @Transactional
-    @GetMapping(value = "/partida/Multijugador/espera/dado/{idTurno}")
-    public ModelAndView esperaElegirNumTerritorios(Principal principal, @PathVariable("idTurno") Integer idTurno) {
+    @GetMapping(value = "/partida/Multijugador/espera/dado/{idPartida}")
+    public ModelAndView esperaElegirNumTerritorios(Principal principal, @PathVariable("idPartida") Integer idPartida) {
         ModelAndView res = new ModelAndView();                                    
         //Comrpobar si el Jugador activo ya ha elegido el territorio
         Tablero tablero = partidaService.getTableroActiveByUser(principal);
-        Partida partida = tablero.getPartida();
+        Partida partida = partidaService.getPartidaById(idPartida);
         List<Tablero> tableros = partidaService.getTablerosByPartidaId(partida.getId());
         Integer contador = partidaService.getNumTablerosEnEsperaDado(tableros);
         Boolean partidaEnEspera = partidaService.getPartidaEnEspera(tableros);
@@ -172,7 +172,8 @@ public class PartidaMultijugadorController {
             return res;
         }
         if(tableros.size() ==contador){
-            res.setViewName("redirect:/partida/Multijugador/dado/"+partida.getId()+"/"+idTurno);
+            List<Turno> turnos = partidaService.getTurnosByPartida(partida.getId());
+            res.setViewName("redirect:/partida/Multijugador/dado/"+partida.getId()+"/"+turnos.get(turnos.size()-1).getId());
             return res;
         }
         res.setViewName(VIEW_ESPERA_NUM_TERRITORIOS);     
@@ -401,8 +402,7 @@ public class PartidaMultijugadorController {
         List<Tablero> tableros = partidaService.getTablerosByPartidaId(partida.getId());
         for(Tablero t:tableros){
             if(t.getUser().getEstado()){
-                Turno turno = partidaService.getUltimoTurno(partida);
-                res.setViewName("redirect:/partida/Multijugador/espera/dado/"+turno.getId());
+                res.setViewName("redirect:/partida/Multijugador/espera/dado/"+idPartida);
                 return res;
             }
         }

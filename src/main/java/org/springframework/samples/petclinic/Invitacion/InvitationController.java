@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.partida.Partida;
 import org.springframework.samples.petclinic.partida.PartidaService;
+import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.samples.petclinic.Invitacion.InvitationGame;
@@ -144,6 +146,11 @@ public class InvitationController {
         ModelAndView mav = new ModelAndView("partidas/esperaDeJugadores");
         String username = principal.getName();
         User anfitrion = userService.getUserById(username);
+        Tablero tablero = invitationService.getTableroActiveUser(anfitrion);
+        if(tablero!=null){
+            Partida partida = tablero.getPartida();
+            mav.setViewName("redirect:/partida/Multijugador/espera/dado/" + partida.getId());
+        }
         invitationService.checkAnfitrionEnJugadoresAceptados(anfitrion);
         mav.addObject("jugadoresAceptados", anfitrion.getJugadoresAceptados());
         mav.addObject("username", username);

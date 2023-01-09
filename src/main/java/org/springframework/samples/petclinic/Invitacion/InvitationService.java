@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.tablero.Tablero;
+import org.springframework.samples.petclinic.tablero.TableroService;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserRepository;
 import org.springframework.samples.petclinic.user.UserService;
@@ -26,6 +28,9 @@ public class InvitationService {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private TableroService tableroService;
 
 	public Optional<Invitation> geInvitationByID(Integer id){
 		return invitationRepository.findById(id);	
@@ -128,4 +133,8 @@ public class InvitationService {
         }
         return result;
     }
+	@Transactional
+    public Tablero getTableroActiveUser(User user) {
+		return tableroService.getTableroActiveByUser(user);
+	}
 }

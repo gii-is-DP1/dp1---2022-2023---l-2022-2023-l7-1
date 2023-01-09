@@ -456,7 +456,7 @@ public class PartidaService {
          tablero1.setPartidaCreada(true);
          tablero1.setPartidaEnEspera(false);
          tablero2.setPartida(p);
-         
+
          tablero2.setUser(jugadores.get(1));
          User user2 = userService.getUserById(jugadores.get(1).getUsername());
          user2.setEstado(false);
@@ -755,5 +755,9 @@ public class PartidaService {
       List<Turno> turnos= turnoService.getTurnosByPartida(partida.getId());
       return turnos.get(turnos.size()-1);
   }
+
+   public void saveTablero(Tablero tablero) {
+      tableroService.saveTablero(tablero);
+   }
 
 }

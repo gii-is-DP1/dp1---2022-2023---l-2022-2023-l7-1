@@ -46,8 +46,6 @@ class PartidaServiceTests {
         p.setIdCriterioA2(1);
         p.setIdCriterioB1(5);
         p.setIdCriterioB2(3);
-        p.setIdTablero2(1);
-        p.setIdTablero3(2);   
         partidaService.savePartida(p); 
     }
 
@@ -73,8 +71,6 @@ class PartidaServiceTests {
         p.setIdCriterioA2(1);
         p.setIdCriterioB1(5);
         p.setIdCriterioB2(3);
-        p.setIdTablero2(1);
-        p.setIdTablero3(2);
         partidaService.savePartida(p);
 		listaPartidas.add(p);
         assertThat(listaPartidas.size()).isEqualTo(1);

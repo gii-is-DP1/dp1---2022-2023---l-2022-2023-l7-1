@@ -35,6 +35,7 @@ import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.samples.petclinic.util.Territorio;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 
@@ -76,6 +77,10 @@ public class PartidaService {
       return partidaRepo.findById(id).get();
    }
 
+   @Transactional
+   public void savePartida(Partida p){
+      partidaRepo.save(p);
+   }
 
    public int[] criterioAleatorio(){
 

@@ -16,13 +16,26 @@
 package org.springframework.samples.petclinic.casilla;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+
+import java.util.ArrayList;
+import java.util.Collection;
+
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.accion.Accion;
+import org.springframework.samples.petclinic.accion.AccionService;
+import org.springframework.samples.petclinic.user.User;
+
 import org.springframework.stereotype.Service;
 
 /**
@@ -61,22 +74,34 @@ class CasillaServiceTests {
 	@Autowired
 	protected CasillaService casillaService;
 
-	/*@Autowired
-	protected AccionService accionService;*/
-
 	@Test
 	void shouldFindCasillasAdyacentes() {
-		List<Casilla> casillasAdyacentes = this.casillaService.getCasillasAdyacentes(1);
-		assertThat(casillasAdyacentes.size()).isEqualTo(3);
-		assertThat(casillasAdyacentes.get(0).getId()).isEqualTo(2);
-		assertThat(casillasAdyacentes.get(1).getId()).isEqualTo(6);
-		assertThat(casillasAdyacentes.get(2).getId()).isEqualTo(7);
+		List<Casilla> casillasAdyacentes = this.casillaService.getCasillasAdyacentes(14);
+		assertThat(casillasAdyacentes.size()).isEqualTo(6);
+		List<Casilla> casillasAdyacentesBorde = this.casillaService.getCasillasAdyacentes(2);
+		assertThat(casillasAdyacentesBorde.size()).isEqualTo(4);
+		List<Casilla> casillasAdyacentesEsquina = this.casillaService.getCasillasAdyacentes(1);
+		assertThat(casillasAdyacentesEsquina.size()).isEqualTo(3);
 	}
 
-	@Test //ESTE TEST NO DEBERÍA ESTAR AQUÍ. BORRAR
-	void shouldFindTurno(){
-		// Accion ac = this.accionService.getAccionById(1);
-		// assertThat(ac.getTurno()).isEqualTo("");
+	@Test
+	void shouldFindTodasCasillas() {
+		List<Casilla> casillasTotales = this.casillaService.getTodasCasillas();
+		assertThat(casillasTotales.size()).isEqualTo(61);
 	}
+
+	@Test
+	void shouldFindCasillasById(){
+		Casilla casillaById = this.casillaService.getCasillaById(6);
+		assertThat(casillaById.borde).isTrue();
+		assertThat(casillaById.poder1 && casillaById.poder2).isFalse();
+		assertThat(casillaById.casillaOpuesta).isEqualTo(56);
+	}
+
+	@Test
+    void negativeFindById(){
+        assertThrows(NoSuchElementException.class, () -> this.casillaService.getCasillaById(62));
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.user;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
@@ -26,6 +27,7 @@ import org.hibernate.envers.NotAudited;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.Invitacion.Invitation;
+import org.springframework.samples.petclinic.Invitacion.InvitationGame;
 import org.springframework.samples.petclinic.logros.Logro;
 
 import lombok.Getter;
@@ -188,6 +190,43 @@ public class User{
     @OneToMany
     @NotAudited
     private List<Logro> logrosUser;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST , CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})
+	@JoinTable(name="jugadoresAceptados",
+			joinColumns= {@JoinColumn(name="jugador_aceptado_id")},
+            inverseJoinColumns = {@JoinColumn(name="anfitrion_id")})
+    @NotAudited
+    private List<User> jugadoresAceptados = new ArrayList<User>();
+
+    @ManyToMany(mappedBy="jugadoresAceptados", cascade = {CascadeType.PERSIST , CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})
+    @NotAudited
+	private List<User> anfitrionDelJugador = new ArrayList<User>();
+
+	@OneToMany(mappedBy = "posibleJugador", cascade = CascadeType.ALL)
+    @NotAudited
+	private Set<InvitationGame> receivedInvitationsToGame = new HashSet<InvitationGame>();
+    
+	@OneToMany(mappedBy = "anfitrion", cascade = CascadeType.ALL)
+    @NotAudited
+	private Set<InvitationGame> sendedInvitationsToGame = new HashSet<InvitationGame>();
+
+    public boolean canInviteToGame(String username) {
+		if(getUsername().equals(username))
+			return false;
+		for(User j : jugadoresAceptados) 
+			if(j.getUsername().equals(username))
+				return false;
+		for(User j : anfitrionDelJugador) 
+			if(j.getUsername().equals(username))
+				return false;
+		for(InvitationGame anfitrion : sendedInvitationsToGame) 
+			if(anfitrion.esDelUsuarioG(username))
+				return false;
+		for(InvitationGame posibleJugador : receivedInvitationsToGame) 
+			if(posibleJugador.esDelUsuarioG(username))
+				return false;
+		return true;
+	}
 
     @Column(name = "estado")
     @NotAudited

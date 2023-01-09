@@ -6,7 +6,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
 <petclinic:layout pageName="users">
-    <h1><em><b><u>Invitación a amigos</u></b></em></h1>
+    <h1><em><b><u>Invita a tus amigos para jugar</u></b></em></h1>
     <table id="usersTable" class="table table-striped">
         <thead>
         <tr>
@@ -15,21 +15,23 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${friends}" var="friend">
+        <c:forEach items="${friendsToPlay}" var="friend">
             
             <tr>
                 <td style="text-align:center;">                    
                     <c:out value="${friend.username}"/>
                 </td>
                 <td style="text-align:center;"> 
-                    <input type="checkbox" name="invite" value="invite"><br/>   
+                    <a href="/invitateToPlay/${username}/${friend.username}"> 
+                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>                            
+                    </a>       
                 </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
     <div class="col align-self-center">
-        <a class="btn btn-default btn-lg" href="/partida/crearPartidaMulti"
+        <a class="btn btn-default btn-lg" href="/${username}/salaDeEspera"
             style="margin-top:11%; margin-bottom:10%; margin-left:22%; margin-right:22%; display:block;"><b>Confirmar invitación</b></a>
     </div>
 

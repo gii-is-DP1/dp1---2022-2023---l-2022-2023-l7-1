@@ -48,7 +48,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/stats").hasAnyAuthority("admin")
 				.antMatchers("/stat").authenticated()
 				// Permisos de logros
-				.antMatchers("/logros/{username}").authenticated()
+				.antMatchers("/logrosUsuario").authenticated()
 				.antMatchers("/logros/**").hasAnyAuthority("admin")
 				// Permisos de partidas
 				.antMatchers("/partida/**").authenticated()
@@ -60,10 +60,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/friends/{username}/**").authenticated()
 				// Permisos de invitacion
 				.antMatchers("/invitations/{username}").authenticated()
+				.antMatchers("/invitationsGame/{username}").authenticated()
 				.antMatchers("/invite/{username}").authenticated()
 				.antMatchers("/invitate/**").authenticated()
+				.antMatchers("/invitateToPlay/**").authenticated()
 				.antMatchers("/invitationAccepted/**").authenticated()
+				.antMatchers("/invitationToGameAccepted/**").authenticated()
 				.antMatchers("/invitationCancelled/**").authenticated()
+				.antMatchers("/invitationToGameCancelled/**").authenticated()
 				// Permisos de las reglas
 				.antMatchers("/rules").permitAll()
 
@@ -72,6 +76,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 				.antMatchers("/{username}/crearPartida").hasAnyAuthority("admin", "player")
 				.antMatchers("/{username}/lobby").hasAnyAuthority("admin", "player")
+				.antMatchers("/{username}/salaDeEspera").hasAnyAuthority("admin", "player")
 				.antMatchers("/prueba/**").hasAnyAuthority("admin", "player")
 
 				

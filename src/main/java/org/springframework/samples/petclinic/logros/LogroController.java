@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.logros;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -9,6 +10,8 @@ import java.security.Principal;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.user.DuplicatedUsernameException;
+import org.springframework.samples.petclinic.user.User;
+import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -26,6 +29,9 @@ public class LogroController {
 
 
     private LogroService service;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     public LogroController(LogroService service){
@@ -111,5 +117,18 @@ public class LogroController {
             return result;
         }   
     }
+
+    @Transactional
+    @GetMapping("/logrosUsuario")
+	public ModelAndView showLogrosUser(Map<String, Object> model, Principal principal) {
+		User user = userService.getUserById(principal.getName());
+		List<Logro> logros = userService.getLogrosByUser(user);
+		model.put("logrosUser", logros);
+		ModelAndView res = new ModelAndView("logros/userLogros");
+		if (principal != null) {
+			res.addObject("username", principal.getName());
+		}
+		return res;
+	}
    
 }

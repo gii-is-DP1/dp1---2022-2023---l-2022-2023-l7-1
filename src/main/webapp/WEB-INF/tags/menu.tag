@@ -82,7 +82,7 @@
 							<li class="divider"></li>
 							<li>
 								<p>
-									<a href="/logros/${username}" class="btn btn-block" style="color:white;">Mis logros</a>
+									<a href="/logrosUsuario" class="btn btn-block" style="color:white;">Mis logros</a>
 								</p>
 							</li>
 						</ul>
@@ -121,7 +121,7 @@
 							<span>Mis estadísticas</span>
 					</petclinic:menuItem>
 
-					<petclinic:menuItem active="${name eq 'logrosListing'}" url="/logros/${username}" title="My stats">
+					<petclinic:menuItem active="${name eq 'logrosListing'}" url="/logrosUsuario" title="My stats">
 							<span class="glyphicon glyphicon-flag"></span>
 							<span>Mis logros</span>
 					</petclinic:menuItem>

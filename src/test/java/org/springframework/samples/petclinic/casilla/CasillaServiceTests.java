@@ -17,18 +17,13 @@ package org.springframework.samples.petclinic.casilla;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.petclinic.accion.Accion;
-import org.springframework.samples.petclinic.accion.AccionService;
-import org.springframework.samples.petclinic.user.User;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Integration test of the Service and the Repository layer.
@@ -66,17 +61,22 @@ class CasillaServiceTests {
 	@Autowired
 	protected CasillaService casillaService;
 
-	@Autowired
-	protected AccionService accionService;
-	/*@Test
+	/*@Autowired
+	protected AccionService accionService;*/
+
+	@Test
 	void shouldFindCasillasAdyacentes() {
 		List<Casilla> casillasAdyacentes = this.casillaService.getCasillasAdyacentes(1);
 		assertThat(casillasAdyacentes.size()).isEqualTo(3);
-	}*/
+		assertThat(casillasAdyacentes.get(0).getId()).isEqualTo(2);
+		assertThat(casillasAdyacentes.get(1).getId()).isEqualTo(6);
+		assertThat(casillasAdyacentes.get(2).getId()).isEqualTo(7);
+	}
 
-	@Test
+	@Test //ESTE TEST NO DEBERÍA ESTAR AQUÍ. BORRAR
 	void shouldFindTurno(){
 		// Accion ac = this.accionService.getAccionById(1);
 		// assertThat(ac.getTurno()).isEqualTo("");
 	}
+
 }

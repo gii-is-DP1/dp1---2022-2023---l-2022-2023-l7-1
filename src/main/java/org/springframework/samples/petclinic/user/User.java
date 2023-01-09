@@ -220,8 +220,11 @@ public class User{
 			if(j.getUsername().equals(username))
 				return false;
 		for(InvitationGame anfitrion : sendedInvitationsToGame) 
-			if(anfitrion.esDelUsuarioG(username))
+			if(anfitrion.esDelUsuarioG(username)){
 				return false;
+            } else if (sendedInvitationsToGame.size()>=3){
+                return false;
+            }
 		for(InvitationGame posibleJugador : receivedInvitationsToGame) 
 			if(posibleJugador.esDelUsuarioG(username))
 				return false;

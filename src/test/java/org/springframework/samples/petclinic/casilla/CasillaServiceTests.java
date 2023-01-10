@@ -45,7 +45,7 @@ class CasillaServiceTests {
 
 	@Test
     void negativeFindById(){
-        assertThrows(NoSuchElementException.class, () -> this.casillaService.getCasillaById(62));
+        assertThat(this.casillaService.getCasillaById(62)).isNull();
     }
 
 

@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.casilla;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,15 @@ public class CasillaService {
         return repo.findTodasCasillas(); 
     }
     public Casilla getCasillaById(Integer id){
-        return repo.findById(id).get();
+        return repo.findById(id).orElse(null);
     }
 
     public List<Casilla> getCasillasAdyacentes(Integer casillaId){
-        return repo.findById(casillaId).get().getAdyacencia();
+        Casilla casilla = repo.findById(casillaId).orElse(null);
+        if (casilla != null) {
+            return casilla.getAdyacencia();
+        }
+        return new ArrayList<>();
     }
 
     

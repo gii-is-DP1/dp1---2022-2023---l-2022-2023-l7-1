@@ -19,7 +19,7 @@ public class TurnoService {
     }
 
     public Turno getTurnoById(Integer id){
-        return TurnoRepository.findById(id).get();
+        return TurnoRepository.findById(id).orElse(null);
     }
 
     public List<Turno> getTurnosByPartida(Integer idpartida) {

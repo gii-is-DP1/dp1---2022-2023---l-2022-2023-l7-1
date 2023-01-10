@@ -30,7 +30,7 @@ public class AccionService {
 
     @Transactional
     public Accion getAccionById(Integer id){
-        return accionRepository.findById(id).get();
+        return accionRepository.findById(id).orElse(null);
     }
     
     @Transactional

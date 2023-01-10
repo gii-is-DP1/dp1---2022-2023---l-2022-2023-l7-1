@@ -64,7 +64,7 @@ class PartidaServiceTests {
 
     @Test
         public void shouldSavePartida(){
-        assertThrows(NoSuchElementException.class, () -> this.partidaService.getPartidaById(10));
+        assertThat(this.partidaService.getPartidaById(10)).isNull();
         Partida part = new Partida();
         part.setDateTime(LocalDateTime.of(2023, 1, 4, 17, 55));
         part.setId(10);

@@ -798,4 +798,29 @@ public class PartidaService {
       return 0;
    }
 
+   public void cancelarPartida(User usuario) {
+      Tablero tablero = tableroService.getTableroActiveByUser(usuario);
+      Partida partida = getPartidaById(tablero.getPartida().getId());
+      List<Tablero> tableros = tableroService.getTablerosByPartida(partida);
+      List<Accion> acciones = new ArrayList<>();
+      List<Turno> turnos = turnoService.getTurnosByPartida(partida.getId());
+      for(Tablero t: tableros){
+         usuario =t.getUser();
+         usuario.setJugadoresAceptados(new ArrayList<>());
+         usuario.setReceivedInvitationsToGame(new HashSet<>());
+         usuario.setAnfitrionDelJugador(new ArrayList<>());
+         usuario.setSendedInvitationsToGame(new HashSet<>());
+         userService.save(usuario);
+         acciones.addAll(accionService.getAccionesByTablero(t.getId()));
+         tableroService.delete(t);
+      }
+      for(Accion a: acciones){
+         accionService.delete(a);
+      }
+      for(Turno t: turnos){
+         turnoService.delete(t);
+      }
+      delete(partida);
+   }
+
 }

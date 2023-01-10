@@ -70,8 +70,6 @@
                
             </table>
 
-            <h1><b>Has quedado:<c:out value="${posicion}"/></b></h1>
-
             <b><a style="position: absolute; margin-left: 1075px; " href="/" class="btn btn-default">Ir a inicio</a></b>
             
         </div>  

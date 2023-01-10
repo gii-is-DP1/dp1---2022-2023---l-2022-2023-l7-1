@@ -34,7 +34,7 @@
                     <c:out value="${tablero.partidaEnCurso}"/>
                 </td>
                 <td style="text-align:center;"> 
-                    <a href="/partidas/partidaEnCurso/${tablero.user.username}"> 
+                    <a href="/partidas/partidaEnCurso/${tablero.user.username}/${tablero.id}"> 
                         <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
                     </a>      
                 </td>

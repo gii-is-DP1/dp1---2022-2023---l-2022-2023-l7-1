@@ -139,7 +139,7 @@ public class PartidaControllerTests {
 	@WithMockUser(username =DIEGARLIN)
 	@Test
 	void testShowPartidaAmigo() throws Exception {
-		mockMvc.perform(get("/partidas/partidaEnCurso/{username}", JAIGARLIN))
+		mockMvc.perform(get("/partidas/partidaEnCurso/{username}/1", JAIGARLIN))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/"));
 	}

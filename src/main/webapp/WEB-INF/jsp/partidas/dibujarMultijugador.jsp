@@ -143,5 +143,8 @@
             <c:out value="${tablero.poder2}"/>
             </c:if>
     </body>
+    <button>
+        <a class="btn btn-default" href="/chat/${chatId}" target="_blank">Chat</a></th>
+    </button>
     
 </petclinic:layout>

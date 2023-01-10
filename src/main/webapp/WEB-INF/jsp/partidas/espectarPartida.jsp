@@ -103,9 +103,5 @@
             </c:if>
         </div>
     </body>
-
-    <button>
-        <a class="btn btn-default" href="/chat/${chatId}" target="_blank">Chat</a></th>
-    </button>
     
 </petclinic:layout>

@@ -73,24 +73,19 @@ public class PartidaController {
     // Ver Partida Amigo ------------------------------------------------------
     //-------------------------------------------------------------------------
     @Transactional
-    @GetMapping("/partidas/partidaEnCurso/{username}")
-	public ModelAndView VerPartidaAmigo(Principal principal, @PathVariable("username") String username ){
+    @GetMapping("/partidas/partidaEnCurso/{username}/{idTablero}")
+	public ModelAndView VerPartidaAmigo(Principal principal, @PathVariable("username") String username,@PathVariable("idTablero") Integer idTablero){
         ModelAndView result = new ModelAndView();
         if(userService.getFriends(principal.getName()).contains(userService.getUserById(username))){
-            Tablero tablero = tableroService.getTableroActiveByUser(userService.getUserById(username));
-            if(tablero==null){
-                List<Tablero> tableros = tableroService.getTablerosByUser(userService.getUserById(username));
-                if(!tableros.isEmpty()){
-                    result.setViewName("redirect:/partida/resultados/"+tableros.get(tableros.size()-1).getId()); //resultado ultima partida
-                } else{
-                    result.setViewName("redirect:/");
-                }
+            Tablero tablero = tableroService.getTableroById(idTablero);
+            if(tablero.getPartidaEnCurso().equals(false)){
+                result.setViewName("redirect:/partida/resultados/"+idTablero); //resultado ultima partida
             } else{
                 Partida partida = tablero.getPartida();
                 List<Integer> criterios = List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2);  
                 List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId());
                 List<Integer> usos = List.of(tablero.getUsos0(),tablero.getUsos1(),tablero.getUsos2(),tablero.getUsos3(),tablero.getUsos4(),tablero.getUsos5());  
-                result.setViewName("partidas/esperaTerritorio");
+                result.setViewName("partidas/espectarPartida");
                 result.addObject("acciones", acciones);
                 result.addObject("poder1", tablero.getPoder1());
                 result.addObject("usos", usos);

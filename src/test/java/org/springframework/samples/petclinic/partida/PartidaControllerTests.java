@@ -16,11 +16,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import static org.mockito.BDDMockito.given;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,7 +31,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -142,6 +147,21 @@ public class PartidaControllerTests {
 		mockMvc.perform(get("/partidas/partidaEnCurso/{username}/1", JAIGARLIN))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/"));
+		List<User> users = new ArrayList<>();
+		users.add(diegarlin);
+		given(this.userService.getFriends(any())).willReturn(users);
+		given(this.userService.getUserById(any())).willReturn(diegarlin);
+		given(this.tableroService.getTableroById(anyInt())).willReturn(tab);
+		mockMvc.perform(get("/partidas/partidaEnCurso/{username}/1", JAIGARLIN))
+		.andExpect(status().is2xxSuccessful())
+		.andExpect(view().name("partidas/espectarPartida"));
+		tab.setPartidaEnCurso(false);
+		given(this.tableroService.getTableroById(anyInt())).willReturn(tab);
+		mockMvc.perform(get("/partidas/partidaEnCurso/{username}/1", JAIGARLIN))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/partida/resultados/1"));
+		
+		
 	}
 
     @WithMockUser(value = "spring")
@@ -160,6 +180,14 @@ public class PartidaControllerTests {
 		mockMvc.perform(get("/partida/crearPartida") )
 		.andExpect(status().isOk())
 		.andExpect(view().name("partidas/crearPartida"));
+		List<User> users = new ArrayList<>();
+		users.add(diegarlin);
+		given(this.userService.getUserById(any())).willReturn(diegarlin);
+		given(this.tableroService.getActivePlayers()).willReturn(users);
+		mockMvc.perform(get("/partida/crearPartida") )
+		.andExpect(status().isOk())
+		.andExpect(view().name("partidas/continuarCancelarPartida"));
+		
 	}
 
 }

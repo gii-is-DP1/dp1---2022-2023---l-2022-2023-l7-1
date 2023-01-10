@@ -19,7 +19,7 @@ public class LogroService {
     }
 
     public Logro getById(int id){
-        return repo.findById(id).get();
+        return repo.findById(id).orElse(null);
     }
 
     public void deleteLogroById(int id){

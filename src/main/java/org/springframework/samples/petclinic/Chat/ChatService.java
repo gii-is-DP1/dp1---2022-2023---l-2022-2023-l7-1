@@ -36,11 +36,13 @@ public class ChatService {
 
     @Transactional
     public void edit(Chat c) throws DataAccessException{
-        Chat toUpdate = chatRepository.findById(c.getId()).get();
-        toUpdate.setId(c.getId());
-        toUpdate.setMensajes(c.getMensajes());
-        toUpdate.setPartida(c.getPartida());
-        chatRepository.save(toUpdate);
+        Chat toUpdate = chatRepository.findById(c.getId()).orElse(null);
+        if(toUpdate != null) {
+            toUpdate.setId(c.getId());
+            toUpdate.setMensajes(c.getMensajes());
+            toUpdate.setPartida(c.getPartida());
+            chatRepository.save(toUpdate);
+        }
     }
 
     public void delete(Chat chat) {

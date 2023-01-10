@@ -1,10 +1,12 @@
 package org.springframework.samples.petclinic.partida;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,20 +63,18 @@ class PartidaServiceTests {
 	}
 
     @Test
-	public void shouldSavePartida() {
-        List<Partida> listaPartidas = new ArrayList<>();
-        assertThat(listaPartidas.size()).isEqualTo(0);
-        Partida p = new Partida();
-        p.setDateTime(LocalDateTime.of(2023, 1, 4, 17, 55));
-        p.setId(2);
-        p.setIdCriterioA1(2);
-        p.setIdCriterioA2(1);
-        p.setIdCriterioB1(5);
-        p.setIdCriterioB2(3);
-        partidaService.savePartida(p);
-		listaPartidas.add(p);
-        assertThat(listaPartidas.size()).isEqualTo(1);
-	}
+        public void shouldSavePartida(){
+        assertThrows(NoSuchElementException.class, () -> this.partidaService.getPartidaById(10));
+        Partida part = new Partida();
+        part.setDateTime(LocalDateTime.of(2023, 1, 4, 17, 55));
+        part.setId(10);
+        part.setIdCriterioA1(2);
+        part.setIdCriterioA2(3);
+        part.setIdCriterioB1(4);
+        part.setIdCriterioB2(3);
+        partidaService.savePartida(part);
+        assertThat(part.getIdCriterioB1()).isEqualTo(4);
+    }
 
     @Test
 	public void actualizaUso() {
@@ -118,7 +118,6 @@ class PartidaServiceTests {
         List<Integer> partidaSolitario = partidaService.crearPartidaSolitario(u);
         assertThat(partidaService.getPartidaById(partidaSolitario.get(0)).getTableros().size()).isEqualTo(1);
 	}
-
-
 }
+
      

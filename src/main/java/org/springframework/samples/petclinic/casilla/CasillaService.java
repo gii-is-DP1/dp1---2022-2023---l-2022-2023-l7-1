@@ -18,11 +18,11 @@ public class CasillaService {
         return repo.findTodasCasillas(); 
     }
     public Casilla getCasillaById(Integer id){
-        return repo.findById(id).get();
+        return repo.findById(id).orElse(null);
     }
 
     public List<Casilla> getCasillasAdyacentes(Integer casillaId){
-        return repo.findById(casillaId).get().getAdyacencia();
+        return repo.findById(casillaId).orElse(null).getAdyacencia();
     }
 
     

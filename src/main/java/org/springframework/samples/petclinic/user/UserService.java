@@ -62,7 +62,7 @@ public class UserService {
 	}
 
 	public User getUserById(String id){
-        return userRepository.findById(id).get();
+        return userRepository.findById(id).orElse(null);
     }
 
     public void deleteUserById(String id){

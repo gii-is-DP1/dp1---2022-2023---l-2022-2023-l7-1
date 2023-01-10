@@ -92,6 +92,6 @@ public class TableroService {
     }
 
     public Tablero getTableroById(Integer idTablero) {
-        return tableroRepository.findById(idTablero).get();
+        return tableroRepository.findById(idTablero).orElse(null);
     }
 }

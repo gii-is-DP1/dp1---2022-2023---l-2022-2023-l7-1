@@ -75,7 +75,7 @@ public class PartidaService {
   }
 
    public Partida getPartidaById(Integer id){
-      return partidaRepo.findById(id).get();
+      return partidaRepo.findById(id).orElse(null);
    }
 
    @Transactional

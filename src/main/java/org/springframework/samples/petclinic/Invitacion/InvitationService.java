@@ -41,17 +41,17 @@ public class InvitationService {
 
     @Transactional
 	public void sendInvitation(String sender_username, String receiver_username) {
-		User receiver = userRepository.findById(receiver_username).get();
-		User sender = userRepository.findById(sender_username).get();
+		User receiver = userRepository.findById(receiver_username).orElse(null);
+		User sender = userRepository.findById(sender_username).orElse(null);
 		
-		if(receiver != null && sender.canInvite(receiver.getUsername())) {
+		if(receiver != null && sender != null && sender.canInvite(receiver.getUsername())) {
 			invitationRepository.save(new Invitation(sender, receiver));
 		}
 	}
 
     @Transactional
 	public void acceptInvitation(String username, Integer invitation_id) {
-		Invitation invitation = invitationRepository.findById(invitation_id).get();
+		Invitation invitation = invitationRepository.findById(invitation_id).orElse(null);
 		
 		if(invitation != null && invitation.getReceiver().getUsername().equals(username)) {
 			invitation.accept();
@@ -68,9 +68,9 @@ public class InvitationService {
     public List<User> getAvailableUsers(String username) {
         List<User> users = userRepository.findAll();
         List<User> result = new ArrayList<User>();
-        User sender = userRepository.findById(username).get();
+        User sender = userRepository.findById(username).orElse(null);
         for (User receiver : users) {
-            if (sender.canInvite(receiver.getUsername())) {
+            if (sender != null && sender.canInvite(receiver.getUsername())) {
                 result.add(receiver);
             }
         }
@@ -86,13 +86,15 @@ public class InvitationService {
 
 	@Transactional
 	public void sendInvitationToGame(String username, String jugador) {
-		User anfitrion = userRepository.findById(username).get();
-		User posibleJugador = userRepository.findById(jugador).get();
-		invitationGameRepository.save(new InvitationGame(anfitrion, posibleJugador));
+		User anfitrion = userRepository.findById(username).orElse(null);
+		User posibleJugador = userRepository.findById(jugador).orElse(null);
+		if (anfitrion != null && posibleJugador != null) {
+			invitationGameRepository.save(new InvitationGame(anfitrion, posibleJugador));
+		}
 	}
 
 	public InvitationGame geInvitationGameByID(Integer id){
-		return invitationGameRepository.findById(id).get();	
+		return invitationGameRepository.findById(id).orElse(null);	
 	}
 
 	public void checkAnfitrionEnJugadoresAceptados(User anfitrion){
@@ -106,12 +108,14 @@ public class InvitationService {
 
 	@Transactional
 	public void acceptInvitationGame(String username, Integer invitation_id) {
-		InvitationGame invitationG = invitationGameRepository.findById(invitation_id).get();
-		User anfitrion = invitationG.getAnfitrion();
-		checkAnfitrionEnJugadoresAceptados(anfitrion);
-		if(invitationG != null && invitationG.getPosibleJugador().getUsername().equals(username)) {
-			invitationG.aceptGame();
-			invitationGameRepository.deleteById(invitation_id);
+		InvitationGame invitationG = invitationGameRepository.findById(invitation_id).orElse(null);
+		if (invitationG != null) {
+			User anfitrion = invitationG.getAnfitrion();
+			checkAnfitrionEnJugadoresAceptados(anfitrion);
+			if(invitationG.getPosibleJugador().getUsername().equals(username)) {
+				invitationG.aceptGame();
+				invitationGameRepository.deleteById(invitation_id);
+			}
 		}
 	}
 
@@ -122,11 +126,11 @@ public class InvitationService {
 
 	@Transactional
     public List<User> getAmigosDisponiblesParaJugar(String username) {
-		User anfitrion = userRepository.findById(username).get();
+		User anfitrion = userRepository.findById(username).orElse(null);
         List<User> friends = userService.getFriends(username);
         List<User> result = new ArrayList<User>();
         for (User posibleJugador : friends) {
-            if (anfitrion.canInviteToGame(posibleJugador.getUsername())) {
+            if (anfitrion != null && anfitrion.canInviteToGame(posibleJugador.getUsername())) {
                 result.add(posibleJugador);
             }
         }

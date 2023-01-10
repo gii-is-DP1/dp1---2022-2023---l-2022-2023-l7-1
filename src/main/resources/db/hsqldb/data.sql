@@ -1,73 +1,73 @@
 --FILA 1
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(1,true,false,false, 31, 15);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(2,true,false,false, 40, 15);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(3,true,false,false, 49, 15);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(4,true,false,false, 58, 15);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(5,true,false,false, 67, 15);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(1,true,false,false, 17, 1,61);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(2,true,false,false, 26, 1,60);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(3,true,false,false, 35, 1,59);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(4,true,false,false, 44, 1,58);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(5,true,false,false, 53, 1,57);
 --FILA 2
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(6,true,false,false,27.5, 22);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(7,false,true,false,36.5, 22);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(8,false,false,false,45.5, 22);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(9,false,false,false,54.5, 22);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(10,false,true,false,63.5, 22);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(11,true,false,false,72.5, 22);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(6,true,false,false,13, 9,56);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(7,false,true,false,22, 9,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(8,false,false,false,30.8, 9,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(9,false,false,false,39.8, 9,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(10,false,true,false,48.6, 9,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(11,true,false,false,57.5, 9,51);
 --FILA 3
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(12,true,false,false,22, 30);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(13,false,false,false,31, 30);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(14,false,false,false,40, 30);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(15,false,false,false,49, 30);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(16,false,false,false,58, 30);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(17,false,false,false,67, 30);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(18,true,false,false,76, 30);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(12,true,false,false,8, 17,50);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(13,false,false,false,17, 17,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(14,false,false,false,26, 17,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(15,false,false,false,35, 17,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(16,false,false,false,43.8, 17,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(17,false,false,false,52.6, 17,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(18,true,false,false,61.5, 17,44);
 --FILA 4
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(19,true,false,false,18.5, 37);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(20,false,false,false,27.5, 37);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(21,false,false,false,36.5, 37);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(22,false,false,false,45.5, 37);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(23,false,false,false,54.5, 37);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(24,false,false,false,63, 37);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(25,false,false,false,72, 37);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(26,true,false,false,81, 37);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(19,true,false,false,4, 24,43);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(20,false,false,false,13, 24,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(21,false,false,false,22, 24,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(22,false,false,false,30.8, 24,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(23,false,false,false,39.6, 24,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(24,false,false,false,48.4, 24,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(25,false,false,false,57.2, 24,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(26,true,false,false,66, 24,36);
 --FILA 5
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(27,true,true,false,13, 44);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(28,false,false,false,22, 44);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(29,false,false,false,31, 44);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(30,false,false,false,40, 44);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(31,false,false,true,49, 44);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(32,false,false,false,58, 44);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(33,false,false,false,67, 44);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(34,false,false,false,76, 44);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(35,true,true,false,85, 44);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(27,true,true,false,0, 32,35);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(28,false,false,false,9, 32,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(29,false,false,false,17.8, 32,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(30,false,false,false,26.4, 32,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(31,false,false,true,35.2, 32,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(32,false,false,false,44, 32,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(33,false,false,false,53, 32,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(34,false,false,false,61.7, 32,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(35,true,true,false,70.4, 32,27);
 --FILA 6
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(36,true,false,false,18.5,53);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(37,false,false,false,27.5, 53);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(38,false,false,false,36.5, 53);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(39,false,false,false,45.5, 53);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(40,false,false,false,54.5, 53);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(41,false,false,false,63, 53);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(42,false,false,false,72, 53);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(43,true,false,false,81, 53);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(36,true,false,false,4,40,26);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(37,false,false,false,13, 40,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(38,false,false,false,22, 40,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(39,false,false,false,30.8, 40,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(40,false,false,false,39.6, 40,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(41,false,false,false,48.4, 40,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(42,false,false,false,57.2, 40,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(43,true,false,false,66, 40,19);
 --FILA 7
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(44,true,false,false,22,60);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(45,false,false,false,31, 60);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(46,false,false,false,40, 60);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(47,false,false,false,49, 60);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(48,false,false,false,58,60);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(49,false,false,false,67, 60);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(50,true,false,false,76, 60);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(44,true,false,false,9,47,18);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(45,false,false,false,17.8, 47,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(46,false,false,false,26.4, 47,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(47,false,false,false,35.2, 47,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(48,false,false,false,44,47,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(49,false,false,false,53, 47,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(50,true,false,false,61.7, 47,12);
 --FILA 8
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(51,true,false,false,27.5, 68);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(52,false,true,false,36.5, 68);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(53,false,false,false,45.5, 68);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(54,false,false,false,54.5, 68);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(55,false,true,false,63.5, 68);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(56,true,false,false,72.5, 68);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(51,true,false,false,13, 55,11);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(52,false,true,false,22, 55,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(53,false,false,false,30.8, 55,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(54,false,false,false,39.6, 55,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(55,false,true,false,48.4, 55,0);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(56,true,false,false,57.2, 55,6);
 --FILA 9
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(57,true,false,false,31, 75);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(58,true,false,false,40, 75);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(59,true,false,false,49, 75);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(60,true,false,false,58, 75);
-INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna) VALUES(61,true,false,false,67, 75);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(57,true,false,false,17.8, 63,5);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(58,true,false,false,26.4, 63,4);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(59,true,false,false,35, 63,3);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(60,true,false,false,43.6, 63,2);
+INSERT INTO CASILLAS(id, borde ,poder1, poder2, fila, columna,casilla_opuesta_id) VALUES(61,true,false,false,52.8, 63,1);
 
 -- Fila es un INTEGER, columna un FLOAT
 -- Casillas adyacencia
@@ -465,58 +465,68 @@ INSERT INTO CASILLAS_ADYACENCIA(casilla_id, adyacencia_id) VALUES(61, 60);
 
 
 -- One admin user, named admin1 with passwor 4dm1n and authority admin
-INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled) 
-VALUES ('ad', 'min', 'admin1', '4dm1n', '2010-09-07', 'admin@gmail.com', '954734895', 5, 3, 550, 130, 5, 7, true);
+
+INSERT INTO users(name, last_name, username, password, birth_date, email, phone, enabled) 
+VALUES ('ad', 'min', 'admin1', '4dm1n', '2010-09-07', 'admin@gmail.com', '954734895', true);
 INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 -- One owner user, named owner1 with passwor 0wn3r
-INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled) 
-VALUES ('ow', 'ner', 'owner1', '0wn3r', '2010-09-07', 'owner@gmail.com', '954734895', 5, 3, 550, 130, 5, 7, true);
+INSERT INTO users(name, last_name, username, password, birth_date, email, phone, enabled) 
+VALUES ('ow', 'ner', 'owner1', '0wn3r', '2010-09-07', 'owner@gmail.com', '954734895', true);
 INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','player');
 -- One vet user, named vet1 with passwor v3t
-INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled) 
-VALUES ('vete', 'rinary', 'vet1', 'v3t02', '2010-09-07', 'vet@gmail.com', '954734895', 5, 3, 550, 130, 5, 7, true);
+INSERT INTO users(name, last_name, username, password, birth_date, email, phone, enabled) 
+VALUES ('vete', 'rinary', 'vet1', 'v3t02', '2010-09-07', 'vet@gmail.com', '954734895', true);
 INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','player');
 -- Owner user
-INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled) 
-VALUES ('Francis', 'Villalobos', 'fravilpae', 'password', '2010-09-07', 'fravilpae@alum.us.es', '954734895', 5, 3, 550, 130, 5, 7, true);
+INSERT INTO users(name, last_name, username, password, birth_date, email, phone, enabled) 
+VALUES ('Francis', 'Villalobos', 'fravilpae', 'password', '2010-09-07', 'fravilpae@alum.us.es', '954734895', true);
 INSERT INTO authorities(id,username,authority) VALUES (4,'fravilpae','player');
 
-INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled) 
-VALUES ('Jesus', 'Zambrana', 'jeszamgue', 'password', '2010-09-07', 'jeszamgue@alum.us.es', '954734895', 5, 3, 550, 130, 5, 7, true);
+INSERT INTO users(name, last_name, username, password, birth_date, email, phone, enabled) 
+VALUES ('Jesus', 'Zambrana', 'jeszamgue', 'password', '2010-09-07', 'jeszamgue@alum.us.es', '954734895', true);
 INSERT INTO authorities(id,username,authority) VALUES (5,'jeszamgue','player');
 
-INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled)
-VALUES ('Aitor', 'Rodriguez', 'aitroddue', 'password', '2010-09-07', 'aitroddue@alum.us.es', '954734895', 5, 3, 550, 130, 5, 7, true);
+INSERT INTO users(name, last_name, username, password, birth_date, email, phone, enabled)
+VALUES ('Aitor', 'Rodriguez', 'aitroddue', 'password', '2010-09-07', 'aitroddue@alum.us.es', '954734895', true);
 INSERT INTO authorities(id,username,authority) VALUES (6,'aitroddue','player');
 
-INSERT INTO users(name, last_name, username, password, birth_date, email, phone, games_played, games_win, total_points, max_points, times_used_power_question, times_used_power_one, enabled)
-VALUES ('Ramonr', 'Guerrero', 'raymon', 'password', '2002-08-07', 'ramonguerom@alum.us.es', '954734895', 5, 3, 550, 130, 5, 7, true);
-INSERT INTO authorities(id,username,authority) VALUES (7,'aitroddue','player');
+INSERT INTO users(name, last_name, username, password, birth_date, email, phone, enabled)
+VALUES ('Ramonr', 'Guerrero', 'raymon', 'password', '2002-08-07', 'ramonguerom@alum.us.es', '954734895', true);
+
+INSERT INTO authorities(id,username,authority) VALUES (7,'raymon','player');
 
 INSERT INTO Friends(friend_id, aux_friend_id) VALUES('jeszamgue', 'fravilpae');
 INSERT INTO Friends(friend_id, aux_friend_id) VALUES('fravilpae', 'jeszamgue');
+INSERT INTO Friends(friend_id, aux_friend_id) VALUES('aitroddue', 'fravilpae');
+INSERT INTO Friends(friend_id, aux_friend_id) VALUES('fravilpae', 'aitroddue');
+INSERT INTO Friends(friend_id, aux_friend_id) VALUES('jeszamgue', 'aitroddue');
+INSERT INTO Friends(friend_id, aux_friend_id) VALUES('aitroddue', 'jeszamgue');
+INSERT INTO Friends(friend_id, aux_friend_id) VALUES('raymon', 'aitroddue');
+INSERT INTO Friends(friend_id, aux_friend_id) VALUES('aitroddue', 'raymon');
 
 INSERT INTO Invitation(id, receiver_username, sender_username) VALUES(1, 'fravilpae', 'aitroddue');
 
-INSERT INTO PARTIDAS(id_tablero2,id_tablero3, id_tablero4, id_criterioa1, id_criterioa2, id_criteriob1, id_criteriob2, fecha)
- VALUES(1,1,1,1,1,1,1, '2022-12-01');
+INSERT INTO PARTIDAS( id_criterioa1, id_criterioa2, id_criteriob1, id_criteriob2, fecha)
+ VALUES(1,1,1,1, '2022-12-01');
 
-INSERT INTO tablero(id, partida_id, puntos, user_username) VALUES(1,1,0,'aitroddue');
+INSERT INTO tablero(id, partida_id, puntos,en_curso, user_username, creada, espera) VALUES(1,1,10,false, 'aitroddue',true, false);
 
-INSERT INTO tablero(id, partida_id, puntos, user_username) VALUES(2,1,0,'raymon');
+INSERT INTO tablero(id, partida_id, puntos,en_curso, user_username, creada, espera) VALUES(2,1,0,false, 'raymon', false, false);
 
-INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
- VALUES(1,0,0,0,0,0);
-INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
- VALUES(2,0,0,0,0,1);
- INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
- VALUES(3,0,0,0,0,2);
- INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
- VALUES(4,0,0,0,0,3);
- INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
- VALUES(5,0,0,0,0,4);
- INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio)
- VALUES(6,0,0,0,0,5);
+INSERT INTO PARTIDAS_TABLEROS(partida_id, tablero_id) VALUES(1,1);
+
+INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, partida_id)
+ VALUES(1,0,0,0,0,0,1);
+INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, partida_id)
+ VALUES(2,0,0,0,0,1,1);
+ INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, partida_id)
+ VALUES(3,0,0,0,0,2,1);
+ INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, partida_id)
+ VALUES(4,0,0,0,0,3,1);
+ INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, partida_id)
+ VALUES(5,0,0,0,0,4,1);
+ INSERT INTO TURNOS(id,  num_territoriosj1,num_territoriosj2,num_territoriosj3,num_territoriosj4,territorio, partida_id)
+ VALUES(6,0,0,0,0,5,1);
 
 INSERT INTO ACCIONES (id, turno_id, casilla_id, tablero_id) VALUES(1,1,7,1);
 INSERT INTO ACCIONES (id, turno_id, casilla_id, tablero_id) VALUES(2,2,15,1);
@@ -527,6 +537,11 @@ INSERT INTO ACCIONES (id, turno_id, casilla_id, tablero_id) VALUES(6,6,56,1);
 INSERT INTO ACCIONES (id, turno_id, casilla_id, tablero_id) VALUES(7,4,60,1);
 INSERT INTO ACCIONES (id, turno_id, casilla_id, tablero_id) VALUES(8,5,33,1);
 INSERT INTO ACCIONES (id, turno_id, casilla_id, tablero_id) VALUES(9,6,47,1);
+
+INSERT INTO logros (id, titulo, descripcion, logo, req_puntos) VALUES (1,'Explorador de Patio', 'Consigue una puntuacion de <puntos> puntos o mas en una partida','logo1.png', 80);
+INSERT INTO logros (id, titulo, descripcion, logo, req_puntos) VALUES (2,'Explorador Normalito', 'Consigue una puntuacion de <puntos> puntos o mas en una partida','logo2.png', 100);
+INSERT INTO logros (id, titulo, descripcion, logo, req_puntos) VALUES (3,'Explorador Profesional', 'Consigue una puntuacion de <puntos> puntos o mas en una partida','logo3.png', 120);
+INSERT INTO logros (id, titulo, descripcion, logo, req_puntos) VALUES (4,'Marco Polo', 'Consigue una puntuacion de <puntos> puntos o mas en una partida','logo4.png', 150);
 /*
 INSERT INTO jugador(id,activo,nombrereino,usosterritorio1,usosterritorio2,
 usosterritorio3,usosterritorio4,usosterritorio5,usosterritorio6,anfitrión,usuario_id,tablero_id)

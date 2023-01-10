@@ -8,16 +8,16 @@
 	uri="http://www.springframework.org/security/tags"%>
 <!--  >%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%-->
 
-<petclinic:layout pageName="users">
+<petclinic:layout pageName="usersF">
 
-    <h2>Find Users</h2>
+    <h1><em><b><u>Buscar usuarios</u></b></em></h1>
 
     
     <form:form modelAttribute="user" action="/users" method="get" class="form-horizontal"
                id="search-user-form">
         <div class="form-group">
             <div class="control-group" id="username">
-                <label class="col-sm-2 control-label">User name </label>
+                <label class="col-sm-2 control-label">Nombre de usuario </label>
                 <div class="col-sm-10">
                     <form:input class="form-control" path="username" size="30" maxlength="80"/>
                     <span class="help-inline"><form:errors path="*"/></span>
@@ -26,7 +26,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Find User</button>
+                <button type="submit" class="btn btn-default">Buscar usuario</button>
             </div>
         </div>
 

@@ -11,10 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -45,16 +42,6 @@ public class Partida {
         inverseJoinColumns = @JoinColumn(name = "TABLERO_ID", referencedColumnName = "id"))
     List<Tablero> tableros;
     
-    @Column(name = "IdTablero2")
-    Integer idTablero2;
-
-    @Column(name = "IdTablero3")
-    Integer idTablero3;
-
-    @Column(name = "IdTablero4")
-    Integer idTablero4;
-
-    
     @Column(name = "IdCriterioA1")
     @NotNull
     Integer idCriterioA1;
@@ -70,5 +57,11 @@ public class Partida {
     @Column(name = "IdCriterioB2")
     @NotNull
     Integer idCriterioB2;
+
+    @Override
+    public String toString() {
+        return "Partida [id=" + id + ", tableros=" + tableros + ", idCriterioA1=" + idCriterioA1 + ", idCriterioA2="
+                + idCriterioA2 + ", idCriterioB1=" + idCriterioB1 + ", idCriterioB2=" + idCriterioB2 + "]";
+    }
     
 }

@@ -2,11 +2,11 @@ package org.springframework.samples.petclinic.accion;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.user.User;
+import org.springframework.samples.petclinic.util.Territorio;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,9 +20,9 @@ public class AccionService {
     }
 
     @Transactional
-    public List<Accion> getIdAcciones(Integer partida, Integer tablero){
+    public List<Accion> getCasillasPorTurno(Integer turno, Integer tablero){
         List<Accion> list = new ArrayList<>();
-        list = accionRepository.findByTablero(partida,tablero);
+        list = accionRepository.findByTablero(turno, tablero);
         
         
         return list;
@@ -30,7 +30,7 @@ public class AccionService {
 
     @Transactional
     public Accion getAccionById(Integer id){
-        return accionRepository.findById(id).get();
+        return accionRepository.findById(id).orElse(null);
     }
     
     @Transactional
@@ -38,5 +38,21 @@ public class AccionService {
         accionRepository.save(accion);
     }
 
+    public List<Accion> getAccionesByTablero( Integer idTablero) {
+        return accionRepository.findByJugadoryTablero(idTablero);
+    }
+
+    public void delete(Accion a) {
+        accionRepository.deleteById(a.getId());
+    }
+
+    public Integer getNumTerritorios(User user, Territorio territorio){
+        
+        return accionRepository.findNumeroTerritoriosX(user, territorio);
+    }
+
+    public Integer getNumTerritoriosTotales(Territorio territorio){
+        return accionRepository.findNumeroTerritoriosTotales(territorio);
+    }
     
 }

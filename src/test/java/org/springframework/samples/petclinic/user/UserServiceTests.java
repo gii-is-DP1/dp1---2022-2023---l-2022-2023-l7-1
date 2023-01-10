@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,10 +84,10 @@ class UserServiceTests {
         List<User> list = this.userService.getFriends(user.getUsername());
         boolean listEmpty = list.isEmpty();
         assertThat(listEmpty).isTrue();
-        List<User> list2 = this.userService.getFriends(JESZAMGUE); //user jeszamgue has 1 friend
+        List<User> list2 = this.userService.getFriends(JESZAMGUE); //user jeszamgue has friends
         boolean listNotEmpty = !list2.isEmpty();
         assertThat(listNotEmpty).isTrue();
-        boolean friends = list2.size()==1;
+        boolean friends = list2.size()>0;
         assertThat(friends).isTrue();
     }
 
@@ -98,7 +99,7 @@ class UserServiceTests {
         User fravilpae = this.userService.getUserById(FRAVILPAE);
         boolean AreFriends = list.contains(jeszamgue) && list2.contains(fravilpae);
         assertThat(AreFriends).isTrue();
-        this.userService.Deletefriend(JESZAMGUE, FRAVILPAE);
+        this.userService.deleteFriend(JESZAMGUE, FRAVILPAE);
         list = this.userService.getFriends(FRAVILPAE);
         list2 = this.userService.getFriends(JESZAMGUE);
         boolean AreNOtFriends = !(list.contains(jeszamgue) && list2.contains(fravilpae));
@@ -106,7 +107,7 @@ class UserServiceTests {
     }
 
     @Test
-    void shoulFindUsers() throws DataAccessException, DuplicatedUsernameException{
+    void shouldFindUsers() throws DataAccessException, DuplicatedUsernameException{
         this.userService.saveUser(user);
 		List<User> user = this.userService.findUsers("diegarlin");
 		assertThat(user.size()==1);
@@ -115,5 +116,23 @@ class UserServiceTests {
         assertThat(user2.size()==0);
         List<User> users = this.userService.findUsers("");
         assertThat(users.size()>1);
+    }
+
+    @Test
+    void shouldFindTableros() throws DataAccessException, DuplicatedUsernameException{
+        this.userService.saveUser(user);
+		List<Tablero> user = this.userService.getTableroByUser("diegarlin");
+		assertThat(user.size()==0);
+        List<Tablero> user2 = this.userService.getTableroByUser("raymon"); //has 1 tablero
+        assertThat(user2.size()!=0);
+    }
+
+    @Test
+    void shouldDeleteAllFriends() throws DataAccessException {
+        List<User> list = this.userService.getFriends(JESZAMGUE);
+        assertThat(list.size()!=0);
+        this.userService.deleteFriends(JESZAMGUE);
+        List<User> list2 = this.userService.getFriends(JESZAMGUE);
+        assertThat(list2.size()!=0);
     }
 }

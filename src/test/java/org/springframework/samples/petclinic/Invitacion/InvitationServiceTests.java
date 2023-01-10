@@ -27,10 +27,14 @@ public class InvitationServiceTests {
     @Autowired
     protected InvitationRepository invitationRepository;
 
+    @Autowired
+    protected InvitationGameRepository invitationGameRepository;
+
     protected User user1 = new User();
     protected User user2 = new User();
     
     protected Invitation invitation = new Invitation();
+    protected InvitationGame invitationGame = new InvitationGame();
     
     @BeforeEach
     public void SetUser() throws DataAccessException, DuplicatedUsernameException{
@@ -110,5 +114,9 @@ public class InvitationServiceTests {
         .contains(userService.findUserOptional(user1.getUsername()).get());
         assertThat(availableUsers).isTrue();
     }
+
+    //______________ TEST INVITATION GAME SERVICE __________________________________________________________________________________________________________
+
+
 
 }

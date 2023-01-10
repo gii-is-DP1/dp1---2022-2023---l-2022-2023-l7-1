@@ -1,120 +1,179 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
-<!--  >%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%-->
-<%@ attribute name="name" required="true" rtexprvalue="true"
-	description="Name of the active menu: home, owners, vets or error"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ attribute name="name" required="true" rtexprvalue="true" description="Name of the active menu"%>
+<%@ tag pageEncoding="UTF-8" %>
+
 
 <nav class="navbar navbar-default" role="navigation">
 	<div class="container">
 		<div class="navbar-header">
 			<a class="navbar-brand"
-				href="<spring:url value="/" htmlEscape="true" />"><span></span></a>
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target="#main-navbar">
-				<span class="sr-only"><os-p>Toggle navigation</os-p></span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
-			</button>
+				href="<spring:url value='/' htmlEscape='true' />" style="margin-top:13px;">
+			</a>
 		</div>
 		<div class="navbar-collapse collapse" id="main-navbar">
-			<ul class="nav navbar-nav">
 
-				<petclinic:menuItem active="${name eq 'home'}" url="/"
-					title="home page">
-					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-					<span>Home</span>
+			<ul class="nav navbar-nav">
+				
+				<petclinic:menuItem active="${name eq 'home'}" url="/" title="Pagina de Inicio">
+					<span class="glyphicon glyphicon-home"></span>
+					<span>Inicio</span>
 				</petclinic:menuItem>
 
 				<sec:authorize access="hasAnyAuthority('admin')">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<span class="glyphicon glyphicon-user"></span>
+							<span>Usuarios</span>
+							<span class="glyphicon glyphicon-chevron-down"></span>
+						</a>
+						<ul class="dropdown-menu" style="background-color:#28B393;">
+							<li>
+								<p>
+									<a href="/users/all" class="btn btn-block" style="color:white;">
+										<span class="glyphicon glyphicon-user"></span> Listar</a>
+								</p>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<p>
+									<a href="/users/find" class="btn btn-block" style="color:white;">
+										<span class="glyphicon glyphicon-search"></span> Buscar</a>
+								</p>
+							</li>
+						</ul>
+					</li>
 
-				<petclinic:menuItem active="${name eq 'users'}" url="/users/all"
-					title="USUARIOS">
-					<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-					<span>Usuarios</span>
-				</petclinic:menuItem>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<span class="glyphicon glyphicon-stats"></span>
+							<span>Estadísticas</span>
+							<span class="glyphicon glyphicon-chevron-down"></span>
+						</a>
+						<ul class="dropdown-menu" style="background-color:#28B393;">
+							<li>
+								<p>
+									<a href="/stats" class="btn btn-block" style="color:white;">Generales</a>
+								</p>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<p>
+									<a href="/stat" class="btn btn-block" style="color:white;">Mis estadísticas</a>
+								</p>
+							</li>
+						</ul>
+					</li>
 
-				<petclinic:menuItem active="${name eq 'users'}" url="/users/find"
-					title="find users">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Find users</span>
-				</petclinic:menuItem>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<span class="glyphicon glyphicon-flag"></span>
+							<span>Logros</span>
+							<span class="glyphicon glyphicon-chevron-down"></span>
+						</a>
+						<ul class="dropdown-menu" style="background-color:#28B393;">
+							<li>
+								<p>
+									<a href="/logros" class="btn btn-block" style="color:white;">Generales</a>
+								</p>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<p>
+									<a href="/logrosUsuario" class="btn btn-block" style="color:white;">Mis logros</a>
+								</p>
+							</li>
+						</ul>
+					</li>
 
-				<petclinic:menuItem active="${name eq 'stats'}" url="/stats"
-					title="Estadisticas generales">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Estadisticas generales</span>
-				</petclinic:menuItem>
-
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<span class="glyphicon glyphicon-tower"></span>
+							<span>Juegos</span>
+							<span class="glyphicon glyphicon-chevron-down"></span>
+						</a>
+						<ul class="dropdown-menu" style="background-color:#28B393;">
+							<li>
+								<p>
+									<a href="/partidas" class="btn btn-block" style="color:white;">Generales</a>
+								</p>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<p>
+									<a href="/partidas/${username}" class="btn btn-block" style="color:white;">Mis juegos</a>
+								</p>
+							</li>
+						</ul>
+					</li>
 				</sec:authorize>
-				
-				<petclinic:menuItem active="${name eq 'rules'}" url="/rules"
-					title="REGLAS">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>REGLAS</span>
+
+				<sec:authorize access="hasAnyAuthority('player')">
+					<petclinic:menuItem active="${name eq 'usersF'}" url="/users/find" title="Buscar usarios">
+						<span class="glyphicon glyphicon-search"></span>
+						<span>Buscar usuarios</span>
+					</petclinic:menuItem>
+
+					<petclinic:menuItem active="${name eq 'userStats'}" url="/stat" title="Mis estadisticas">
+							<span class="glyphicon glyphicon-stats"></span>
+							<span>Mis estadísticas</span>
+					</petclinic:menuItem>
+
+					<petclinic:menuItem active="${name eq 'logrosListing'}" url="/logrosUsuario" title="Mis logros">
+							<span class="glyphicon glyphicon-flag"></span>
+							<span>Mis logros</span>
+					</petclinic:menuItem>
+
+					<petclinic:menuItem active="${name eq 'games'}" url="/partidas/${username}" title="Mis juegos">
+							<span class="glyphicon glyphicon-tower"></span>
+							<span>Mis juegos</span>
+					</petclinic:menuItem>
+				</sec:authorize>
+
+				<petclinic:menuItem active="${name eq 'rules'}" url="/rules" title="Rules">
+					<span class="glyphicon glyphicon-list-alt"></span>
+					<span>Reglas</span>
 				</petclinic:menuItem>
 
 			</ul>
-
-
-
 
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="!isAuthenticated()">
-					<li><a href="<c:url value="/login" />">Login</a></li>
-					<li><a href="<c:url value="/users/new" />">Register</a></li>
+					<petclinic:menuItem active="${name eq 'login'}" url="/login" title="Login">
+						<span>Acceder</span>
+					</petclinic:menuItem>
+
+					<petclinic:menuItem active="${name eq 'register'}" url="/users/new" title="Register">
+						<span>Registrarse</span>
+					</petclinic:menuItem>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>
-							<strong><sec:authentication property="name" /></strong> <span
-							class="glyphicon glyphicon-chevron-down"></span>
-					</a>
-						<ul class="dropdown-menu">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<span class="glyphicon glyphicon-user"></span>
+							<strong><sec:authentication property="name" /></strong>
+							<span class="glyphicon glyphicon-chevron-down"></span>
+						</a>
+						<ul class="dropdown-menu" style="background-color:#28B393;">
 							<li>
-								<div class="navbar-login">
-									<div class="row">
-										<div class="col-lg-4">
-											<p class="text-center">
-												<span class="glyphicon glyphicon-user icon-size"></span>
-											</p>
-										</div>
-										<div class="col-lg-8">
-											<p class="text-left">
-												<strong><sec:authentication property="name" /></strong>
-											</p>
-											<p class="text-left">
-												<a href="<c:url value="/logout" />"
-													class="btn btn-primary btn-block btn-sm">Logout</a>
-											</p>
-										</div>
-									</div>
-								</div>
+								<p>
+									<a href="/users/${username}" class="btn btn-block"
+										style="color:white;">Mi Perfil</a>
+								</p>
 							</li>
 							<li class="divider"></li>
-<!-- 							
-                            <li> 
-								<div class="navbar-login navbar-login-session">
-									<div class="row">
-										<div class="col-lg-12">
-											<p>
-												<a href="#" class="btn btn-primary btn-block">My Profile</a>
-												<a href="#" class="btn btn-danger btn-block">Change
-													Password</a>
-											</p>
-										</div>
-									</div>
-								</div>
+							<li style="margin-top:2px;">
+								<p class="text-left" style="text-align:center">
+									<a href="<c:url value="/logout" />" class="btn btn-block" 
+										style="color:white;">Salir</a>
+								</p>
 							</li>
--->
-						</ul></li>
+						</ul>
+					</li>
 				</sec:authorize>				
 			</ul>
 		</div>
-
-
-
 	</div>
 </nav>

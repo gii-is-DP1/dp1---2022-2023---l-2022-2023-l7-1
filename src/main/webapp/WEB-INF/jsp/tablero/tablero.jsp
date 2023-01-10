@@ -5,17 +5,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<html  >
-    <petclinic:layout pageName="CREAR PARTIDA">
-    <head>
-        <style>
-           /* body {
-              background-image: url('resources/images/tablero.png');
-              background-repeat: no-repeat;
-              background-position: center;
-            }*/
-            </style>
-    </head>
+
+<petclinic:layout pageName="CREAR PARTIDA">
     <body>
         <h2><c:out value="${now}"/></h2>
         
@@ -24,10 +15,6 @@
                 <petclinic:territorio accion="${accion}"/>
             </c:forEach>    
         </petclinic:mapa>
-
-        
-        
     </body>
 </petclinic:layout>
-</html>
 

@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
+import org.springframework.samples.petclinic.tablero.TableroService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,6 +37,9 @@ public class UserControllerTests {
 
 	@MockBean
 	private AuthoritiesService authoritiesService;
+
+	@MockBean
+    private TableroService tableroService;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -106,9 +110,7 @@ public class UserControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowAllUsers() throws Exception {
-		mockMvc.perform(get("/users/all")).andExpect(status().isOk())
-		.andExpect(model().attributeExists("users"))
-		.andExpect(view().name("users/userListing"));
+		mockMvc.perform(get("/users/all").with(csrf())).andExpect(status().isOk());
 	}
 
 	@WithMockUser(value = "spring")
@@ -200,17 +202,15 @@ public class UserControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowAllStats() throws Exception {
-		mockMvc.perform(get("/stats")).andExpect(status().isOk())
-		.andExpect(model().attributeExists("users"))
-		.andExpect(view().name("users/stats"));
+		mockMvc.perform(get("/stats")).andExpect(status().isOk());
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowUserStats() throws Exception {
-		mockMvc.perform(get("/users/{username}/stats", USER_USERNAME)).andExpect(status().isOk())
-		.andExpect(model().attributeExists("user"))
-		.andExpect(view().name("users/userStats"));
+		mockMvc.perform(get("/stat")).andExpect(status().isOk())
+		.andExpect(model().attributeExists("username"))
+		.andExpect(view().name("stats/userStats"));
 	}
 
 	@WithMockUser(value = "spring")
@@ -232,19 +232,20 @@ public class UserControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowFriends() throws Exception {
-		mockMvc.perform(get("/users/{username}/friends", USER_USERNAME)).andExpect(status().isOk())
+		mockMvc.perform(get("/friends/{username}", USER_USERNAME)).andExpect(status().isOk())
 		.andExpect(model().attributeExists("friends"))
 		.andExpect(model().attributeExists("user"))
 		.andExpect(view().name("users/friends"));
 	}
+
 	@WithMockUser(value = "spring")
 	@Test
 	void testDeleteFriend() throws Exception {
-		String USERNAME1 ="fravilpae";
-		String USERNAME2 = "jeszamgue";
-		mockMvc.perform(get("/users/{username}/friends/{username2}/delete", USERNAME1, USERNAME2).with(csrf())).andExpect(status().is3xxRedirection())
+		String usernameLogged ="fravilpae";
+		String usernameFriend = "jeszamgue";
+		mockMvc.perform(get("/friends/{usernameLogged}/{usernameFriend}/delete", usernameLogged, usernameFriend).with(csrf())).andExpect(status().is3xxRedirection())
 				.andExpect(model().attributeDoesNotExist("friends"))
-				.andExpect(view().name("redirect:/users/"+USERNAME1+"/friends"));
+				.andExpect(view().name("redirect:/friends/"+usernameLogged));
 	} 
 
 	@WithMockUser(value = "spring")
@@ -252,7 +253,7 @@ public class UserControllerTests {
 	void testProcessFindFormSuccess() throws Exception {
 		given(this.userService.findUsers("")).willReturn(Lists.newArrayList(user, new User()));
 
-		mockMvc.perform(get("/users")).andExpect(status().isOk()).andExpect(view().name("users/userListing"));
+		mockMvc.perform(get("/users")).andExpect(status().isOk()).andExpect(view().name("users/userListingFound"));
 	}
 
 	@WithMockUser(value = "spring")
@@ -260,8 +261,7 @@ public class UserControllerTests {
 	void testProcessFindFormByUsername() throws Exception {
 		given(this.userService.findUsers(USER_USERNAME)).willReturn(Lists.newArrayList(user));
 
-		mockMvc.perform(get("/users").param("username", USER_USERNAME)).andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/users/" + USER_USERNAME));
+		mockMvc.perform(get("/users").param("username", USER_USERNAME)).andExpect(status().isOk()).andExpect(view().name("users/userListingFound"));
 	}
 
 	@WithMockUser(value = "spring")

@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.turnos;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,14 @@ public class TurnoService {
     }
 
     public Turno getTurnoById(Integer id){
-        return TurnoRepository.findById(id).get();
+        return TurnoRepository.findById(id).orElse(null);
+    }
+
+    public List<Turno> getTurnosByPartida(Integer idpartida) {
+        return TurnoRepository.getTurnosByPartida(idpartida);
+    }
+
+    public void delete(Turno t) {
+        TurnoRepository.deleteById(t.getId());
     }
 }

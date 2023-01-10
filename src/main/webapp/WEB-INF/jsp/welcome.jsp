@@ -16,38 +16,20 @@
 </style>
 
 <petclinic:layout pageName="home">         
-        <div class="row">
-            <sec:authorize access="isAuthenticated()">
-            
+
+        <sec:authorize access="isAuthenticated()">
             <div class="form-group">
-                <spring:url value="users/{username}" htmlEscape="true" var="perfil">
-                    <spring:param name="username" value="${username}" />
-                </spring:url>
-                <div class="col-sm-offset-2 col-sm-10">
-                    <sec:authorize access="hasAnyAuthority('admin','player')">
-                   <a class="btn btn-default" href="${perfil}">VER PERFIL</a>
-                    </sec:authorize>
+
+                <div class="col align-self-center">
+                    <a class="btn btn-default btn-lg" href="/partida/crearPartida"
+                        style="margin-top:11%; margin-bottom:5%; margin-left:22%; margin-right:22%; display:block;"><b>NUEVA PARTIDA</b></a>
                 </div>
-                <spring:url value="users/{username}/stats" htmlEscape="true" var="stats">
-                    <spring:param name="username" value="${username}" />
-                </spring:url>
-                <div class="col-sm-offset-2 col-sm-10">
-                    <sec:authorize access="hasAnyAuthority('admin','player')">
-                    <a class="btn btn-default" href="${stats}">VER ESTADISTICAS</a>
-                    </sec:authorize>
-                 </div>
-
-                 <spring:url value="/partida/crearPartida" htmlEscape="true" var="crear">
-
-                 </spring:url>
-                 <div class="col-sm-offset-2 col-sm-10">
-                    <a class="btn btn-default" href="${crear}">CREAR PARTIDA</a>
-                 </div>
+                <div class="col align-self-center">
+                    <a class="btn btn-default btn-lg" href="/invitationsGame"
+                        style="margin-top:5%; margin-bottom:10%; margin-left:22%; margin-right:22%; display:block;"><b>INVITACIONES A PARTIDA</b></a>
+                </div>
+                 
             </div>
         </sec:authorize>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-            </div>
-        </div>
+
 </petclinic:layout>

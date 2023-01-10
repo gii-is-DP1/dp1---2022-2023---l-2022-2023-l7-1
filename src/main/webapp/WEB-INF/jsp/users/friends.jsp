@@ -5,29 +5,32 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="users">
+
+    <h1><em><b><u>Amigos</u></b></em></h1>
+
     <table id="usersTable" class="table table-striped">
         <thead>
         <tr>
-            <th>First Name</th>
-            <th>LastName</th>
-            <th>Username</th>
-            <th></th>
+            <th style="text-align:center;">Nombre</th>
+            <th style="text-align:center;">Apellidos</th>
+            <th style="text-align:center;">Usuario</th>
+            <th style="text-align:center;"></th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${friends}" var="friend">
             <tr>
-                <td>
+                <td style="text-align:center;">
                     <c:out value="${friend.name}"/>
                 </td>
-                <td>                    
+                <td style="text-align:center;">                    
                     <c:out value="${friend.lastName} "/>                                        
                 </td>
-                <td>                    
+                <td style="text-align:center;">                    
                     <c:out value="${friend.username}"/>
                 </td>
-                <td> 
-                    <a href="/users/${user.username}/friends/${friend.username}/delete"> 
+                <td style="text-align:center;"> 
+                    <a href="/friends/${user.username}/${friend.username}/delete"> 
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                     </a>      
                 </td>
@@ -35,5 +38,6 @@
         </c:forEach>
         </tbody>
     </table>
+    <b><a style="position: absolute; margin-left: 1075px; " href="/friends/partidas" class="btn btn-default">Ver partidas</a></b>
 
 </petclinic:layout>

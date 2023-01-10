@@ -5,24 +5,26 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 
-<petclinic:layout pageName="Create users">
-    <h2>
-        User Data
-    </h2>
+<petclinic:layout pageName="register">
+    <h1><em><b><u>Información del usuario</u></b></em></h1>
+
     <form:form modelAttribute="user" class="form-horizontal" id="add-user-form">
         <div class="form-group has-feedback">
-            <petclinic:inputField label="First Name" name="name"/>
-            <petclinic:inputField label="Last Name" name="lastName"/>
-            <petclinic:inputField label="Birth Date" name="birthDate"/>
-            <petclinic:inputField label="Email" name="email"/>
-            <petclinic:inputField label="Telephone" name="phone"/>
-            <petclinic:inputField label="Username" name="username"/>
-            <petclinic:inputField label="Password" name="password"/>
+            <petclinic:inputField label="Nombre" name="name"/>
+            <petclinic:inputField label="Apellidos" name="lastName"/>
+            <petclinic:inputField label="Cumpleaños" name="birthDate"/>
+            <petclinic:inputField label="Correo" name="email"/>
+            <petclinic:inputField label="Teléfono" name="phone"/>
+            <hr>
+            <petclinic:inputField label="Usuario" name="username"/>
+            <petclinic:passwordField label="Contraseña" name="password"/>
+            
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button class="btn btn-default" type="submit">Confirm</button>
+                <button class="btn btn-default" type="submit">Confirmar</button>
             </div>
         </div>
     </form:form>

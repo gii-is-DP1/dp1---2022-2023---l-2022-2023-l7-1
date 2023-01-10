@@ -1,12 +1,10 @@
 package org.springframework.samples.petclinic.casilla;
 
-import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -39,6 +37,9 @@ public class Casilla extends BaseEntity{
 
     @ManyToMany
     List<Casilla> adyacencia;
+
+    @Column(name = "casilla_opuesta_id")
+    Integer casillaOpuesta;
     
     @Override
     public String toString(){

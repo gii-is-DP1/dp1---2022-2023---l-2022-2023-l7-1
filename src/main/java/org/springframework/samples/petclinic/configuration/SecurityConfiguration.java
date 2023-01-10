@@ -33,23 +33,55 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
+				// Permisos developers
 				.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
+				// Permisos de pagina de inicio
 				.antMatchers(HttpMethod.GET, "/","/oups").permitAll()
+				// Permisos de users
 				.antMatchers("/users/new").permitAll()
-				.antMatchers("/stats").hasAnyAuthority("admin")
-				.antMatchers("/users/{username}/stats").authenticated()
-				.antMatchers("/session/**").permitAll()
-				.antMatchers("/admin/**").hasAnyAuthority("admin")
-				.antMatchers("/users/all").hasAnyAuthority("admin")
-				.antMatchers("/users/{username}/**").authenticated()
-				.antMatchers("/{username}/crearPartida").hasAnyAuthority("admin", "player")
-				.antMatchers("/{username}/lobby").hasAnyAuthority("admin", "player")
-				.antMatchers("/prueba/**").hasAnyAuthority("admin", "player")
 				.antMatchers("/users/find").authenticated()
 				.antMatchers("/users").authenticated()
 				.antMatchers("/users/{username}").authenticated()
+				.antMatchers("/users/{username}/**").authenticated()
+				.antMatchers("/users/all").hasAnyAuthority("admin")
+				// Permisos de stats
+				.antMatchers("/stats").hasAnyAuthority("admin")
+				.antMatchers("/stat").authenticated()
+				// Permisos de logros
+				.antMatchers("/logrosUsuario").authenticated()
+				.antMatchers("/logros/**").hasAnyAuthority("admin")
+				// Permisos de partidas
+				.antMatchers("/partida/**").authenticated()
+				.antMatchers("/partidas").authenticated()
+				.antMatchers("/partidas/{username}").authenticated()
+				.antMatchers("/partidas/partidaEnCurso/{username}").authenticated()
+				// Permisos de amigos
+				.antMatchers("/friends/{username}").authenticated()
+				.antMatchers("/friends/{username}/**").authenticated()
+				// Permisos de invitacion
+				.antMatchers("/invitations/{username}").authenticated()
+				.antMatchers("/invitationsGame").authenticated()
+				.antMatchers("/invite/{username}").authenticated()
+				.antMatchers("/invitate/**").authenticated()
+				.antMatchers("/invitateToPlay/**").authenticated()
+				.antMatchers("/invitationAccepted/**").authenticated()
+				.antMatchers("/invitationToGameAccepted/**").authenticated()
+				.antMatchers("/invitationCancelled/**").authenticated()
+				.antMatchers("/invitationToGameCancelled/**").authenticated()
+				// Permisos de las reglas
 				.antMatchers("/rules").permitAll()
-				.antMatchers("/partida/**").permitAll()
+
+				.antMatchers("/session/**").permitAll()
+				.antMatchers("/admin/**").hasAnyAuthority("admin")
+
+				.antMatchers("/{username}/crearPartida").hasAnyAuthority("admin", "player")
+				.antMatchers("/lobby").hasAnyAuthority("admin", "player")
+				.antMatchers("/salaDeEspera").hasAnyAuthority("admin", "player")
+				.antMatchers("/**/espera/dado").hasAnyAuthority("admin", "player")
+				.antMatchers("/salaDeEsperaJugadores").hasAnyAuthority("admin", "player")
+				.antMatchers("/prueba/**").hasAnyAuthority("admin", "player")
+
+				
 				.antMatchers("/p").permitAll()
 				.anyRequest().denyAll()
 				.and()

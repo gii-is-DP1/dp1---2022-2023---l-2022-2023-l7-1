@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -27,5 +29,9 @@ public interface UserRepository extends  CrudRepository<User, String>{
     @Modifying
     @Query(value = "DELETE FROM FRIENDS WHERE FRIENDS.FRIEND_ID = ?2 AND FRIENDS.AUX_FRIEND_ID = ?1", nativeQuery = true)
     void Deletefriend(String username, String username2);
+
+    @Query("SELECT user FROM User user")
+    Page<User> getAll(Pageable pageable);
 	
+    
 }

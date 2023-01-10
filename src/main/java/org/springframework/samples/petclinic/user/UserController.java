@@ -1,57 +1,42 @@
-/*
- * Copyright 2002-2013 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.springframework.samples.petclinic.user;
 
-import java.util.Collection;
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.tablero.Tablero;
+import org.springframework.samples.petclinic.tablero.TableroService;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-/**
- * @author Juergen Hoeller
- * @author Ken Krebs
- * @author Arjen Poutsma
- * @author Michael Isvy
- */
 @Controller
 public class UserController {
 
 	private static final String VIEWS_USER_CREATE_UPDATE_FORM = "users/createOrUpdateUserForm";
-	private static final String STATS_LISTING_VIEW = "users/stats";
-	private static final String USER_STATS_LISTING_VIEW = "users/userStats";
-	private static final String VIEW_USER_LISTING = "users/userListing";
 	private static final String VIEW_USERNAME_EDITING = "users/userEdit";
-    private static final String VIEW_FIND_USER = "users/findUsers";
     private static final String VIEW_USER_DETAILS = "users/userDetails";
     private static final String VIEW_USER_FRIENDS = "users/friends";
-
+	private static final String VIEW_USER_FRIENDS_PARTIDAS = "users/friendsPartida";
 
 	private final UserService userService;
 
@@ -59,8 +44,12 @@ public class UserController {
     private AuthoritiesService authoritiesService;
 
 	@Autowired
-	public UserController(UserService userService) {
+    private TableroService tableroService;
+
+	@Autowired
+	public UserController(UserService userService, TableroService tableroService) {
 		this.userService = userService;
+		this.tableroService = tableroService;
 	}
 
 	@InitBinder
@@ -70,10 +59,26 @@ public class UserController {
 
 	@Transactional
 	@GetMapping(value = "/users/all")
-	public ModelAndView showUsers(){
-		ModelAndView res = new ModelAndView(VIEW_USER_LISTING);
-		res.addObject("users", userService.getAll());
-		return res;
+	public ModelAndView showUsers(@RequestParam Map<String, Object> params, Model res, Principal principal){ //show users con paginacion
+        Integer page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) - 1) : 0;
+        Pageable pageable = PageRequest.of(page, 3);
+        Page<User> users = userService.getAll(pageable);
+        Integer totalPage = users.getTotalPages();
+        if(totalPage > 0) {
+			List<Integer> pages = IntStream.rangeClosed(1, totalPage).boxed().collect(Collectors.toList());
+			res.addAttribute("pages", pages);
+		}
+		res.addAttribute("current", page + 1);
+		res.addAttribute("next", page + 2);
+		res.addAttribute("prev", page);
+		res.addAttribute("last", totalPage);
+		res.addAttribute("users", users.getContent());
+
+		ModelAndView result = new ModelAndView("users/userListingPage");
+		if(principal != null){
+			result.addObject("username", principal.getName());
+		}
+		return result;
 	}
 
     @Transactional(readOnly = true)
@@ -105,6 +110,7 @@ public class UserController {
     @Transactional
 	@GetMapping(value = "/users/{username}/delete")
     public String deleteUser(@PathVariable String username){
+		userService.deleteFriends(username);
         userService.deleteUserById(username);        
         return "redirect:/users/all";
     }
@@ -127,7 +133,7 @@ public class UserController {
             user.setUsername(username);
             User userToBeUpdated=userService.getUserById(username);
             BeanUtils.copyProperties(user,userToBeUpdated,
-        "winRatio", "matchesPlayed", "gamesWin", "totalPoints", "maxPoints", "timesUsedPowerQuestion", "timesUsedPower1", "friends");
+        "winRatio", "matchesPlayed", "gamesWin", "totalPoints", "maxPoints", "timesUsedPowerQuestion", "timesUsedPower1", "friends", "estado");
             userService.saveUser(userToBeUpdated);
         return "redirect:/users/all";
         }
@@ -150,46 +156,35 @@ public class UserController {
         } else {
         User usernameToBeUpdated=userService.getUserById(username);
         BeanUtils.copyProperties(user,usernameToBeUpdated, 
-         "winRatio", "matchesPlayed", "gamesWin", "totalPoints", "maxPoints", "timesUsedPowerQuestion", "timesUsedPower1", "friends");
+         "winRatio", "matchesPlayed", "gamesWin", "totalPoints", "maxPoints", "timesUsedPowerQuestion", "timesUsedPower1", "friends", "estado");
         userService.saveUser(usernameToBeUpdated);
         return "redirect:/";
         }
     }
 
-	@Transactional
-    @GetMapping(value = "/stats")
-    public String showStats(Map<String, Object> model) {
-        List<User> users = userService.getAll();
-        model.put("users", users);
-        return STATS_LISTING_VIEW;
-    }
-
-	@Transactional
-    @GetMapping(value = "/users/{username}/stats")
-    public String showStats(@PathVariable String username,Map<String, Object> model) {
-        User user = userService.getUserById(username);
-        model.put("user", user);
-        return USER_STATS_LISTING_VIEW;
-    }
-
     @Transactional
     @GetMapping(value = "/users/find")
-	public String initFindForm(Map<String, Object> model) {
+	public ModelAndView initFindForm(Map<String, Object> model, Principal principal) {
 		model.put("user", new User());
-		return VIEW_FIND_USER;
+
+		ModelAndView res = new ModelAndView("users/findUsers");
+		if(principal != null){
+			res.addObject("username", principal.getName());
+		}
+		return res;
 	}
 
     @Transactional
     @GetMapping("/users/{username}")
 	public ModelAndView showUser(@PathVariable("username") String username) {
-		ModelAndView mav = new ModelAndView(VIEW_USER_DETAILS);
-		mav.addObject("user", this.userService.getUserById(username));
-		return mav;
+		ModelAndView res = new ModelAndView(VIEW_USER_DETAILS);
+		res.addObject("user", this.userService.getUserById(username));
+		return res;
 	}
 
     @Transactional
     @GetMapping(value = "/users")
-	public String processFindForm(User user, BindingResult result, Map<String, Object> model) {
+	public ModelAndView processFindForm(User user, BindingResult result, Map<String, Object> model, Principal principal) {
         
 		// allow parameterless GET request for /users to return all records
 		if (user.getUsername() == null) {
@@ -201,22 +196,31 @@ public class UserController {
 		if (results.isEmpty()) {
 			// no users found
 			result.rejectValue("username", "notFound", "not found");
-			return VIEW_FIND_USER;
-		}
-		else if (results.size() == 1) {
-			// 1 user found
-			user = results.iterator().next();
-			return "redirect:/users/" + user.getUsername();
+
+			ModelAndView res = new ModelAndView("users/findUsers");
+			if(principal != null){
+				res.addObject("username", principal.getName());
+			}
+			return res;
 		}
 		else {
 			// multiple users found
 			model.put("users", results);
-			return VIEW_USER_LISTING;
+
+			ModelAndView res = new ModelAndView("users/userListingFound");
+			if(principal != null){
+				res.addObject("username", principal.getName());
+			}
+			return res;
 		}
 	}
 
+	// -------------------------------------------------------------------------------------------
+	// --- FRIENDS -------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------
+
     @Transactional
-    @GetMapping("/users/{username}/friends")
+    @GetMapping("/friends/{username}")
 	public ModelAndView showFriends(@PathVariable("username") String username) {
 		List<User> friends = userService.getFriends(username);
 		ModelAndView mav = new ModelAndView(VIEW_USER_FRIENDS);
@@ -226,10 +230,72 @@ public class UserController {
 	}
 
 	@Transactional
-	@GetMapping(value = "/users/{username}/friends/{username2}/delete")
-    public String deleteFriend(@PathVariable String username, @PathVariable String username2){
-        userService.Deletefriend(username, username2);        
-        return "redirect:/users/"+username+"/friends";
+	@GetMapping(value = "/friends/{usernameLogged}/{usernameFriend}/delete")
+    public String deleteFriend(@PathVariable String usernameLogged, @PathVariable String usernameFriend){
+        userService.deleteFriend(usernameLogged, usernameFriend);        
+        return "redirect:/friends/"+usernameLogged;
     }
+
+	@Transactional
+    @GetMapping("/friends/partidas")
+	public ModelAndView showPartidasAmigo(Principal principal) {
+		List<User> friends = userService.getFriends(principal.getName());
+		ModelAndView mav = new ModelAndView(VIEW_USER_FRIENDS_PARTIDAS);
+		List<Tablero> tableros = new ArrayList<>();
+		for(User user: friends){
+			tableros.addAll(tableroService.getTablerosByUser(user));
+		}
+		mav.addObject("tableros", tableros);
+		mav.addObject("user", this.userService.getUserById(principal.getName()));
+		return mav;
+	}
+
+	// -------------------------------------------------------------------------------------------
+	// --- STATS ---------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------
+
+	@Transactional
+    @GetMapping(value = "/stats")
+    public ModelAndView showStats(@RequestParam Map<String, Object> params, Model res, Principal principal) {
+	  	Integer page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) - 1) : 0;
+        Pageable pageable = PageRequest.of(page, 3);
+        Page<User> users = userService.getAll(pageable);
+        Integer totalPage = users.getTotalPages();
+        if(totalPage > 0) {
+			List<Integer> pages = IntStream.rangeClosed(1, totalPage).boxed().collect(Collectors.toList());
+			res.addAttribute("pages", pages);
+		}
+		for(User user: users){
+			userService.calculaEstadisticas(user);
+		}
+		List<Integer> statsTotales = userService.calculaEstadisticasGlobales();
+		res.addAttribute("current", page + 1);
+		res.addAttribute("next", page + 2);
+		res.addAttribute("prev", page);
+		res.addAttribute("last", totalPage);
+		res.addAttribute("users", users.getContent());
+		res.addAttribute("statsTotales", statsTotales);
+
+		ModelAndView result = new ModelAndView("stats/stats");
+		if(principal != null){
+			result.addObject("username", principal.getName());
+		}
+		return result; 
+	}
+
+	@Transactional
+    @GetMapping(value = "/stat")
+    public ModelAndView showMyStats(Map<String, Object> model, Principal principal) {
+        User user = userService.getUserById(principal.getName());
+		userService.calculaEstadisticas(user);
+        model.put("user", user);
+
+		ModelAndView res = new ModelAndView("stats/userStats");
+		if(principal != null){
+			res.addObject("username", principal.getName());
+		}
+        return res;
+    }
+
 
 }

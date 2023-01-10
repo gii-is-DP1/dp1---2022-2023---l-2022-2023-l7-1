@@ -1,23 +1,18 @@
 package org.springframework.samples.petclinic.Invitacion;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.partida.Partida;
-import org.springframework.samples.petclinic.partida.PartidaService;
 import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
-import org.springframework.samples.petclinic.Invitacion.InvitationGame;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -28,9 +23,6 @@ public class InvitationController {
 
     @Autowired
 	private UserService userService;
-
-    @Autowired
-	private PartidaService partidaService;
 
     private static final String VIEW_INVITATIONS_LIST = "/users/invitations";
     private static final String VIEW_AVAILABLE_INVITATIONS_LIST = "/users/invites";
@@ -137,6 +129,7 @@ public class InvitationController {
         invitationService.checkAnfitrionEnJugadoresAceptados(anfitrion);
         mav.addObject("jugadoresAceptados", anfitrion.getJugadoresAceptados());
         mav.addObject("username", username);
+        mav.addObject("tamañoJugadores", anfitrion.getJugadoresAceptados().size());
         return mav;
     }
 

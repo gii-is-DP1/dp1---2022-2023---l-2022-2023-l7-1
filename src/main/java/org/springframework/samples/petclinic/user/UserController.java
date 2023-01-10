@@ -17,7 +17,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.samples.petclinic.tablero.TableroService;
-import org.springframework.samples.petclinic.logros.Logro;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;

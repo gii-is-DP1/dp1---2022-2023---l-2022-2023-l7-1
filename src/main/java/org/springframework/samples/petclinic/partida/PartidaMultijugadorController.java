@@ -160,6 +160,7 @@ public class PartidaMultijugadorController {
         res.addObject("turno", turno);
         res.addObject("criterios", criterios);
         res.addObject("numJugador", numJugador);
+        res.addObject("chatId", idPartida);
         if(principal != null){
             res.addObject("username", principal.getName());
         }
@@ -253,6 +254,7 @@ public class PartidaMultijugadorController {
         res.addObject("poder1", tablero.getPoder1());
         res.addObject("usos", usos);
         res.addObject("criterios", criterios);
+        res.addObject("chatId", idPartida);
         return res;
     }
 
@@ -279,6 +281,7 @@ public class PartidaMultijugadorController {
         res.addObject("criterios", criterios);
         res.addObject("dados", dadosFijos);
         res.addObject("numJugador", numJugador);
+        res.addObject("chatId", idPartida);
         if(principal != null){
             res.addObject("username", principal.getName());
         }
@@ -365,6 +368,7 @@ public class PartidaMultijugadorController {
         res.addObject("poder1", tablero.getPoder1());
         res.addObject("usos", usos);
         res.addObject("criterios", criterios);
+        res.addObject("chatId", idPartida);
         return res;
     }
 
@@ -409,6 +413,7 @@ public class PartidaMultijugadorController {
         res.addObject("turno", turno);
         res.addObject("criterios", criterios);
         res.addObject("numJugador", numJugador);
+        res.addObject("chatId", idPartida);
         if(principal != null){
             res.addObject("username", principal.getName());
         }
@@ -494,6 +499,7 @@ public class PartidaMultijugadorController {
         res.addObject("poder1", tablero.getPoder1());
         res.addObject("usos", usos);
         res.addObject("criterios", criterios);
+        res.addObject("chatId", idPartida);
         return res;
     }
 
@@ -522,6 +528,7 @@ public class PartidaMultijugadorController {
         res.addObject("poder1", tablero.getPoder1());
         res.addObject("usos", usos);
         res.addObject("criterios", criterios);
+        res.addObject("chatId", partida.getId());
         return res;
     }
 
@@ -550,6 +557,7 @@ public class PartidaMultijugadorController {
         res.addObject("poder1", tablero.getPoder1());
         res.addObject("usos", usos);
         res.addObject("criterios", criterios);
+        res.addObject("chatId", idPartida);
         return res;
     }
    

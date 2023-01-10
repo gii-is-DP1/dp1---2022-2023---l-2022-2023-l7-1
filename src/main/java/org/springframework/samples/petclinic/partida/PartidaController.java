@@ -63,9 +63,7 @@ public class PartidaController {
         List<Tablero> tableros = userService.getTableros();
 		ModelAndView result = new ModelAndView("users/partida");
 		result.addObject("tablero", tableros);
-        if(principal != null){
-			result.addObject("username", principal.getName());
-		}
+		result.addObject("username", principal.getName());
 		return result;
 	}
 
@@ -106,9 +104,7 @@ public class PartidaController {
 		List<Tablero> tableros = userService.getTableroByUser(username);
 		ModelAndView res = new ModelAndView("users/partida");
 		res.addObject("tablero", tableros);
-        if(principal != null){
-            res.addObject("username", principal.getName());
-        }
+        res.addObject("username", principal.getName());
 		return res;
 	}
 
@@ -126,9 +122,7 @@ public class PartidaController {
         } else{
             res = new ModelAndView("partidas/crearPartida");
         }
-        if(principal != null){
-            res.addObject("username", principal.getName());
-        }
+        res.addObject("username", principal.getName());
 		return res;
 	}
 
@@ -243,10 +237,7 @@ public class PartidaController {
         res.addObject("usos", usos);
         res.addObject("turno", turno);
         res.addObject("criterios", criterios);
-
-        if(principal != null){
-            res.addObject("username", principal.getName());
-        }
+        res.addObject("username", principal.getName());
         return res;
     }
 
@@ -258,9 +249,7 @@ public class PartidaController {
                                         @PathVariable("numTiradas") Integer numTiradas, HttpSession session ) {
         ModelAndView res = new ModelAndView();
         if (result.hasErrors()) {
-            if(principal != null){
-                res.addObject("username", principal.getName());
-            }
+            res.addObject("username", principal.getName());
             res.setViewName(VIEW_ELIGE_TERRITORIO);
 			return res;
 		} else {
@@ -298,9 +287,8 @@ public class PartidaController {
             accionService.save(ac);
 
             res.setViewName("redirect:/partida/dibujar/"+idPartida+"/"+idTurno+"/"+ac.getId()+"/"+numTiradas+"/1");
-            if(principal != null){
-                res.addObject("username", principal.getName());
-            }
+            res.addObject("username", principal.getName());
+            
 			return res;
         }
     }
@@ -353,9 +341,8 @@ public class PartidaController {
         res.addObject("poder", poder);
         res.addObject("turno", turno);
         res.addObject("criterios", criterios);
-        if(principal != null){
-            res.addObject("username", principal.getName());
-        }
+        res.addObject("username", principal.getName());
+        
         return res;
     }
 
@@ -367,10 +354,7 @@ public class PartidaController {
                             Map<String, Object> model){
 
         ModelAndView res = new ModelAndView();
-
-        if(principal != null){
-            res.addObject("username", principal.getName());
-        }
+        res.addObject("username", principal.getName());
 
         //Actualiza la acción y la guarda en la BBDD
         Turno turno = turnoService.getTurnoById(idTurno);

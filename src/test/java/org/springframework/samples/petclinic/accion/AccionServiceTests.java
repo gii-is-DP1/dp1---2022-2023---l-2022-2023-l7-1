@@ -48,12 +48,12 @@ class AccionServiceTests {
 
     @Test
     public void shouldNotGetAccionById(){ 
-        assertThrows(NoSuchElementException.class, () -> this.accionService.getAccionById(10));
+        assertThat(this.accionService.getAccionById(10)).isNull();
     }
 
     @Test
     void shouldSaveAccion(){
-        assertThrows(NoSuchElementException.class, () -> this.accionService.getAccionById(10));
+        assertThat(this.accionService.getAccionById(10)).isNull();
         Accion accion = new Accion();
         accion.setCasilla(casillaService.getCasillaById(32));
         accionService.save(accion);

@@ -37,7 +37,7 @@ class LogrosServiceTests {
 
     @Test
     void shouldNotFindLogroById(){
-        assertThrows(NoSuchElementException.class, () -> this.logrosService.getById(5));
+        assertThat(this.logrosService.getById(5)).isNull();
     }
 
     @Test
@@ -52,7 +52,7 @@ class LogrosServiceTests {
 
     @Test
     void shouldSaveLogro(){
-        assertThrows(NoSuchElementException.class, () -> this.logrosService.getById(5));
+        assertThat(this.logrosService.getById(5)).isNull();
         Logro logro = new Logro();
         logro.setTitulo("Nuevo Logro");
         logro.setReqPuntos(50);

@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.Chat;
+package org.springframework.samples.petclinic.chat;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;

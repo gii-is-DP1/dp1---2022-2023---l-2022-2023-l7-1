@@ -76,7 +76,7 @@ public class PartidaMultijugadorController {
             if(accion.getCasilla()==null){
                 turno = accion.getTurno();
             }
-            if(turno.getId()!=accion.getTurno().getId()){
+            if(!(turno.getId().equals(accion.getTurno().getId()))){
                 if(partidaService.getUserById(principal).getEstado()){
                     return "redirect:/partida/Multijugador/eligeTerritorio/"+tablero.getPartida().getId()+"/"+turno.getId();
                 } else{

@@ -184,9 +184,9 @@ public class PartidaController {
         for(Tablero t: tableros){
             usuario =t.getUser();
             usuario.setJugadoresAceptados(new ArrayList<>());
-            usuario.setReceivedInvitationsToGame(new HashSet<InvitationGame>());
+            usuario.setReceivedInvitationsToGame(new HashSet<>());
             usuario.setAnfitrionDelJugador(new ArrayList<>());
-            usuario.setSendedInvitationsToGame(new HashSet<InvitationGame>());
+            usuario.setSendedInvitationsToGame(new HashSet<>());
             userService.save(usuario);
             acciones.addAll(accionService.getAccionesByTablero(t.getId()));
             tableroService.delete(t);

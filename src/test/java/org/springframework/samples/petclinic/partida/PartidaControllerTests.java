@@ -1,27 +1,15 @@
 package org.springframework.samples.petclinic.partida;
 
-import org.springframework.context.annotation.FilterType;
-import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.accion.AccionService;
-import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.samples.petclinic.tablero.TableroService;
 import org.springframework.samples.petclinic.turnos.TurnoService;
-import org.springframework.samples.petclinic.user.Authorities;
-import org.springframework.samples.petclinic.user.AuthoritiesService;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -29,9 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import net.bytebuddy.asm.Advice.Local;
-
-import org.eclipse.jdt.internal.compiler.ast.FalseLiteral;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -175,22 +160,6 @@ public class PartidaControllerTests {
 		mockMvc.perform(get("/partida/crearPartida") )
 		.andExpect(status().isOk())
 		.andExpect(view().name("partidas/crearPartida"));
-	}
-
-	@WithMockUser(username = JAIGARLIN)
-	@Test
-	void testContinuarPartida() throws Exception {
-		// mockMvc.perform(get("/partida/continuarPartida") )
-		// .andExpect(status().isOk())
-		// .andExpect(view().name("partidas/crearPartida"));
-	}
-
-	@WithMockUser(username = JAIGARLIN)
-	@Test
-	void testCancelarPartida() throws Exception {
-		// mockMvc.perform(get("/partida/cancelarPartida"))
-		// .andExpect(status().isOk())
-		// .andExpect(view().name("redirect:/"));
 	}
 
 }

@@ -61,7 +61,7 @@ public class TableroService {
         Integer numPartidasGanadas = 0;
         for(Tablero tablero: tableros){
             List<Tablero> tablerosPartida = tableroRepository.getTablerosByPartida(tablero.getPartida());
-            Integer maxPuntos = tablerosPartida.stream().max(Comparator.comparing(Tablero::getPuntos)).get().getPuntos();
+            Integer maxPuntos = tablerosPartida.stream().max(Comparator.comparing(Tablero::getPuntos)).orElse(tablerosPartida.get(0)).getPuntos();
             if(maxPuntos.equals(tablero.getPuntos())){
                 numPartidasGanadas +=1;
             }

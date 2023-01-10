@@ -17,7 +17,7 @@
 
 			<ul class="nav navbar-nav">
 				
-				<petclinic:menuItem active="${name eq 'home'}" url="/" title="Home page">
+				<petclinic:menuItem active="${name eq 'home'}" url="/" title="Pagina de Inicio">
 					<span class="glyphicon glyphicon-home"></span>
 					<span>Inicio</span>
 				</petclinic:menuItem>
@@ -111,22 +111,22 @@
 				</sec:authorize>
 
 				<sec:authorize access="hasAnyAuthority('player')">
-					<petclinic:menuItem active="${name eq 'usersF'}" url="/users/find" title="Find users">
+					<petclinic:menuItem active="${name eq 'usersF'}" url="/users/find" title="Buscar usarios">
 						<span class="glyphicon glyphicon-search"></span>
 						<span>Buscar usuarios</span>
 					</petclinic:menuItem>
 
-					<petclinic:menuItem active="${name eq 'userStats'}" url="/stat" title="My stats">
+					<petclinic:menuItem active="${name eq 'userStats'}" url="/stat" title="Mis estadisticas">
 							<span class="glyphicon glyphicon-stats"></span>
 							<span>Mis estadísticas</span>
 					</petclinic:menuItem>
 
-					<petclinic:menuItem active="${name eq 'logrosListing'}" url="/logrosUsuario" title="My stats">
+					<petclinic:menuItem active="${name eq 'logrosListing'}" url="/logrosUsuario" title="Mis logros">
 							<span class="glyphicon glyphicon-flag"></span>
 							<span>Mis logros</span>
 					</petclinic:menuItem>
 
-					<petclinic:menuItem active="${name eq 'games'}" url="/partidas/${username}" title="My stats">
+					<petclinic:menuItem active="${name eq 'games'}" url="/partidas/${username}" title="Mis juegos">
 							<span class="glyphicon glyphicon-tower"></span>
 							<span>Mis juegos</span>
 					</petclinic:menuItem>

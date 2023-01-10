@@ -143,10 +143,13 @@ public class PartidaController {
     @Transactional
 	@GetMapping(value = "/partida/continuarPartida")
 	public String continuarPartida(Principal principal){
-        User usuario = userService.getUserById(principal.getName());
-        Tablero tablero = tableroService.getTableroActiveByUser(usuario);
-        List<Accion> acciones = accionService.getAccionesByTablero(tablero.getId());
-        List<Turno> turnos = turnoService.getTurnosByPartida(tablero.getPartida().getId());
+        Tablero tablero = partidaService.getTableroActiveByUser(principal);
+        List<Tablero> tableros= partidaService.getTablerosByPartidaId(tablero.getPartida().getId());
+        if(tableros.size()>1){
+            return "redirect:/partida/Multijugador/continuarPartida";
+        }
+        List<Accion> acciones = partidaService.getAccionesByTablero(tablero.getId());
+        List<Turno> turnos = partidaService.getTurnosByPartida(tablero.getPartida().getId());
         Turno turno = turnos.get(turnos.size()-1);
         if(!acciones.isEmpty()){
             Accion accion = acciones.get(acciones.size()-1);
@@ -158,7 +161,7 @@ public class PartidaController {
                 }
             } else{
                 Integer primeraAccion= partidaService.getPrimeraAccion(acciones, turno);
-                if ((turno.getId()-turnos.get(0).getId())%2==0){
+                if ((turnos.size()-1)%2==0){
                     return "redirect:/partida/dibujar/"+tablero.getPartida().getId()+"/"+turno.getId()+"/"+accion.getId()+"/3/"+ primeraAccion;
                 } else {
                     return "redirect:/partida/dibujar/"+tablero.getPartida().getId()+"/"+turno.getId()+"/"+accion.getId()+"/2/" + primeraAccion;
@@ -174,30 +177,8 @@ public class PartidaController {
     @Transactional
 	@GetMapping(value = "/partida/cancelarPartida")
 	public String cancelarPartida(Principal principal){
-        User usuario = userService.getUserById(principal.getName());
-        userService.save(usuario);
-        Tablero tablero = tableroService.getTableroActiveByUser(usuario);
-        Partida partida = partidaService.getPartidaById(tablero.getPartida().getId());
-        List<Tablero> tableros = tableroService.getTablerosByPartida(partida);
-        List<Accion> acciones = new ArrayList<>();
-        List<Turno> turnos = turnoService.getTurnosByPartida(partida.getId());
-        for(Tablero t: tableros){
-            usuario =t.getUser();
-            usuario.setJugadoresAceptados(new ArrayList<>());
-            usuario.setReceivedInvitationsToGame(new HashSet<>());
-            usuario.setAnfitrionDelJugador(new ArrayList<>());
-            usuario.setSendedInvitationsToGame(new HashSet<>());
-            userService.save(usuario);
-            acciones.addAll(accionService.getAccionesByTablero(t.getId()));
-            tableroService.delete(t);
-        }
-        for(Accion a: acciones){
-            accionService.delete(a);
-        }
-        for(Turno t: turnos){
-            turnoService.delete(t);
-        }
-        partidaService.delete(partida);
+        User usuario = partidaService.getUserById(principal);
+        partidaService.cancelarPartida(usuario);
         return "redirect:/";
     }
 
@@ -459,8 +440,6 @@ public class PartidaController {
         
         tablero.setPuntos(puntosTotales);
         tableroService.saveTablero(tablero);
-        List<Tablero> tableros = partidaService.getTablerosByPartidaId(partida.getId());
-        Integer posicion = partidaService.getPosicionPartida(tableros, tablero);
         res.addObject("criterioA1", criterioA1);
         res.addObject("criterioA2", criterioA2);
         res.addObject("criterioB1", criterioB1);
@@ -469,7 +448,6 @@ public class PartidaController {
         res.addObject("puntosTotales", puntosTotales);
         res.addObject("acciones", acciones);
         res.addObject("criterios", criterios);
-        res.addObject("posicion", posicion);
         return res;
 	}
 

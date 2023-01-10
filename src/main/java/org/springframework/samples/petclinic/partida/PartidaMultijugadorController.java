@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -50,8 +49,73 @@ public class PartidaMultijugadorController {
 	public String getPartidaMultijugador(Principal principal){
         User usuario = partidaService.getUserById(principal);
 		List<Integer> x = this.partidaService.crearPartidaMultijugador(usuario.getJugadoresAceptados()); //x.get(0)=idPartida, x.get(1)=idturno
+        if(x.get(0)==null){
+            Integer idPartida = partidaService.getTableroActiveByUser(principal).getPartida().getId();
+            x.set(0, idPartida);
+        }
+        if(x.get(1)==null){
+            Integer idTurno = partidaService.getUltimoTurno(partidaService.getTableroActiveByUser(principal).getPartida()).getId();
+            x.set(1, idTurno);
+        }
         return "redirect:/partida/Multijugador/eligeTerritorio/"+x.get(0)+"/"+x.get(1);
 	}
+
+    //-------------------------------------------------------------------------
+    // ContinuarPartidaEnCurso ------------------------------------------------
+    //-------------------------------------------------------------------------
+    @Transactional
+	@GetMapping(value = "/partida/Multijugador/continuarPartida")
+	public String continuarPartidaMultijugador(Principal principal){
+        Tablero tablero = partidaService.getTableroActiveByUser(principal);
+        List<Tablero> tableros = partidaService.getTablerosByPartidaId(tablero.getPartida().getId());
+        List<Accion> acciones = partidaService.getAccionesByTablero(tablero.getId());
+        List<Turno> turnos = partidaService.getTurnosByPartida(tablero.getPartida().getId());
+        Turno turno = turnos.get(turnos.size()-1);
+        if(!acciones.isEmpty()){
+            Accion accion = acciones.get(acciones.size()-1);
+            if(accion.getCasilla()==null){
+                turno = accion.getTurno();
+            }
+            if(turno.getId()!=accion.getTurno().getId()){
+                if(partidaService.getUserById(principal).getEstado()){
+                    return "redirect:/partida/Multijugador/eligeTerritorio/"+tablero.getPartida().getId()+"/"+turno.getId();
+                } else{
+                    Integer ultimoJuadorActivo = partidaService.getUltimoJugadorActivo(tableros,turno); 
+                    Integer numJugador= partidaService.getNumJugador(tablero,tableros);
+                    //comprobar si eres el proximo jugador activo
+                    if(turno.getNumTerritoriosJ1()==null && turno.getNumTerritoriosJ2()==null && turno.getNumTerritoriosJ3()==null
+                    && turno.getNumTerritoriosJ4()==null){
+                        if(ultimoJuadorActivo+1==numJugador){
+                            return "redirect:/partida/Multijugador/espera/eligeTerritorio/"+turno.getId();
+                        }
+                        return"redirect:/partida/Multijugador/espera/dado/"+tablero.getPartida().getId();
+                    }else{
+                        turno=accion.getTurno();
+                        if(turno!=turnos.get(turnos.size()-1)){
+                            Integer primeraAccion= partidaService.getPrimeraAccion(acciones, turno);
+                            return "redirect:/partida/Multijugador/dibujar/"+tablero.getPartida().getId()+"/"+turno.getId()+"/"+accion.getId()+"/"+ primeraAccion;
+                        }
+                        return "redirect:/partida/Multijugador/espera/espera/dado/"+tablero.getPartida().getId();
+                    }              
+                }
+            } else{
+                Integer primeraAccion= partidaService.getPrimeraAccion(acciones, turno);
+                if(turno!=turnos.get(turnos.size()-1)){
+                    return "redirect:/partida/Multijugador/dibujar/"+tablero.getPartida().getId()+"/"+turno.getId()+"/"+accion.getId()+"/"+ primeraAccion;
+                }
+                if(primeraAccion==1){
+                    return "redirect:/partida/Multijugador/espera/dibujar/"+tablero.getPartida().getId()+"/"+turno.getId()+"/"+accion.getId()+"/"+ primeraAccion;
+                } else{
+                    return "redirect:/partida/Multijugador/dibujar/"+tablero.getPartida().getId()+"/"+turno.getId()+"/"+accion.getId()+"/"+ primeraAccion;
+                }   
+            } 
+        }
+        if(partidaService.getUserById(principal).getEstado()){
+            return "redirect:/partida/Multijugador/eligeTerritorio/"+tablero.getPartida().getId()+"/"+turno.getId();
+        } else{
+            return "redirect:/partida/Multijugador/espera/dado/"+tablero.getPartida().getId();
+        }     
+    }
 
     //-------------------------------------------------------------------------
     // Elegir Territorio ------------------------------------------------------
@@ -148,7 +212,7 @@ public class PartidaMultijugadorController {
             ac.setTurno(turnoToBeUpdated);
             partidaService.saveAccion(ac);
             partidaService.saveUserEstadoFalse(user);
-            res.setViewName("redirect:/partida/Multijugador/espera/dibujar/"+idPartida+"/"+idTurno+"/"+ac.getId()); 
+            res.setViewName("redirect:/partida/Multijugador/espera/dibujar/"+idPartida+"/"+idTurno+"/"+ac.getId()+"/1"); 
             if(principal != null){
                 res.addObject("username", principal.getName());
             }
@@ -156,21 +220,26 @@ public class PartidaMultijugadorController {
         }
     }
 
+    //-------------------------------------------------------------------------
+    // Elegir Dado ------------------------------------------------------------
+    //-------------------------------------------------------------------------
+
     @Transactional
     @GetMapping(value = "/partida/Multijugador/espera/dado/{idPartida}")
     public ModelAndView esperaElegirNumTerritorios(Principal principal, @PathVariable("idPartida") Integer idPartida) {
         ModelAndView res = new ModelAndView();                                    
-        //Comrpobar si el Jugador activo ya ha elegido el territorio
         Tablero tablero = partidaService.getTableroActiveByUser(principal);
         Partida partida = partidaService.getPartidaById(idPartida);
         List<Tablero> tableros = partidaService.getTablerosByPartidaId(partida.getId());
-        Integer contador = partidaService.getNumTablerosEnEsperaDado(tableros);
         Boolean partidaEnEspera = partidaService.getPartidaEnEspera(tableros);
+        //Controla si ha acabado la partida
         if (Boolean.TRUE.equals(partidaEnEspera)) {
             partidaService.saveTableroEnEspera(tablero);
             res.setViewName("redirect:/partida/Multijugador/espera/resultados/"+partida.getId());
             return res;
         }
+        Integer contador = partidaService.getNumTablerosEnEsperaDado(tableros);
+        //Comrpobar si el Jugador activo ya ha elegido el territorio
         if(tableros.size() ==contador){
             List<Turno> turnos = partidaService.getTurnosByPartida(partida.getId());
             res.setViewName("redirect:/partida/Multijugador/dado/"+partida.getId()+"/"+turnos.get(turnos.size()-1).getId());
@@ -248,18 +317,23 @@ public class PartidaMultijugadorController {
             turnoToBeUpdated.setPartida(partidaService.getPartidaById(idPartida));
             partidaService.saveTableroTurnoAccion(tablero,turnoToBeUpdated,ac);       
             partidaService.saveUserEstadoFalse(user);
-            res.setViewName("redirect:/partida/Multijugador/espera/dibujar/"+idPartida+"/"+idTurno+"/"+ac.getId()); 
+            res.setViewName("redirect:/partida/Multijugador/espera/dibujar/"+idPartida+"/"+idTurno+"/"+ac.getId()+"/1"); 
             if(principal != null){
                 res.addObject("username", principal.getName());
             }
 			return res;
         }
     }
+
+    //-------------------------------------------------------------------------
+    // Dibujar Territorio -----------------------------------------------------
+    //-------------------------------------------------------------------------
     
     @Transactional
-    @GetMapping(value = "/partida/Multijugador/espera/dibujar/{idPartida}/{idTurno}/{idAccion}")
+    @GetMapping(value = "/partida/Multijugador/espera/dibujar/{idPartida}/{idTurno}/{idAccion}/{primeraAccion}")
     public ModelAndView esperaDibujar(@PathVariable("idPartida") Integer idPartida, @PathVariable("idTurno") Integer idTurno,
-                                        @PathVariable("idAccion") Integer idAccion, Principal principal) {
+                                        @PathVariable("idAccion") Integer idAccion,
+                                        @PathVariable("primeraAccion") Integer primeraAccion, Principal principal) {
         ModelAndView res = new ModelAndView();                                    
         //Comprobar si todos han elegido dado
         Turno turno = partidaService.getTurnoById(idTurno);
@@ -267,18 +341,18 @@ public class PartidaMultijugadorController {
         List<Tablero> tableros = partidaService.getTablerosByPartidaId(partida.getId());
         if(turno.getNumTerritoriosJ1()!=null && turno.getNumTerritoriosJ2()!=null && tableros.size()==2){
             if(turno.getNumTerritoriosJ1()>0 && turno.getNumTerritoriosJ2()>0){
-                res.setViewName("redirect:/partida/Multijugador/dibujar/"+idPartida+"/"+idTurno+"/"+idAccion +"/1");
+                res.setViewName("redirect:/partida/Multijugador/dibujar/"+idPartida+"/"+idTurno+"/"+idAccion +"/"+ primeraAccion);
                 return res;
             }
         }else if(turno.getNumTerritoriosJ1()!=null && turno.getNumTerritoriosJ2()!=null && turno.getNumTerritoriosJ3()!=null && tableros.size()==3){
             if(turno.getNumTerritoriosJ1()>0 && turno.getNumTerritoriosJ2()>0  && turno.getNumTerritoriosJ3()>0){
-                res.setViewName("redirect:/partida/Multijugador/dibujar/"+idPartida+"/"+idTurno+"/"+idAccion +"/1");
+                res.setViewName("redirect:/partida/Multijugador/dibujar/"+idPartida+"/"+idTurno+"/"+idAccion +"/"+ primeraAccion);
                 return res;
             }
         } else if(turno.getNumTerritoriosJ1()!=null && turno.getNumTerritoriosJ2()!=null && turno.getNumTerritoriosJ3()!=null &&
                   turno.getNumTerritoriosJ4()!=null && tableros.size()==4){
             if(turno.getNumTerritoriosJ1()>0 && turno.getNumTerritoriosJ2()>0  && turno.getNumTerritoriosJ3()>0 && turno.getNumTerritoriosJ4()>0){
-                res.setViewName("redirect:/partida/Multijugador/dibujar/"+idPartida+"/"+idTurno+"/"+idAccion +"/1");
+                res.setViewName("redirect:/partida/Multijugador/dibujar/"+idPartida+"/"+idTurno+"/"+idAccion +"/"+ primeraAccion);
                 return res;
             }
         } 
@@ -379,6 +453,7 @@ public class PartidaMultijugadorController {
                 return res;
             }
             Integer ultimoJuadorActivo = partidaService.getUltimoJugadorActivo(tableros,turno); 
+            //comprobar si eres el proximo ugador activo
             if(ultimoJuadorActivo+1==numJugador){
                 dadosFijos.clear();
                 Turno t = new Turno();
@@ -392,6 +467,10 @@ public class PartidaMultijugadorController {
             return res;  
         }
     }
+
+    //-------------------------------------------------------------------------
+    // Espera Finalizacion del Turno ------------------------------------------
+    //-------------------------------------------------------------------------
 
     @Transactional
     @GetMapping(value = "/partida/Multijugador/espera/espera/dado/{idPartida}")
@@ -446,6 +525,10 @@ public class PartidaMultijugadorController {
         return res;
     }
 
+    //-------------------------------------------------------------------------
+    // Resultados -------------------------------------------------------------
+    //-------------------------------------------------------------------------
+
     @Transactional
     @GetMapping(value = "/partida/Multijugador/espera/resultados/{idPartida}")
     public ModelAndView esperaResultados(@PathVariable("idPartida") Integer idPartida, Principal principal) {
@@ -454,11 +537,11 @@ public class PartidaMultijugadorController {
         Partida partida = partidaService.getPartidaById(idPartida);
         List<Tablero> tableros = partidaService.getTablerosByPartidaId(partida.getId());
         Boolean aux = partidaService.getPartidaFinalizada(tableros);
+        Tablero tablero = partidaService.getTableroActiveByUser(principal);  
         if (Boolean.TRUE.equals(aux)) {
-            res.setViewName("redirect:/partida/Multijugador/resultados/"+idPartida);
+            res.setViewName("redirect:/partida/resultados/"+tablero.getId());
             return res;
         }
-        Tablero tablero = partidaService.getTableroActiveByUser(principal);  
         List<Accion> acciones = partidaService.getAccionesByTablero(tablero.getId());
         res.setViewName(VIEW_ESPERA_NUM_TERRITORIOS);   
         List<Integer> criterios = List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2);
@@ -467,43 +550,6 @@ public class PartidaMultijugadorController {
         res.addObject("poder1", tablero.getPoder1());
         res.addObject("usos", usos);
         res.addObject("criterios", criterios);
-        return res;
-    }
-
-    @Transactional
-    @GetMapping(value = "/partida/Multijugador/resultados/{idPartida}")
-    public ModelAndView Resultados(@PathVariable("idPartida") Integer idPartida, Principal principal) {
-        ModelAndView res = new ModelAndView("partidas/resultados");
-		Tablero tablero = partidaService.getTableroActiveByUser(principal);
-        tablero.setPartidaEnCurso(false);
-
-        Partida partida = partidaService.getPartidaById(idPartida);
-
-        List<Turno> turnos = partidaService.getTurnosByPartida(partida.getId());
-
-        List<Accion> acciones = partidaService.getAccionesByTablero(tablero.getId()).stream().filter(x-> x.getCasilla() != null).collect(Collectors.toList());
-
-        List<Integer> criterios = List.of(partida.idCriterioA1,partida.idCriterioA2,partida.idCriterioB1,partida.idCriterioB2);
-
-        Integer criterioA1 = partidaService.calcularPuntosCriterioA1(acciones, turnos, partida);
-        Integer criterioA2 = partidaService.calcularPuntosCriterioA2(acciones, turnos, partida);
-        Integer criterioB1 = partidaService.calcularPuntosCriterioB1(acciones, turnos, partida);
-        Integer criterioB2 = partidaService.calcularPuntosCriterioB2(acciones, turnos, partida);
-
-        Integer puntosTotales = criterioA1 + criterioA2 + criterioB1 + criterioB2+ tablero.getPoder2();
-        tablero.setPuntos(puntosTotales);
-        partidaService.saveTablero(tablero);
-        List<Tablero> tableros = partidaService.getTablerosByPartidaId(idPartida);
-        Integer posicion = partidaService.getPosicionPartida(tableros,tablero);
-        res.addObject("criterioA1", criterioA1);
-        res.addObject("criterioA2", criterioA2);
-        res.addObject("criterioB1", criterioB1);
-        res.addObject("criterioB2", criterioB2);
-        res.addObject("poder2", tablero.getPoder2());
-        res.addObject("puntosTotales", puntosTotales);
-        res.addObject("acciones", acciones);
-        res.addObject("criterios", criterios);
-        res.addObject("posicion", posicion);
         return res;
     }
    

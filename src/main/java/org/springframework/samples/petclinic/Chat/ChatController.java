@@ -49,7 +49,7 @@ public class ChatController {
                 break;
             }
         }
-        if(Boolean.valueOf(perteneceAChat).equals(true)){
+        if(perteneceAChat.equals(true)){
             result.addObject("user", user);
             result.addObject("id", id);
             result.addObject("chat", c);

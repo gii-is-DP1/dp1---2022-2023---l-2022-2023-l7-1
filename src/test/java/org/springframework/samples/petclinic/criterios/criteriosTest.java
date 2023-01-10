@@ -65,6 +65,10 @@ public class criteriosTest {
     protected Turno turno7 = new Turno();
 
 
+    // -------------------------------------------------------------------------------------------
+	// --- Criterio A1 ---------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------
+
     @Test
     public void puntosCriterioA1(){
         List<Accion> acciones= new ArrayList<Accion>();
@@ -136,6 +140,10 @@ public class criteriosTest {
         assertThat(res).isEqualTo(4); // casilla 7 y 10      
     }
 
+    // -------------------------------------------------------------------------------------------
+	// --- Criterio A2 ---------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------
+
     @Test
     public void puntosCriterioA2(){
         List<Accion> acciones= new ArrayList<Accion>();
@@ -190,6 +198,10 @@ public class criteriosTest {
         res = strategy.calcularCriterio(acciones, turnos);
         assertThat(res).isEqualTo(7); //casilla 7 con casilla 13 , 14 y 8(bosque), casilla 4 con casilla 10 y 9
     }
+
+    // -------------------------------------------------------------------------------------------
+	// --- Criterio A3 ---------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------
 
     @Test
     public void puntosCriterioA3(){
@@ -256,6 +268,10 @@ public class criteriosTest {
         assertThat(res).isEqualTo(2);  //1 grupo de 13, 1 de 1 y 1 de 3
     }
 
+    // -------------------------------------------------------------------------------------------
+	// --- Criterio A4 ---------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------
+
     @Test
     public void puntosCriterioA4(){
         List<Accion> acciones= new ArrayList<Accion>();
@@ -306,6 +322,10 @@ public class criteriosTest {
         res = strategy.calcularCriterio(acciones, turnos);
         assertThat(res).isEqualTo(6); //  2 praderas y 1 rio y 1 bosque, 1 pradera y 2 rios y un bosque, 1 pradera y 1 rio 
     }
+
+    // -------------------------------------------------------------------------------------------
+	// --- Criterio A5 ---------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------
 
     @Test
     public void puntosCriterioA5(){
@@ -373,6 +393,11 @@ public class criteriosTest {
         res = strategy.calcularCriterio(acciones, turnos);
         assertThat(res).isEqualTo(20);  //1 grupo de 13, 2 de 1 y 1 de 3
     }
+
+    // -------------------------------------------------------------------------------------------
+	// --- Criterio A6 ---------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------
+
     @Test
     public void puntosCriterioA6(){
         List<Accion> acciones= new ArrayList<Accion>();
@@ -412,6 +437,10 @@ public class criteriosTest {
         assertThat(res).isEqualTo(3); //3 montanas en borde
     }
     
+    // -------------------------------------------------------------------------------------------
+	// --- Criterio B1 ---------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------
+
     @Test
     public void puntosCriterioB1(){
         List<Accion> acciones= new ArrayList<Accion>();
@@ -481,6 +510,10 @@ public class criteriosTest {
         assertThat(res).isEqualTo(13); //1 grupo de 13, 1 de 1 y 1 de 3
     }
 
+    // -------------------------------------------------------------------------------------------
+	// --- Criterio B2 ---------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------
+
     @Test
     public void puntosCriterioB2(){
         List<Accion> acciones= new ArrayList<Accion>();
@@ -535,6 +568,10 @@ public class criteriosTest {
         res = strategy.calcularCriterio(acciones, turnos);
         assertThat(res).isEqualTo(6); //1 pradera con 1 poblado y 2 castillos. 1 pradera con dos castillos. 2 praderas con 1 mismo poblado, una de ellas tiene 2 poblados
     }
+
+    // -------------------------------------------------------------------------------------------
+	// --- Criterio B3 ---------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------
 
     @Test
     public void puntosCriterioB3(){
@@ -644,6 +681,10 @@ public class criteriosTest {
         assertThat(res).isEqualTo(120); //12 pares de casillas opuestas colocadas unidas
     }
 
+    // -------------------------------------------------------------------------------------------
+	// --- Criterio B4 ---------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------
+
     @Test
     public void puntosCriterioB4(){
         List<Accion> acciones= new ArrayList<Accion>();
@@ -727,6 +768,10 @@ public class criteriosTest {
         assertThat(res).isEqualTo(24); // 2 castillos unido a todo
     }
 
+    // -------------------------------------------------------------------------------------------
+	// --- Criterio B5 ---------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------
+
     @Test
     public void puntosCriterioB5(){
         List<Accion> acciones= new ArrayList<Accion>();
@@ -766,6 +811,10 @@ public class criteriosTest {
         res = strategy.calcularCriterio(acciones, turnos);
         assertThat(res).isEqualTo(4);  //1 rio con 2 bosques. 1 rio con 3 bosques
     }
+
+    // -------------------------------------------------------------------------------------------
+	// --- Criterio B6 ---------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------
 
     @Test
     public void puntosCriterioB6(){
@@ -827,6 +876,4 @@ public class criteriosTest {
         res = strategy.calcularCriterio(acciones, turnos);
         assertThat(res).isEqualTo(8); // 1 poblado cancela el primer conjunto
     }
-
-
 }

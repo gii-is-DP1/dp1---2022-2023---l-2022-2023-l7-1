@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic;
+package org.springframework.samples.petclinic.mensaje;
 
 
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.chat.Mensaje;
+import org.springframework.samples.petclinic.chat.MensajeRepository;
 import org.springframework.samples.petclinic.chat.MensajeService;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
@@ -33,6 +34,8 @@ public class MensajeServiceTests {
     protected Mensaje msj1 = new Mensaje();
 
     protected Mensaje msj2 = new Mensaje();
+
+    protected Mensaje msj3 = new Mensaje();
     
     @BeforeEach
     public void setUsuarioYMensajes( ){
@@ -54,9 +57,7 @@ public class MensajeServiceTests {
         msj2.setContenido("msj2");
         msj2.setId(2);
         msj2.setUser(user);
-
-        mensajeService.saveMensaje(msj1);
-        mensajeService.saveMensaje(msj2);
+        
     }
 
     
@@ -64,6 +65,8 @@ public class MensajeServiceTests {
     @Test
     @Transactional
     public void shouldFindMensajesByUsername(){
+        mensajeService.saveMensaje(msj1);
+        mensajeService.saveMensaje(msj2);
         List<Mensaje> mensajes = mensajeService.getMensajesByUsername("diegarlin");
         assertThat(mensajes.size()).isEqualTo(2);
         assertThat(mensajes.get(0).getContenido()).isEqualTo("msj1");
@@ -72,6 +75,8 @@ public class MensajeServiceTests {
     @Test
     @Transactional
     public void shouldGetAll(){
+        mensajeService.saveMensaje(msj1);
+        mensajeService.saveMensaje(msj2);
         List<Mensaje> mensajes = mensajeService.getAll();
         assertThat(mensajes.size()).isEqualTo(2);
     }
@@ -79,10 +84,11 @@ public class MensajeServiceTests {
     @Test
     @Transactional
     public void shouldSaveMensaje(){
+        mensajeService.saveMensaje(msj1);
+        mensajeService.saveMensaje(msj2);
         List<Mensaje> mensajes1 = mensajeService.getAll();
         assertThat(mensajes1.size()).isEqualTo(2);
 
-        Mensaje msj3 = new Mensaje();
         msj3.setId(3);
         msj3.setContenido("msj3");
         msj3.setUser(user);
@@ -97,9 +103,12 @@ public class MensajeServiceTests {
     @Test
     @Transactional
     public void shouldGetUltimoId(){
-        //En cada before each se guardan 2
+        mensajeService.saveMensaje(msj1);
+        mensajeService.saveMensaje(msj2);
+        List<Mensaje> mensajes = mensajeService.getAll();
+        Integer res = mensajes.get(0).getId()+2;
         Integer ultimo = mensajeService.getUltimoId();
-        assertThat(ultimo).isEqualTo(3);
+        assertThat(ultimo).isEqualTo(res);
     }
 
     

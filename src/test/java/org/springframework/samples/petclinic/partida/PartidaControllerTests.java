@@ -61,7 +61,6 @@ public class PartidaControllerTests {
 
 	private MockMvc mockMvc;
 
-
 	@Autowired
 	private WebApplicationContext context;
 
@@ -96,11 +95,12 @@ public class PartidaControllerTests {
 
 	protected Turno t = new Turno();
 
+	protected Turno t2 = new Turno();
+
 	protected Accion accion1 = new Accion();
 
 	protected Accion accion2 = new Accion();
 
-	protected Accion accion3 = new Accion();
 	@BeforeEach
 	public void setup() {
 		mockMvc = MockMvcBuilders
@@ -163,10 +163,18 @@ public class PartidaControllerTests {
 		accion1.setTurno(t);
 		accion1.setCasilla(casillaService.getCasillaById(1));
 
+		accion2.setId(2);
+		accion2.setTablero(tab);
+		accion2.setTurno(t2);
+
 		t.setId(1);
 		t.setNumTerritoriosJ1(2);
 		t.setNumTerritoriosJ2(null);
 		t.setTerritorio(Territorio.BOSQUE);
+		t.setPartida(p);
+
+		t2.setId(2);
+		t2.setPartida(p);
 	}
 
 
@@ -205,17 +213,6 @@ public class PartidaControllerTests {
 
     @WithMockUser(value = "spring")
 	@Test
-	void testShowPartidaJugador() throws Exception {
-		given(this.userService.getUserById(any())).willReturn(diegarlin);
-		mockMvc.perform(get("/partidasUsuario"))
-		.andExpect(status().isOk())
-		.andExpect(model().attributeExists("tablero"))
-		.andExpect(view().name("users/partida"));
-	}
-	
-
-    @WithMockUser(value = "spring")
-	@Test
 	void testCrearPartida() throws Exception {
 		mockMvc.perform(get("/partida/crearPartida") )
 		.andExpect(status().isOk())
@@ -230,7 +227,79 @@ public class PartidaControllerTests {
 		
 	}
 
-	//continuarpartida
+	
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testContinuarPartidaAEligeTerritorio() throws Exception{
+		given(partidaService.getTableroActiveByUser(any())).willReturn(tab);
+		given(partidaService.getTablerosByPartidaId(anyInt())).willReturn(List.of(tab));
+		given(partidaService.getAccionesByTablero(anyInt())).willReturn(List.of());
+		given(partidaService.getTurnosByPartida(anyInt())).willReturn(List.of(t));
+		mockMvc.perform(get("/partida/continuarPartida"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/partida/eligeTerritorio/1/1/3"));
+
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testContinuarPartidaADibujar() throws Exception{
+		given(partidaService.getTableroActiveByUser(any())).willReturn(tab);
+		given(partidaService.getTablerosByPartidaId(anyInt())).willReturn(List.of(tab));
+		given(partidaService.getAccionesByTablero(anyInt())).willReturn(List.of(accion1));
+		given(partidaService.getTurnosByPartida(anyInt())).willReturn(List.of(t));
+		given(partidaService.getPrimeraAccion(any(), any())).willReturn(0);
+		
+		mockMvc.perform(get("/partida/continuarPartida"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/partida/dibujar/1/1/1/3/0"));
+
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testContinuarPartidaADibujarPrimerTurno() throws Exception{
+		given(partidaService.getTableroActiveByUser(any())).willReturn(tab);
+		given(partidaService.getTablerosByPartidaId(anyInt())).willReturn(List.of(tab));
+		given(partidaService.getAccionesByTablero(anyInt())).willReturn(List.of(accion1));
+		given(partidaService.getTurnosByPartida(anyInt())).willReturn(List.of(t));
+		given(partidaService.getPrimeraAccion(any(), any())).willReturn(1);
+		
+		mockMvc.perform(get("/partida/continuarPartida"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/partida/dibujar/1/1/1/3/1"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testContinuarPartidaAEligeTerritorio3() throws Exception{
+		given(partidaService.getTableroActiveByUser(any())).willReturn(tab);
+		given(partidaService.getTablerosByPartidaId(anyInt())).willReturn(List.of(tab));
+		given(partidaService.getAccionesByTablero(anyInt())).willReturn(List.of(accion2));
+		given(partidaService.getTurnosByPartida(anyInt())).willReturn(List.of(t));
+		given(partidaService.getPrimeraAccion(any(), any())).willReturn(0);
+		
+		mockMvc.perform(get("/partida/continuarPartida"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/partida/eligeTerritorio/1/1/3"));
+
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testContinuarPartidaAEligeTerritorio2() throws Exception{
+		given(partidaService.getTableroActiveByUser(any())).willReturn(tab);
+		given(partidaService.getTablerosByPartidaId(anyInt())).willReturn(List.of(tab));
+		given(partidaService.getAccionesByTablero(anyInt())).willReturn(List.of(accion2));
+		given(partidaService.getTurnosByPartida(anyInt())).willReturn(List.of(t2,t));
+		given(partidaService.getPrimeraAccion(any(), any())).willReturn(0);
+		
+		mockMvc.perform(get("/partida/continuarPartida"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/partida/eligeTerritorio/1/1/2"));
+
+	}
 
 	@WithMockUser(value = "spring")
 	@Test

@@ -30,7 +30,7 @@
                     <c:out value="${friend.username}"/>
                 </td>
                 <td style="text-align:center;"> 
-                    <a href="/friends/${user.username}/${friend.username}/delete"> 
+                    <a href="/friends/${friend.username}/delete"> 
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                     </a>      
                 </td>

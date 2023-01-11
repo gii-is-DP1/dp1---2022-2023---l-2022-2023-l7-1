@@ -167,7 +167,8 @@ public class PartidaControllerTests {
     @WithMockUser(value = "spring")
 	@Test
 	void testShowPartidaJugador() throws Exception {
-		mockMvc.perform(get("/partidas/{username}", JAIGARLIN))
+		given(this.userService.getUserById(any())).willReturn(diegarlin);
+		mockMvc.perform(get("/partidasUsuario"))
 		.andExpect(status().isOk())
 		.andExpect(model().attributeExists("tablero"))
 		.andExpect(view().name("users/partida"));

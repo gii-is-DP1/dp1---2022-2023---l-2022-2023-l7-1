@@ -99,9 +99,9 @@ public class PartidaController {
     // PartidaAsociadaJugador -------------------------------------------------
     //-------------------------------------------------------------------------
     @Transactional
-    @GetMapping(value = "/partidas/{username}")
-	public ModelAndView showPartidasJugador(@PathVariable("username") String username, Principal principal) {
-		List<Tablero> tableros = userService.getTableroByUser(username);
+    @GetMapping(value = "/partidasUsuario")
+	public ModelAndView showPartidasJugador(Principal principal) {
+		List<Tablero> tableros = userService.getTableroByUser(principal.getName());
 		ModelAndView res = new ModelAndView("users/partida");
 		res.addObject("tablero", tableros);
         res.addObject("username", principal.getName());

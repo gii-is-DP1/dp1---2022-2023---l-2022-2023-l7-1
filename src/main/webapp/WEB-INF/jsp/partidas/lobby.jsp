@@ -7,29 +7,33 @@
 
 <petclinic:layout pageName="users">
     <h1><em><b><u>Invita a tus amigos para jugar</u></b></em></h1>
-    <table id="usersTable" class="table table-striped">
-        <thead>
-        <tr>
-            <th style="text-align:center;">Usuario</th>
-            <th style="text-align:center;">Invitar a jugar</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${friendsToPlay}" var="friend">
-            
+
+    <div class="col align-self-center">
+        <table id="usersTable" class="table table-striped">
+            <thead>
             <tr>
-                <td style="text-align:center;">                    
-                    <c:out value="${friend.username}"/>
-                </td>
-                <td style="text-align:center;"> 
-                    <a href="/invitateToPlay/${friend.username}"> 
-                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>                            
-                    </a>       
-                </td>
+                <th style="text-align:center;">Usuario</th>
+                <th style="text-align:center;">Invitar a jugar</th>
             </tr>
-        </c:forEach>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            <c:forEach items="${friendsToPlay}" var="friend">
+                
+                <tr>
+                    <td style="text-align:center;">                    
+                        <c:out value="${friend.username}"/>
+                    </td>
+                    <td style="text-align:center;"> 
+                        <a href="/invitateToPlay/${friend.username}"> 
+                            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>                            
+                        </a>       
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+
     <div class="col align-self-center">
         <a class="btn btn-default btn-lg" href="/salaDeEspera"
             style="margin-top:11%; margin-bottom:10%; margin-left:22%; margin-right:22%; display:block;"><b>Confirmar invitación</b></a>

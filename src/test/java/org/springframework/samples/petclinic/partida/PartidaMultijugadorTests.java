@@ -66,7 +66,7 @@ public class PartidaMultijugadorTests {
     @MockBean
 	private PartidaService partidaService;
 
-	@Autowired
+	@MockBean
 	private CasillaService casillaService;
 
 	@MockBean
@@ -271,4 +271,80 @@ public class PartidaMultijugadorTests {
 		mockMvc.perform(get("/partida/Multijugador/continuarPartida")).andExpect(status().is3xxRedirection());
 	}
     
+	@WithMockUser(value = "spring")
+	@Test
+	void testEligeTerritorio() throws Exception {
+		given(this.partidaService.getTurnoById(anyInt())).willReturn(t);
+		given(this.partidaService.getPartidaById(anyInt())).willReturn(p);
+		given(this.partidaService.getTableroActiveByUser(any())).willReturn(tablero);
+		given(this.partidaService.getTablerosByPartidaId(anyInt())).willReturn(tableros);
+		given(this.partidaService.getNumJugador(any(), any())).willReturn(1);
+		acciones.add(accion1);
+		acciones.add(accion2);
+		given(this.partidaService.getAccionesByTablero(anyInt())).willReturn(acciones);
+		given(session.getAttribute("dados")).willReturn(null);
+		mockMvc.perform(get("/partida/Multijugador/eligeTerritorio/{idPartida}/{idTurno}", 1 , 1))
+			.andExpect(status().isOk())
+			.andExpect(model().attribute("dados", hasSize(3)))
+			.andExpect(model().attribute("eligeTerritorio", is(true)))
+			.andExpect(model().attributeExists("territorios"))
+			.andExpect(model().attributeExists("poder1"))
+			.andExpect(model().attributeExists("acciones"))
+			.andExpect(model().attributeExists("turno"))
+			.andExpect(model().attributeExists("criterios"))
+			.andExpect(model().attributeExists("usos"))
+			.andExpect(model().attributeExists("numJugador"))
+			.andExpect(model().attributeExists("chatId"))
+			.andExpect(model().attributeExists("username"))
+			.andExpect(view().name("partidas/eligeTerritorioMultijugador"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testEligeNumTerritorio() throws Exception {
+		given(this.partidaService.getPartidaById(anyInt())).willReturn(p);
+		given(this.partidaService.getTurnoById(anyInt())).willReturn(t);
+		given(this.partidaService.getTableroActiveByUser(any())).willReturn(tablero);
+		given(this.partidaService.getTablerosByPartidaId(anyInt())).willReturn(tableros);
+		given(this.partidaService.getNumJugador(any(), any())).willReturn(2);
+		acciones.add(accion1);
+		acciones.add(accion2);
+		given(this.partidaService.getAccionesByTablero(anyInt())).willReturn(acciones);
+		mockMvc.perform(get("/partida/Multijugador/dado/{idPartida}/{idTurno}", 1 , 1))
+			.andExpect(status().isOk())
+			.andExpect(model().attributeExists("poder1"))
+			.andExpect(model().attributeExists("acciones"))
+			.andExpect(model().attributeExists("turno"))
+			.andExpect(model().attributeExists("criterios"))
+			.andExpect(model().attributeExists("usos"))
+			.andExpect(model().attributeExists("numJugador"))
+			.andExpect(model().attributeExists("chatId"))
+			.andExpect(model().attributeExists("username"))
+			.andExpect(view().name("partidas/elegirDado"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testEsperaResultados() throws Exception {
+		given(this.partidaService.getPartidaById(anyInt())).willReturn(p);
+		given(this.partidaService.getTablerosByPartidaId(anyInt())).willReturn(tableros);
+		given(this.partidaService.getPartidaFinalizada(any())).willReturn(true);
+		given(this.partidaService.getTableroActiveByUser(any())).willReturn(tablero);
+		mockMvc.perform(get("/partida/Multijugador/espera/resultados/{idPartida}", 1))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(view().name("redirect:/partida/resultados/"+tablero.getId()));
+
+		given(this.partidaService.getPartidaFinalizada(any())).willReturn(false);
+		acciones.add(accion1);
+		acciones.add(accion2);
+		given(this.partidaService.getAccionesByTablero(anyInt())).willReturn(acciones);
+		mockMvc.perform(get("/partida/Multijugador/espera/resultados/{idPartida}", 1))
+			.andExpect(status().isOk())
+			.andExpect(model().attributeExists("poder1"))
+			.andExpect(model().attributeExists("acciones"))
+			.andExpect(model().attributeExists("criterios"))
+			.andExpect(model().attributeExists("usos"))
+			.andExpect(model().attributeExists("chatId"))
+			.andExpect(view().name("partidas/esperaTerritorio"));
+	}
 }

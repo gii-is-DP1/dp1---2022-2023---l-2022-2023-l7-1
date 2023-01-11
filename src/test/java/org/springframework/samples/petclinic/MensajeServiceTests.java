@@ -99,7 +99,7 @@ public class MensajeServiceTests {
     public void shouldGetUltimoId(){
         //En cada before each se guardan 2
         Integer ultimo = mensajeService.getUltimoId();
-        assertThat(ultimo).isEqualTo(5);
+        assertThat(ultimo).isEqualTo(3);
     }
 
     

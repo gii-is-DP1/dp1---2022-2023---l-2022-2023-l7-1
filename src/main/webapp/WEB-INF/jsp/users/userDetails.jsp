@@ -42,7 +42,7 @@
 
     <tr> 
         <td>
-            <a class="btn btn-default" href="/friends/${user.username}">Amigos</a>
+            <a class="btn btn-default" href="/friends">Amigos</a>
         </td>  
     </tr>
 
@@ -54,7 +54,7 @@
 
     <tr> 
         <td>
-            <a class="btn btn-default" href="/users/${user.username}/userEdit">Editar perfil</a>
+            <a class="btn btn-default" href="/user/${user.username}/userEdit">Editar perfil</a>
         </td>  
     </tr>    
 

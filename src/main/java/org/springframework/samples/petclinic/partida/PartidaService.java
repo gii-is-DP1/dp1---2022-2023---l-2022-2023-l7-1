@@ -13,10 +13,10 @@ import java.util.stream.IntStream;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.Chat.Chat;
-import org.springframework.samples.petclinic.Chat.ChatService;
 import org.springframework.samples.petclinic.accion.Accion;
 import org.springframework.samples.petclinic.accion.AccionService;
+import org.springframework.samples.petclinic.chat.Chat;
+import org.springframework.samples.petclinic.chat.ChatService;
 import org.springframework.samples.petclinic.criterios.CriterioA1;
 import org.springframework.samples.petclinic.criterios.CriterioA2;
 import org.springframework.samples.petclinic.criterios.CriterioA3;
@@ -857,7 +857,9 @@ public class PartidaService {
       for(Turno t: turnos){
          turnoService.delete(t);
       }
-      chatService.delete(chat);
+      if(chat!=null){
+         chatService.delete(chat);
+      }
       delete(partida);
    }
 

@@ -1,7 +1,15 @@
 package org.springframework.samples.petclinic.user;
 
+import java.security.Principal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.context.annotation.FilterType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.junit.jupiter.api.Test;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -58,7 +67,6 @@ public class UserControllerTests {
         user.setPassword("password");
         user.setPhone("633787878");
 		given(this.userService.getUserById(USER_USERNAME)).willReturn(user);
-
 	}
 
 	@WithMockUser(value = "spring")
@@ -110,7 +118,17 @@ public class UserControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowAllUsers() throws Exception {
-		mockMvc.perform(get("/users/all").with(csrf())).andExpect(status().isOk());
+		Pageable p = PageRequest.of(0, 3);
+		List<User> users = new ArrayList<>();
+		Page<User> page = new PageImpl<User>(users, p, 0);
+		given(this.userService.getAll(any())).willReturn(page);
+		mockMvc.perform(get("/users/all")).andExpect(status().isOk())
+		.andExpect(view().name("users/userListingPage"));
+		users.add(user);
+		Page<User> page2 = new PageImpl<User>(users, p, 0);
+		given(this.userService.getAll(any())).willReturn(page2);
+		mockMvc.perform(get("/users/all")).andExpect(status().isOk())
+		.andExpect(view().name("users/userListingPage"));
 	}
 
 	@WithMockUser(value = "spring")
@@ -163,7 +181,8 @@ public class UserControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testEditUserAsPlayer() throws Exception {
-		mockMvc.perform(get("/users/{username}/userEdit", USER_USERNAME).with(csrf())).andExpect(status().isOk())
+		given(this.userService.getUserById(any())).willReturn(user);
+		mockMvc.perform(get("/user/diegarlin/userEdit").with(csrf())).andExpect(status().isOk())
 				.andExpect(model().attributeExists("user"))
 				.andExpect(model().attribute("user", hasProperty("lastName", is("Linares"))))
 				.andExpect(model().attribute("user", hasProperty("name", is("Diego"))))
@@ -178,7 +197,8 @@ public class UserControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessEditUserFormAsPlayer() throws Exception {
-		mockMvc.perform(post("/users/{username}/userEdit", USER_USERNAME ).param("name", "Diego").param("lastName", "Linares").with(csrf())
+		given(this.userService.getUserById(any())).willReturn(user);
+		mockMvc.perform(post("/user/diegarlin/userEdit" ).param("name", "Diego").param("lastName", "Linares").with(csrf())
 		.param("birthDate", "02/01/2002").param("email", "diegarlin@user.com")
 		.param("phone", "633787878").param("password", "password"))
 				.andExpect(status().is3xxRedirection())
@@ -188,7 +208,8 @@ public class UserControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessEditUserFormAsPlayerHasError() throws Exception {
-		mockMvc.perform(post("/users/{username}/userEdit", USER_USERNAME ).param("name", "")
+		given(this.userService.getUserById(any())).willReturn(user);
+		mockMvc.perform(post("/user/diegarlin/userEdit" ).param("name", "")
 				.param("lastName", "").with(csrf())
 				.param("email", ""))
 				.andExpect(status().isOk()).andExpect(model().attributeHasErrors("user"))
@@ -202,7 +223,17 @@ public class UserControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowAllStats() throws Exception {
-		mockMvc.perform(get("/stats")).andExpect(status().isOk());
+		Pageable p = PageRequest.of(0, 3);
+		List<User> users = new ArrayList<>();
+		Page<User> page = new PageImpl<User>(users, p, 0);
+		given(this.userService.getAll(any())).willReturn(page);
+		mockMvc.perform(get("/stats")).andExpect(status().isOk())
+		.andExpect(view().name("stats/stats"));
+		users.add(user);
+		Page<User> page2 = new PageImpl<User>(users, p, 0);
+		given(this.userService.getAll(any())).willReturn(page2);
+		mockMvc.perform(get("/stats")).andExpect(status().isOk())
+		.andExpect(view().name("stats/stats"));
 	}
 
 	@WithMockUser(value = "spring")
@@ -211,6 +242,17 @@ public class UserControllerTests {
 		mockMvc.perform(get("/stat")).andExpect(status().isOk())
 		.andExpect(model().attributeExists("username"))
 		.andExpect(view().name("stats/userStats"));
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testShowPartidasAmigo() throws Exception {
+		List<User> users = new ArrayList<>();
+		users.add(user);
+		given(this.userService.getFriends(any())).willReturn(users);
+		mockMvc.perform(get("/friends/partidas")).andExpect(status().isOk())
+		.andExpect(model().attributeExists("tableros"))
+		.andExpect(view().name("users/friendsPartida"));
 	}
 
 	@WithMockUser(value = "spring")
@@ -224,7 +266,8 @@ public class UserControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowUser() throws Exception {
-		mockMvc.perform(get("/users/{username}", USER_USERNAME)).andExpect(status().isOk())
+		given(this.userService.getUserById(any())).willReturn(user);
+		mockMvc.perform(get("/user")).andExpect(status().isOk())
 		.andExpect(model().attributeExists("user"))
 		.andExpect(view().name("users/userDetails"));
 	}
@@ -232,7 +275,8 @@ public class UserControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowFriends() throws Exception {
-		mockMvc.perform(get("/friends/{username}", USER_USERNAME)).andExpect(status().isOk())
+		given(this.userService.getUserById(any())).willReturn(user);
+		mockMvc.perform(get("/friends")).andExpect(status().isOk())
 		.andExpect(model().attributeExists("friends"))
 		.andExpect(model().attributeExists("user"))
 		.andExpect(view().name("users/friends"));
@@ -241,11 +285,11 @@ public class UserControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testDeleteFriend() throws Exception {
-		String usernameLogged ="fravilpae";
+		given(this.userService.getUserById(any())).willReturn(user);
 		String usernameFriend = "jeszamgue";
-		mockMvc.perform(get("/friends/{usernameLogged}/{usernameFriend}/delete", usernameLogged, usernameFriend).with(csrf())).andExpect(status().is3xxRedirection())
+		mockMvc.perform(get("/friends/{usernameFriend}/delete", usernameFriend).with(csrf())).andExpect(status().is3xxRedirection())
 				.andExpect(model().attributeDoesNotExist("friends"))
-				.andExpect(view().name("redirect:/friends/"+usernameLogged));
+				.andExpect(view().name("redirect:/friends"));
 	} 
 
 	@WithMockUser(value = "spring")

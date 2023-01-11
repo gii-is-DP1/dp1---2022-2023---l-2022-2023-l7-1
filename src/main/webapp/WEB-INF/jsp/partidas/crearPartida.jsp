@@ -19,29 +19,40 @@
 }
 </script>
 
+<style>
+    body {
+        background-image: url("/resources/images/background4.png");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100% 100%;
+    }
+
+</style>
+
 <petclinic:layout pageName="nuevaPartida">
 
     <h1><em><b><u>Nuevo juego</u></b></em></h1>
     
     <form:form>
-        <h3>SELECCIONA MODO DE JUEGO</h3>
-        <div class="col-sm-offset-2 col-sm-10">
+        <h3 style="text-align: center;"><b><em>SELECCIONA MODO DE JUEGO</em></b></h3>
+        <div class="col align-self-center">
             <a class="btn btn-default btn-lg" href="crearPartidaSolitaria" formmethod=" post"
-            style="margin-top:5%; margin-bottom:1%; margin-left:5%; margin-right:5%; display:block;">MODO SOLITARIO</a>
+            style="margin-top:4%; margin-bottom:4%; margin-left:22%; margin-right:22%; display:block;">MODO SOLITARIO</a>
         </div>
-        <div class="col-sm-offset-2 col-sm-10">
-            <a type=button class="btn btn-default btn-lg" onclick="mostrarForm()"
-            style="margin-top:5%; margin-bottom:1%; margin-left:5%; margin-right:5%; display:block;">MODO MULTIJUGADOR</a>
-	            <div id="Invitation" style="display: none;" class="modal-content">
-                    <form name="Invitation" >
-                        <spring:url value="/lobby" htmlEscape="true" var="invite">
-                        </spring:url>
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <a class="btn btn-default" href="${invite}">INVITAR</a>
-                        </div>
-                    </form>
-                </div>
-        </div>
+
+        <li class="dropdown" style="margin-top:4%; margin-bottom:4%; margin-left:22%; margin-right: 22%; display:block;">
+            <a class="btn btn-default btn-lg" data-toggle="dropdown" 
+            style="margin-top:4%; margin-bottom:4%; display:block;">
+                <span>MODO MULTIJUGADOR</span>
+                <span class="glyphicon glyphicon-chevron-down"></span>
+            </a>
+            <ul class="dropdown-menu" style="background-color:#34302D; min-width: 100%;">
+                <li>
+                    <a href="/lobby" class="btn btn-default" style="color:white; margin: 1%;">INVITAR</a>
+                </li>
+            </ul>
+        </li>
+
     </form:form>
 
 </petclinic:layout>

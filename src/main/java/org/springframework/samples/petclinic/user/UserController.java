@@ -37,7 +37,7 @@ public class UserController {
     private static final String VIEW_USER_DETAILS = "users/userDetails";
     private static final String VIEW_USER_FRIENDS = "users/friends";
 	private static final String VIEW_USER_FRIENDS_PARTIDAS = "users/friendsPartida";
-	private static final String COULD_NOT_DELETE_USER = "deleteUnsuccessfull";
+	private static final String COULD_NOT_DELETE_USER = "deleteUnsuccessful";
 
 	private final UserService userService;
 

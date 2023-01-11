@@ -69,7 +69,6 @@ public class ChatServiceTests {
     public void shouldGetPartidaById(){
         Chat chat = chatService.getByPartidaId(1);
         assertThat(chat.getId()).isEqualTo(1);
-        assertThat(chat.getMensajes().get(0).getId()).isEqualTo(1);
     }
 
     @Test

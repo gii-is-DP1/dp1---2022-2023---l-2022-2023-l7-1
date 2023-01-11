@@ -161,9 +161,7 @@ public class PartidaMultijugadorController {
         res.addObject("criterios", criterios);
         res.addObject("numJugador", numJugador);
         res.addObject("chatId", idPartida);
-        if(principal != null){
-            res.addObject("username", principal.getName());
-        }
+        res.addObject("username", principal.getName());
         return res;
     }
 
@@ -282,9 +280,7 @@ public class PartidaMultijugadorController {
         res.addObject("dados", dadosFijos);
         res.addObject("numJugador", numJugador);
         res.addObject("chatId", idPartida);
-        if(principal != null){
-            res.addObject("username", principal.getName());
-        }
+        res.addObject("username", principal.getName());
         return res;
     }
 

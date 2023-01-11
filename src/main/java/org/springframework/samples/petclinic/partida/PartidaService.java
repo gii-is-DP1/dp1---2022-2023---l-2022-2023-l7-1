@@ -830,7 +830,9 @@ public class PartidaService {
       for(Turno t: turnos){
          turnoService.delete(t);
       }
-      chatService.delete(chat);
+      if(chat!=null){
+         chatService.delete(chat);
+      }
       delete(partida);
    }
 

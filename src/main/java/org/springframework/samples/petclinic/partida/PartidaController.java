@@ -69,6 +69,13 @@ public class PartidaController {
 		return result;
 	}
 
+    @Transactional
+	@GetMapping(value = "/partidas/{partidaId}/delete")
+    public String deleteUser(@PathVariable Integer partidaId){
+		partidaService.deletePartida(partidaId);        
+        return "redirect:/partidas";
+    }
+
     //-------------------------------------------------------------------------
     // Ver Partida Amigo ------------------------------------------------------
     //-------------------------------------------------------------------------

@@ -88,6 +88,33 @@ public class PartidaService {
       partidaRepo.save(p);
    }
 
+   public void deletePartida(Integer partidaId) {
+      Chat chat = chatService.getByPartidaId(partidaId);
+      List<Tablero> tableros = tableroService.getTablerosByPartida(getPartidaById(partidaId));
+      List<Accion> acciones = new ArrayList<>();
+      List<Turno> turnos = turnoService.getTurnosByPartida(partidaId);
+      for(Tablero t: tableros){
+         User usuario =t.getUser();
+         usuario.setJugadoresAceptados(new ArrayList<>());
+         usuario.setReceivedInvitationsToGame(new HashSet<>());
+         usuario.setAnfitrionDelJugador(new ArrayList<>());
+         usuario.setSendedInvitationsToGame(new HashSet<>());
+         userService.save(usuario);
+         acciones.addAll(accionService.getAccionesByTablero(t.getId()));
+         tableroService.delete(t);
+      }
+      for(Accion a: acciones){
+         accionService.delete(a);
+      }
+      for(Turno t: turnos){
+         turnoService.delete(t);
+      }
+      if(chat != null) {
+         chatService.delete(chat);
+      }
+      partidaRepo.deleteById(partidaId);
+   }
+
    public int[] criterioAleatorio(){
 
       int i = 0, cantidad = 2, rango = 6;

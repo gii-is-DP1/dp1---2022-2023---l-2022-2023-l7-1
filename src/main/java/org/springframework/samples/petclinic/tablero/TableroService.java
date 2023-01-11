@@ -94,4 +94,13 @@ public class TableroService {
     public Tablero getTableroById(Integer idTablero) {
         return tableroRepository.findById(idTablero).orElse(null);
     }
+
+    public boolean tieneUnaPartida(User user) {
+        for(Tablero tablero: getAll()) {
+            if(tablero.getUser().equals(user)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

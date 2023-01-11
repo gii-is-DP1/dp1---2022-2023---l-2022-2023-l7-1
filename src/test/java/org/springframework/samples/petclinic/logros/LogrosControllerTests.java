@@ -114,12 +114,15 @@ public class LogrosControllerTests {
     @WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/logros/new").param("titulo", "Explorador nato")
+		mockMvc.perform(post("/logros/new")
+				.param("id", "2")
+				.param("titulo", "Explorador nato")
                 .param("descripcion", "Consigue la mayor cantidad de puntos").with(csrf())
 				.param("logo", "logo5.png")
-                .param("req_puntos", "170"))
-				.andExpect(status().isOk())
-				.andExpect(view().name("/logros/newLogro"));
+                .param("reqPuntos", "170"))
+				.andExpect(model().attributeExists("message"))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/logros"));
 	}
 
     @WithMockUser(value = "spring")

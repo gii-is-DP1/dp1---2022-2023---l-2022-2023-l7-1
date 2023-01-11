@@ -82,6 +82,11 @@ public class InvitationController {
 		ModelAndView mav = new ModelAndView(VIEW_USER_FRIENDS);
 		mav.addObject("friendsToPlay", friends);
 		mav.addObject("user", this.userService.getUserById(username));
+
+		if(principal != null){
+			mav.addObject("username", principal.getName());
+		}
+
 		return mav;
 	}
     

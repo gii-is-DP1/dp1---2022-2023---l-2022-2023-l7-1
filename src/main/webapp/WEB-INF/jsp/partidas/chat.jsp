@@ -22,7 +22,7 @@
                             </c:otherwise>
                         </c:choose> 
             </c:forEach>
-            <button>
-                <a class="btn btn-default" href="/chat/escribirMensaje/${id}">Envia un mensaje</a></th>
+            <button  class="btn btn-default">
+                <a style="color:white" href="/chat/escribirMensaje/${id}">Envia un mensaje</a>
             </button>
 </petclinic:layout>    

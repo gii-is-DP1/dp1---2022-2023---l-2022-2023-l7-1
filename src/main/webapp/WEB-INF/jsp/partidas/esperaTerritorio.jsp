@@ -104,8 +104,8 @@
         </div>
     </body>
 
-    <button>
-        <a class="btn btn-default" href="/chat/${chatId}" target="_blank">Chat</a></th>
+    <button class="btn btn-default">
+        <a style="color:white" href="/chat/${chatId}" target="_blank">Chat</a>
     </button>
     
 </petclinic:layout>

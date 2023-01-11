@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -164,16 +166,20 @@ public class InvitationServiceTests {
         assertThat(f).isTrue();
     }
 
-    /*@Transactional
+    @Transactional
     @Test
    	void shouldgetAmigosDisponiblesParaJugar() {
-        user1.getFriends().add(user2);user2.getFriends().add(user1);
-        boolean jugadoresDisp = this.invitationService.getAmigosDisponiblesParaJugar(user1.getUsername())
-        .contains(userService.findUserOptional(user2.getUsername()).get());
-        && this.invitationService.getAmigosDisponiblesParaJugar(user2.getUsername())
-        .contains(userService.findUserOptional(user1.getUsername()).get());
-        assertThat(jugadoresDisp).isTrue();
-    }*/
+    	Set<User> users = new HashSet<>();
+    	users.add(user1);
+        user2.setFriends(users);
+        users.clear();
+        users.add(user2);
+        user1.setFriends(users);
+        userService.save(user1); 
+        userService.save(user2);
+        List<User> users2 = this.invitationService.getAmigosDisponiblesParaJugar(user2.getUsername());
+        assertThat(users2).hasSize(1);
+    }
 
 
 

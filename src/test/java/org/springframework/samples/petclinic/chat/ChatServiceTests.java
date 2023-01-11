@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic;
+package org.springframework.samples.petclinic.chat;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +13,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.chat.Chat;
 import org.springframework.samples.petclinic.chat.ChatService;
@@ -31,9 +32,6 @@ public class ChatServiceTests {
 
     @Autowired
     protected PartidaService partidaService;
-
-    @Autowired
-    protected MensajeService mensajeService;
 
     protected Chat chat = new Chat();
 
@@ -64,8 +62,6 @@ public class ChatServiceTests {
         
         chatService.save(chat);
         partidaService.savePartida(partida);
-        mensajeService.saveMensaje(msj1);
-        mensajeService.saveMensaje(msj2);
     }
 
     @Test

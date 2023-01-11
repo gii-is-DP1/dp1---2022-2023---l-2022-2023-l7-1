@@ -37,6 +37,7 @@ public class UserController {
     private static final String VIEW_USER_DETAILS = "users/userDetails";
     private static final String VIEW_USER_FRIENDS = "users/friends";
 	private static final String VIEW_USER_FRIENDS_PARTIDAS = "users/friendsPartida";
+	private static final String COULD_NOT_DELETE_USER = "deleteUnsuccessful";
 
 	private final UserService userService;
 
@@ -110,8 +111,10 @@ public class UserController {
 	@GetMapping(value = "/users/{username}/delete")
     public String deleteUser(@PathVariable String username){
 		userService.deleteFriends(username);
-        userService.deleteUserById(username);
-        
+		if(tableroService.tieneUnaPartida(userService.getUserById(username))) {
+			return COULD_NOT_DELETE_USER;
+		}
+        userService.deleteUserById(username);        
         return "redirect:/users/all";
     }
 

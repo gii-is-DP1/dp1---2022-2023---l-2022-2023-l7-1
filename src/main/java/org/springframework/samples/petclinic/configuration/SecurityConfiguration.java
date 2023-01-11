@@ -55,6 +55,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				// Permisos de partidas
 				.antMatchers("/partida/**").authenticated()
 				.antMatchers("/partidas").authenticated()
+				.antMatchers("/partidas/**").authenticated()
 				.antMatchers("/partidasUsuario").authenticated()
 				.antMatchers("/partidas/partidaEnCurso/{username}/**").authenticated()
 				// Permisos de amigos

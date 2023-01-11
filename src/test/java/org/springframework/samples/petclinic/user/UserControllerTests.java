@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.user;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
+import org.springframework.samples.petclinic.partida.Partida;
+import org.springframework.samples.petclinic.partida.PartidaService;
+import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.samples.petclinic.tablero.TableroService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -50,10 +54,15 @@ public class UserControllerTests {
 	@MockBean
     private TableroService tableroService;
 
+	@MockBean
+	private PartidaService partidaService;
+
 	@Autowired
 	private MockMvc mockMvc;
 
 	private User user;
+	protected Tablero tablero = new Tablero();
+	protected Partida partida = new Partida();
 
 	@BeforeEach
 	void setup() {
@@ -137,6 +146,14 @@ public class UserControllerTests {
 		mockMvc.perform(get("/users/{username}/delete", USER_USERNAME).with(csrf())).andExpect(status().is3xxRedirection())
 				.andExpect(model().attributeDoesNotExist("user"))
 				.andExpect(view().name("redirect:/users/all"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testShouldNotDeleteUser() throws Exception {
+		given(this.tableroService.tieneUnaPartida(any())).willReturn(true);
+		mockMvc.perform(get("/users/{username}/delete", USER_USERNAME).with(csrf())).andExpect(status().isOk())
+				.andExpect(view().name("deleteUnsuccessful"));
 	}
 
 	@WithMockUser(value = "spring")

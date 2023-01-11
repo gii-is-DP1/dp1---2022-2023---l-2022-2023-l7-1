@@ -16,6 +16,7 @@
             <th style="text-align:center">Puntos</th>
             <th style="text-align:center">Nombre de usuario</th>
             <th style="text-align:center">Creador del juego</th>
+            <th style="text-align:center">Borrar</th>
         </tr>
         </thead>
         <tbody>
@@ -36,6 +37,12 @@
                 <td style="text-align:center">                    
                     <c:out value="${tablero.partidaCreada}"/>
                 </td>
+                <td style="text-align:center">
+                    <a href="/partidas/${tablero.partida.id}/delete"> 
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    </a>       
+                </td>
+            </tr>
             </tr>
         </c:forEach>
         </tbody>

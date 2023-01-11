@@ -88,7 +88,7 @@ public class InvitationService {
 	public void sendInvitationToGame(String username, String jugador) {
 		User anfitrion = userRepository.findById(username).orElse(null);
 		User posibleJugador = userRepository.findById(jugador).orElse(null);
-		if (anfitrion != null && posibleJugador != null) {
+		if (anfitrion != null && posibleJugador != null && anfitrion.canInviteToGame(posibleJugador.getUsername())) {
 			invitationGameRepository.save(new InvitationGame(anfitrion, posibleJugador));
 		}
 	}

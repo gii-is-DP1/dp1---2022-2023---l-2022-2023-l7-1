@@ -293,7 +293,7 @@ public class PartidaMultijugadorController {
             if(principal != null){
                 res.addObject("username", principal.getName());
             }
-            res.setViewName(VIEW_ELIGE_TERRITORIO);
+            res.setViewName(VIEW_ELIGE_DADO);
 			return res;
 		} else {
             //Actualiza las propiedades del turno 

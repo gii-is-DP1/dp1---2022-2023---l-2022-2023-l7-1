@@ -269,7 +269,7 @@ public class PartidaController {
                 dadosx = (List<Integer>) session.getAttribute("dados");
                 Integer territorio = dadosx.get(0)-1;
 
-                if(dadosx.get(0) == turno.getNumTerritoriosJ1()){
+                if(dadosx.get(0).equals(turno.getNumTerritoriosJ1())){
                     territorio = dadosx.get(1)-1;
                 }
                 turnoToBeUpdated.setTerritorio(listaTerritorios.get(territorio));

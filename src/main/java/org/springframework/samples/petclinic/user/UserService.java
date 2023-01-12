@@ -80,7 +80,7 @@ public class UserService {
 	@Transactional
 	public void saveUser(User user) throws DataAccessException, DuplicatedUsernameException {
 		User otherUser=getUserwithUsernameDifferent(user.getUsername());
-            if (StringUtils.hasLength(user.getUsername()) &&  (otherUser!= null && otherUser.getUsername()!=user.getUsername())) {            	
+            if (StringUtils.hasLength(user.getUsername()) &&  (otherUser!= null && !(otherUser.getUsername().equals(user.getUsername())))) {            	
             	throw new DuplicatedUsernameException();
             }else {
 				user.setEnabled(true);
@@ -100,7 +100,7 @@ public class UserService {
 		for (User user : users) {
 			String compUsername = user.getUsername();
 			compUsername = compUsername.toLowerCase();
-			if (compUsername.equals(username) && user.getUsername()!=username) {
+			if (compUsername.equals(username) && !(user.getUsername().equals(username))) {
 				return user;
 			}
 		}

@@ -193,8 +193,7 @@ public class User{
 
     @ManyToMany(cascade = {CascadeType.PERSIST , CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})
 	@JoinTable(name="jugadoresAceptados",
-			joinColumns= {@JoinColumn(name="jugador_aceptado_id")},
-            inverseJoinColumns = {@JoinColumn(name="anfitrion_id")})
+			joinColumns= {@JoinColumn(name="anfitrion")})
     @NotAudited
     private List<User> jugadoresAceptados = new ArrayList<User>();
 

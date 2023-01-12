@@ -7,13 +7,18 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.accion.Accion;
 import org.springframework.samples.petclinic.accion.AccionService;
 import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.samples.petclinic.tablero.TableroService;
@@ -26,6 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@TestInstance(Lifecycle.PER_CLASS)
 class PartidaServiceTests {                
     
 	@Autowired
@@ -43,9 +49,17 @@ class PartidaServiceTests {
     protected Tablero tab = new Tablero();
     protected Tablero tab2 = new Tablero();
 
-    @BeforeEach
-    public void setTablero1(){
-        tab.setId(10);
+    @BeforeAll
+    public void setAll(){
+        p.setDateTime(LocalDateTime.of(2023, 1, 4, 17, 55));
+        p.setId(2);
+        p.setIdCriterioA1(1);
+        p.setIdCriterioA2(2);
+        p.setIdCriterioB1(1);
+        p.setIdCriterioB2(2);
+        partidaService.savePartida(p); 
+
+        tab.setId(3);
         tab.setPartida(p);
         tab.setPartidaCreada(true);
         tab.setPartidaEnCurso(true);
@@ -61,11 +75,8 @@ class PartidaServiceTests {
         tab.setUsos4(2);
         tab.setUsos5(2);
         tableroService.saveTablero(tab);
-    }
 
-    @BeforeEach
-    public void setTablero2(){
-        tab2.setId(11);
+        tab2.setId(4);
         tab2.setPartida(p);
         tab2.setPartidaCreada(true);
         tab2.setPartidaEnCurso(true);
@@ -73,7 +84,7 @@ class PartidaServiceTests {
         tab2.setPoder1(0);
         tab2.setPoder2(0);
         tab2.setPuntos(0);
-        tab2.setUser(userService.getUserById("favilpae"));
+        tab2.setUser(userService.getUserById("fravilpae"));
         tab2.setUsos0(2);
         tab2.setUsos1(2);
         tab2.setUsos2(2);
@@ -81,19 +92,12 @@ class PartidaServiceTests {
         tab2.setUsos4(2);
         tab2.setUsos5(2);
         tableroService.saveTablero(tab2);
+
+        p.setTableros(List.of(tab, tab2));
+        partidaService.savePartida(p);
+       
     }
 
-    @BeforeEach
-    public void SetPartida(){
-        p.setDateTime(LocalDateTime.of(2023, 1, 4, 17, 55));
-        p.setTableros(List.of(tab, tab2));
-        p.setId(2);
-        p.setIdCriterioA1(1);
-        p.setIdCriterioA2(2);
-        p.setIdCriterioB1(1);
-        p.setIdCriterioB2(2);
-        partidaService.savePartida(p); 
-    }
 
     @Test
 	public void shouldGetMaximo() {
@@ -131,22 +135,74 @@ class PartidaServiceTests {
         assertThat(usos).isEqualTo(usos1+1);
     }
 
-    // @Test
-	// public void actualizaUso1() { 
-    //     Turno t = new Turno();
-    //     t.setTerritorio(Territorio.CASTILLO);
-    //     turnoService.saveTurno(t);
-    //     List<Territorio> listaTerritorios = List.of(Territorio.BOSQUE, Territorio.CASTILLO, Territorio.MONTANA, Territorio.POBLADO, Territorio.PRADERA, Territorio.RIO, Territorio.NA);
-    //     Integer usos = tab.getUsos1();
-    //     Integer usos1 = partidaService.actualizarUso(2, t, listaTerritorios, tab);
-    //     assertThat(usos).isEqualTo(usos1+1);
-    // }
+    @Test
+	public void actualizaUso1() { 
+        Turno t = new Turno();
+        t.setTerritorio(Territorio.CASTILLO);
+        turnoService.saveTurno(t);
+        List<Territorio> listaTerritorios = List.of(Territorio.BOSQUE, Territorio.CASTILLO, Territorio.MONTANA, Territorio.POBLADO, Territorio.PRADERA, Territorio.RIO, Territorio.NA);
+        Integer usos = tab.getUsos1();
+        Integer usos1 = partidaService.actualizarUso(2, t, listaTerritorios, tab);
+        assertThat(usos).isEqualTo(usos1+1);
+    }
+
+    @Test
+	public void actualizaUso2() { 
+        Turno t = new Turno();
+        t.setTerritorio(Territorio.MONTANA);
+        turnoService.saveTurno(t);
+        List<Territorio> listaTerritorios = List.of(Territorio.BOSQUE, Territorio.CASTILLO, Territorio.MONTANA, Territorio.POBLADO, Territorio.PRADERA, Territorio.RIO, Territorio.NA);
+        Integer usos = tab.getUsos2();
+        Integer usos1 = partidaService.actualizarUso(2, t, listaTerritorios, tab);
+        assertThat(usos).isEqualTo(usos1+1);
+    }
+
+    @Test
+	public void actualizaUso3() { 
+        Turno t = new Turno();
+        t.setTerritorio(Territorio.POBLADO);
+        turnoService.saveTurno(t);
+        List<Territorio> listaTerritorios = List.of(Territorio.BOSQUE, Territorio.CASTILLO, Territorio.MONTANA, Territorio.POBLADO, Territorio.PRADERA, Territorio.RIO, Territorio.NA);
+        Integer usos = tab.getUsos3();
+        Integer usos1 = partidaService.actualizarUso(2, t, listaTerritorios, tab);
+        assertThat(usos).isEqualTo(usos1+1);
+    }
+
+    @Test
+	public void actualizaUso4() { 
+        Turno t = new Turno();
+        t.setTerritorio(Territorio.PRADERA);
+        turnoService.saveTurno(t);
+        List<Territorio> listaTerritorios = List.of(Territorio.BOSQUE, Territorio.CASTILLO, Territorio.MONTANA, Territorio.POBLADO, Territorio.PRADERA, Territorio.RIO, Territorio.NA);
+        Integer usos = tab.getUsos4();
+        Integer usos1 = partidaService.actualizarUso(2, t, listaTerritorios, tab);
+        assertThat(usos).isEqualTo(usos1+1);
+    }
+
+    @Test
+	public void actualizaUso5() { 
+        Turno t = new Turno();
+        t.setTerritorio(Territorio.RIO);
+        turnoService.saveTurno(t);
+        List<Territorio> listaTerritorios = List.of(Territorio.BOSQUE, Territorio.CASTILLO, Territorio.MONTANA, Territorio.POBLADO, Territorio.PRADERA, Territorio.RIO, Territorio.NA);
+        Integer usos = tab.getUsos5();
+        Integer usos1 = partidaService.actualizarUso(2, t, listaTerritorios, tab);
+        assertThat(usos).isEqualTo(usos1+1);
+    }
 
     @Test
 	public void shouldCreatePartidaSolitario() {
         User u = userService.getUserById("aitroddue");
         List<Integer> partidaSolitario = partidaService.crearPartidaSolitario(u);
         assertThat(partidaService.getPartidaById(partidaSolitario.get(0)).getTableros().size()).isEqualTo(1);
+	}
+
+    @Test
+	public void shouldCalculateCasillasDisponibles() {
+        Accion accion = new Accion();
+        accion.setTurno(turnoService.getTurnoById(1));
+        Set<Integer> casillasDisp = this.partidaService.casillasDisponibles(1, 3);
+        assertThat(casillasDisp).isNotEqualTo(0);
 	}
 
 

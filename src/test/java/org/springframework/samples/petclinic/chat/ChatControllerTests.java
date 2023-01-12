@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.chat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.context.annotation.FilterType;
@@ -72,6 +73,7 @@ public class ChatControllerTests {
         tablero.setPartida(p);
         p2.setId(2);
         tablero2.setPartida(p2);
+        chat.setMensajes(new ArrayList<>());
 
 	}
 
@@ -116,8 +118,7 @@ public class ChatControllerTests {
     @WithMockUser(value = "spring")
 	@Test
 	void testPostEscribirMensaje() throws Exception {
-
-        /*given(chatService.getByPartidaId(any())).willReturn(chat);
+        given(chatService.getByPartidaId(any())).willReturn(chat);
         given(partidaService.getUserById(any())).willReturn(user);
         given(mensajeService.getUltimoId()).willReturn(2);
         mockMvc.perform(post("/chat/escribirMensaje/{id}", 1)
@@ -125,7 +126,7 @@ public class ChatControllerTests {
             .param("id", "1")
             .param("contenido","sffsdf"))
             .andExpect(status().is3xxRedirection())
-		 	.andExpect(view().name("redirect:/chat/1"));*/
+		 	.andExpect(view().name("redirect:/chat/1"));
 	}
 
     @WithMockUser(value = "spring")

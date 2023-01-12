@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 public class Chat extends BaseEntity{
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     private List<Mensaje> mensajes;
 
     @OneToOne

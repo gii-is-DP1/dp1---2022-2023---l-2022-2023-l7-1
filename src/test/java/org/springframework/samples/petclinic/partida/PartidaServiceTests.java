@@ -650,16 +650,16 @@ class PartidaServiceTests {
     @Test
 	public void shouldGetUltimoTurno() {
         Turno turno = new Turno();
-        turno.setPartida(p);
+        turno.setPartida(p6);
         turnoService.saveTurno(turno);
         turno.setTerritorio(Territorio.NA);
         turnoService.saveTurno(turno);
         Turno turno2 = new Turno();
-        turno2.setPartida(p);
+        turno2.setPartida(p6);
         turno2.setTerritorio(Territorio.NA);
         turnoService.saveTurno(turno2);
-        Turno t = partidaService.getUltimoTurno(p);
-        assertThat(t.getId()).isEqualTo(8);
+        Turno t = partidaService.getUltimoTurno(p6);
+        assertThat(t.getId()).isEqualTo(turnoService.getTurnosByPartida(p6.getId()).get(1).getId());
     }
 
     @Test

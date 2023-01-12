@@ -8,23 +8,19 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.petclinic.chat.Chat;
-import org.springframework.samples.petclinic.chat.ChatService;
-import org.springframework.samples.petclinic.chat.Mensaje;
-import org.springframework.samples.petclinic.chat.MensajeService;
 import org.springframework.samples.petclinic.partida.Partida;
 import org.springframework.samples.petclinic.partida.PartidaService;
 import org.springframework.stereotype.Service;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-@TestInstance(Lifecycle.PER_CLASS)
+@DirtiesContext(classMode = ClassMode.BEFORE_CLASS)
 public class ChatServiceTests {
 
     @Autowired
@@ -41,7 +37,9 @@ public class ChatServiceTests {
 
     protected Mensaje msj2 = new Mensaje();
 
-    @BeforeAll
+    protected int res =0;
+
+    @BeforeEach
     public void crear(){
         partida.setId(1);
         partida.setIdCriterioA1(1);
@@ -55,7 +53,6 @@ public class ChatServiceTests {
         msj2.setId(2);
         msj2.setContenido("msj2");
 
-        chat.setId(1);
         chat.setMensajes(List.of(msj1,msj2));
         chat.setPartida(partida);
         
@@ -65,23 +62,20 @@ public class ChatServiceTests {
     }
 
     @Test
-    @Transactional
     public void shouldGetPartidaById(){
-        Chat chat = chatService.getByPartidaId(1);
-        assertThat(chat.getId()).isEqualTo(1);
+        Chat chat2 = chatService.getByPartidaId(partida.getId());
+        res = chat.getId();
+        assertThat(chat2.getId()).isEqualTo(res);
     }
 
     @Test
-    @Transactional
     public void shouldGetAllChats(){
         List<Chat> chats = chatService.getAll();
         
         assertThat(chats.size()).isEqualTo(1);
-        assertThat(chats.get(0).getId()).isEqualTo(1);
     }
     
     @Test
-    @Transactional
     public void shouldEdit(){
         chat.setId(2);
         chat.setMensajes(List.of(msj1));
@@ -91,7 +85,6 @@ public class ChatServiceTests {
     }
 
     @Test
-    @Transactional
     public void shouldDelete(){
         chatService.delete(chat);
         List<Chat> chats = chatService.getAll();

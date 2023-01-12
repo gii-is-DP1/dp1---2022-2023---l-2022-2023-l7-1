@@ -48,7 +48,7 @@ public class InvitationServiceTests {
         user1.setName("Diego");
         user1.setUsername("diegarlin");
         user1.setEnabled(true);
-        user1.setPassword("password");
+        user1.setPassword("1pfao?mkALKV");
         user1.setPhone("633787878");
         this.userService.saveUser(user1);
         
@@ -58,7 +58,7 @@ public class InvitationServiceTests {
         user2.setName("Diego");
         user2.setUsername("lolito");
         user2.setEnabled(true);
-        user2.setPassword("password");
+        user2.setPassword("1pfao?mkALKV");
         user2.setPhone("633787878");
         this.userService.saveUser(user2);
     }

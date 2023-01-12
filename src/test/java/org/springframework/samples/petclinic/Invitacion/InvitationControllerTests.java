@@ -138,7 +138,7 @@ public class InvitationControllerTests {
 	@Test
 	void testShouldacceptInvitation() throws Exception{
         mockMvc.perform(get("/invitationAccepted/{username}/{id}", user1.getUsername(), id)).andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/friends/"+user1.getUsername()));
+                .andExpect(view().name("redirect:/friends"));
     }
 
     @WithMockUser(value = "spring")

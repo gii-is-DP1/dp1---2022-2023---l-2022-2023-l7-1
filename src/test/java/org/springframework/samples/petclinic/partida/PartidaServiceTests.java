@@ -183,7 +183,7 @@ class PartidaServiceTests {
         partidaService.savePartida(p);
 
         accion.setTurno(turnoService.getTurnoById(1));
-        accion.setTablero(tab3);
+        accion.setTablero(tableroService.getTableroById(2));
         accion.setCasilla(casillaService.getCasillaById(11));
         accionService.save(accion);
 
@@ -292,13 +292,13 @@ class PartidaServiceTests {
 
     @Test
 	public void shouldCalculateCasillasDisponibles() {
-        Set<Integer> casillasDisp = this.partidaService.casillasDisponibles(1, 3);
+        Set<Integer> casillasDisp = this.partidaService.casillasDisponibles(1, 2);
         assertThat(casillasDisp.size()).isEqualTo(4);
 	}
 
     @Test
 	public void shouldCalculateCasillasDisponiblesPrimeraAccion() {
-        assertThat(partidaService.casillasDisponiblesPrimeraAccion(3).size()).isEqualTo(61);
+        assertThat(partidaService.casillasDisponiblesPrimeraAccion(2).size()).isEqualTo(61);
 	}
 
     @Test

@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 
 import org.hamcrest.Matcher;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,11 +31,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -170,9 +173,9 @@ public class PartidaControllerTests {
 		accion2.setTurno(t2);
 
 		t.setId(1);
-		t.setNumTerritoriosJ1(2);
+		t.setNumTerritoriosJ1(null);
 		t.setNumTerritoriosJ2(null);
-		t.setTerritorio(Territorio.BOSQUE);
+		t.setTerritorio(null);
 		t.setPartida(p);
 
 		t2.setId(2);
@@ -371,21 +374,72 @@ public class PartidaControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testPostEligeTerritorioError() throws Exception{
+		mockMvc
+		.perform(post("/partida/eligeTerritorio/{idPartida}/{idTurno}/{numTiradas}",1,1,3)
+		.param("numTerritoriosJ1", "2").param("Territorio", "A").with(csrf()))
+			.andExpect(status().isOk())
+			.andExpect(view().name("partidas/eligeTerritorio"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testPostEligeTerritorio3() throws Exception{
+		given(turnoService.getTurnoById(anyInt())).willReturn(t);
+		given(partidaService.getPartidaById(anyInt())).willReturn(p);
+		
+		mockMvc
+		.perform(post("/partida/eligeTerritorio/{idPartida}/{idTurno}/{numTiradas}",1,1,3)
+		.param("numTerritoriosJ1", "2").param("Territorio", "BOSQUE").with(csrf()))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(view().name("redirect:/partida/dibujar/1/1/null/3/1"));
+
+		assertThat(t.getNumTerritoriosJ1()).isEqualTo(2);
+		assertThat(t.getTerritorio()).isEqualTo(Territorio.BOSQUE);
+
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testPostEligeTerritorioTOResultados() throws Exception{
+		given(turnoService.getTurnoById(anyInt())).willReturn(t);
+		given(partidaService.getPartidaById(anyInt())).willReturn(p);
+		given(partidaService.actualizarUso(any(),any(),any(),any())).willReturn(-1);
+
+		mockMvc
+		.perform(post("/partida/eligeTerritorio/{idPartida}/{idTurno}/{numTiradas}",1,1,3)
+		.param("numTerritoriosJ1", "2").param("Territorio", "BOSQUE").with(csrf()))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(view().name("redirect:/partida/resultados/1"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testPostEligeTerritorio2() throws Exception{
+		//Debe poner montaña y numTerritorios como 2
+
 		// given(turnoService.getTurnoById(anyInt())).willReturn(t);
 		// given(partidaService.getPartidaById(anyInt())).willReturn(p);
+		// given(session.getAttribute(anyString())).willReturn(List.of(2,3));
+		// given(partidaService.actualizarUso(any(),any(),any(),any())).willReturn(0);
+		
 		// mockMvc
-		// .perform(post("/partida/eligeTerritorio/{idPartida}/{idTurno}/{numTiradas}",1,1,3))
-		// 	.andExpect(status().is3xxRedirection())
-		// 	.andExpect(view().name(""));
+		// .perform(post("/partida/eligeTerritorio/{idPartida}/{idTurno}/{numTiradas}",1,1,2)
+		// .param("numTerritoriosJ1", "2").param("Territorio","BOSQUE").with(csrf()))
+		// 	.andExpect(status().isOk())
+		// 	.andExpect(view().name("redirect:/partida/dibujar/1/1/null/3/1"));
+
+		// assertThat(t.getNumTerritoriosJ1()).isEqualTo(2);
+		// assertThat(t.getTerritorio()).isEqualTo(Territorio.MONTANA);
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testGetDibujarPrimeraAccion() throws Exception{
+		t.setNumTerritoriosJ1(2);
 		given(partidaService.getPartidaById(1)).willReturn(p);
 		given(turnoService.getTurnoById(anyInt())).willReturn(t);
 		given(accionService.getAccionesByTablero(anyInt())).willReturn(List.of(accion1));
-		given(partidaService.casillasDisponiblesPrimeraAccion(tab.getId())).willReturn(Set.of(1,2));
+		given(partidaService.casillasDisponiblesPrimeraAccion(anyInt())).willReturn(Set.of(1,2));
 
 		mockMvc.perform(get("/partida/dibujar/{idPartida}/{idTurno}/{idAccion}/{numTiradas}/{primeraAccion}",1,1,1,3,1))
 		.andExpect(status().isOk())
@@ -403,6 +457,7 @@ public class PartidaControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testGetDibujarNOTPrimeraAccion() throws Exception{
+		t.setNumTerritoriosJ1(2);
 		given(partidaService.getPartidaById(1)).willReturn(p);
 		given(turnoService.getTurnoById(anyInt())).willReturn(t);
 		given(accionService.getAccionesByTablero(anyInt())).willReturn(List.of(accion1));
@@ -438,6 +493,41 @@ public class PartidaControllerTests {
 		.andExpect(model().attributeDoesNotExist("turno"))
 		.andExpect(view().name("redirect:/partida/resultados/1"));
 	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testPostDibujarADibujar() throws Exception{
+		t.setNumTerritoriosJ1(1);
+		given(turnoService.getTurnoById(anyInt())).willReturn(t);
+		given(accionService.getAccionById(anyInt())).willReturn(accion1);
+		given(partidaService.getPartidaById(anyInt())).willReturn(p);
+
+		mockMvc
+		.perform(post("/partida/dibujar/{idPartida}/{idTurno}/{idAccion}/{numTiradas}/{primeraAccion}",1,1,1,3,1)
+		.param("casilla", "2").with(csrf()))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(view().name("redirect:/partida/dibujar/1/1/null/3/0"));
+
+		assertThat(accion1.getCasilla().getId()).isEqualTo(2);
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testPostDibujarAEligeTerritorio() throws Exception{
+		t.setNumTerritoriosJ1(0);
+		given(turnoService.getTurnoById(anyInt())).willReturn(t);
+		given(accionService.getAccionById(anyInt())).willReturn(accion1);
+		given(partidaService.getPartidaById(anyInt())).willReturn(p);
+
+		mockMvc
+		.perform(post("/partida/dibujar/{idPartida}/{idTurno}/{idAccion}/{numTiradas}/{primeraAccion}",1,1,1,3,1)
+		.param("casilla", "3").with(csrf()))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(view().name("redirect:/partida/eligeTerritorio/1/null/2"));
+
+			assertThat(accion1.getCasilla().getId()).isEqualTo(3);
+	}
+
 
 	@WithMockUser(value = "spring")
 	@Test

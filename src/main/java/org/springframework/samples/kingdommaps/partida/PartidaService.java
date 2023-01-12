@@ -528,6 +528,7 @@ public class PartidaService {
                user4.setEstado(false);
                user4.setAnfitrionDelJugador(new ArrayList<>());
                userService.save(user4);
+               tablero4.setPuntos(0);
                tablero4.setPartidaEnCurso(true);
                tablero4.setPartidaCreada(false);
                tablero4.setPartidaEnEspera(false);

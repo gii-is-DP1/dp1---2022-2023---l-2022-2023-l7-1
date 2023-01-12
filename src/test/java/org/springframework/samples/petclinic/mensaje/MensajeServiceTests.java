@@ -45,7 +45,7 @@ public class MensajeServiceTests {
         user.setName("Diego");
         user.setUsername("diegarlin");
         user.setEnabled(true);
-        user.setPassword("password");
+        user.setPassword("1sAvwsvg?gwe");
         user.setPhone("633787878");
 
         userService.save(user);

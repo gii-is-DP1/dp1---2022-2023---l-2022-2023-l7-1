@@ -20,13 +20,13 @@ import lombok.Setter;
 public class Logro extends BaseEntity{
 
     
-    @NotBlank(message="No debe estar vacío")
+    @NotEmpty(message="No debe estar vacío")
     private String titulo;
 
-    @NotBlank(message="No debe estar vacío")
+    @NotEmpty(message="No debe estar vacío")
     private String descripcion;
 
-    @NotBlank(message="No debe estar vacío")
+    @NotEmpty(message="No debe estar vacío")
     private String logo;
 
     @NotNull(message="No debe estar vacío")

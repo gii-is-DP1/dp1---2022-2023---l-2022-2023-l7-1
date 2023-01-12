@@ -43,20 +43,20 @@ import lombok.Setter;
 public class User{
     @Id
 	@Column(name = "username")
-    @NotBlank(message="No debe estar vacío")
+    @NotEmpty(message="No debe estar vacío")
     @NotAudited
     String username;
 
     @Column(name = "name")
-    @NotBlank(message="No debe estar vacío")
+    @NotEmpty(message="No debe estar vacío")
     String name;
 
     @Column(name = "lastName")
-    @NotBlank(message="No debe estar vacío")
+    @NotEmpty(message="No debe estar vacío")
     String lastName;
 
     @Column(name = "password")
-    @NotBlank(message="No debe estar vacío")
+    @NotEmpty(message="No debe estar vacío")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$")
     String password;
 
@@ -67,12 +67,12 @@ public class User{
     LocalDate birthDate;
 
     @Column(name = "email")
-    @NotBlank(message="No debe estar vacío")
+    @NotEmpty(message="No debe estar vacío")
     @Email(regexp = ".+[@].+[\\.].+")
     String email;
 
     @Column(name = "phone")
-    @NotBlank(message="No debe estar vacío")
+    @NotEmpty(message="No debe estar vacío")
     @Digits(fraction = 0, integer = 10)
     String phone;
 	

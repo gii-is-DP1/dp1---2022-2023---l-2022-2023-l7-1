@@ -34,7 +34,7 @@
         <div class = "row">
             <div class="col-sm-6">
                 <c:if test="${eligeTerritorio == true}">
-                    <h2><b>Elegir terriorio y número de territorios a dibujar:</b></h2>
+                    <h2><b>Elegir territorio y número de territorios a dibujar:</b></h2>
                 </c:if>
                 <c:if test="${eligeTerritorio == false}">
                     <h2><b>Elegir número de territorios:</b></h2>

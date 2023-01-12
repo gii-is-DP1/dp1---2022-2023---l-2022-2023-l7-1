@@ -41,23 +41,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/users/new").permitAll()
 				.antMatchers("/users/find").authenticated()
 				.antMatchers("/users").authenticated()
-				.antMatchers("/users/{username}").authenticated()
+				.antMatchers("/user/**").authenticated()
 				.antMatchers("/users/{username}/**").authenticated()
 				.antMatchers("/users/all").hasAnyAuthority("admin")
 				// Permisos de stats
 				.antMatchers("/stats").hasAnyAuthority("admin")
 				.antMatchers("/stat").authenticated()
+				// Permisos de stats
+				.antMatchers("/chat/**").authenticated()
 				// Permisos de logros
 				.antMatchers("/logrosUsuario").authenticated()
 				.antMatchers("/logros/**").hasAnyAuthority("admin")
 				// Permisos de partidas
 				.antMatchers("/partida/**").authenticated()
 				.antMatchers("/partidas").authenticated()
-				.antMatchers("/partidas/{username}").authenticated()
-				.antMatchers("/partidas/partidaEnCurso/{username}").authenticated()
+				.antMatchers("/partidas/**").authenticated()
+				.antMatchers("/partidasUsuario").authenticated()
+				.antMatchers("/partidas/partidaEnCurso/{username}/**").authenticated()
 				// Permisos de amigos
-				.antMatchers("/friends/{username}").authenticated()
-				.antMatchers("/friends/{username}/**").authenticated()
+				.antMatchers("/friends/**").authenticated()
 				// Permisos de invitacion
 				.antMatchers("/invitations/{username}").authenticated()
 				.antMatchers("/invitationsGame").authenticated()

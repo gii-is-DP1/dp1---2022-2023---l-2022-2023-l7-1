@@ -38,6 +38,16 @@ public class LogrosControllerTests {
     @Autowired
 	private MockMvc mockMvc;
 
+	protected Logro logro = new Logro();
+	@BeforeEach
+	void setup() {
+		logro.setDescripcion("Consigue una puntuacion de <puntos> puntos o mas en una partida");
+        logro.setLogo("logo1.png");
+        logro.setReqPuntos(80);
+        logro.setTitulo("Explorador de Patio");
+		given(this.logroService.getById(1)).willReturn(logro);
+	}
+
     @WithMockUser(value = "spring")
 	@Test
 	void testShowAllLogros() throws Exception {
@@ -47,47 +57,50 @@ public class LogrosControllerTests {
     @WithMockUser(value = "spring")
 	@Test
 	void testDeleteLogro() throws Exception {
-		// mockMvc.perform(get("/logros/{id}/delete", this.logroService.getById(1).getId()).with(csrf())).andExpect(status().is3xxRedirection())
-		// 		.andExpect(model().attributeDoesNotExist("logro"))
-		// 		.andExpect(view().name("redirect:/logros"));
+		 mockMvc.perform(get("/logros/{id}/delete", 1).with(csrf())).andExpect(status().is3xxRedirection())
+		 		.andExpect(model().attributeDoesNotExist("logro"))
+		 		.andExpect(view().name("redirect:/logros"));
 	}
 
     @WithMockUser(value = "spring")
 	@Test
 	void testEditLogro() throws Exception {
-		// mockMvc.perform(get("/logros/{id}/edit", this.logroService.getById(1).getId()).with(csrf())).andExpect(status().isOk())
-		// 		.andExpect(model().attributeExists("logro"))
-		// 		.andExpect(model().attribute("user", hasProperty("titulo", is("Explorador de Patio"))))
-		// 		.andExpect(model().attribute("user", hasProperty("descripcion", is("Consigue una puntuacion de <puntos> puntos o mas en una partida"))))
-		// 		.andExpect(model().attribute("user", hasProperty("req_puntos", is(80))))
-		// 		.andExpect(model().attribute("user", hasProperty("logo", is("logo1.png"))))
-		// 		.andExpect(view().name("/logros/editLogro"));
+		mockMvc.perform(get("/logros/{id}/edit", 1).with(csrf())).andExpect(status().isOk())
+		 	.andExpect(model().attributeExists("logro"))
+		 	.andExpect(model().attribute("logro", hasProperty("titulo", is("Explorador de Patio"))))
+		 	.andExpect(model().attribute("logro", hasProperty("descripcion", is("Consigue una puntuacion de <puntos> puntos o mas en una partida"))))
+		 	.andExpect(model().attribute("logro", hasProperty("reqPuntos", is(80))))
+		 	.andExpect(model().attribute("logro", hasProperty("logo", is("logo1.png"))))
+			.andExpect(model().attributeExists("username"))
+		 	.andExpect(view().name("/logros/editLogro"));
 	}
 
     @WithMockUser(value = "spring")
 	@Test
 	void testProcessEditLogro() throws Exception {
-		// mockMvc.perform(post("/logros/{id}/edit", this.logroService.getById(1).getId())
-        // .param("titulo", "Explorador de Patio")
-        // .param("descripcion", "Consigue una puntuacion de <puntos> puntos o mas en una partida").with(csrf())
-		// .param("req_puntos", "80")
-		// .param("logo", "logo1.png"))
-		// 		.andExpect(status().is3xxRedirection())
-		// 		.andExpect(view().name("redirect:/logros"));
+		 mockMvc.perform(post("/logros/{id}/edit", 1)
+         .param("titulo", "Explorador de Patio")
+         .param("descripcion", "Consigue una puntuacion de <puntos> puntos o mas en una partida").with(csrf())
+		 .param("reqPuntos", "80")
+		 .param("logo", "logo1.png"))
+		 		.andExpect(status().is3xxRedirection())
+		 		.andExpect(view().name("redirect:/logros"));
 	}
 
     @WithMockUser(value = "spring")
 	@Test
 	void testProcessEditLogroHasError() throws Exception {
-		// mockMvc.perform(post("/logros/{id}/edit", this.logroService.getById(1) ).param("titulo", "")
-		// 		.param("descripcion", "").with(csrf())
-		// 		.param("logo", ""))
-		// 		.andExpect(status().isOk()).andExpect(model().attributeHasErrors("user"))
-		// 		.andExpect(model().attributeHasFieldErrors("user", "titulo"))
-        //         .andExpect(model().attributeHasFieldErrors("user", "descripcion"))
-		// 		.andExpect(model().attributeHasFieldErrors("user", "logo"))
-		// 		.andExpect(model().attributeHasFieldErrors("user", "req_puntos"))
-		// 		.andExpect(view().name("/logros/editLogro"));
+		mockMvc.perform(post("/logros/{id}/edit", 1)
+			.param("titulo", "")
+		 	.param("descripcion", "").with(csrf())
+		 	.param("logo", "")
+			.param("reqPuntos", ""))
+		 	.andExpect(status().isOk()).andExpect(model().attributeHasErrors("logro"))
+		 	.andExpect(model().attributeHasFieldErrors("logro", "titulo"))
+            .andExpect(model().attributeHasFieldErrors("logro", "descripcion"))
+		 	.andExpect(model().attributeHasFieldErrors("logro", "logo"))
+		 	.andExpect(model().attributeHasFieldErrors("logro", "reqPuntos"))
+		 	.andExpect(view().name("/logros/editLogro"));
 	}
 
     @WithMockUser(value = "spring")
@@ -101,12 +114,15 @@ public class LogrosControllerTests {
     @WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/logros/new").param("titulo", "Explorador nato")
+		mockMvc.perform(post("/logros/new")
+				.param("id", "2")
+				.param("titulo", "Explorador nato")
                 .param("descripcion", "Consigue la mayor cantidad de puntos").with(csrf())
 				.param("logo", "logo5.png")
-                .param("req_puntos", "170"))
-				.andExpect(status().isOk())
-				.andExpect(view().name("/logros/newLogro"));
+                .param("reqPuntos", "170"))
+				.andExpect(model().attributeExists("message"))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/logros"));
 	}
 
     @WithMockUser(value = "spring")

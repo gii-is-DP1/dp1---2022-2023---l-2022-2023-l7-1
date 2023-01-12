@@ -37,6 +37,7 @@ public class UserController {
     private static final String VIEW_USER_DETAILS = "users/userDetails";
     private static final String VIEW_USER_FRIENDS = "users/friends";
 	private static final String VIEW_USER_FRIENDS_PARTIDAS = "users/friendsPartida";
+	private static final String COULD_NOT_DELETE_USER = "deleteUnsuccessful";
 
 	private final UserService userService;
 
@@ -75,9 +76,8 @@ public class UserController {
 		res.addAttribute("users", users.getContent());
 
 		ModelAndView result = new ModelAndView("users/userListingPage");
-		if(principal != null){
-			result.addObject("username", principal.getName());
-		}
+		result.addObject("username", principal.getName());
+		
 		return result;
 	}
 
@@ -111,6 +111,9 @@ public class UserController {
 	@GetMapping(value = "/users/{username}/delete")
     public String deleteUser(@PathVariable String username){
 		userService.deleteFriends(username);
+		if(tableroService.tieneUnaPartida(userService.getUserById(username))) {
+			return COULD_NOT_DELETE_USER;
+		}
         userService.deleteUserById(username);        
         return "redirect:/users/all";
     }
@@ -140,17 +143,17 @@ public class UserController {
     }
 
     @Transactional(readOnly = true)
-	@GetMapping(value = "/users/{username}/userEdit")
-    public ModelAndView editUsername(@PathVariable("username") String username){
-        User user=userService.getUserById(username);        
+	@GetMapping(value = "/user/{username}/userEdit")
+    public ModelAndView editUsername(Principal principal, @PathVariable String username){
+        User user=userService.getUserById(principal.getName());        
         ModelAndView result=new ModelAndView(VIEW_USERNAME_EDITING);
         result.addObject("user", user);
         return result;
     }
 
     @Transactional()
-    @PostMapping(value = "/users/{username}/userEdit")
-    public String saveUsername(@PathVariable("username") String username,@Valid User user, BindingResult br) throws DataAccessException, DuplicatedUsernameException{
+    @PostMapping(value = "/user/{username}/userEdit")
+    public String saveUsername(@PathVariable String username, Principal principal,@Valid User user, BindingResult br) throws DataAccessException, DuplicatedUsernameException{
         if (br.hasErrors()) {
             return VIEW_USERNAME_EDITING;
         } else {
@@ -168,17 +171,15 @@ public class UserController {
 		model.put("user", new User());
 
 		ModelAndView res = new ModelAndView("users/findUsers");
-		if(principal != null){
-			res.addObject("username", principal.getName());
-		}
+		res.addObject("username", principal.getName());
 		return res;
 	}
 
     @Transactional
-    @GetMapping("/users/{username}")
-	public ModelAndView showUser(@PathVariable("username") String username) {
+    @GetMapping("/user")
+	public ModelAndView showUser(Principal principal) {
 		ModelAndView res = new ModelAndView(VIEW_USER_DETAILS);
-		res.addObject("user", this.userService.getUserById(username));
+		res.addObject("user", this.userService.getUserById(principal.getName()));
 		return res;
 	}
 
@@ -198,9 +199,8 @@ public class UserController {
 			result.rejectValue("username", "notFound", "not found");
 
 			ModelAndView res = new ModelAndView("users/findUsers");
-			if(principal != null){
-				res.addObject("username", principal.getName());
-			}
+			res.addObject("username", principal.getName());
+			
 			return res;
 		}
 		else {
@@ -208,9 +208,7 @@ public class UserController {
 			model.put("users", results);
 
 			ModelAndView res = new ModelAndView("users/userListingFound");
-			if(principal != null){
-				res.addObject("username", principal.getName());
-			}
+			res.addObject("username", principal.getName());
 			return res;
 		}
 	}
@@ -220,20 +218,20 @@ public class UserController {
 	// -------------------------------------------------------------------------------------------
 
     @Transactional
-    @GetMapping("/friends/{username}")
-	public ModelAndView showFriends(@PathVariable("username") String username) {
-		List<User> friends = userService.getFriends(username);
+    @GetMapping("/friends")
+	public ModelAndView showFriends(Principal principal) {
+		List<User> friends = userService.getFriends(principal.getName());
 		ModelAndView mav = new ModelAndView(VIEW_USER_FRIENDS);
 		mav.addObject("friends", friends);
-		mav.addObject("user", this.userService.getUserById(username));
+		mav.addObject("user", this.userService.getUserById(principal.getName()));
 		return mav;
 	}
 
 	@Transactional
-	@GetMapping(value = "/friends/{usernameLogged}/{usernameFriend}/delete")
-    public String deleteFriend(@PathVariable String usernameLogged, @PathVariable String usernameFriend){
-        userService.deleteFriend(usernameLogged, usernameFriend);        
-        return "redirect:/friends/"+usernameLogged;
+	@GetMapping(value = "/friends/{usernameFriend}/delete")
+    public String deleteFriend(Principal principal, @PathVariable String usernameFriend){
+        userService.deleteFriend(principal.getName(), usernameFriend);        
+        return "redirect:/friends";
     }
 
 	@Transactional
@@ -275,11 +273,8 @@ public class UserController {
 		res.addAttribute("last", totalPage);
 		res.addAttribute("users", users.getContent());
 		res.addAttribute("statsTotales", statsTotales);
-
 		ModelAndView result = new ModelAndView("stats/stats");
-		if(principal != null){
-			result.addObject("username", principal.getName());
-		}
+		result.addObject("username", principal.getName());
 		return result; 
 	}
 
@@ -291,9 +286,7 @@ public class UserController {
         model.put("user", user);
 
 		ModelAndView res = new ModelAndView("stats/userStats");
-		if(principal != null){
-			res.addObject("username", principal.getName());
-		}
+		res.addObject("username", principal.getName());
         return res;
     }
 

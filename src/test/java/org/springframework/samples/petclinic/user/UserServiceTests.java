@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.logros.LogroService;
 import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +24,11 @@ class UserServiceTests {
     @Autowired
     protected UserService userService;
 
+    @Autowired
+    protected LogroService logroService;
+
     protected User user = new User();
+    protected Tablero tablero = new Tablero();
 
     @BeforeEach
     public void SetUser(){
@@ -134,5 +139,33 @@ class UserServiceTests {
         this.userService.deleteFriends(JESZAMGUE);
         List<User> list2 = this.userService.getFriends(JESZAMGUE);
         assertThat(list2.size()!=0);
+    }
+
+    @Test
+    void shouldGetLogrosByUser() throws DataAccessException {
+        assertThat(userService.getLogrosByUser(userService.getUserById(FRAVILPAE)).size()).isEqualTo(0);
+    }
+
+    @Test
+    void shouldCalcularEstadisticas() throws DataAccessException {
+        userService.save(user);
+        userService.calculaEstadisticas(user);
+        assertThat(user.getMatchesPlayed()).isEqualTo(0);
+        assertThat(user.getGamesWin()).isEqualTo(0);
+        assertThat(user.getWinRatio()).isEqualTo(0);
+        assertThat(user.getTotalPoints()).isEqualTo(0);
+        assertThat(user.getMaxPoints()).isEqualTo(0);
+        assertThat(user.getTimesUsedTerritory1()).isEqualTo(0);
+        assertThat(user.getTimesUsedTerritory2()).isEqualTo(0);
+        assertThat(user.getTimesUsedTerritory3()).isEqualTo(0);
+        assertThat(user.getTimesUsedTerritory4()).isEqualTo(0);
+        assertThat(user.getTimesUsedTerritory5()).isEqualTo(0);
+        assertThat(user.getTimesUsedTerritory6()).isEqualTo(0);
+    }
+
+    @Test
+    void shouldCalcularEstadisticasGlobales() throws DataAccessException {
+        List<Integer> lista = userService.calculaEstadisticasGlobales();
+        assertThat(lista.size()).isEqualTo(8);
     }
 }

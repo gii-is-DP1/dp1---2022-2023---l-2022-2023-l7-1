@@ -1,3 +1,7 @@
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/summary/new_code?id=gii-is-DP1_dp1---2022-2023---l-2022-2023-l7-1)
+
+*IMPORTANTE* Se debe hacer Maven Install regularmente antes de usar la aplicación
+
 Enlace al video: https://www.youtube.com/watch?v=EXVKaqZB4MQ
 
 Enlace a documentación del juego: https://drive.google.com/drive/folders/11Yo6jKHsDYNggtT3DaiqA4BDRsrVfb2d

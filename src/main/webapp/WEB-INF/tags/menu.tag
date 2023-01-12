@@ -103,7 +103,7 @@
 							<li class="divider"></li>
 							<li>
 								<p>
-									<a href="/partidas/${username}" class="btn btn-block" style="color:white;">Mis juegos</a>
+									<a href="/partidasUsuario" class="btn btn-block" style="color:white;">Mis juegos</a>
 								</p>
 							</li>
 						</ul>
@@ -126,7 +126,7 @@
 							<span>Mis logros</span>
 					</petclinic:menuItem>
 
-					<petclinic:menuItem active="${name eq 'games'}" url="/partidas/${username}" title="Mis juegos">
+					<petclinic:menuItem active="${name eq 'games'}" url="/partidasUsuario" title="Mis juegos">
 							<span class="glyphicon glyphicon-tower"></span>
 							<span>Mis juegos</span>
 					</petclinic:menuItem>
@@ -159,7 +159,7 @@
 						<ul class="dropdown-menu" style="background-color:#28B393;">
 							<li>
 								<p>
-									<a href="/users/${username}" class="btn btn-block"
+									<a href="/user" class="btn btn-block"
 										style="color:white;">Mi Perfil</a>
 								</p>
 							</li>

@@ -542,12 +542,3 @@ INSERT INTO logros (id, titulo, descripcion, logo, req_puntos) VALUES (1,'Explor
 INSERT INTO logros (id, titulo, descripcion, logo, req_puntos) VALUES (2,'Explorador Normalito', 'Consigue una puntuacion de <puntos> puntos o mas en una partida','logo2.png', 100);
 INSERT INTO logros (id, titulo, descripcion, logo, req_puntos) VALUES (3,'Explorador Profesional', 'Consigue una puntuacion de <puntos> puntos o mas en una partida','logo3.png', 120);
 INSERT INTO logros (id, titulo, descripcion, logo, req_puntos) VALUES (4,'Marco Polo', 'Consigue una puntuacion de <puntos> puntos o mas en una partida','logo4.png', 150);
-/*
-INSERT INTO jugador(id,activo,nombrereino,usosterritorio1,usosterritorio2,
-usosterritorio3,usosterritorio4,usosterritorio5,usosterritorio6,anfitrión,usuario_id,tablero_id)
-VALUES (1,False,'x',2,2,2,2,3,0,TRUE,'jeszamgue',1);
-
-INSERT INTO jugador(id,activo,nombrereino,usosterritorio1,usosterritorio2,
-usosterritorio3,usosterritorio4,usosterritorio5,usosterritorio6,anfitrión,usuario_id,tablero_id)
-VALUES (2,TRUE,'xa',2,0,2,2,1,2,TRUE,'jeszamgue',2);
-*/

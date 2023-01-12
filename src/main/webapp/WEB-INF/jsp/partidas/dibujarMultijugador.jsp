@@ -73,24 +73,24 @@
                                         <td style="text-align:center;padding: 25px 0;">
                                             <form:form modelAttribute="turno">
                                                 <c:if test = "${numJugador ==1}">               
-                                                <form:select path = "numTerritoriosJ1" class="btn btn-default">
-                                                    <form:options items = "${poder}" style="background-color:gainsboro;color:black;text-align:left;"/>
-                                                </form:select>
+                                                    <form:select path = "numTerritoriosJ1" class="btn btn-default">
+                                                        <form:options items = "${poder}" style="background-color:gainsboro;color:black;text-align:left;"/>
+                                                    </form:select>
                                                 </c:if>
                                                 <c:if test = "${numJugador ==2}">               
-                                                <form:select path = "numTerritoriosJ2" class="btn btn-default">
-                                                    <form:options items = "${poder}" style="background-color:gainsboro;color:black;text-align:left;"/>
-                                                </form:select>
+                                                    <form:select path = "numTerritoriosJ2" class="btn btn-default">
+                                                        <form:options items = "${poder}" style="background-color:gainsboro;color:black;text-align:left;"/>
+                                                    </form:select>
                                                 </c:if>
                                                 <c:if test = "${numJugador ==3}">               
-                                                <form:select path = "numTerritoriosJ3" class="btn btn-default">
-                                                    <form:options items = "${poder}" style="background-color:gainsboro;color:black;text-align:left;"/>
-                                                </form:select>
+                                                    <form:select path = "numTerritoriosJ3" class="btn btn-default">
+                                                        <form:options items = "${poder}" style="background-color:gainsboro;color:black;text-align:left;"/>
+                                                    </form:select>
                                                 </c:if>
                                                 <c:if test = "${numJugador ==4}">               
-                                                <form:select path = "numTerritoriosJ4" class="btn btn-default">
-                                                    <form:options items = "${poder}" style="background-color:gainsboro;color:black;text-align:left;"/>
-                                                </form:select>
+                                                    <form:select path = "numTerritoriosJ4" class="btn btn-default">
+                                                        <form:options items = "${poder}" style="background-color:gainsboro;color:black;text-align:left;"/>
+                                                    </form:select>
                                                 </c:if>
                                             </form:form>
                                         </td>
@@ -143,5 +143,8 @@
             <c:out value="${tablero.poder2}"/>
             </c:if>
     </body>
+    <button class="btn btn-default">
+        <a style="color:white" href="/chat/${chatId}" target="_blank">Chat</a>
+    </button>
     
 </petclinic:layout>

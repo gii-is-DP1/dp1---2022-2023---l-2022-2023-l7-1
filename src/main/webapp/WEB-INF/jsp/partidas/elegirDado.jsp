@@ -37,54 +37,43 @@
                 <tbody>
                     <form:form modelAttribute="turno" class="form-horizontal">
                         <div class="form-select">
-                        <tr>
-                        <td style="text-align:center;padding: 50px 0;">
-                            <c:if test = "${numJugador ==1}">               
-                                <form:select path = "numTerritoriosJ1" class="btn btn-default">
-                                    <form:options items = "${dados}" style="background-color:gainsboro;color:black;text-align:left;"/>
-                                </form:select>
+                            <tr>
                                 <td style="text-align:center;padding: 50px 0;">
-                                    <div class = "row">
-                                        <button class="btn btn-default" type="submit">Confirmar</button> 
-                                    </div>
+                                    <c:if test = "${numJugador ==1}">               
+                                        <form:select path = "numTerritoriosJ1" class="btn btn-default">
+                                            <form:options items = "${dados}" style="background-color:gainsboro;color:black;text-align:left;"/>
+                                        </form:select>
+                                    </c:if>
+                                    <c:if test = "${numJugador ==2}">               
+                                        <form:select path = "numTerritoriosJ2" class="btn btn-default">
+                                            <form:options items = "${dados}" style="background-color:gainsboro;color:black;text-align:left;"/>
+                                        </form:select>
+                                        
+                                    </c:if>
+                                    <c:if test = "${numJugador ==3}">               
+                                        <form:select path = "numTerritoriosJ3" class="btn btn-default">
+                                            <form:options items = "${dados}" style="background-color:gainsboro;color:black;text-align:left;"/>
+                                        </form:select>
+                                        
+                                    </c:if>
+                                    <c:if test = "${numJugador ==4}">               
+                                        <form:select path = "numTerritoriosJ4" class="btn btn-default">
+                                            <form:options items = "${dados}" style="background-color:gainsboro;color:black;text-align:left;"/>
+                                        </form:select>
+                                        
+                                    </c:if>
+                                    <td style="text-align:center;padding: 50px 0;">
+                                        <div>
+                                            <button class="btn btn-default" type="submit">Confirmar</button> 
+                                        </div>
+                                    </td>
                                 </td>
-                            </c:if>
-                            <c:if test = "${numJugador ==2}">               
-                                <form:select path = "numTerritoriosJ2" class="btn btn-default">
-                                    <form:options items = "${dados}" style="background-color:gainsboro;color:black;text-align:left;"/>
-                                </form:select>
-                                <td style="text-align:center;padding: 50px 0;">
-                                    <div class = "row">
-                                        <button class="btn btn-default" type="submit">Confirmar</button> 
-                                    </div>
-                                </td>
-                            </c:if>
-                            <c:if test = "${numJugador ==3}">               
-                                <form:select path = "numTerritoriosJ3" class="btn btn-default">
-                                    <form:options items = "${dados}" style="background-color:gainsboro;color:black;text-align:left;"/>
-                                </form:select>
-                                <td style="text-align:center;padding: 50px 0;">
-                                    <div class = "row">
-                                        <button class="btn btn-default" type="submit">Confirmar</button> 
-                                    </div>
-                                </td>
-                            </c:if>
-                            <c:if test = "${numJugador ==4}">               
-                                <form:select path = "numTerritoriosJ4" class="btn btn-default">
-                                    <form:options items = "${dados}" style="background-color:gainsboro;color:black;text-align:left;"/>
-                                </form:select>
-                                <td style="text-align:center;padding: 50px 0;">
-                                    <div class = "row">
-                                        <button class="btn btn-default" type="submit">Confirmar</button> 
-                                    </div>
-                                </td>
-                            </c:if>
-                        </td>
-                    </tr>  
-                </div>
-            </form:form>
-        </tbody>
-    </table> 
+                                
+                            </tr>  
+                        </div>
+                    </form:form>
+                </tbody>
+            </table> 
             <div class="col-sm-3">
                 <table id="territorios" class="table table-condensed table-bordered">
                     <thead>
@@ -151,5 +140,7 @@
             </c:if>
         </div>
     </body>
-    
+    <button>
+        <a class="btn btn-default" href="/chat/${chatId}" target="_blank">Chat</a></th>
+    </button>
 </petclinic:layout>

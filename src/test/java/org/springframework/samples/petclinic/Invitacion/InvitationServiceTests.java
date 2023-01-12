@@ -3,6 +3,10 @@ package org.springframework.samples.petclinic.Invitacion;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,6 +120,66 @@ public class InvitationServiceTests {
     }
 
     //______________ TEST INVITATION GAME SERVICE __________________________________________________________________________________________________________
+    @Transactional
+    @Test
+   	void shouldSendInvitationGame() {
+        boolean inv1 = this.invitationService.getInvitationsGameOf(user1.getUsername()).isEmpty();
+        assertThat(inv1).isTrue();
+        this.invitationService.sendInvitationToGame(user2.getUsername(), user1.getUsername());
+        boolean inv2 = !(this.invitationService.getInvitationsGameOf(user1.getUsername()).isEmpty());
+        assertThat(inv2).isTrue();
+        boolean inv3 = this.invitationService.getInvitationsGameOf(user2.getUsername()).isEmpty();
+        assertThat(inv3).isTrue();
+    }
+
+    @Test
+   	void shouldGetInvitationsGameByUsername() {
+        boolean inv1 = this.invitationService.getInvitationsGameOf(user1.getUsername()).isEmpty();
+        assertThat(inv1).isTrue();
+        invitationGame.setPosibleJugador(user1);
+        invitationGame.setAnfitrion(user2);
+        this.invitationGameRepository.save(invitationGame);
+        boolean inv2 = !(this.invitationService.getInvitationsGameOf(user1.getUsername()).isEmpty());
+        assertThat(inv2).isTrue();
+    }
+
+    @Transactional
+    @Test
+   	void shouldNotSendInvitationGame() {
+        boolean inv1 = this.invitationService.getInvitationsGameOf(user1.getUsername()).isEmpty();
+        assertThat(inv1).isTrue();
+        this.invitationService.sendInvitationToGame(user2.getUsername(), user2.getUsername());
+        boolean inv4 = this.invitationService.getInvitationsGameOf(user2.getUsername()).isEmpty();
+        assertThat(inv4).isTrue();
+    }
+
+    @Transactional
+    @Test
+   	void shouldAcceptInvitationGame() {
+        invitationGame.setPosibleJugador(user1);
+        invitationGame.setAnfitrion(user2);
+        this.invitationGameRepository.save(invitationGame);
+        this.invitationService.acceptInvitationGame(user1.getUsername(), invitationGame.getId()); 
+        boolean inv3 = this.invitationService.getInvitationsGameOf(user1.getUsername()).isEmpty();
+        assertThat(inv3).isTrue();
+        boolean f = user1.getAnfitrionDelJugador().contains(user2) && user2.getJugadoresAceptados().contains(user1);
+        assertThat(f).isTrue();
+    }
+
+    @Transactional
+    @Test
+   	void shouldgetAmigosDisponiblesParaJugar() {
+    	Set<User> users = new HashSet<>();
+    	users.add(user1);
+        user2.setFriends(users);
+        users.clear();
+        users.add(user2);
+        user1.setFriends(users);
+        userService.save(user1); 
+        userService.save(user2);
+        List<User> users2 = this.invitationService.getAmigosDisponiblesParaJugar(user2.getUsername());
+        assertThat(users2).hasSize(1);
+    }
 
 
 

@@ -15,6 +15,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.accion.Accion;
 import org.springframework.samples.petclinic.accion.AccionService;
+import org.springframework.samples.petclinic.chat.Chat;
+import org.springframework.samples.petclinic.chat.ChatService;
 import org.springframework.samples.petclinic.criterios.CriterioA1;
 import org.springframework.samples.petclinic.criterios.CriterioA2;
 import org.springframework.samples.petclinic.criterios.CriterioA3;
@@ -53,11 +55,13 @@ public class PartidaService {
 
    UserService userService;
 
+   ChatService chatService;
+
    private static StrategyInterface strategy;
    
    
    @Autowired
-   public PartidaService(PartidaRepository partidaRepo, TableroService tableroService, TurnoService turnoService, AccionService accionService, UserService userService) {
+   public PartidaService(PartidaRepository partidaRepo, TableroService tableroService, TurnoService turnoService, AccionService accionService, UserService userService, ChatService chatService) {
     this.partidaRepo = partidaRepo;
 
     this.tableroService = tableroService;
@@ -65,6 +69,7 @@ public class PartidaService {
     this.turnoService = turnoService;
     this.accionService = accionService;
     this.userService = userService;
+    this.chatService= chatService;
    }
 
    public Integer getMaximo(int a, int b, int c, int d) {
@@ -81,6 +86,33 @@ public class PartidaService {
    @Transactional
    public void savePartida(Partida p){
       partidaRepo.save(p);
+   }
+
+   public void deletePartida(Integer partidaId) {
+      Chat chat = chatService.getByPartidaId(partidaId);
+      List<Tablero> tableros = tableroService.getTablerosByPartida(getPartidaById(partidaId));
+      List<Accion> acciones = new ArrayList<>();
+      List<Turno> turnos = turnoService.getTurnosByPartida(partidaId);
+      for(Tablero t: tableros){
+         User usuario =t.getUser();
+         usuario.setJugadoresAceptados(new ArrayList<>());
+         usuario.setReceivedInvitationsToGame(new HashSet<>());
+         usuario.setAnfitrionDelJugador(new ArrayList<>());
+         usuario.setSendedInvitationsToGame(new HashSet<>());
+         userService.save(usuario);
+         acciones.addAll(accionService.getAccionesByTablero(t.getId()));
+         tableroService.delete(t);
+      }
+      for(Accion a: acciones){
+         accionService.delete(a);
+      }
+      for(Turno t: turnos){
+         turnoService.delete(t);
+      }
+      if(chat != null) {
+         chatService.delete(chat);
+      }
+      partidaRepo.deleteById(partidaId);
    }
 
    public int[] criterioAleatorio(){
@@ -450,6 +482,10 @@ public class PartidaService {
       p.setTableros(tableros);
       partidaRepo.save(p);
 
+      Chat c = new Chat();
+      c.setPartida(p);
+      chatService.save(c);
+
       User anfitrion = jugadores.get(0);
       anfitrion.setEstado(true);
       anfitrion.setJugadoresAceptados(new ArrayList<>());
@@ -801,6 +837,7 @@ public class PartidaService {
    public void cancelarPartida(User usuario) {
       Tablero tablero = tableroService.getTableroActiveByUser(usuario);
       Partida partida = getPartidaById(tablero.getPartida().getId());
+      Chat chat = chatService.getByPartidaId(partida.getId());
       List<Tablero> tableros = tableroService.getTablerosByPartida(partida);
       List<Accion> acciones = new ArrayList<>();
       List<Turno> turnos = turnoService.getTurnosByPartida(partida.getId());
@@ -820,7 +857,14 @@ public class PartidaService {
       for(Turno t: turnos){
          turnoService.delete(t);
       }
+      if(chat!=null){
+         chatService.delete(chat);
+      }
       delete(partida);
    }
+
+   public List<Tablero> getTablerosByUser(User user) {
+      return tableroService.getTablerosByUser(user);
+  }
 
 }

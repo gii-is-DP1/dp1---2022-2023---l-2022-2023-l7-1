@@ -43,7 +43,7 @@ public class TableroServiceTests {
         tab.setPartidaEnEspera(true);
         tab.setPoder1(0);
         tab.setPoder2(0);
-        tab.setPuntos(0);
+        tab.setPuntos(1);
         tab.setUser(userService.getUserById("owner1"));
         tab.setUsos0(0);
         tab.setUsos1(0);
@@ -148,7 +148,7 @@ public class TableroServiceTests {
     public void shouldGetPuntosTotales(){
         
         Integer puntosTotales = tableroService.getPuntosTotales();
-        assertThat(puntosTotales).isEqualTo(10);
+        assertThat(puntosTotales).isEqualTo(11);
         
     }
 
@@ -159,5 +159,22 @@ public class TableroServiceTests {
         Integer partidasTotales = tableroService.getNumPartidasTotales();
         assertThat(partidasTotales).isEqualTo(1);
         
+    }
+
+    @Test
+    public void shouldCheckTieneUnaPartida() {
+        User user2 = new User();
+        Boolean res = tableroService.tieneUnaPartida(user2);
+        assertThat(res).isEqualTo(false);
+        res = tableroService.tieneUnaPartida(userService.getUserById("owner1"));
+        assertThat(res).isEqualTo(true);
+    }
+
+    @Test
+    public void shouldGetPuntosMax() {
+        Integer res = tableroService.getPuntosMax(userService.getUserById("fravilpae"));
+        assertThat(res).isEqualTo(0);
+        res = tableroService.getPuntosMax(userService.getUserById("owner1"));
+        assertThat(res).isEqualTo(1);
     }
 }

@@ -39,7 +39,7 @@ public class MensajeService {
     }
 
     public Integer getUltimoId() {
-        List<Mensaje> mensajes= getAll();
+        List<Mensaje> mensajes= mensajeRepository.findAll();
         if(mensajes.isEmpty()){
             return 1;
         }

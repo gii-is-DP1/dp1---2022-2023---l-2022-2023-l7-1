@@ -9,8 +9,11 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,8 +22,12 @@ import org.springframework.samples.petclinic.partida.PartidaService;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.stereotype.Service;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@TestInstance(Lifecycle.PER_CLASS)
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 public class TableroServiceTests {
 
     @Autowired
@@ -33,10 +40,12 @@ public class TableroServiceTests {
     protected UserService userService;
 
     protected Tablero tab = new Tablero();
+
+    protected Partida p = new Partida();
     
     @BeforeEach
     public void setTablero( ){
-        tab.setId(3);
+        
         tab.setPartida(partidaService.getPartidaById(1));
         tab.setPartidaCreada(true);
         tab.setPartidaEnCurso(true);

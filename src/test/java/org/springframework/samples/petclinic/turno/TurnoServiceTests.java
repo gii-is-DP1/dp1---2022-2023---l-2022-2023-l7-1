@@ -31,7 +31,7 @@ class TurnoServiceTests {
     protected Partida partida = new Partida();
 
     @BeforeEach
-    public void setPartida(){
+    public void setTurno(){
         turno.setId(7);
         turno.setNumTerritoriosJ1(0);
         turno.setNumTerritoriosJ2(0);

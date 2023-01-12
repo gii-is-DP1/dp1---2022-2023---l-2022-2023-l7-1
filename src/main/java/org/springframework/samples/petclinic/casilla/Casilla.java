@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -35,7 +36,7 @@ public class Casilla extends BaseEntity{
     @NotBlank
     Double columna;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     List<Casilla> adyacencia;
 
     @Column(name = "casilla_opuesta_id")

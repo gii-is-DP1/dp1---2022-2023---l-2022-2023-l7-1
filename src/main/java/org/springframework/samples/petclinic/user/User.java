@@ -18,9 +18,11 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
@@ -41,35 +43,36 @@ import lombok.Setter;
 public class User{
     @Id
 	@Column(name = "username")
-    @NotEmpty
+    @NotBlank(message="No debe estar vacío")
     @NotAudited
     String username;
 
     @Column(name = "name")
-    @NotEmpty
+    @NotBlank(message="No debe estar vacío")
     String name;
 
     @Column(name = "lastName")
-    @NotEmpty
+    @NotBlank(message="No debe estar vacío")
     String lastName;
 
     @Column(name = "password")
-    @NotEmpty
+    @NotBlank(message="No debe estar vacío")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$")
     String password;
 
     @Column(name = "birthDate")
     @Past
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    @NotNull
+    @NotNull(message = "No debe estar vacío")
     LocalDate birthDate;
 
     @Column(name = "email")
-    @NotEmpty
+    @NotBlank(message="No debe estar vacío")
     @Email(regexp = ".+[@].+[\\.].+")
     String email;
 
     @Column(name = "phone")
-    @NotEmpty
+    @NotBlank(message="No debe estar vacío")
     @Digits(fraction = 0, integer = 10)
     String phone;
 	

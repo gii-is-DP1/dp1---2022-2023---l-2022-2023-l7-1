@@ -69,7 +69,7 @@ public class PartidaController {
 
     @Transactional
 	@GetMapping(value = "/partidas/{partidaId}/delete")
-    public String deleteUser(@PathVariable Integer partidaId){
+    public String deletePartida(@PathVariable Integer partidaId){
 		partidaService.deletePartida(partidaId);        
         return "redirect:/partidas";
     }

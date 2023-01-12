@@ -21,11 +21,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 
-import org.hamcrest.Matcher;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -35,7 +32,6 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -171,7 +167,7 @@ public class PartidaControllerTests {
 		accion2.setTurno(t2);
 
 		t.setId(1);
-		t.setNumTerritoriosJ1(null);
+		t.setNumTerritoriosJ1(2);
 		t.setNumTerritoriosJ2(null);
 		t.setTerritorio(null);
 		t.setPartida(p);
@@ -435,20 +431,21 @@ public class PartidaControllerTests {
 	@Test
 	void testPostEligeTerritorio2() throws Exception{
 		//Debe poner montaña y numTerritorios como 2
-
-		// given(turnoService.getTurnoById(anyInt())).willReturn(t);
-		// given(partidaService.getPartidaById(anyInt())).willReturn(p);
-		// given(session.getAttribute(anyString())).willReturn(List.of(2,3));
-		// given(partidaService.actualizarUso(any(),any(),any(),any())).willReturn(0);
 		
-		// mockMvc
-		// .perform(post("/partida/eligeTerritorio/{idPartida}/{idTurno}/{numTiradas}",1,1,2)
-		// .param("numTerritoriosJ1", "2").param("Territorio","BOSQUE").with(csrf()))
-		// 	.andExpect(status().isOk())
-		// 	.andExpect(view().name("redirect:/partida/dibujar/1/1/null/3/1"));
+		List<Integer> dados = List.of(3,3,4);
 
-		// assertThat(t.getNumTerritoriosJ1()).isEqualTo(2);
-		// assertThat(t.getTerritorio()).isEqualTo(Territorio.MONTANA);
+		 given(turnoService.getTurnoById(anyInt())).willReturn(t);
+		 given(partidaService.getPartidaById(anyInt())).willReturn(p);
+		 given(partidaService.actualizarUso(any(),any(),any(),any())).willReturn(-1);
+		
+		 mockMvc.perform(post("/partida/eligeTerritorio/{idPartida}/{idTurno}/{numTiradas}",1,1,2).sessionAttr("dados", dados)
+		 .param("numTerritoriosJ1", "2").param("Territorio","BOSQUE").with(csrf()))
+		 	.andExpect(status().isOk());
+		 dados = List.of(2,2,1);
+		 mockMvc.perform(post("/partida/eligeTerritorio/{idPartida}/{idTurno}/{numTiradas}",1,1,2).sessionAttr("dados", dados)
+				 .param("numTerritoriosJ1", "2").param("Territorio","BOSQUE").with(csrf()))
+				 	.andExpect(status().isOk());
+
 	}
 
 	@WithMockUser(value = "spring")

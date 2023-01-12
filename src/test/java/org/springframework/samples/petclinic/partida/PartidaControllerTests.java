@@ -230,6 +230,27 @@ public class PartidaControllerTests {
 		
 	}
 
+	@WithMockUser(value = "spring")
+	@Test
+	void testDeletePartida() throws Exception {
+		mockMvc.perform(get("/partidas/{partidaId}/delete", 1))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(model().attributeDoesNotExist("partida"))
+				.andExpect(view().name("redirect:/partidas"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testShowPartidasJugador() throws Exception {
+		List<Tablero> tableros = List.of(tab);
+		given(userService.getTableroByUser(any())).willReturn(tableros);
+		mockMvc.perform(get("/partidasUsuario"))
+				.andExpect(status().isOk())
+				.andExpect(model().attributeExists("tablero"))
+				.andExpect(model().attributeExists("username"))
+				.andExpect(view().name("users/partida"));
+	}
+
 	
 
 	@WithMockUser(value = "spring")

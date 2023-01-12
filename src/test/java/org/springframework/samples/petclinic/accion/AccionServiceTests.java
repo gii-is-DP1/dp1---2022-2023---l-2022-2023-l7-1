@@ -19,6 +19,10 @@ import org.springframework.samples.petclinic.turnos.TurnoService;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.samples.petclinic.util.Territorio;
 import org.springframework.stereotype.Service;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class AccionServiceTests { 

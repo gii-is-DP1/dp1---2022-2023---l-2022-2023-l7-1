@@ -34,13 +34,14 @@
         <div class = "row">
             <div class="col-sm-6">
                 <c:if test="${eligeTerritorio == true}">
-                    <h2><b>Elegir terriorio y número de territorios a dibujar:</b></h2>
+                    <h2><b>Elegir territorio y número de territorios a dibujar:</b></h2>
                 </c:if>
                 <table id="territorioDado" class="table table-condensed">
                     <tbody>
                         <form:form modelAttribute="turno" class="form-horizontal">
                             <div class="form-select">
                                 <tr>
+                                    <td style="text-align:center;padding: 50px 0;">
                                     <form:select path = "territorio" class="btn btn-default">
                                                 <form:options items = "${territorios}" style="background-color:gainsboro;color:black;text-align:left;"/>
                                     </form:select>
@@ -84,6 +85,7 @@
                                     </div>
                                 </td>
                             </c:if>
+                                    </td>
                                 </tr>  
                             </div>
                         </form:form>

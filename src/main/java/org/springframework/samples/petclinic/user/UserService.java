@@ -27,7 +27,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.accion.AccionService;
 import org.springframework.samples.petclinic.logros.Logro;
 import org.springframework.samples.petclinic.logros.LogroService;
-import org.springframework.samples.petclinic.partida.PartidaService;
 import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.samples.petclinic.tablero.TableroService;
 import org.springframework.samples.petclinic.util.Territorio;
@@ -35,12 +34,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-/**
- * Mostly used as a facade for all Petclinic controllers Also a placeholder
- * for @Transactional and @Cacheable annotations
- *
- * @author Michael Isvy
- */
+
 @Service
 public class UserService {
 

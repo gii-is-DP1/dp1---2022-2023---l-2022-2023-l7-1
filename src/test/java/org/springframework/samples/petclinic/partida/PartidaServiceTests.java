@@ -20,7 +20,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.accion.Accion;
 import org.springframework.samples.petclinic.accion.AccionService;
 import org.springframework.samples.petclinic.casilla.CasillaService;
-import org.springframework.samples.petclinic.criterios.StrategyInterface;
 import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.samples.petclinic.tablero.TableroService;
 import org.springframework.samples.petclinic.turnos.Turno;
@@ -33,8 +32,6 @@ import org.springframework.stereotype.Service;
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @TestInstance(Lifecycle.PER_CLASS)
 class PartidaServiceTests {    
-    
-    private static StrategyInterface strategy;
     
 	@Autowired
 	protected PartidaService partidaService;
@@ -186,7 +183,7 @@ class PartidaServiceTests {
         partidaService.savePartida(p);
 
         accion.setTurno(turnoService.getTurnoById(1));
-        accion.setTablero(tableroService.getTableroById(3));
+        accion.setTablero(tab3);
         accion.setCasilla(casillaService.getCasillaById(11));
         accionService.save(accion);
 

@@ -91,7 +91,7 @@ public class UserControllerTests {
 	void testProcessCreationFormSuccess() throws Exception {
 		mockMvc.perform(post("/users/new").param("name", "Diego").param("lastName", "Linares").with(csrf())
 				.param("birthDate", "02/01/2002").param("email", "diegarlin@user.com").param("phone", "633787878")
-                .param("username", "diegarlin").param("password", "password"))
+                .param("username", "diegarlin").param("password", "1aA?qwertyui"))
 				.andExpect(status().is3xxRedirection())
 				.andExpect(view().name("redirect:/"));
 	}
@@ -176,7 +176,7 @@ public class UserControllerTests {
 	void testProcessEditUserFormAsAdmin() throws Exception {
 		mockMvc.perform(post("/users/{username}/edit", USER_USERNAME ).param("name", "Diego").param("lastName", "Linares").with(csrf())
 		.param("birthDate", "02/01/2002").param("email", "diegarlin@user.com")
-		.param("phone", "633787878").param("password", "password"))
+		.param("phone", "633787878").param("password", "1aA?qwertyui"))
 				.andExpect(status().is3xxRedirection())
 				.andExpect(view().name("redirect:/users/all"));
 	}
@@ -217,7 +217,7 @@ public class UserControllerTests {
 		given(this.userService.getUserById(any())).willReturn(user);
 		mockMvc.perform(post("/user/diegarlin/userEdit" ).param("name", "Diego").param("lastName", "Linares").with(csrf())
 		.param("birthDate", "02/01/2002").param("email", "diegarlin@user.com")
-		.param("phone", "633787878").param("password", "password"))
+		.param("phone", "633787878").param("password", "1aA?qwertyui"))
 				.andExpect(status().is3xxRedirection())
 				.andExpect(view().name("redirect:/"));
 	}

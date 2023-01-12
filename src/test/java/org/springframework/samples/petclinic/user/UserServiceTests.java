@@ -38,7 +38,7 @@ class UserServiceTests {
         user.setName("Diego");
         user.setUsername("diegarlin");
         user.setEnabled(true);
-        user.setPassword("password");
+        user.setPassword("1aA?qwertyui");
         user.setPhone("633787878");
     }
 

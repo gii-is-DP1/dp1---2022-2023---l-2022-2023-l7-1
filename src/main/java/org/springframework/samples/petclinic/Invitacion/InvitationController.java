@@ -60,7 +60,7 @@ public class InvitationController {
     @GetMapping(value = "/invitationAccepted/{username}/{id}")
 	public String acceptInvitation(@PathVariable("username") String username, @PathVariable Integer id ) {
 		invitationService.acceptInvitation(username, id);
-		return "redirect:/friends/"+username;
+		return "redirect:/friends";
 	}
 
     @Transactional

@@ -170,8 +170,11 @@ public class UserService {
 	public void calculaEstadisticas(User user){
 		user.setMatchesPlayed(tableroService.getNumPartidasJugadas(user));
 		user.setGamesWin(tableroService.getNumPartidasGanadas(user));
-		user.setWinRatio(user.getWinRatio());
-		
+		if(user.getGamesWin().equals(0)) {
+			user.setWinRatio(0);
+		} else {
+			user.setWinRatio((tableroService.getNumPartidasGanadas(user))/(tableroService.getNumPartidasJugadas(user)));
+		}
 		user.setTotalPoints(tableroService.getPuntosTotalesPorUsuario(user));
 		user.setMaxPoints(tableroService.getPuntosMax(user));
 		

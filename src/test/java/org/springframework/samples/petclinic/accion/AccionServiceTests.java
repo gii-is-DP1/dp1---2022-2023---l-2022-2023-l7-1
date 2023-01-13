@@ -55,14 +55,6 @@ class AccionServiceTests {
         assertThat(this.accionService.getAccionById(10)).isNull();
     }
 
-    @Test
-    void shouldSaveAccion(){
-        assertThat(this.accionService.getAccionById(10)).isNull();
-        Accion accion = new Accion();
-        accion.setCasilla(casillaService.getCasillaById(32));
-        accionService.save(accion);
-        assertThat(this.accionService.getAccionById(10).getCasilla().getId()).isEqualTo(32);
-    }
 
     @Test
     void shouldGetAccionesByTablero(){

@@ -19,7 +19,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.accion.Accion;
 import org.springframework.samples.petclinic.accion.AccionService;
 import org.springframework.samples.petclinic.casilla.CasillaService;
-import org.springframework.samples.petclinic.criterios.StrategyInterface;
 import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.samples.petclinic.tablero.TableroService;
 import org.springframework.samples.petclinic.turnos.Turno;
@@ -35,8 +34,6 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 @TestInstance(Lifecycle.PER_METHOD)
 @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 class PartidaServiceTests {    
-    
-    private static StrategyInterface strategy;
     
 	@Autowired
 	protected PartidaService partidaService;
@@ -640,16 +637,6 @@ class PartidaServiceTests {
     }
 
     @Test
-	public void shouldSaveJugadorActivo() {
-        // User user = new User();
-        // user.setEstado(false);
-        // user.setUsername("test");
-        // assertFalse(user.getEstado());
-        // partidaService.saveJugadorActivo(p);
-        // assertTrue(user.getEstado());
-    }
-
-    @Test
 	public void shouldGetUltimoTurno() {
         Turno turno = new Turno();
         turno.setPartida(p);
@@ -671,18 +658,6 @@ class PartidaServiceTests {
         tab3.setPartidaEnEspera(true);
         List<Tablero> ts = List.of(tab, tab2, tab3);
         assertTrue(partidaService.getPartidaFinalizada(ts));
-    }
-
-    @Test
-	public void shouldGetPosicionPartida() {
-        // tab.setPuntos(15);
-        // tableroService.saveTablero(tab);
-        // tab2.setPuntos(20);
-        // tableroService.saveTablero(tab2);
-        // tab3.setPuntos(13);
-        // tableroService.saveTablero(tab3);
-        // List<Tablero> ts = List.of(tab, tab2, tab3);
-        // assertThat(partidaService.getPosicionPartida(ts, tab)).isEqualTo(2);
     }
 
     @Test

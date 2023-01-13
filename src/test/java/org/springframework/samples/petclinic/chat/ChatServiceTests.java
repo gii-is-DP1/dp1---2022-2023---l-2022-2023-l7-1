@@ -1,7 +1,5 @@
 package org.springframework.samples.petclinic.chat;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
@@ -13,15 +11,11 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.petclinic.chat.Chat;
-import org.springframework.samples.petclinic.chat.ChatService;
-import org.springframework.samples.petclinic.chat.Mensaje;
-import org.springframework.samples.petclinic.chat.MensajeService;
 import org.springframework.samples.petclinic.partida.Partida;
 import org.springframework.samples.petclinic.partida.PartidaService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @TestInstance(Lifecycle.PER_CLASS)

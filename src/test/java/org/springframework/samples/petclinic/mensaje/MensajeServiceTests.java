@@ -1,8 +1,6 @@
 package org.springframework.samples.petclinic.mensaje;
 
 
-import org.springframework.transaction.annotation.Transactional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
@@ -14,11 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.chat.Mensaje;
-import org.springframework.samples.petclinic.chat.MensajeRepository;
 import org.springframework.samples.petclinic.chat.MensajeService;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class MensajeServiceTests {

@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 import java.time.LocalDate;
 import java.util.List;
 

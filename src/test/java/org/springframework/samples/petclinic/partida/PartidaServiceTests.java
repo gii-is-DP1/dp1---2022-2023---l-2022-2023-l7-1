@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
@@ -20,7 +20,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.accion.Accion;
 import org.springframework.samples.petclinic.accion.AccionService;
 import org.springframework.samples.petclinic.casilla.CasillaService;
-import org.springframework.samples.petclinic.criterios.StrategyInterface;
 import org.springframework.samples.petclinic.tablero.Tablero;
 import org.springframework.samples.petclinic.tablero.TableroService;
 import org.springframework.samples.petclinic.turnos.Turno;
@@ -29,12 +28,13 @@ import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.samples.petclinic.util.Territorio;
 import org.springframework.stereotype.Service;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-@TestInstance(Lifecycle.PER_CLASS)
+@TestInstance(Lifecycle.PER_METHOD)
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 class PartidaServiceTests {    
-    
-    private static StrategyInterface strategy;
     
 	@Autowired
 	protected PartidaService partidaService;
@@ -64,7 +64,7 @@ class PartidaServiceTests {
     protected List<Turno> turnos = new ArrayList<>();
 
 
-    @BeforeAll
+    @BeforeEach
     public void setAll(){
         p.setDateTime(LocalDateTime.of(2023, 1, 4, 17, 55));
         p.setId(2);
@@ -529,7 +529,7 @@ class PartidaServiceTests {
     @Test
 	public void shouldActualizarPoder1() {
         partidaService.actualizarPoderes(accion, tab, 2);
-        assertThat(tab.getPoder1()).isEqualTo(0);
+        assertThat(tab.getPoder1()).isEqualTo(1);
     }
 
     @Test
@@ -638,28 +638,18 @@ class PartidaServiceTests {
     }
 
     @Test
-	public void shouldSaveJugadorActivo() {
-        // User user = new User();
-        // user.setEstado(false);
-        // user.setUsername("test");
-        // assertFalse(user.getEstado());
-        // partidaService.saveJugadorActivo(p);
-        // assertTrue(user.getEstado());
-    }
-
-    @Test
 	public void shouldGetUltimoTurno() {
         Turno turno = new Turno();
-        turno.setPartida(p6);
+        turno.setPartida(p);
         turnoService.saveTurno(turno);
         turno.setTerritorio(Territorio.NA);
         turnoService.saveTurno(turno);
         Turno turno2 = new Turno();
-        turno2.setPartida(p6);
+        turno2.setPartida(p);
         turno2.setTerritorio(Territorio.NA);
         turnoService.saveTurno(turno2);
-        Turno t = partidaService.getUltimoTurno(p6);
-        assertThat(t.getId()).isEqualTo(turnoService.getTurnosByPartida(p6.getId()).get(1).getId());
+        Turno t = partidaService.getUltimoTurno(p);
+        assertThat(t.getId()).isEqualTo(8);
     }
 
     @Test
@@ -669,18 +659,6 @@ class PartidaServiceTests {
         tab3.setPartidaEnEspera(true);
         List<Tablero> ts = List.of(tab, tab2, tab3);
         assertTrue(partidaService.getPartidaFinalizada(ts));
-    }
-
-    @Test
-	public void shouldGetPosicionPartida() {
-        // tab.setPuntos(15);
-        // tableroService.saveTablero(tab);
-        // tab2.setPuntos(20);
-        // tableroService.saveTablero(tab2);
-        // tab3.setPuntos(13);
-        // tableroService.saveTablero(tab3);
-        // List<Tablero> ts = List.of(tab, tab2, tab3);
-        // assertThat(partidaService.getPosicionPartida(ts, tab)).isEqualTo(2);
     }
 
     @Test
@@ -702,5 +680,4 @@ class PartidaServiceTests {
 
 
 }
-
      

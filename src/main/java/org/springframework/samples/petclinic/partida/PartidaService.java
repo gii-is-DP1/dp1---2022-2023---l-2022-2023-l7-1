@@ -3,7 +3,6 @@ package org.springframework.samples.petclinic.partida;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -823,16 +822,6 @@ public class PartidaService {
 
    public List<Turno> getTurnosByPartida(Integer id) {
       return turnoService.getTurnosByPartida(id);
-   }
-
-   public Integer getPosicionPartida(List<Tablero> tableros, Tablero tablero) {
-      tableros.sort(Comparator.comparing(Tablero::getPuntos));
-      for(Integer i=0;i<tableros.size();i++){
-         if(tableros.get(i).equals(tablero)){
-            return i+1;
-         }
-      }
-      return 0;
    }
 
    public void cancelarPartida(User usuario) {

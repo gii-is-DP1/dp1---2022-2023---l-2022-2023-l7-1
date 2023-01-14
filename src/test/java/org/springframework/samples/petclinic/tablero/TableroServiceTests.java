@@ -1,15 +1,10 @@
 package org.springframework.samples.petclinic.tablero;
 
 
-import org.springframework.transaction.annotation.Transactional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -22,8 +17,7 @@ import org.springframework.samples.petclinic.partida.PartidaService;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.stereotype.Service;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @TestInstance(Lifecycle.PER_CLASS)
